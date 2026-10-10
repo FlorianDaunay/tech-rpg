@@ -1,0 +1,29 @@
+{
+  "id": "wisp-loot",
+  "rolls": 1,
+  "chance": 0.7,
+  "entries": [
+    {
+      "item": "hollow-dust",
+      "weight": 5,
+      "min": 1,
+      "max": 3
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2
+    },
+    {
+      "item": "gale-needle",
+      "weight": 0.3
+    },
+    {
+      "item": "cinder-edge",
+      "weight": 0.3
+    }
+  ],
+  "gold": {
+    "min": 2,
+    "max": 6
+  }
+}

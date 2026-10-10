@@ -22,6 +22,8 @@ const START_MAP = "test-grove";
 /** Never simulate more than this many steps per frame (tab was in background, slow device). */
 const MAX_STEPS_PER_FRAME = 5;
 const VITALS_INTERVAL = 66;
+/** Until the inventory exists (M7): what a new initiate carries. */
+const STARTER_GEAR = { weapon: "initiate-blade", shield: "initiate-buckler" };
 
 /**
  * The gameplay scene: owns the fixed-step simulation loop and renders sim state.
@@ -63,7 +65,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0);
     const spawn = this.map.spawns.find((s) => s.kind === "player") ?? { x: 64, y: 64 };
-    spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y);
+    spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, STARTER_GEAR);
     for (const s of this.map.spawns) if (s.kind === "enemy" && s.ref) spawnEnemy(this.sim, s.ref, s.x, s.y);
 
     this.fx = new CombatFx({
@@ -125,6 +127,7 @@ export class WorldScene extends Phaser.Scene {
       this.views.get(a.id)?.update(prev.x + (a.x - prev.x) * alpha, prev.y + (a.y - prev.y) * alpha, a);
     }
     this.fx.syncProjectiles(this.sim.projectiles);
+    this.fx.syncPickups(this.sim.pickups);
     this.fx.syncCharges();
 
     const me = this.sim.actors[LOCAL_ID];
@@ -175,8 +178,8 @@ export class WorldScene extends Phaser.Scene {
   private updateVitals(me: Actor | undefined): void {
     if (!me || this.time.now - this.lastVitals < VITALS_INTERVAL) return;
     this.lastVitals = this.time.now;
-    const vitals = { hp: me.hp, maxHp: me.stats.maxHp, stamina: Math.round(me.stamina), maxStamina: STAMINA.max, dead: me.action.kind === "dead" };
-    const key = `${vitals.hp}|${vitals.stamina}|${vitals.dead}`;
+    const vitals = { hp: me.hp, maxHp: me.stats.maxHp, stamina: Math.round(me.stamina), maxStamina: STAMINA.max, dead: me.action.kind === "dead", gold: me.bag.gold ?? 0, statuses: me.statuses.map((s) => s.id) };
+    const key = `${vitals.hp}|${vitals.stamina}|${vitals.dead}|${vitals.gold}|${vitals.statuses.join()}`;
     if (key === this.vitalsKey) return;
     this.vitalsKey = key;
     bridge.emit("game:vitals", vitals);

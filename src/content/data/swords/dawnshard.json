@@ -1,0 +1,28 @@
+{
+  "id": "dawnshard",
+  "name": {
+    "en": "Dawnshard",
+    "fr": "Éclat d'aube"
+  },
+  "description": {
+    "en": "The first of the thirty Ember Blades, still warm with the broken sun.",
+    "fr": "La première des trente Lames de braise, encore chaude du soleil brisé."
+  },
+  "rarity": "legendary",
+  "icon": "weapons/sword-090",
+  "value": 1000,
+  "family": "blade",
+  "level": 10,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.6
+  },
+  "bonus": {
+    "power": 9,
+    "critChance": 0.08
+  },
+  "emberBlade": 1
+}

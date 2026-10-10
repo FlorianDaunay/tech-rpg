@@ -1,0 +1,19 @@
+{
+  "id": "initiate-buckler",
+  "name": {
+    "en": "Initiate's Buckler",
+    "fr": "Bouclier d'initié"
+  },
+  "description": {
+    "en": "Small, light, forgiving to a late parry.",
+    "fr": "Petit, léger, pardonne une parade tardive."
+  },
+  "rarity": "common",
+  "icon": "shields/pack1-01",
+  "value": 5,
+  "level": 1,
+  "reduction": 0.65,
+  "parryWindow": 0.18,
+  "staminaPerDamage": 1.0,
+  "defense": 2
+}

@@ -1,0 +1,16 @@
+{
+  "id": "hollowed",
+  "name": {
+    "en": "Hollowed",
+    "fr": "Évidé"
+  },
+  "description": {
+    "en": "The Hollow drinks warmth away: slow damage over time.",
+    "fr": "Le Néant aspire la chaleur : dégâts lents sur la durée."
+  },
+  "element": "hollow",
+  "duration": 5,
+  "maxStacks": 2,
+  "tickDamage": 0.06,
+  "tickInterval": 1
+}

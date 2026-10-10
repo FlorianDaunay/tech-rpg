@@ -1,0 +1,13 @@
+{
+  "id": "staggered-mind",
+  "name": {
+    "en": "Dazed",
+    "fr": "Hébété"
+  },
+  "description": {
+    "en": "Ears ringing from a blast: slower for a moment.",
+    "fr": "Les oreilles sifflent après l'explosion : ralenti un instant."
+  },
+  "duration": 1.5,
+  "speedMult": 0.75
+}

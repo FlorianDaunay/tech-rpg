@@ -14,7 +14,7 @@ export interface BridgeEvents {
   /** The world scene is running and the HUD can show. */
   "game:world-ready": { mapId: string };
   /** Local player vitals for the HUD (sent on change, ≤ 15 Hz). */
-  "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean };
+  "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[] };
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
   /** UI → game: leave the title and start playing. */

@@ -1,0 +1,37 @@
+{
+  "id": "cinder-mote",
+  "name": {
+    "en": "Cinder Mote",
+    "fr": "Escarbille"
+  },
+  "description": {
+    "en": "A ball of living soot with ember eyes. Fast and reckless: dodge the leap, then punish.",
+    "fr": "Une boule de suie vivante aux yeux de braise. Rapide et téméraire : esquivez le bond, puis punissez."
+  },
+  "look": "enemies/enemy-16-2",
+  "family": "hollow",
+  "zones": [
+    "ashen-graveyard",
+    "whispering-wilds"
+  ],
+  "stats": {
+    "maxHp": 26,
+    "power": 8,
+    "defense": 0,
+    "critChance": 0.05,
+    "critMultiplier": 1.5,
+    "maxPoise": 8,
+    "speed": 82
+  },
+  "ai": "melee",
+  "attack": "bite",
+  "aggroRange": 170,
+  "attackRange": 34,
+  "attackCooldown": 0.9,
+  "radius": 5,
+  "xp": 7,
+  "loot": "shade-loot",
+  "resist": {
+    "frost": 1.25
+  }
+}

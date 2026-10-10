@@ -1,0 +1,26 @@
+{
+  "id": "rimefang",
+  "name": {
+    "en": "Rimefang",
+    "fr": "Croc-de-givre"
+  },
+  "description": {
+    "en": "A blade of mine-ice that never melts.",
+    "fr": "Une lame de glace des mines qui ne fond jamais."
+  },
+  "rarity": "rare",
+  "icon": "weapons/sword-022",
+  "value": 140,
+  "family": "blade",
+  "level": 5,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.5
+  },
+  "bonus": {
+    "power": 3
+  }
+}

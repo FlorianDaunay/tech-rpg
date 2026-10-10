@@ -1,0 +1,13 @@
+{
+  "id": "grave-iron",
+  "name": {
+    "en": "Grave Iron",
+    "fr": "Fer funéraire"
+  },
+  "description": {
+    "en": "Black iron pulled from a brute's stitches.",
+    "fr": "Fer noir arraché aux coutures d'une brute."
+  },
+  "kind": "material",
+  "value": 6
+}

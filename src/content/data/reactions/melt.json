@@ -1,0 +1,15 @@
+{
+  "id": "melt",
+  "name": {
+    "en": "Melt",
+    "fr": "Fonte"
+  },
+  "description": {
+    "en": "Frost hits a burning foe: the flame flares into a single brutal hit.",
+    "fr": "Le givre frappe un ennemi en feu : la flamme éclate en un coup brutal."
+  },
+  "on": "ember",
+  "by": "frost",
+  "damage": 1.5,
+  "poise": 30
+}

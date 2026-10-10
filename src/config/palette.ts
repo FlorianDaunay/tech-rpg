@@ -72,6 +72,7 @@ export const COMBAT_COLORS = {
   enemyBoltRim: "#4A2A80",
   hpBar: "#D9483B",
   hpBarBack: "#1A1216",
+  goldRim: "#5A3A12",
 } as const;
 
 /** "#RRGGBB" → 0xRRGGBB for Phaser. */

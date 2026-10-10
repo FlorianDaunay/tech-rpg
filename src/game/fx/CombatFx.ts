@@ -1,16 +1,27 @@
 import Phaser from "phaser";
-import { COMBAT_COLORS, hex } from "@/config/palette";
+import { COMBAT_COLORS, ELEMENT_COLORS, hex, RARITY_COLORS, type Rarity } from "@/config/palette";
 import type { Actor } from "@/core/combat/actor";
 import type { SimEvent } from "@/core/combat/events";
-import { getMove, type Move } from "@/core/combat/moves";
-import type { Projectile } from "@/core/combat/step";
+import { content } from "@/content/registry";
+import { getMove, type Element } from "@/core/combat/defs";
+import type { Move } from "@/core/combat/moves";
+import type { Pickup, Projectile } from "@/core/combat/step";
 import { audio, type SfxHandle } from "@/game/audio";
+import { getLang } from "@/i18n";
 import { useSettings } from "@/store/settings";
 
 /** Freeze-frame length per hit weight (ms). Short: the game must stay responsive. */
 const HIT_STOP = { light: 45, medium: 70, heavy: 110 } as const;
 const SHAKE = { light: 0.0015, medium: 0.003, heavy: 0.006 } as const;
 const SLASH = { light: "vfx/slash-s", medium: "vfx/slash-m", heavy: "vfx/slash-l" } as const;
+
+const ELEMENT_SFX = { ember: "ember-burst", frost: "frost-shatter", storm: "storm-zap", hollow: "hollow-pulse" } as const;
+
+const statusName = (name: { en: string; fr?: string }) => (getLang() === "fr" ? (name.fr ?? name.en) : name.en);
+
+function itemRarity(id: string): Rarity {
+  return (content.swords.find(id) ?? content.shields.find(id) ?? content.items.find(id))?.rarity ?? "common";
+}
 
 export interface FxHost {
   scene: Phaser.Scene;
@@ -31,6 +42,7 @@ export class CombatFx {
   private readonly scene: Phaser.Scene;
   private charges = new Map<string, SfxHandle>();
   private projectiles = new Map<string, Phaser.GameObjects.Arc>();
+  private pickups = new Map<string, Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Transform & Phaser.GameObjects.Components.Depth>();
 
   constructor(private readonly host: FxHost) {
     this.scene = host.scene;
@@ -81,6 +93,7 @@ export class CombatFx {
           const target = h.actor(ev.target);
           const armored = target ? target.stats.defense >= 15 : false;
           audio.sfx(ev.crit ? "hit-crit" : armored ? "hit-armor" : "hit-flesh", { x: ev.x, y: ev.y });
+          if (ev.element && ev.weight !== "medium") audio.sfx(ELEMENT_SFX[ev.element], { x: ev.x, y: ev.y, volume: 0.35 });
           if (local) audio.sfx("hurt", { volume: 0.8 });
           this.spark(ev.x, ev.y - 10, ev.crit ? COMBAT_COLORS.crit : COMBAT_COLORS.slash);
         }
@@ -137,6 +150,37 @@ export class CombatFx {
         this.spark(ev.x, ev.y, COMBAT_COLORS.enemyBolt, 0.8);
         break;
       }
+      case "status": {
+        const a = h.actor(ev.id);
+        const def = content.statuses.find(ev.status);
+        if (a && def) this.label(a.x, a.y - 30, statusName(def.name), def.element ? ELEMENT_COLORS[def.element] : COMBAT_COLORS.parry);
+        break;
+      }
+      case "status-tick": {
+        const def = content.statuses.find(ev.status);
+        this.number(ev.x, ev.y - 20, ev.amount, def?.element ? ELEMENT_COLORS[def.element] : COMBAT_COLORS.damage, false, true);
+        break;
+      }
+      case "reaction": {
+        const def = content.reactions.find(ev.reaction);
+        if (!def) break;
+        audio.sfx(ELEMENT_SFX[def.by], { x: ev.x, y: ev.y });
+        this.elementBurst(ev.x, ev.y - 8, def.by, ev.radius);
+        this.label(ev.x, ev.y - 36, statusName(def.name), ELEMENT_COLORS[def.by]);
+        if (h.actor(ev.target)?.kind === "enemy") h.hitStop(60);
+        this.shake(0.003);
+        break;
+      }
+      case "drop":
+        break;
+      case "pickup": {
+        if (ev.actor !== h.localId) break;
+        const rarity = itemRarity(ev.item);
+        audio.sfx(ev.item === "gold" ? "pickup-coin" : rarity === "common" || rarity === "uncommon" ? "pickup-item" : "pickup-rare", { volume: 0.7 });
+        this.pickups.get(ev.id)?.destroy();
+        this.pickups.delete(ev.id);
+        break;
+      }
       case "despawn":
         break;
     }
@@ -151,6 +195,33 @@ export class CombatFx {
       handle.stop(0.08);
       this.charges.delete(id);
     }
+  }
+
+  /** Loot on the ground: gold coins, rarity-coloured gems, or the weapon/shield icon. Bobs and glints. */
+  syncPickups(list: Pickup[]): void {
+    const alive = new Set<string>();
+    for (const p of list) {
+      alive.add(p.id);
+      let view = this.pickups.get(p.id);
+      if (!view) {
+        view = this.makePickup(p.item);
+        this.pickups.set(p.id, view);
+      }
+      view.setPosition(Math.round(p.x), Math.round(p.y - 4 - Math.abs(Math.sin(p.t * 4)) * 2)).setDepth(p.y);
+    }
+    for (const [id, view] of this.pickups) {
+      if (alive.has(id)) continue;
+      view.destroy();
+      this.pickups.delete(id);
+    }
+  }
+
+  private makePickup(item: string) {
+    const icon = content.swords.find(item)?.icon ?? content.shields.find(item)?.icon ?? content.items.find(item)?.icon;
+    if (icon && this.scene.textures.exists(icon)) return this.scene.add.image(0, 0, icon).setScale(0.5);
+    if (item === "gold") return this.scene.add.circle(0, 0, 2.5, hex(COMBAT_COLORS.crit)).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim));
+    const c = hex(RARITY_COLORS[itemRarity(item)]);
+    return this.scene.add.rectangle(0, 0, 4, 4, c).setAngle(45).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim));
   }
 
   /** Projectile visuals follow the sim's list (created lazily, removed on projectile-end). */
@@ -224,18 +295,44 @@ export class CombatFx {
     s.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => s.destroy());
   }
 
-  private ring(x: number, y: number, color: string): void {
+  private elementBurst(x: number, y: number, element: Element, radius: number): void {
+    const key = `vfx/burst-${element}`;
+    if (this.scene.textures.exists(key)) {
+      if (!this.scene.anims.exists(key)) {
+        const frames = this.scene.textures.get(key).frameTotal - 1;
+        this.scene.anims.create({ key, frames: this.scene.anims.generateFrameNumbers(key, { start: 0, end: frames - 1 }), frameRate: 16 });
+      }
+      const s = this.scene.add.sprite(x, y, key).setBlendMode(Phaser.BlendModes.ADD).setDepth(y + 30);
+      s.setScale(Math.max(0.8, (radius * 2.2) / 48));
+      s.play(key);
+      s.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => s.destroy());
+    }
+    if (radius > 0) this.ring(x, y, ELEMENT_COLORS[element], radius / 6);
+  }
+
+  /** Short floating word (status applied, reaction name). */
+  private label(x: number, y: number, text: string, color: string): void {
+    if (!text) return;
+    const cam = this.scene.cameras.main;
+    const t = this.scene.add
+      .text(x, y, text, { fontFamily: "Silkscreen, monospace", fontSize: "7px", color, stroke: "#14100c", strokeThickness: 2, resolution: Math.max(1, cam.zoom * (window.devicePixelRatio || 1)) })
+      .setOrigin(0.5, 1)
+      .setDepth(100002);
+    this.scene.tweens.add({ targets: t, y: y - 10, alpha: 0, delay: 500, duration: 500, onComplete: () => t.destroy() });
+  }
+
+  private ring(x: number, y: number, color: string, scale = 4): void {
     const c = this.scene.add.circle(x, y, 6).setStrokeStyle(2, hex(color)).setDepth(y + 50);
-    this.scene.tweens.add({ targets: c, scale: 4, alpha: 0, duration: 380, ease: "Cubic.easeOut", onComplete: () => c.destroy() });
+    this.scene.tweens.add({ targets: c, scale, alpha: 0, duration: 380, ease: "Cubic.easeOut", onComplete: () => c.destroy() });
   }
 
   /** Floating damage number. Rendered at device resolution so it stays crisp under camera zoom. */
-  private number(x: number, y: number, amount: number, color: string, crit: boolean): void {
+  private number(x: number, y: number, amount: number, color: string, crit: boolean, small = false): void {
     const cam = this.scene.cameras.main;
     const text = this.scene.add
       .text(x + (Math.random() - 0.5) * 8, y, String(amount), {
         fontFamily: "Silkscreen, monospace",
-        fontSize: crit ? "10px" : "8px",
+        fontSize: crit ? "10px" : small ? "6px" : "8px",
         color,
         stroke: "#14100c",
         strokeThickness: 2,
@@ -258,5 +355,7 @@ export class CombatFx {
     this.charges.clear();
     this.projectiles.forEach((p) => p.destroy());
     this.projectiles.clear();
+    this.pickups.forEach((p) => p.destroy());
+    this.pickups.clear();
   }
 }

@@ -1,0 +1,16 @@
+{
+  "id": "bite",
+  "windup": 0.35,
+  "active": 0.08,
+  "recovery": 0.4,
+  "hitbox": {
+    "kind": "arc",
+    "range": 22,
+    "angle": 90
+  },
+  "damage": 0.8,
+  "knockback": 100,
+  "lunge": 260,
+  "weight": "light",
+  "poise": 15
+}

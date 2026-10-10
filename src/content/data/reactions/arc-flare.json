@@ -1,0 +1,16 @@
+{
+  "id": "arc-flare",
+  "name": {
+    "en": "Arc Flare",
+    "fr": "Arc ardent"
+  },
+  "description": {
+    "en": "Ember ignites lingering storm charge.",
+    "fr": "La braise enflamme la charge d'orage persistante."
+  },
+  "on": "storm",
+  "by": "ember",
+  "damage": 1.0,
+  "radius": 24,
+  "applies": "burning"
+}

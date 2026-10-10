@@ -2,7 +2,7 @@ import type { Rng } from "../math/rng";
 import { normalize, type Vec2 } from "../math/vec";
 import { emptyIntent, type Intent } from "../sim/intent";
 import { isAlive, type Actor } from "./actor";
-import { getEnemy } from "./enemies";
+import { getEnemy } from "./defs";
 import type { CombatWorld } from "./step";
 
 /** Enemies give up and walk home beyond this distance from their spawn. */
@@ -46,7 +46,10 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   if (!target) {
     // Walk home and heal up (no cheesing by pulling enemies away and back).
     if (homeDist > 6) intent.move = normalize({ x: a.home.x - a.x, y: a.home.y - a.y });
-    a.hp = Math.min(a.stats.maxHp, a.hp + a.stats.maxHp * 0.3 * dt);
+    ai.regen += a.stats.maxHp * 0.3 * dt;
+    const whole = Math.floor(ai.regen);
+    ai.regen -= whole;
+    a.hp = Math.min(a.stats.maxHp, a.hp + whole);
     return intent;
   }
 

@@ -5,9 +5,12 @@ import { moveAndCollide, steer, type MoveTuning } from "../sim/movement";
 import { isSolidCell, type GameMap } from "../world/map";
 import { isAlive, type Actor, type CombatStats, type Team } from "./actor";
 import { hitboxTouches, rollDamage } from "./damage";
-import { getEnemy } from "./enemies";
+import { findReaction, getEnemy, getLootTable, getMove, type Element } from "./defs";
+import { blockOf, hitTraits, kitOf } from "./equipment";
 import type { SimEvent } from "./events";
-import { BLOCK, CHARGE, DODGE, getMove, HURT_TIME, PARRY_STAGGER_TIME, STAGGER_TIME, STAMINA, type Move } from "./moves";
+import { rollLoot } from "./loot";
+import { BLOCK, CHARGE, DODGE, HURT_TIME, PARRY_STAGGER_TIME, STAGGER_TIME, STAMINA, type Move } from "./moves";
+import { applyStatus, damageTakenMultOf, elementalStatus, speedMultOf, stepStatuses } from "./status";
 
 export interface Projectile {
   id: string;
@@ -32,10 +35,23 @@ export interface CombatWorld {
   actors: Record<string, Actor>;
   projectiles: Projectile[];
   events: SimEvent[];
+  pickups: Pickup[];
   nextId: number;
 }
 
-export const PLAYER_MOVES = { light: "sword-light-1", heavy: "sword-heavy" } as const;
+/** Loot lying on the ground. */
+export interface Pickup {
+  id: string;
+  item: string;
+  count: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  /** Seconds on the ground. */
+  t: number;
+}
+
 /** Invulnerability after taking an unblocked hit (players only: no stun-locks). */
 const PLAYER_HIT_IFRAMES = 0.35;
 const RESPAWN_IFRAMES = 1.5;
@@ -86,10 +102,10 @@ function tryDodge(w: CombatWorld, a: Actor, move: Vec2): boolean {
   return true;
 }
 
-const primaryMove = (a: Actor) => (a.kind === "player" ? PLAYER_MOVES.light : getEnemy(a.type).attack);
+const primaryMove = (a: Actor) => (a.kind === "player" ? kitOf(a).light : getEnemy(a.type).attack);
 
 /** Advances one actor's action state machine and moves it. Hits are resolved afterwards for everyone. */
-export function stepActor(w: CombatWorld, map: GameMap, a: Actor, intent: Intent, dt: number): void {
+export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, intent: Intent, dt: number): void {
   const held = (k: Intent["held"][number]) => intent.held.includes(k);
   const move = clampLength(intent.move, 1);
   for (const k of ["attack", "heavy", "dodge"] as const) if (intent.pressed.includes(k)) a.buffered = { action: k, ttl: INPUT_BUFFER };
@@ -104,6 +120,10 @@ export function stepActor(w: CombatWorld, map: GameMap, a: Actor, intent: Intent
   a.iframes = Math.max(0, a.iframes - dt);
   a.sinceHit += dt;
   for (const k of Object.keys(a.cooldowns)) a.cooldowns[k] = Math.max(0, a.cooldowns[k]! - dt);
+  if (isAlive(a)) {
+    const lethal = stepStatuses(w.events, a, dt);
+    if (lethal) kill(w, a, lethal.killer, rng);
+  }
   if (a.sinceHit > POISE_REGEN_DELAY) a.poise = Math.min(a.stats.maxPoise, a.poise + a.stats.maxPoise * 0.5 * dt);
 
   if (isAlive(a)) {
@@ -145,7 +165,7 @@ export function stepActor(w: CombatWorld, map: GameMap, a: Actor, intent: Intent
       if (pressed("dodge") && tryDodge(w, a, move)) break;
       if (!held("heavy")) {
         const level = Math.min(1, Math.max(0, (act.t - CHARGE.min) / (CHARGE.full - CHARGE.min)));
-        if (!startAttack(w, a, PLAYER_MOVES.heavy, level)) a.action = { kind: "free" };
+        if (!startAttack(w, a, kitOf(a).heavy, level)) a.action = { kind: "free" };
       }
       break;
     case "attack": {
@@ -193,7 +213,7 @@ export function stepActor(w: CombatWorld, map: GameMap, a: Actor, intent: Intent
   }
 
   if (a.action.kind !== "dodge") {
-    const tuning: MoveTuning = { maxSpeed: a.stats.speed * speedFactor, accel: ACCEL, decel };
+    const tuning: MoveTuning = { maxSpeed: a.stats.speed * speedFactor * speedMultOf(a), accel: ACCEL, decel };
     steer(a, wish, tuning, dt);
   }
   moveAndCollide(a, map, dt);
@@ -267,9 +287,11 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
   const kdir = away.x || away.y ? away : swingDir;
   const attacker = w.actors[src.id];
   const facingAttacker = target.aim.x * -kdir.x + target.aim.y * -kdir.y > 0.2;
+  const block = blockOf(target);
+  const { element, onHit } = hitTraits(m, attacker);
 
   if (target.blockSince !== null && facingAttacker) {
-    if (w.time - target.blockSince <= BLOCK.parryWindow) {
+    if (w.time - target.blockSince <= block.parryWindow) {
       if (attacker && isAlive(attacker) && !m.projectile) {
         attacker.action = { kind: "stagger", t: 0, duration: PARRY_STAGGER_TIME };
         attacker.vx = kdir.x * -140;
@@ -280,33 +302,37 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
       return;
     }
     const roll = rollDamage(src, target, m, charge, rng);
-    const amount = Math.max(1, Math.round(roll.amount * (1 - BLOCK.reduction)));
+    const amount = Math.max(1, Math.round(roll.amount * (1 - block.reduction)));
     target.hp = Math.max(0, target.hp - amount);
-    target.stamina -= roll.amount * BLOCK.staminaPerDamage;
+    target.stamina -= roll.amount * block.staminaPerDamage;
     target.staminaDelay = STAMINA.regenDelay;
     target.vx += kdir.x * m.knockback * 0.4;
     target.vy += kdir.y * m.knockback * 0.4;
-    w.events.push({ type: "hit", attacker: src.id, target: target.id, amount, crit: false, blocked: true, weight: m.weight, x: target.x, y: target.y, dir: kdir });
+    w.events.push({ type: "hit", attacker: src.id, target: target.id, amount, crit: false, blocked: true, weight: m.weight, element, x: target.x, y: target.y, dir: kdir });
     if (target.stamina <= 0) {
       target.stamina = 0;
       target.blockSince = null;
       target.action = { kind: "stagger", t: 0, duration: STAGGER_TIME };
       w.events.push({ type: "guard-break", id: target.id });
     }
-    if (target.hp <= 0) kill(w, target, src.id);
+    if (target.hp <= 0) kill(w, target, src.id, rng);
     return;
   }
 
   const roll = rollDamage(src, target, m, charge, rng);
-  target.hp = Math.max(0, target.hp - roll.amount);
+  const amount = Math.max(1, Math.round(roll.amount * resistOf(target, element) * damageTakenMultOf(target)));
+  target.hp = Math.max(0, target.hp - amount);
   target.sinceHit = 0;
   target.poise -= m.poise * (1 + charge * 0.5);
-  w.events.push({ type: "hit", attacker: src.id, target: target.id, amount: roll.amount, crit: roll.crit, blocked: false, weight: m.weight, x: target.x, y: target.y, dir: kdir });
+  w.events.push({ type: "hit", attacker: src.id, target: target.id, amount, crit: roll.crit, blocked: false, weight: m.weight, element, x: target.x, y: target.y, dir: kdir });
+  if (target.hp > 0 && element) elementalEffects(w, rng, src, target, element, onHit, m, charge);
 
   let kb = m.knockback / (1 + target.stats.maxPoise / 60);
   if (target.hp <= 0) {
-    kill(w, target, src.id);
+    kill(w, target, src.id, rng);
     kb *= 1.4;
+  } else if ((target.action as Actor["action"]).kind === "stagger") {
+    // Already helpless (stunned by a reaction this very hit): keep that.
   } else if (target.poise <= 0) {
     target.poise = target.stats.maxPoise;
     target.action = { kind: "stagger", t: 0, duration: STAGGER_TIME };
@@ -322,12 +348,94 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
   target.vy += kdir.y * kb;
 }
 
-function kill(w: CombatWorld, target: Actor, killer: string | null): void {
+const resistOf = (a: Actor, element: Element | undefined) => (element && a.kind === "enemy" ? (getEnemy(a.type).resist[element] ?? 1) : 1);
+
+/**
+ * After an elemental hit: if the target carries another element, they react (bonus burst damage
+ * around the target, maybe a status); otherwise the hit may apply its own status.
+ */
+function elementalEffects(w: CombatWorld, rng: Rng, src: HitSource, target: Actor, element: Element, onHit: { status: string; chance: number } | undefined, m: Move, charge: number): void {
+  const present = elementalStatus(target);
+  const reaction = present && present.element !== element ? findReaction(present.element, element) : undefined;
+  if (present && reaction) {
+    target.statuses.splice(present.index, 1);
+    w.events.push({ type: "reaction", reaction: reaction.id, target: target.id, x: target.x, y: target.y, radius: reaction.radius });
+    const power = src.stats.power * m.damage * (1 + CHARGE.damageBonus * charge);
+    for (const id of sortedIds(w)) {
+      const o = w.actors[id]!;
+      if (o.team !== target.team || !isAlive(o)) continue;
+      if (o !== target && Math.hypot(o.x - target.x, o.y - target.y) > reaction.radius + o.radius) continue;
+      const amount = Math.max(1, Math.round(power * reaction.damage * resistOf(o, element)));
+      o.hp = Math.max(0, o.hp - amount);
+      o.poise -= reaction.poise;
+      w.events.push({ type: "hit", attacker: src.id, target: o.id, amount, crit: false, blocked: false, weight: "medium", element, x: o.x, y: o.y, dir: { x: 0, y: 0 } });
+      if (o.hp <= 0) kill(w, o, src.id, rng);
+      else if (reaction.applies) applyStatus(w.events, o, reaction.applies, src.id, src.stats.power);
+    }
+    return;
+  }
+  if (onHit && rng.chance(onHit.chance)) applyStatus(w.events, target, onHit.status, src.id, src.stats.power);
+}
+
+function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): void {
+  // A hit and its reaction burst can both be lethal: die (and drop loot) once.
+  if (target.action.kind === "dead") return;
   target.hp = 0;
   target.action = { kind: "dead", t: 0 };
   target.blockSince = null;
-  const xp = target.kind === "enemy" ? getEnemy(target.type).xp : 0;
-  w.events.push({ type: "death", id: target.id, killer, xp });
+  target.statuses = [];
+  const def = target.kind === "enemy" ? getEnemy(target.type) : null;
+  w.events.push({ type: "death", id: target.id, killer, xp: def?.xp ?? 0 });
+  if (!def?.loot) return;
+  for (const drop of rollLoot(getLootTable(def.loot), rng)) {
+    const angle = rng.range(0, Math.PI * 2);
+    const speed = rng.range(40, 90);
+    const id = `pk${w.nextId++}`;
+    w.pickups.push({ id, item: drop.item, count: drop.count, x: target.x, y: target.y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, t: 0 });
+    w.events.push({ type: "drop", id, item: drop.item, count: drop.count, x: target.x, y: target.y });
+  }
+}
+
+/** Seconds before loot can be picked up (lets it scatter), magnet radius, pickup radius, lifetime. */
+const PICKUP_DELAY = 0.45;
+const PICKUP_MAGNET = 36;
+const PICKUP_RADIUS = 10;
+const PICKUP_LIFETIME = 90;
+
+/** Loot scatters, then flies to the nearest living player and goes into their bag. */
+export function stepPickups(w: CombatWorld, map: GameMap, dt: number): void {
+  const players = sortedIds(w)
+    .map((id) => w.actors[id]!)
+    .filter((a) => a.kind === "player" && isAlive(a));
+  w.pickups = w.pickups.filter((p) => {
+    p.t += dt;
+    if (p.t > PICKUP_LIFETIME) return false;
+    const body = { x: p.x, y: p.y, vx: p.vx, vy: p.vy, radius: 3 };
+    steer(body, { x: 0, y: 0 }, { maxSpeed: 0, accel: 0, decel: 260 }, dt);
+    if (p.t >= PICKUP_DELAY) {
+      let best: Actor | null = null;
+      let bestD = PICKUP_MAGNET;
+      for (const a of players) {
+        const d = Math.hypot(a.x - p.x, a.y - p.y);
+        if (d < bestD) {
+          bestD = d;
+          best = a;
+        }
+      }
+      if (best && bestD <= PICKUP_RADIUS) {
+        best.bag[p.item] = (best.bag[p.item] ?? 0) + p.count;
+        w.events.push({ type: "pickup", id: p.id, actor: best.id, item: p.item, count: p.count, x: p.x, y: p.y });
+        return false;
+      }
+      if (best) {
+        body.vx = ((best.x - p.x) / bestD) * 160;
+        body.vy = ((best.y - p.y) / bestD) * 160;
+      }
+    }
+    moveAndCollide(body, map, dt);
+    Object.assign(p, { x: body.x, y: body.y, vx: body.vx, vy: body.vy });
+    return true;
+  });
 }
 
 /** Keeps alive actors from overlapping (dodging actors pass through). */

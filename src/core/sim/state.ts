@@ -1,7 +1,8 @@
 import { createActor, PLAYER_STATS, type Actor } from "../combat/actor";
 import { thinkEnemy } from "../combat/ai";
-import { getEnemy } from "../combat/enemies";
-import { resolveMelee, separate, stepActor, stepLifecycle, stepProjectiles, type CombatWorld } from "../combat/step";
+import { getEnemy } from "../combat/defs";
+import { equip } from "../combat/equipment";
+import { resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
 import { createRng } from "../math/rng";
 import type { GameMap } from "../world/map";
 import { emptyIntent, type Intent } from "./intent";
@@ -18,11 +19,12 @@ export interface SimState extends CombatWorld {
 }
 
 export function createSim(mapId: string, seed: number): SimState {
-  return { tick: 0, time: 0, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], events: [], nextId: 1 };
+  return { tick: 0, time: 0, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1 };
 }
 
-export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number): Actor {
+export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
   const a = createActor({ id, team: "players", kind: "player", type: "embersworn", look, x, y, stats: PLAYER_STATS });
+  equip(a, gear.weapon ?? null, gear.shield ?? null);
   state.actors[id] = a;
   return a;
 }
@@ -50,11 +52,12 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   for (const id of Object.keys(state.actors).sort()) {
     const a = state.actors[id]!;
     const intent = a.kind === "player" ? (intents[id] ?? emptyIntent()) : thinkEnemy(state, a, rng, SIM_DT);
-    stepActor(state, map, a, intent, SIM_DT);
+    stepActor(state, map, rng, a, intent, SIM_DT);
   }
   separate(state, map);
   resolveMelee(state, rng);
   stepProjectiles(state, map, rng, SIM_DT);
+  stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
   state.rngState = rng.state;
 }

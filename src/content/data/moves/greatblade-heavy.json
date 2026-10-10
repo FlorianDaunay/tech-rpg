@@ -1,0 +1,17 @@
+{
+  "id": "greatblade-heavy",
+  "windup": 0.18,
+  "active": 0.12,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 30,
+    "offset": 24
+  },
+  "damage": 3.4,
+  "staminaCost": 32,
+  "knockback": 380,
+  "lunge": 60,
+  "weight": "heavy",
+  "poise": 80
+}

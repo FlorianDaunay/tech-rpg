@@ -1,0 +1,16 @@
+{
+  "id": "superconduct",
+  "name": {
+    "en": "Superconduct",
+    "fr": "Supraconduction"
+  },
+  "description": {
+    "en": "Storm through frost: the cold conducts the charge to nearby foes.",
+    "fr": "L'orage traverse le givre : le froid conduit la charge vers les ennemis proches."
+  },
+  "on": "frost",
+  "by": "storm",
+  "damage": 0.5,
+  "radius": 36,
+  "applies": "shocked"
+}

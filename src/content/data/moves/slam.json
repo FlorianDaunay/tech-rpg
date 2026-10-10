@@ -1,0 +1,15 @@
+{
+  "id": "slam",
+  "windup": 0.85,
+  "active": 0.12,
+  "recovery": 0.8,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 40,
+    "offset": 0
+  },
+  "damage": 1.8,
+  "knockback": 280,
+  "weight": "heavy",
+  "poise": 60
+}

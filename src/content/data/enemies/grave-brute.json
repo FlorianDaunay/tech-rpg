@@ -1,0 +1,37 @@
+{
+  "id": "grave-brute",
+  "name": {
+    "en": "Grave Brute",
+    "fr": "Brute des tombes"
+  },
+  "description": {
+    "en": "A fallen knight stitched together with grave-iron. Slow, patient, and it does not flinch.",
+    "fr": "Un chevalier déchu recousu de fer funéraire. Lent, patient, et il ne bronche pas."
+  },
+  "look": "enemies/enemy-05-1",
+  "family": "undead",
+  "zones": [
+    "ashen-graveyard"
+  ],
+  "stats": {
+    "maxHp": 120,
+    "power": 16,
+    "defense": 15,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 60,
+    "speed": 40
+  },
+  "ai": "brute",
+  "attack": "slam",
+  "aggroRange": 140,
+  "attackRange": 34,
+  "attackCooldown": 2,
+  "radius": 8,
+  "xp": 25,
+  "loot": "brute-loot",
+  "resist": {
+    "frost": 0.75,
+    "ember": 1.25
+  }
+}

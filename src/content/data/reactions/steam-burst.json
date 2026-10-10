@@ -1,0 +1,17 @@
+{
+  "id": "steam-burst",
+  "name": {
+    "en": "Steam Burst",
+    "fr": "Explosion de vapeur"
+  },
+  "description": {
+    "en": "Ember meets frost: scalding steam blasts everyone nearby.",
+    "fr": "La braise rencontre le givre : une vapeur brûlante frappe tout autour."
+  },
+  "on": "frost",
+  "by": "ember",
+  "damage": 0.9,
+  "radius": 30,
+  "poise": 20,
+  "applies": "staggered-mind"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "gold",
+  "name": {
+    "en": "Gold",
+    "fr": "Or"
+  },
+  "description": {
+    "en": "Coins of a kingdom that no longer exists. Still spends.",
+    "fr": "Les pièces d'un royaume disparu. On les accepte encore."
+  },
+  "kind": "currency",
+  "stack": 999999
+}

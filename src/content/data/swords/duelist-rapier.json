@@ -1,0 +1,22 @@
+{
+  "id": "duelist-rapier",
+  "name": {
+    "en": "Duelist's Rapier",
+    "fr": "Rapière de duelliste"
+  },
+  "description": {
+    "en": "Light and quick. Many small cuts make a deep wound.",
+    "fr": "Légère et vive. Beaucoup de petites entailles font une blessure profonde."
+  },
+  "rarity": "common",
+  "icon": "weapons/sword-035",
+  "value": 20,
+  "family": "rapier",
+  "level": 1,
+  "light": "rapier-light-1",
+  "heavy": "rapier-heavy",
+  "bonus": {
+    "critChance": 0.05,
+    "speed": 4
+  }
+}

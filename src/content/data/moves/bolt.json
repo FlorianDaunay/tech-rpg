@@ -1,0 +1,25 @@
+{
+  "id": "bolt",
+  "windup": 0.6,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 1,
+  "knockback": 120,
+  "weight": "light",
+  "poise": 10,
+  "projectile": {
+    "speed": 150,
+    "radius": 4,
+    "range": 220
+  },
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.35
+  }
+}

@@ -1,9 +1,17 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+import { combatData } from "@/content/combat";
 import type { Action, Intent } from "../sim/intent";
 import { createSim, spawnEnemy, spawnPlayer, stepSim, type SimState } from "../sim/state";
 import type { GameMap } from "../world/map";
 import type { SimEvent } from "./events";
-import { BLOCK, DODGE, getMove, STAMINA } from "./moves";
+import { createRng } from "../math/rng";
+import { getLootTable, getMove, registerCombatData } from "./defs";
+import { equip } from "./equipment";
+import { rollLoot } from "./loot";
+import { BLOCK, DODGE, STAMINA } from "./moves";
+
+// Tests run on the real content JSON, so balance changes that break a rule show up here.
+beforeAll(() => registerCombatData(combatData()));
 
 /** 16×16 open room with a solid border. */
 function room(): GameMap {
@@ -134,6 +142,14 @@ describe("combat", () => {
     expect(heavy(70)).toBeGreaterThan(heavy(2) * 1.6);
   });
 
+  it("hp stays an integer while enemies regenerate", () => {
+    const { map, sim, e } = setup("cinder-mote", 200);
+    e.hp = 5;
+    run(sim, map, 50);
+    expect(Number.isInteger(e.hp)).toBe(true);
+    expect(e.hp).toBeGreaterThan(5);
+  });
+
   it("dead players respawn at home", () => {
     const { map, sim, p, e } = setup();
     e.ai!.cooldown = 99;
@@ -144,5 +160,85 @@ describe("combat", () => {
     const events = run(sim, map, 60 * 6);
     expect(events.some((ev) => ev.type === "death" && ev.id === "p1")).toBe(true);
     expect(events.some((ev) => ev.type === "respawn" && ev.id === "p1")).toBe(true);
+  });
+
+  it("elemental hits apply statuses; damage over time ticks", () => {
+    const { map, sim, p, e } = setup("grave-brute");
+    equip(p, "cinder-edge", null);
+    let applied = false;
+    for (let i = 0; i < 12 && !applied; i++) {
+      const ev = run(sim, map, 40, (k) => intent({ pressed: k === 0 ? ["attack"] : [], aim: { x: 1, y: 0 } }));
+      applied = ev.some((x) => x.type === "status" && x.status === "burning");
+    }
+    expect(applied).toBe(true);
+    const ticks = run(sim, map, 220).filter((x) => x.type === "status-tick");
+    expect(ticks.length).toBeGreaterThan(0);
+    expect(e.statuses.find((s) => s.id === "burning")).toBeUndefined(); // expired
+  });
+
+  it("a second element triggers a reaction and consumes the first status", () => {
+    const { map, sim, p, e } = setup("grave-brute");
+    e.stats = { ...e.stats, maxHp: 9999 };
+    e.hp = 9999;
+    e.statuses.push({ id: "burning", t: 0, stacks: 1, tick: 0, power: 10, source: null });
+    equip(p, "gale-needle", null); // storm
+    const ev = run(sim, map, 30, (k) => intent({ pressed: k === 0 ? ["attack"] : [], aim: { x: 1, y: 0 } }));
+    expect(ev.some((x) => x.type === "reaction" && x.reaction === "overload")).toBe(true);
+    expect(e.statuses.some((s) => s.id === "burning")).toBe(false);
+  });
+
+  it("resistances scale damage", () => {
+    const hitOnce = (weapon: string) => {
+      const { map, sim, p, e } = setup("hollow-shade");
+      equip(p, weapon, null);
+      e.stats = { ...e.stats, maxHp: 9999 };
+      e.hp = 9999;
+      p.stats = { ...p.stats, critChance: 0 };
+      run(sim, map, 30, (k) => intent({ pressed: k === 0 ? ["attack"] : [], aim: { x: 1, y: 0 } }));
+      return 9999 - e.hp;
+    };
+    // Shades take 150% ember damage; cinder-edge has +2 power, so compare per power point.
+    const plain = hitOnce("initiate-blade") / 12;
+    const ember = hitOnce("cinder-edge") / 14;
+    expect(ember).toBeGreaterThan(plain * 1.3);
+  });
+
+  it("killed enemies drop loot that the player picks up", () => {
+    const { map, sim, p, e } = setup("grave-brute");
+    e.hp = 1;
+    const ev = run(sim, map, 180, (k) => intent({ pressed: k === 0 ? ["attack"] : [], aim: { x: 1, y: 0 } }));
+    expect(ev.some((x) => x.type === "drop")).toBe(true);
+    expect(ev.some((x) => x.type === "pickup")).toBe(true);
+    expect(p.bag.gold ?? 0).toBeGreaterThan(0);
+  });
+
+  it("a lethal reaction kills (and drops loot) only once", () => {
+    const { map, sim, p, e } = setup("grave-brute");
+    equip(p, "gale-needle", null);
+    p.stats = { ...p.stats, critChance: 0 };
+    // Enough hp to survive the rapier hit (~7) but not the overload burst that follows (~10).
+    e.hp = 12;
+    e.statuses.push({ id: "burning", t: 0, stacks: 1, tick: 0, power: 10, source: null });
+    const ev = run(sim, map, 30, (k) => intent({ pressed: k === 0 ? ["attack"] : [], aim: { x: 1, y: 0 } }));
+    expect(ev.filter((x) => x.type === "death" && x.id === e.id)).toHaveLength(1);
+    const gold = ev.filter((x) => x.type === "drop" && x.item === "gold");
+    expect(gold).toHaveLength(1);
+  });
+
+  it("loot rolls are deterministic and respect counts", () => {
+    const table = getLootTable("brute-loot");
+    const a = rollLoot(table, createRng(5));
+    expect(rollLoot(table, createRng(5))).toEqual(a);
+    const gold = a.find((d) => d.item === "gold")!;
+    expect(gold.count).toBeGreaterThanOrEqual(table.gold.min);
+    expect(gold.count).toBeLessThanOrEqual(table.gold.max);
+  });
+
+  it("weapons change the moveset and shields the parry window", () => {
+    const { map, sim, p } = setup();
+    equip(p, "duelist-rapier", "ember-aegis");
+    const ev = run(sim, map, 10, (k) => intent({ pressed: k === 0 ? ["attack"] : [], aim: { x: 1, y: 0 } }));
+    expect(ev.some((x) => x.type === "attack" && x.move === "rapier-light-1")).toBe(true);
+    expect(p.stats.defense).toBe(p.baseStats.defense + 5);
   });
 });

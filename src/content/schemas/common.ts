@@ -12,3 +12,12 @@ export type LocalizedText = z.infer<typeof LocalizedText>;
  * The target type is stored in the schema metadata.
  */
 export const ref = (type: string) => Id.meta({ ref: type }).describe(`Reference to a ${type}`);
+
+/** Reference to one of several content types (e.g. loot can be an item, a sword or a shield). */
+export const refAny = (types: string[]) => Id.meta({ ref: types.join(",") }).describe(`Reference to a ${types.join(" / ")}`);
+
+export const ElementSchema = z.enum(["ember", "frost", "storm", "hollow"]).describe("Element");
+export const RaritySchema = z.enum(["common", "uncommon", "rare", "epic", "legendary"]).describe("Rarity");
+
+/** Optional asset key from public/assets/index.json (e.g. "weapons/sword-001"). */
+export const AssetKey = z.string().regex(/^[a-z0-9-]+\/[a-z0-9-]+$/, "asset key like family/name").describe("Asset key");

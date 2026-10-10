@@ -1,0 +1,19 @@
+{
+  "id": "ember-aegis",
+  "name": {
+    "en": "Ember Aegis",
+    "fr": "Égide de braise"
+  },
+  "description": {
+    "en": "Its boss glows like a coal. Perfect parries come easier behind it.",
+    "fr": "Son umbo luit comme une braise. Les parades parfaites viennent plus facilement derrière lui."
+  },
+  "rarity": "rare",
+  "icon": "shields/pack2-05",
+  "value": 180,
+  "level": 6,
+  "reduction": 0.75,
+  "parryWindow": 0.22,
+  "staminaPerDamage": 0.8,
+  "defense": 5
+}

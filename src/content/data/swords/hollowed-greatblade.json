@@ -1,0 +1,28 @@
+{
+  "id": "hollowed-greatblade",
+  "name": {
+    "en": "Hollowed Greatblade",
+    "fr": "Grande lame évidée"
+  },
+  "description": {
+    "en": "Taken from a fallen Herald-knight. It feeds on what it cuts.",
+    "fr": "Prise à un chevalier du Héraut tombé. Elle se nourrit de ce qu'elle tranche."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-060",
+  "value": 320,
+  "family": "greatblade",
+  "level": 8,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.4
+  },
+  "bonus": {
+    "power": 7,
+    "speed": -6,
+    "critMultiplier": 0.25
+  }
+}

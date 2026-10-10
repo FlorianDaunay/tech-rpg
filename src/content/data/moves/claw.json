@@ -1,0 +1,16 @@
+{
+  "id": "claw",
+  "windup": 0.5,
+  "active": 0.1,
+  "recovery": 0.5,
+  "hitbox": {
+    "kind": "arc",
+    "range": 26,
+    "angle": 110
+  },
+  "damage": 1,
+  "knockback": 160,
+  "lunge": 210,
+  "weight": "medium",
+  "poise": 25
+}

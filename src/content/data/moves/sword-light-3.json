@@ -1,0 +1,17 @@
+{
+  "id": "sword-light-3",
+  "windup": 0.12,
+  "active": 0.1,
+  "recovery": 0.34,
+  "hitbox": {
+    "kind": "arc",
+    "range": 36,
+    "angle": 200
+  },
+  "damage": 1.6,
+  "staminaCost": 12,
+  "knockback": 220,
+  "lunge": 170,
+  "weight": "medium",
+  "poise": 30
+}

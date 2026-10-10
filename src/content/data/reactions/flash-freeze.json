@@ -1,0 +1,15 @@
+{
+  "id": "flash-freeze",
+  "name": {
+    "en": "Flash Freeze",
+    "fr": "Gel éclair"
+  },
+  "description": {
+    "en": "Frost on a shocked foe locks it in ice.",
+    "fr": "Le givre sur un ennemi électrisé l'emprisonne dans la glace."
+  },
+  "on": "storm",
+  "by": "frost",
+  "damage": 0.3,
+  "applies": "frozen"
+}

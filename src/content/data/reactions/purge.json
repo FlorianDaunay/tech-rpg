@@ -1,0 +1,16 @@
+{
+  "id": "purge",
+  "name": {
+    "en": "Purge",
+    "fr": "Purification"
+  },
+  "description": {
+    "en": "Ember light burns the Hollow out of a body: heavy holy damage around it.",
+    "fr": "La lumière de braise chasse le Néant d'un corps : lourds dégâts sacrés autour."
+  },
+  "on": "hollow",
+  "by": "ember",
+  "damage": 1.4,
+  "radius": 28,
+  "poise": 40
+}

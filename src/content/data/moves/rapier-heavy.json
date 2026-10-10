@@ -1,0 +1,17 @@
+{
+  "id": "rapier-heavy",
+  "windup": 0.08,
+  "active": 0.14,
+  "recovery": 0.38,
+  "hitbox": {
+    "kind": "arc",
+    "range": 48,
+    "angle": 40
+  },
+  "damage": 2.4,
+  "staminaCost": 22,
+  "knockback": 200,
+  "lunge": 380,
+  "weight": "heavy",
+  "poise": 35
+}

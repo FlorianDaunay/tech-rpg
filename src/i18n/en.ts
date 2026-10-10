@@ -15,6 +15,7 @@ export const en = {
   "soundtest.volume.sfx": "Effects",
   "hud.vitals": "Health and stamina",
   "hud.fallen": "You have fallen… the Lantern calls you back",
+  "hud.gold": "Gold",
   "common.loading": "Kindling the lantern…",
 } as const;
 

@@ -9,7 +9,7 @@ interface GameStatus {
   loading: number | null;
   inWorld: boolean;
   debugText: string;
-  vitals: { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean } | null;
+  vitals: { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[] } | null;
 }
 
 export const useGameStatus = create<GameStatus>()(() => ({ engineReady: false, loading: null, inWorld: false, debugText: "", vitals: null }));

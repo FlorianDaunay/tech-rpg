@@ -1,0 +1,17 @@
+{
+  "id": "healing-draught",
+  "name": {
+    "en": "Healing Draught",
+    "fr": "Potion de soin"
+  },
+  "description": {
+    "en": "Restores 40 health.",
+    "fr": "Rend 40 points de vie."
+  },
+  "kind": "consumable",
+  "stack": 10,
+  "value": 15,
+  "effect": {
+    "heal": 40
+  }
+}

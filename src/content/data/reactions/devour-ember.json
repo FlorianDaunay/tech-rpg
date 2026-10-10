@@ -1,0 +1,15 @@
+{
+  "id": "devour-ember",
+  "name": {
+    "en": "Devour",
+    "fr": "Dévorer"
+  },
+  "description": {
+    "en": "The Hollow swallows a flame and grows stronger.",
+    "fr": "Le Néant avale une flamme et s'en nourrit."
+  },
+  "on": "ember",
+  "by": "hollow",
+  "damage": 0.8,
+  "applies": "hollowed"
+}

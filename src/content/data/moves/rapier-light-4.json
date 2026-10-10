@@ -1,0 +1,17 @@
+{
+  "id": "rapier-light-4",
+  "windup": 0.09,
+  "active": 0.08,
+  "recovery": 0.3,
+  "hitbox": {
+    "kind": "arc",
+    "range": 40,
+    "angle": 50
+  },
+  "damage": 1.5,
+  "staminaCost": 10,
+  "knockback": 160,
+  "lunge": 230,
+  "weight": "medium",
+  "poise": 20
+}

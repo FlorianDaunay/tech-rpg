@@ -1,0 +1,14 @@
+{
+  "id": "frozen",
+  "name": {
+    "en": "Frozen",
+    "fr": "Gelé"
+  },
+  "description": {
+    "en": "Encased in ice: cannot act.",
+    "fr": "Pris dans la glace : ne peut plus agir."
+  },
+  "duration": 1.2,
+  "stun": true,
+  "damageTakenMult": 1.15
+}

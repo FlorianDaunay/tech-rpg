@@ -1,0 +1,37 @@
+{
+  "id": "rime-wraith",
+  "name": {
+    "en": "Rime Wraith",
+    "fr": "Spectre de givre"
+  },
+  "description": {
+    "en": "A drowned miner frozen mid-scream. Its bolts chill to the bone.",
+    "fr": "Un mineur noyé, figé en plein cri. Ses traits glacent jusqu'aux os."
+  },
+  "look": "enemies/enemy-15-2",
+  "family": "spirit",
+  "zones": [
+    "deep-mines"
+  ],
+  "stats": {
+    "maxHp": 44,
+    "power": 10,
+    "defense": 5,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 12,
+    "speed": 48
+  },
+  "ai": "ranged",
+  "attack": "frost-bolt",
+  "aggroRange": 200,
+  "attackRange": 150,
+  "attackCooldown": 2.2,
+  "radius": 6,
+  "xp": 16,
+  "loot": "wisp-loot",
+  "resist": {
+    "frost": 0.25,
+    "ember": 1.5
+  }
+}

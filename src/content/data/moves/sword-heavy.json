@@ -1,0 +1,17 @@
+{
+  "id": "sword-heavy",
+  "windup": 0.1,
+  "active": 0.12,
+  "recovery": 0.42,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 34,
+    "offset": 10
+  },
+  "damage": 2.2,
+  "staminaCost": 24,
+  "knockback": 300,
+  "lunge": 90,
+  "weight": "heavy",
+  "poise": 55
+}

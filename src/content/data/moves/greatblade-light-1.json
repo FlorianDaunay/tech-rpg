@@ -1,0 +1,18 @@
+{
+  "id": "greatblade-light-1",
+  "windup": 0.16,
+  "active": 0.1,
+  "recovery": 0.32,
+  "hitbox": {
+    "kind": "arc",
+    "range": 38,
+    "angle": 170
+  },
+  "damage": 1.7,
+  "staminaCost": 14,
+  "knockback": 200,
+  "lunge": 90,
+  "weight": "medium",
+  "next": "greatblade-light-2",
+  "poise": 28
+}

@@ -1,0 +1,39 @@
+{
+  "id": "wisp-caster",
+  "name": {
+    "en": "Wisp Caster",
+    "fr": "Lanceur de feux follets"
+  },
+  "description": {
+    "en": "It keeps its distance and spits bolts of Hollow. Close the gap.",
+    "fr": "Il garde ses distances et crache des traits de Néant. Réduisez l'écart."
+  },
+  "look": "enemies/enemy-15-6",
+  "family": "spirit",
+  "zones": [
+    "whispering-wilds",
+    "hollow-rift"
+  ],
+  "stats": {
+    "maxHp": 30,
+    "power": 9,
+    "defense": 0,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 5,
+    "speed": 52
+  },
+  "ai": "ranged",
+  "attack": "bolt",
+  "aggroRange": 190,
+  "attackRange": 140,
+  "attackCooldown": 1.8,
+  "radius": 6,
+  "xp": 12,
+  "loot": "wisp-loot",
+  "resist": {
+    "storm": 0.5,
+    "ember": 1.25,
+    "hollow": 0.5
+  }
+}

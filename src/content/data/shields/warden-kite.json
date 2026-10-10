@@ -1,0 +1,19 @@
+{
+  "id": "warden-kite",
+  "name": {
+    "en": "Warden's Kite Shield",
+    "fr": "Écu du gardien"
+  },
+  "description": {
+    "en": "Tall and heavy. Blocks almost everything, parries reward precision.",
+    "fr": "Grand et lourd. Bloque presque tout, la parade exige de la précision."
+  },
+  "rarity": "uncommon",
+  "icon": "shields/pack1-12",
+  "value": 60,
+  "level": 3,
+  "reduction": 0.85,
+  "parryWindow": 0.12,
+  "staminaPerDamage": 0.7,
+  "defense": 6
+}

@@ -1,0 +1,13 @@
+{
+  "id": "hollow-dust",
+  "name": {
+    "en": "Hollow Dust",
+    "fr": "Poussière du Néant"
+  },
+  "description": {
+    "en": "What remains of a shade. Cold to the touch.",
+    "fr": "Ce qui reste d'une ombre. Froide au toucher."
+  },
+  "kind": "material",
+  "value": 3
+}

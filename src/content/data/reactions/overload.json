@@ -1,0 +1,16 @@
+{
+  "id": "overload",
+  "name": {
+    "en": "Overload",
+    "fr": "Surcharge"
+  },
+  "description": {
+    "en": "Storm strikes a burning foe: a violent explosion.",
+    "fr": "L'orage frappe un ennemi en feu : explosion violente."
+  },
+  "on": "ember",
+  "by": "storm",
+  "damage": 1.2,
+  "radius": 40,
+  "poise": 45
+}

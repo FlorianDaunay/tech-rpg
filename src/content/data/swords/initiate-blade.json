@@ -1,0 +1,18 @@
+{
+  "id": "initiate-blade",
+  "name": {
+    "en": "Initiate's Blade",
+    "fr": "Lame d'initié"
+  },
+  "description": {
+    "en": "Issued to every Embersworn initiate. Plain steel, honest balance.",
+    "fr": "Remise à chaque initié des Embersworn. Acier simple, équilibre honnête."
+  },
+  "rarity": "common",
+  "icon": "weapons/sword-001",
+  "value": 5,
+  "family": "blade",
+  "level": 1,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy"
+}

@@ -1,20 +1,77 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { toGameMap } from "./maps";
-import { content, validateAllContent } from "./registry";
+import { findRefs } from "./refs";
+import { content, idsOf, schemas, validateAllContent, type ContentType } from "./registry";
+
+const TYPES = Object.keys(schemas) as ContentType[];
+const all = (type: ContentType) => (content as unknown as Record<string, { all(): unknown[] }>)[collectionName(type)]!.all();
+const collectionName = (type: ContentType) =>
+  ({ map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot" })[type];
+const assetKeys = new Set(
+  (JSON.parse(readFileSync("public/assets/index.json", "utf8")) as { assets: { key: string }[] }).assets.map((a) => a.key)
+);
 
 describe("content", () => {
   it("every content file matches its schema, ids are unique", () => {
     expect(validateAllContent()).toEqual([]);
   });
 
-  it("every map has a player spawn on a walkable cell", () => {
+  it("every reference points to existing content", () => {
+    const missing: string[] = [];
+    for (const type of TYPES) {
+      for (const entry of all(type)) {
+        for (const r of findRefs(schemas[type], entry)) {
+          if (!r.types.some((t) => idsOf(t as ContentType).has(r.id)))
+            missing.push(`${type} "${(entry as { id: string }).id}" ${r.path} → ${r.types.join("/")} "${r.id}"`);
+        }
+      }
+    }
+    expect(missing).toEqual([]);
+  });
+
+  it("every asset key exists in public/assets", () => {
+    const bad: string[] = [];
+    const check = (owner: string, key: string | undefined) => key && !assetKeys.has(key) && bad.push(`${owner}: ${key}`);
+    for (const e of content.enemies.all()) check(`enemy ${e.id}`, e.look);
+    for (const s of content.swords.all()) check(`sword ${s.id}`, s.icon);
+    for (const s of content.shields.all()) check(`shield ${s.id}`, s.icon);
+    for (const i of content.items.all()) check(`item ${i.id}`, i.icon);
+    expect(bad).toEqual([]);
+  });
+
+  it("every map has a player spawn on a walkable cell and valid enemy spawns", () => {
     for (const m of content.maps.all()) {
       const map = toGameMap(m);
       const spawn = map.spawns.find((s) => s.kind === "player");
       expect(spawn, `${m.id} has no player spawn`).toBeDefined();
-      const cx = Math.floor(spawn!.x / map.tileSize);
-      const cy = Math.floor(spawn!.y / map.tileSize);
-      expect(map.solid[cy * map.width + cx], `${m.id} spawn is inside a wall`).toBe(0);
+      for (const s of map.spawns) {
+        const cx = Math.floor(s.x / map.tileSize);
+        const cy = Math.floor(s.y / map.tileSize);
+        expect(map.solid[cy * map.width + cx], `${m.id} spawn ${s.id} is inside a wall`).toBe(0);
+        if (s.kind === "enemy") expect(content.enemies.find(s.ref ?? ""), `${m.id} spawn ${s.id}: unknown enemy "${s.ref}"`).toBeDefined();
+      }
     }
+  });
+
+  it("each element pair has at most one reaction", () => {
+    const pairs = content.reactions.all().map((r) => `${r.on}+${r.by}`);
+    expect(new Set(pairs).size).toBe(pairs.length);
+  });
+
+  it("combo chains end (no cycles)", () => {
+    for (const start of content.moves.all()) {
+      const seen = new Set<string>();
+      let m: typeof start | undefined = start;
+      while (m) {
+        expect(seen.has(m.id), `combo cycle through ${m.id}`).toBe(false);
+        seen.add(m.id);
+        m = m.next ? content.moves.get(m.next) : undefined;
+      }
+    }
+  });
+
+  it("enemies attack with telegraphed moves (windup ≥ 0.3 s)", () => {
+    for (const e of content.enemies.all()) expect(content.moves.get(e.attack).windup, e.id).toBeGreaterThanOrEqual(0.3);
   });
 });

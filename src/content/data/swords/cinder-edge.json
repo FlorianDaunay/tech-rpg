@@ -1,0 +1,26 @@
+{
+  "id": "cinder-edge",
+  "name": {
+    "en": "Cinder Edge",
+    "fr": "Fil de cendre"
+  },
+  "description": {
+    "en": "Quenched in the Lantern's oil. Its cuts keep burning.",
+    "fr": "Trempée dans l'huile de la Lanterne. Ses entailles continuent de brûler."
+  },
+  "rarity": "uncommon",
+  "icon": "weapons/sword-014",
+  "value": 60,
+  "family": "blade",
+  "level": 3,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.35
+  },
+  "bonus": {
+    "power": 2
+  }
+}

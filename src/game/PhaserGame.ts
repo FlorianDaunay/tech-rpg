@@ -1,10 +1,14 @@
 import Phaser from "phaser";
+import { combatData } from "@/content/combat";
+import { registerCombatData } from "@/core/combat/defs";
 import { PreloadScene } from "./scenes/PreloadScene";
 import { TitleScene } from "./scenes/TitleScene";
 import { WorldScene } from "./scenes/WorldScene";
 
 /** Creates the single Phaser instance inside `parent`. React owns the lifecycle (see GameCanvas). */
 export function createGame(parent: HTMLElement): Phaser.Game {
+  // Rules in core read content through this registry (core never imports content).
+  registerCombatData(combatData());
   const game = new Phaser.Game({
     type: Phaser.WEBGL,
     parent,

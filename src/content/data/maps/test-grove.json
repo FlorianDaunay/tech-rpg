@@ -920,6 +920,20 @@
       "cx": 34,
       "cy": 13,
       "ref": "hollow-shade"
+    },
+    {
+      "id": "mote-w",
+      "kind": "enemy",
+      "cx": 15,
+      "cy": 14,
+      "ref": "cinder-mote"
+    },
+    {
+      "id": "wraith-s",
+      "kind": "enemy",
+      "cx": 22,
+      "cy": 29,
+      "ref": "rime-wraith"
     }
   ]
 }

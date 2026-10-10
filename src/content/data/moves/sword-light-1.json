@@ -1,0 +1,18 @@
+{
+  "id": "sword-light-1",
+  "windup": 0.07,
+  "active": 0.08,
+  "recovery": 0.2,
+  "hitbox": {
+    "kind": "arc",
+    "range": 30,
+    "angle": 140
+  },
+  "damage": 1,
+  "staminaCost": 8,
+  "knockback": 90,
+  "lunge": 120,
+  "weight": "light",
+  "next": "sword-light-2",
+  "poise": 10
+}

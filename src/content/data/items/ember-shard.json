@@ -1,0 +1,14 @@
+{
+  "id": "ember-shard",
+  "name": {
+    "en": "Ember Shard",
+    "fr": "Éclat de braise"
+  },
+  "description": {
+    "en": "A splinter of the broken sun. Smiths pay well for these.",
+    "fr": "Un éclat du soleil brisé. Les forgerons les paient cher."
+  },
+  "rarity": "uncommon",
+  "kind": "material",
+  "value": 12
+}

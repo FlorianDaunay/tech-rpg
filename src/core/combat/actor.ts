@@ -50,6 +50,21 @@ export interface AiState {
   strafe: number;
   /** Seconds until it re-picks its strafe direction. */
   think: number;
+  /** Fractional hp healed while walking home (hp stays an integer). */
+  regen: number;
+}
+
+/** A status effect running on an actor. */
+export interface StatusInstance {
+  id: string;
+  /** Seconds elapsed (restarts when re-applied). */
+  t: number;
+  stacks: number;
+  /** Seconds accumulated towards the next damage tick. */
+  tick: number;
+  /** Applier's power when applied (damage-over-time scales with it). */
+  power: number;
+  source: string | null;
 }
 
 export interface Actor extends Body {
@@ -63,7 +78,14 @@ export interface Actor extends Body {
   facing: Facing;
   aim: Vec2;
   moving: boolean;
+  /** Stats without equipment; `stats` = base + gear (see equipment.ts). */
+  baseStats: CombatStats;
   stats: CombatStats;
+  weapon: string | null;
+  shield: string | null;
+  statuses: StatusInstance[];
+  /** Picked-up items by id ("gold" included). Players only for now. */
+  bag: Record<string, number>;
   hp: number;
   stamina: number;
   /** Seconds before stamina regenerates again. */
@@ -109,7 +131,12 @@ export function createActor(init: {
     facing: "down",
     aim: { x: 0, y: 1 },
     moving: false,
+    baseStats: init.stats,
     stats: init.stats,
+    weapon: null,
+    shield: null,
+    statuses: [],
+    bag: {},
     hp: init.stats.maxHp,
     stamina: STAMINA.max,
     staminaDelay: 0,
@@ -121,7 +148,7 @@ export function createActor(init: {
     home: { x: init.x, y: init.y },
     sinceHit: 99,
     buffered: null,
-    ai: init.kind === "enemy" ? { target: null, cooldown: 0.5, strafe: 1, think: 0 } : null,
+    ai: init.kind === "enemy" ? { target: null, cooldown: 0.5, strafe: 1, think: 0, regen: 0 } : null,
   };
 }
 

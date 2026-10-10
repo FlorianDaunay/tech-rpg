@@ -17,5 +17,6 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "soundtest.volume.sfx": "Effets",
   "hud.vitals": "Vie et endurance",
   "hud.fallen": "Vous êtes tombé… la Lanterne vous rappelle",
+  "hud.gold": "Or",
   "common.loading": "On ranime la lanterne…",
 };

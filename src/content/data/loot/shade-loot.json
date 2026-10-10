@@ -1,0 +1,25 @@
+{
+  "id": "shade-loot",
+  "rolls": 1,
+  "chance": 0.6,
+  "entries": [
+    {
+      "item": "hollow-dust",
+      "weight": 8,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "healing-draught",
+      "weight": 2
+    },
+    {
+      "item": "ember-shard",
+      "weight": 1
+    }
+  ],
+  "gold": {
+    "min": 1,
+    "max": 4
+  }
+}

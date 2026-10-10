@@ -1,0 +1,14 @@
+{
+  "id": "shocked",
+  "name": {
+    "en": "Shocked",
+    "fr": "Électrisé"
+  },
+  "description": {
+    "en": "Storm charge leaves the body open: takes 25% more damage.",
+    "fr": "La charge d'orage laisse le corps ouvert : subit 25 % de dégâts en plus."
+  },
+  "element": "storm",
+  "duration": 4,
+  "damageTakenMult": 1.25
+}

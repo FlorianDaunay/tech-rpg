@@ -1,4 +1,5 @@
 import type { Vec2 } from "../math/vec";
+import type { Element } from "./defs";
 import type { Move } from "./moves";
 
 /**
@@ -20,10 +21,18 @@ export type SimEvent =
       crit: boolean;
       blocked: boolean;
       weight: Move["weight"];
+      element?: Element;
       x: number;
       y: number;
       dir: Vec2;
     }
+  | { type: "status"; id: string; status: string; stacks: number }
+  | { type: "status-tick"; id: string; status: string; amount: number; x: number; y: number }
+  /** Two elements met: burst at x/y. */
+  | { type: "reaction"; reaction: string; target: string; x: number; y: number; radius: number }
+  /** Loot spawned on the ground. */
+  | { type: "drop"; id: string; item: string; count: number; x: number; y: number }
+  | { type: "pickup"; id: string; actor: string; item: string; count: number; x: number; y: number }
   /** Perfect parry: the attacker is staggered (slow-mo counter window). */
   | { type: "parry"; attacker: string; target: string; x: number; y: number }
   | { type: "guard-break"; id: string }

@@ -1,0 +1,16 @@
+{
+  "id": "burning",
+  "name": {
+    "en": "Burning",
+    "fr": "Brûlure"
+  },
+  "description": {
+    "en": "Ember fire eats at the flesh: damage over time, stacks up to 3.",
+    "fr": "Le feu de braise ronge la chair : dégâts sur la durée, cumulable 3 fois."
+  },
+  "element": "ember",
+  "duration": 3,
+  "maxStacks": 3,
+  "tickDamage": 0.12,
+  "tickInterval": 0.5
+}

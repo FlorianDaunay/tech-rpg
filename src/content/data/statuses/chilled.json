@@ -1,0 +1,14 @@
+{
+  "id": "chilled",
+  "name": {
+    "en": "Chilled",
+    "fr": "Transi"
+  },
+  "description": {
+    "en": "Frost slows every movement.",
+    "fr": "Le givre ralentit chaque mouvement."
+  },
+  "element": "frost",
+  "duration": 3,
+  "speedMult": 0.6
+}

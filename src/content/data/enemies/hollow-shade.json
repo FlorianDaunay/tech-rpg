@@ -1,0 +1,38 @@
+{
+  "id": "hollow-shade",
+  "name": {
+    "en": "Hollow Shade",
+    "fr": "Ombre du Néant"
+  },
+  "description": {
+    "en": "A wisp of night given claws. Shades hunt in pairs and flee from flame.",
+    "fr": "Un lambeau de nuit doté de griffes. Les ombres chassent par deux et fuient la flamme."
+  },
+  "look": "enemies/enemy-15-1",
+  "family": "hollow",
+  "zones": [
+    "whispering-wilds",
+    "cinderhold"
+  ],
+  "stats": {
+    "maxHp": 38,
+    "power": 10,
+    "defense": 0,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 10,
+    "speed": 58
+  },
+  "ai": "melee",
+  "attack": "claw",
+  "aggroRange": 150,
+  "attackRange": 30,
+  "attackCooldown": 1.1,
+  "radius": 6,
+  "xp": 8,
+  "loot": "shade-loot",
+  "resist": {
+    "ember": 1.5,
+    "hollow": 0.25
+  }
+}

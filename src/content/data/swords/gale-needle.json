@@ -1,0 +1,27 @@
+{
+  "id": "gale-needle",
+  "name": {
+    "en": "Gale Needle",
+    "fr": "Aiguille de bourrasque"
+  },
+  "description": {
+    "en": "A duelist's rapier that hums before a storm.",
+    "fr": "Une rapière de duelliste qui bourdonne avant l'orage."
+  },
+  "rarity": "uncommon",
+  "icon": "weapons/sword-040",
+  "value": 80,
+  "family": "rapier",
+  "level": 3,
+  "light": "rapier-light-1",
+  "heavy": "rapier-heavy",
+  "element": "storm",
+  "onHit": {
+    "status": "shocked",
+    "chance": 0.3
+  },
+  "bonus": {
+    "critChance": 0.07,
+    "speed": 6
+  }
+}

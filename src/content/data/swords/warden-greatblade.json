@@ -1,0 +1,22 @@
+{
+  "id": "warden-greatblade",
+  "name": {
+    "en": "Warden's Greatblade",
+    "fr": "Grande lame du gardien"
+  },
+  "description": {
+    "en": "Forged for the Shieldwardens who held the Citadel gate. Heavy as a vow.",
+    "fr": "Forgée pour les Gardiens qui tinrent la porte de la Citadelle. Lourde comme un serment."
+  },
+  "rarity": "uncommon",
+  "icon": "weapons/sword-055",
+  "value": 70,
+  "family": "greatblade",
+  "level": 2,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "bonus": {
+    "power": 4,
+    "speed": -8
+  }
+}
