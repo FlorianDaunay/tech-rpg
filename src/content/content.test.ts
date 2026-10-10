@@ -7,7 +7,7 @@ import { content, idsOf, schemas, validateAllContent, type ContentType } from ".
 const TYPES = Object.keys(schemas) as ContentType[];
 const all = (type: ContentType) => (content as unknown as Record<string, { all(): unknown[] }>)[collectionName(type)]!.all();
 const collectionName = (type: ContentType) =>
-  ({ map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot" })[type];
+  ({ zone: "zones", map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot" })[type];
 const assetKeys = new Set(
   (JSON.parse(readFileSync("public/assets/index.json", "utf8")) as { assets: { key: string }[] }).assets.map((a) => a.key)
 );
@@ -50,6 +50,23 @@ describe("content", () => {
         const cy = Math.floor(s.y / map.tileSize);
         expect(map.solid[cy * map.width + cx], `${m.id} spawn ${s.id} is inside a wall`).toBe(0);
         if (s.kind === "enemy") expect(content.enemies.find(s.ref ?? ""), `${m.id} spawn ${s.id}: unknown enemy "${s.ref}"`).toBeDefined();
+      }
+    }
+  });
+
+  it("portals lead to a player spawn that isn't itself inside a portal, and can be walked into", () => {
+    for (const m of content.maps.all()) {
+      const map = toGameMap(m);
+      for (const p of map.portals) {
+        const target = toGameMap(content.maps.get(p.to));
+        const arrive = target.spawns.find((s) => s.id === p.arrive && s.kind === "player");
+        expect(arrive, `${m.id} portal ${p.id}: no player spawn "${p.arrive}" in ${p.to}`).toBeDefined();
+        const bounced = target.portals.some((q) => arrive!.x >= q.x && arrive!.x < q.x + q.w && arrive!.y >= q.y && arrive!.y < q.y + q.h);
+        expect(bounced, `${m.id} portal ${p.id}: arrival "${p.arrive}" is inside a portal of ${p.to}`).toBe(false);
+        let walkable = 0;
+        for (let y = p.y; y < p.y + p.h; y += map.tileSize)
+          for (let x = p.x; x < p.x + p.w; x += map.tileSize) if (!map.solid[(y / map.tileSize) * map.width + x / map.tileSize]) walkable++;
+        expect(walkable, `${m.id} portal ${p.id} is entirely solid`).toBeGreaterThan(0);
       }
     }
   });

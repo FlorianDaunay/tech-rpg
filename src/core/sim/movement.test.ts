@@ -10,7 +10,7 @@ function testMap(): GameMap {
   for (let y = 0; y < height; y++)
     for (let x = 0; x < width; x++) if (x === 0 || y === 0 || x === width - 1 || y === height - 1) solid[y * width + x] = 1;
   solid[2 * width + 3] = 1;
-  return { id: "t", zone: "test", width, height, tileSize: 32, layers: [], objects: [], solid, spawns: [] };
+  return { id: "t", zone: "test", width, height, tileSize: 32, layers: [], objects: [], solid, spawns: [], portals: [], lights: [] };
 }
 
 const body = (x: number, y: number): Body => ({ x, y, vx: 0, vy: 0, radius: 6 });

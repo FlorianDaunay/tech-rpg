@@ -18,7 +18,7 @@ function room(): GameMap {
   const n = 16;
   const solid = new Uint8Array(n * n);
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (x === 0 || y === 0 || x === n - 1 || y === n - 1) solid[y * n + x] = 1;
-  return { id: "room", zone: "test", width: n, height: n, tileSize: 32, layers: [], objects: [], solid, spawns: [] };
+  return { id: "room", zone: "test", width: n, height: n, tileSize: 32, layers: [], objects: [], solid, spawns: [], portals: [], lights: [] };
 }
 
 const intent = (opts: { held?: Action[]; pressed?: Action[]; aim?: { x: number; y: number }; move?: { x: number; y: number } } = {}): Intent => ({
@@ -275,5 +275,18 @@ describe("combat", () => {
     p.bag["hollow-dust"] = 3;
     run(sim, map, 1, () => ({ ...intent(), commands: [{ type: "use", item: "hollow-dust" }] })); // not a consumable
     expect(p.bag["hollow-dust"]).toBe(3);
+  });
+
+  it("players standing in a portal emit a portal event; enemies don't", () => {
+    const { map, sim, p, e } = setup();
+    map.portals = [{ id: "east", x: 300, y: 180, w: 32, h: 40, to: "elsewhere", arrive: "west" }];
+    e.ai!.cooldown = 99;
+    expect(run(sim, map, 1).some((ev) => ev.type === "portal")).toBe(false);
+    p.x = 310;
+    p.y = 200;
+    e.x = 315;
+    e.y = 190;
+    const evs = run(sim, map, 1).filter((ev) => ev.type === "portal");
+    expect(evs).toEqual([{ type: "portal", id: "p1", portal: "east", to: "elsewhere", arrive: "west" }]);
   });
 });

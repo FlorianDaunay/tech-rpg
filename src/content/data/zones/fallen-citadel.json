@@ -1,0 +1,23 @@
+{
+  "id": "fallen-citadel",
+  "name": {
+    "en": "Fallen Citadel",
+    "fr": "Citadelle Déchue"
+  },
+  "subtitle": {
+    "en": "The Shieldwardens' last stand",
+    "fr": "Le dernier rempart des Gardiens"
+  },
+  "lighting": {
+    "ambient": "#120a08",
+    "darkness": [
+      0.5,
+      0.8
+    ],
+    "playerLight": 80
+  },
+  "weather": [
+    "rain",
+    "embers"
+  ]
+}

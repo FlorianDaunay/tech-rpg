@@ -42,6 +42,8 @@ export type SimEvent =
   | { type: "dodge"; id: string }
   | { type: "death"; id: string; killer: string | null; xp: number }
   | { type: "respawn"; id: string }
+  /** A player stands in a portal: the host moves the party to `to` (arriving at spawn `arrive`). */
+  | { type: "portal"; id: string; portal: string; to: string; arrive: string }
   /** The actor was removed from the sim (corpse faded). */
   | { type: "despawn"; id: string }
   | { type: "projectile"; id: string; owner: string; x: number; y: number }

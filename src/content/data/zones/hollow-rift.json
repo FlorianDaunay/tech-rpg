@@ -1,0 +1,22 @@
+{
+  "id": "hollow-rift",
+  "name": {
+    "en": "Hollow Rift",
+    "fr": "Faille du Néant"
+  },
+  "subtitle": {
+    "en": "Where the night bleeds through",
+    "fr": "Là où la nuit suinte"
+  },
+  "lighting": {
+    "ambient": "#120624",
+    "darkness": [
+      0.62,
+      0.78
+    ],
+    "playerLight": 90
+  },
+  "weather": [
+    "motes"
+  ]
+}

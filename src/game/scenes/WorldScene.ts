@@ -7,6 +7,9 @@ import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
 import { createSim, SIM_DT, spawnEnemy, spawnPlayer, stepSim, type SimState } from "@/core/sim/state";
+import type { ZoneContent } from "@/content/schemas/zone";
+import { equip } from "@/core/combat/equipment";
+import { darknessAt, START_TIME } from "@/core/world/daynight";
 import type { GameMap } from "@/core/world/map";
 import { useInputDevice } from "@/store/input";
 import { useSettings } from "@/store/settings";
@@ -15,11 +18,13 @@ import { bindPixelZoom } from "../camera";
 import { ActorView } from "../entities/ActorView";
 import { CombatFx } from "../fx/CombatFx";
 import { InputRouter } from "../input/InputRouter";
+import { Lighting } from "../systems/Lighting";
+import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
-import type { WorldStart } from "./PreloadScene";
+import type { PlayerCarry, WorldStart } from "./PreloadScene";
 
 const LOCAL_ID = "p1";
-const START_MAP = "test-grove";
+const START_MAP = "cinderhold";
 /** Never simulate more than this many steps per frame (tab was in background, slow device). */
 const MAX_STEPS_PER_FRAME = 5;
 const VITALS_INTERVAL = 66;
@@ -32,6 +37,12 @@ const STARTER_GEAR = { weapon: "initiate-blade", shield: "initiate-buckler" };
  */
 export class WorldScene extends Phaser.Scene {
   private map!: GameMap;
+  private zone!: ZoneContent;
+  private start!: WorldStart;
+  private lighting!: Lighting;
+  private weather!: Weather;
+  /** A portal was taken: the scene is fading out to the next map. */
+  private travelling = false;
   private sim!: SimState;
   private input2!: InputRouter;
   private fx!: CombatFx;
@@ -56,7 +67,9 @@ export class WorldScene extends Phaser.Scene {
     super("world");
   }
 
-  create(_data: WorldStart): void {
+  create(data: WorldStart): void {
+    this.start = data;
+    this.travelling = false;
     this.views.clear();
     this.prev.clear();
     this.accumulator = 0;
@@ -68,13 +81,19 @@ export class WorldScene extends Phaser.Scene {
     this.commands = [];
     this.inventoryKey = "";
 
-    this.map = toGameMap(content.maps.get(START_MAP));
+    this.map = toGameMap(content.maps.get(data.map ?? START_MAP));
+    this.zone = content.zones.get(this.map.zone);
     renderMap(this, this.map);
     renderObjects(this, this.map);
 
-    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0);
-    const spawn = this.map.spawns.find((s) => s.kind === "player") ?? { x: 64, y: 64 };
-    spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, STARTER_GEAR);
+    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME);
+    const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
+    const spawn = playerSpawns.find((s) => s.id === data.arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
+    const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
+    if (data.carry) {
+      equip(me, data.carry.weapon, data.carry.shield);
+      Object.assign(me, { hp: Math.max(1, Math.min(me.stats.maxHp, data.carry.hp)), stamina: data.carry.stamina, bag: { ...data.carry.bag } });
+    }
     for (const s of this.map.spawns) if (s.kind === "enemy" && s.ref) spawnEnemy(this.sim, s.ref, s.x, s.y);
 
     this.fx = new CombatFx({
@@ -84,7 +103,10 @@ export class WorldScene extends Phaser.Scene {
       flash: (id) => this.views.get(id)?.flash(),
       hitStop: (ms) => (this.freezeMs = Math.max(this.freezeMs, ms)),
       slowMo: (scale, ms) => (this.slowMo = { scale, ms }),
+      light: (x, y, radius, color) => this.lighting.flash(x, y, radius, color),
     });
+    this.lighting = new Lighting(this, this.map.lights, this.zone.lighting.playerLight);
+    this.weather = new Weather(this, this.zone.weather);
     this.syncViews();
 
     const cam = this.cameras.main;
@@ -96,9 +118,9 @@ export class WorldScene extends Phaser.Scene {
     this.input2 = new InputRouter(this.game.canvas);
     this.disposers.push(() => this.input2.destroy());
 
-    audio.music.setZone(this.map.zone);
+    audio.music.setZone(this.zone.music ?? this.zone.id);
     audio.music.setState("explore");
-    audio.ambience.set(this.map.zone);
+    audio.ambience.set(this.zone.ambience ?? this.zone.id);
 
     this.disposers.push(bridge.on("ui:quit", () => this.scene.start("title")));
     this.disposers.push(bridge.on("ui:command", (c) => this.commands.push(c)));
@@ -114,9 +136,11 @@ export class WorldScene extends Phaser.Scene {
     this.events.once("shutdown", () => this.cleanup());
     this.cameras.main.fadeIn(400, 7, 6, 11);
     bridge.emit("game:world-ready", { mapId: this.map.id });
+    bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id });
   }
 
   override update(_time: number, delta: number): void {
+    if (this.travelling) return;
     if (this.paused) {
       this.applyMenuCommands();
       this.updateVitals(this.sim.actors[LOCAL_ID]);
@@ -140,8 +164,11 @@ export class WorldScene extends Phaser.Scene {
       for (const a of Object.values(this.sim.actors)) this.prev.set(a.id, { x: a.x, y: a.y });
       stepSim(this.sim, this.map, { [LOCAL_ID]: this.localIntent() });
       this.fx.handle(this.sim.events);
-      for (const ev of this.sim.events) if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
       this.accumulator -= SIM_DT;
+      for (const ev of this.sim.events) {
+        if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
+        if (ev.type === "portal" && ev.id === LOCAL_ID) return this.travel(ev.to, ev.arrive);
+      }
     }
     this.syncViews();
 
@@ -157,11 +184,28 @@ export class WorldScene extends Phaser.Scene {
 
     const me = this.sim.actors[LOCAL_ID];
     if (me) audio.setListener(me.x, me.y);
+    const meView = this.views.get(LOCAL_ID)?.sprite;
+    this.lighting.setAmbient(this.zone.lighting.ambient, darknessAt(this.sim.time, this.zone.lighting.darkness));
+    this.lighting.update(meView && me && me.action.kind !== "dead" ? { x: meView.x, y: meView.y + 14 } : null, this.sim.projectiles);
+    this.weather.update();
     this.updateAimOrigin();
     this.updateMusic(me);
     this.updateVitals(me);
     this.updateInventory(me);
     this.updateDebug();
+  }
+
+  /** Fade out and restart the scene on the target map, carrying the local player state and the clock. */
+  private travel(to: string, arrive: string): void {
+    if (this.travelling) return;
+    this.travelling = true;
+    const me = this.sim.actors[LOCAL_ID];
+    const carry: PlayerCarry | undefined = me && { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield };
+    audio.sfx("portal", { volume: 0.5 });
+    this.cameras.main.fadeOut(350, 7, 6, 11);
+    this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
+      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time } satisfies WorldStart)
+    );
   }
 
   /**
@@ -271,6 +315,8 @@ export class WorldScene extends Phaser.Scene {
     this.disposers.forEach((d) => d());
     this.disposers = [];
     this.fx.destroy();
+    this.lighting.destroy();
+    this.weather.destroy();
     this.views.forEach((v) => v.destroy());
     this.views.clear();
     this.anims.globalTimeScale = 1;

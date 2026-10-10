@@ -1,0 +1,23 @@
+{
+  "id": "whispering-wilds",
+  "name": {
+    "en": "Whispering Wilds",
+    "fr": "Bois Murmurants"
+  },
+  "subtitle": {
+    "en": "The trees remember the sun",
+    "fr": "Les arbres se souviennent du soleil"
+  },
+  "lighting": {
+    "ambient": "#061018",
+    "darkness": [
+      0.5,
+      0.82
+    ],
+    "playerLight": 80
+  },
+  "weather": [
+    "fog",
+    "fireflies"
+  ]
+}

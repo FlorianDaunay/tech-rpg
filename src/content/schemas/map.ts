@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { Id, LocalizedText } from "./common";
+import { LIGHT_COLORS } from "@/config/palette";
+import { Id, LocalizedText, ref } from "./common";
 
 /**
  * Maps are authored as character grids (one char per tile) plus a legend. Readable in a diff,
@@ -41,13 +42,34 @@ export const MapObjectSchema = z.object({
   /** Solid cells [w, h], bottom-centred on (cx, cy). Omit for walk-through decoration. */
   footprint: z.tuple([z.number().int().positive(), z.number().int().positive()]).optional(),
   flipX: z.boolean().default(false),
+  /** The object glows (torch, lantern, window): lights the darkness around it. */
+  light: z
+    .object({
+      radius: z.number().positive().describe("px"),
+      color: z.enum(Object.keys(LIGHT_COLORS) as [keyof typeof LIGHT_COLORS, ...(keyof typeof LIGHT_COLORS)[]]),
+      intensity: z.number().min(0).max(1).default(1),
+      flicker: z.boolean().default(false),
+      offsetY: z.number().default(0).describe("px from the object's base (negative = up)"),
+    })
+    .optional(),
+});
+
+/** A rectangle of cells that sends players to another map (edge exits, doors, rifts). */
+export const MapPortalSchema = z.object({
+  id: z.string(),
+  cx: z.number().int().nonnegative(),
+  cy: z.number().int().nonnegative(),
+  w: z.number().int().positive().default(1),
+  h: z.number().int().positive().default(1),
+  to: ref("map"),
+  arrive: z.string().describe("Player spawn id in the target map"),
 });
 
 export const MapSchema = z
   .object({
     id: Id,
     name: LocalizedText,
-    zone: z.string().describe("Zone / biome id (music, ambience, lighting preset)"),
+    zone: ref("zone").describe("Zone: music, ambience, lighting, weather"),
     width: z.number().int().positive(),
     height: z.number().int().positive(),
     tileSize: z.number().int().positive().default(32),
@@ -55,6 +77,7 @@ export const MapSchema = z
     layers: z.array(MapLayerSchema).min(1),
     objects: z.array(MapObjectSchema).default([]),
     spawns: z.array(MapSpawnSchema).default([]),
+    portals: z.array(MapPortalSchema).default([]),
   })
   .superRefine((map, ctx) => {
     for (const layer of map.layers) {
@@ -71,6 +94,7 @@ export const MapSchema = z
     const inside = (cx: number, cy: number) => cx < map.width && cy < map.height;
     map.objects.forEach((o, i) => inside(o.cx, o.cy) || ctx.addIssue({ code: "custom", message: `object ${i} (${o.asset}) outside the map` }));
     map.spawns.forEach((s) => inside(s.cx, s.cy) || ctx.addIssue({ code: "custom", message: `spawn ${s.id} outside the map` }));
+    map.portals.forEach((p) => inside(p.cx + p.w - 1, p.cy + p.h - 1) || ctx.addIssue({ code: "custom", message: `portal ${p.id} outside the map` }));
   })
   .describe("Map");
 

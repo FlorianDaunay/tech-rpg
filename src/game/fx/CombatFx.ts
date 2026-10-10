@@ -15,6 +15,9 @@ const HIT_STOP = { light: 45, medium: 70, heavy: 110 } as const;
 const SHAKE = { light: 0.0015, medium: 0.003, heavy: 0.006 } as const;
 const SLASH = { light: "vfx/slash-s", medium: "vfx/slash-m", heavy: "vfx/slash-l" } as const;
 
+/** Light colour (palette LIGHT_COLORS key) per element for reaction flashes. */
+const ELEMENT_LIGHT = { ember: "torch", frost: "moon", storm: "moon", hollow: "rift" } as const;
+
 const ELEMENT_SFX = { ember: "ember-burst", frost: "frost-shatter", storm: "storm-zap", hollow: "hollow-pulse" } as const;
 
 const statusName = (name: { en: string; fr?: string }) => (getLang() === "fr" ? (name.fr ?? name.en) : name.en);
@@ -32,6 +35,8 @@ export interface FxHost {
   hitStop(ms: number): void;
   /** Run the simulation at `scale` speed for `ms` (perfect-parry slow-mo). */
   slowMo(scale: number, ms: number): void;
+  /** Brief burst of light in the night (reactions, parries). */
+  light?(x: number, y: number, radius: number, color: string): void;
 }
 
 /**
@@ -109,6 +114,7 @@ export class CombatFx {
         audio.sfx("perfect-parry", { x: ev.x, y: ev.y });
         this.spark(ev.x, ev.y - 10, COMBAT_COLORS.parry, 1.8);
         this.ring(ev.x, ev.y - 8, COMBAT_COLORS.parry);
+        h.light?.(ev.x, ev.y - 8, 70, "moon");
         if (ev.target === h.localId) {
           h.hitStop(120);
           h.slowMo(0.35, 650);
@@ -166,6 +172,7 @@ export class CombatFx {
         if (!def) break;
         audio.sfx(ELEMENT_SFX[def.by], { x: ev.x, y: ev.y });
         this.elementBurst(ev.x, ev.y - 8, def.by, ev.radius);
+        h.light?.(ev.x, ev.y - 8, Math.max(60, ev.radius * 2.2), ELEMENT_LIGHT[def.by]);
         this.label(ev.x, ev.y - 36, statusName(def.name), ELEMENT_COLORS[def.by]);
         if (h.actor(ev.target)?.kind === "enemy") h.hitStop(60);
         this.shake(0.003);

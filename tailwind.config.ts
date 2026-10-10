@@ -16,6 +16,11 @@ export default {
       screens: { short: { raw: "(max-height: 520px)" } },
       keyframes: {
         fadeUp: { from: { opacity: "0", transform: "translateY(12px)" }, to: { opacity: "1", transform: "none" } },
+        zoneBanner: {
+          "0%": { opacity: "0", transform: "translateY(8px)", letterSpacing: "0.1em" },
+          "18%, 75%": { opacity: "1", transform: "none" },
+          "100%": { opacity: "0", transform: "translateY(-6px)" },
+        },
       },
     },
   },

@@ -33,6 +33,8 @@ export interface BridgeEvents {
   "game:menu": "pause" | "inventory";
   /** Local player's bag/gear changed (and once when the world starts). */
   "game:inventory": InventoryView;
+  /** Entered a map: the HUD shows the zone banner. */
+  "game:zone": { zone: string; map: string };
   /** Local player picked something up (toast). */
   "game:loot": { item: string; count: number };
   /** UI → game: inventory command for the local player (sent with the next Intent). */

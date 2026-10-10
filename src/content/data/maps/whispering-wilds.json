@@ -1,0 +1,6049 @@
+{
+  "id": "whispering-wilds",
+  "name": {
+    "en": "Whispering Wilds",
+    "fr": "Bois Murmurants"
+  },
+  "zone": "whispering-wilds",
+  "width": 70,
+  "height": 48,
+  "tileSize": 32,
+  "legend": {
+    "g": {
+      "tile": "tiles/grass#0-15"
+    },
+    "p": {
+      "tile": "tiles/dirt-path",
+      "autotile": true
+    },
+    "w": {
+      "tile": "tiles/water-shore",
+      "autotile": true,
+      "solid": true
+    },
+    "f": {
+      "tile": "tiles/flowers#0-4"
+    },
+    "t": {
+      "tile": "tiles/tall-grass"
+    }
+  },
+  "layers": [
+    {
+      "id": "ground",
+      "rows": [
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg",
+        "gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"
+      ]
+    },
+    {
+      "id": "terrain",
+      "rows": [
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        ".............................................w..w.....................",
+        "...........................................wwwwwwww...................",
+        "........................pp................wwwwwwwww...................",
+        ".......................ppp................wwwwwwwwww..................",
+        "......................ppp................wwwwwwwwww...................",
+        "......................ppp.................wwwwwwwww...................",
+        "....................pppp..................wwwwwww.....................",
+        "....................ppp..................wwwwwww......................",
+        "...................ppp....................wwww........................",
+        "...................ppp.....................w..........................",
+        "..................ppp.................................................",
+        ".................ppp..................................................",
+        "................ppp...................................................",
+        "...............ppppp....................................pppp..........",
+        "............pppppppppppppp..........................pppppppp..........",
+        "..........pppppp..pppppppppppp..................pppppppppp............",
+        "pppppppppppppp..........ppppppppp...........ppppppppp.................",
+        "pppppppppppp................pppppppp...ppppppppppp....................",
+        ".........pp.....................ppppppppppppp.........................",
+        ".........ppp......................pppppp..............................",
+        "..........pp.........................ppp..............................",
+        "..........pp.........................ppp..............................",
+        "..........pp..........................ppp.............................",
+        "..........pp..........................ppp.............................",
+        "..........ppp..........................pp.............................",
+        "..........ppp..........................ppp............................",
+        "...........pp...........................pp............................",
+        "...........pp...........................pp............................",
+        "...........ppp..........................pp............................",
+        "............pp........................................................",
+        "............pp........................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................",
+        "......................................................................"
+      ]
+    },
+    {
+      "id": "deco",
+      "rows": [
+        "......................................................................",
+        "......................................................................",
+        "............f.....f.........f................f.......f................",
+        "..........................f..............................f.....f......",
+        "................f...................t................f............ff..",
+        "...................f....f..........tt...................f.............",
+        "....t...............................tff..................f............",
+        "...ttt..............f.................................................",
+        "...tttt.................f.....ttt..f..................................",
+        "...ttt.........f...............t......................................",
+        "....t.........................t.......................................",
+        "..ff.........f........f......ttt..t...................f...........f...",
+        "...........f........f.........t..t.t....f.............t.f...f.........",
+        "..................................t.................ft................",
+        "........................f.............................t....f...f......",
+        ".........f.............f..............................................",
+        ".......f.......f.........t.t....f..............f......................",
+        ".....t..................ttttt..f.....................f................",
+        "....tft..................t..................f.........................",
+        "...f.t..........................f.........f...f....f..................",
+        ".......................t.f....f...............f..................f....",
+        ".........f............tt..............................................",
+        "...........f.....................f..........f.........................",
+        "......................................................................",
+        ".......................t...........................................f..",
+        "..............f.f................................................f....",
+        "..............f.....f.....f.......................f...........f.......",
+        ".................f........t.t...............f.........................",
+        "...........................t..........................f..f........f...",
+        "...t...............t...t...........t............t..f.............f....",
+        "..tt...............t..t.t.........t.t..........tt.........f.f.........",
+        ".t..t............tt..t.t.........ttttt........tt.tt...................",
+        "..ttt...........f.t..............ttt..f.......fttt....................",
+        "...t...............t..t..........t.t..........tft......f..........t...",
+        ".........t.............t..f.................f..t........f........ttt..",
+        ".......ft.t.........ttttt......................f.f................t...",
+        "................f....tt................................f..............",
+        "..........t...........t...............f...............................",
+        ".......f.........................t......f............f......t......f..",
+        "................................t.t.........f..............ttt........",
+        ".................................tf...f.....................t.........",
+        ".............f...........ff...........................................",
+        "............f.f..........t...................f.....f.......t..........",
+        "........................t.t.........f.....................t.t.........",
+        ".......................tt.tt........................f....t............",
+        "......f.................ttt......f.........................tt.........",
+        ".........................t.................................t..........",
+        "......................................................................"
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 2,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 4,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 6,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 8,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 10,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 12,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 14,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 16,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 18,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 20,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 22,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 24,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 26,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 28,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 30,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 32,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 34,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 36,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 38,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 40,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 42,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 44,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 46,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 48,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 50,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 52,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 54,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 56,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 58,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 60,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 62,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 64,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 66,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 3,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 5,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 7,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 9,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 11,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 13,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 15,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 17,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 19,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 21,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 23,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 25,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 27,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 29,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 31,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 33,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 35,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 37,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 39,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 41,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 43,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 45,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 47,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 49,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 51,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 53,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 55,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 57,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 59,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 61,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 63,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 65,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 67,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 1,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 0,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 1,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 1,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 0,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 1,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 69,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 0,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 68,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 1,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 69,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 0,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 68,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 1,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 69,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 0,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 1,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 0,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 68,
+      "cy": 22,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 68,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 0,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 69,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 1,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 69,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 68,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 1,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 69,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 0,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 68,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 1,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 0,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 68,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 69,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 0,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 68,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 1,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 68,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 1,
+      "cy": 45,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 45,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 0,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 2,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 4,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 6,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 8,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 10,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 12,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 14,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 16,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 18,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 20,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 22,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 24,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 26,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 28,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 30,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 32,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 34,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 36,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 38,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 40,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 42,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 44,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 46,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 48,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 50,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 52,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 54,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 56,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 58,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 60,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 62,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 64,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 66,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 68,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 1,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 3,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 5,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 7,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 9,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 11,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 13,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 15,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 17,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 19,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 21,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 23,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 25,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 27,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 29,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 31,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 33,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 35,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 37,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 39,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 41,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 43,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 45,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 47,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 49,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 51,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 53,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 55,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 57,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 59,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 61,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 63,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 65,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 67,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 69,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 52,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 3,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 66,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 30,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 13,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 44,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 5,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 38,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 66,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 64,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 52,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 31,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 5,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 27,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 17,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 51,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 29,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 52,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 9,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 46,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 38,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 7,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 47,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 51,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 10,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 38,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 7,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 8,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 25,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 15,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 31,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 19,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 15,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 7,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 28,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 3,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 63,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 24,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 31,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 60,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 22,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 64,
+      "cy": 22,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 3,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 33,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 53,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 54,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 21,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 47,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 28,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 64,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 17,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 34,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 25,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 41,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 12,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 14,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 55,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 65,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 65,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 52,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 49,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 12,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 47,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 3,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 34,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 4,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 48,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 48,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 49,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 3,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 43,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 62,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 62,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 50,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 37,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 7,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 36,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 20,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 53,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 57,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 26,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 54,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 42,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 10,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 49,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 36,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 10,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 32,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 23,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 38,
+      "cy": 22,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 29,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 50,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 7,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 24,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 49,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 31,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 28,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 39,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 12,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 47,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 58,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 28,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 66,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 15,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 61,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 13,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 54,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 60,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 44,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 31,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 57,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 46,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 39,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 21,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 18,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 65,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 59,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 51,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 10,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 40,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 20,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 42,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 55,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 52,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 58,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 17,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 11,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 13,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 54,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 19,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 40,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 5,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 7,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 34,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 25,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 15,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 7,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 49,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 57,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 5,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 32,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 35,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 3,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 36,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 19,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 28,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 64,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 30,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 35,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 23,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 34,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 6,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 55,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 40,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 64,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 10,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 35,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 3,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 5,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 29,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 45,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 63,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 44,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 64,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 25,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 18,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 18,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 30,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 16,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 45,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 14,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 57,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 14,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 30,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 66,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 6,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 36,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 42,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 22,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 36,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 4,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 62,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 61,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 16,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 62,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 25,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 62,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 27,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 37,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 17,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 27,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 26,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 60,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 13,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 10,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 54,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 33,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 23,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 59,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 57,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 6,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 28,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 30,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 62,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 30,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 24,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 17,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 66,
+      "cy": 22,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 8,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 66,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 5,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 52,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 22,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 56,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 40,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 29,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 15,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 62,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 33,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 35,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 43,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 49,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 40,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 32,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 21,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 61,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 62,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 39,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 66,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 25,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 15,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 37,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 59,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 49,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 47,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 30,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 66,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 8,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 55,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 19,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 30,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 65,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 37,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 32,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 16,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 34,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 45,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 47,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 63,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 19,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 34,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 55,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 52,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 60,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 5,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 65,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 27,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 66,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 29,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 65,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 3,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 32,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 28,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 5,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 3,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 44,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 45,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 57,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 59,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 21,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 47,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 46,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 33,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 62,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-dead",
+      "cx": 64,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 34,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 47,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 49,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 28,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 59,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 62,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 41,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 32,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 17,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 34,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 3,
+      "cy": 43,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 55,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 5,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 29,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 34,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 15,
+      "cy": 40,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 51,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 50,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 9,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 19,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 56,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 41,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 64,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 22,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 41,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-oak-2",
+      "cx": 60,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine",
+      "cx": 22,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-oak",
+      "cx": 66,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 54,
+      "cy": 32,
+      "frame": 2
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 62,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 66,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 8,
+      "cy": 22,
+      "frame": 0
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 54,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 61,
+      "cy": 7,
+      "frame": 2
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 27,
+      "cy": 7,
+      "frame": 0
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 28,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 47,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 63,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 15,
+      "cy": 36,
+      "frame": 2
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 8,
+      "cy": 35,
+      "frame": 0
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 25,
+      "cy": 36,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 56,
+      "cy": 33,
+      "frame": 0
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 15,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 7,
+      "cy": 23,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 20,
+      "cy": 21,
+      "frame": 0
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 57,
+      "cy": 34,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 9,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 26,
+      "cy": 41,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 41,
+      "cy": 19,
+      "frame": 1
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 9,
+      "cy": 15,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 29,
+      "cy": 5,
+      "frame": 1,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 59,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 52,
+      "cy": 32,
+      "frame": 2
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 23,
+      "cy": 42,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 14,
+      "cy": 21,
+      "frame": 1
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 7,
+      "cy": 20,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 22,
+      "cy": 20,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 3,
+      "cy": 14,
+      "frame": 1,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 27,
+      "cy": 6,
+      "frame": 1,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 12,
+      "cy": 21,
+      "frame": 1,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 49,
+      "cy": 15,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 17,
+      "cy": 32,
+      "frame": 1,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 7,
+      "cy": 42,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 40,
+      "cy": 28,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 61,
+      "cy": 37,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 63,
+      "cy": 34,
+      "frame": 2
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 56,
+      "cy": 29,
+      "frame": 2
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 3,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/bushes",
+      "cx": 6,
+      "cy": 15,
+      "frame": 1
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 13,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 64,
+      "cy": 17,
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 66,
+      "cy": 8,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/mushrooms",
+      "cx": 15,
+      "cy": 17,
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.65,
+        "offsetY": -6
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 4,
+      "cy": 22,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 4,
+      "cy": 27,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/chest",
+      "cx": 61,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/torch",
+      "cx": 60,
+      "cy": 18,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 62,
+      "cy": 18,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -18
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "id": "from-hub",
+      "kind": "player",
+      "cx": 3,
+      "cy": 24
+    },
+    {
+      "id": "a0",
+      "kind": "enemy",
+      "cx": 27,
+      "cy": 11,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "a1",
+      "kind": "enemy",
+      "cx": 22,
+      "cy": 12,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "a2",
+      "kind": "enemy",
+      "cx": 24,
+      "cy": 7,
+      "ref": "wisp-caster"
+    },
+    {
+      "id": "b0",
+      "kind": "enemy",
+      "cx": 43,
+      "cy": 36,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "b1",
+      "kind": "enemy",
+      "cx": 39,
+      "cy": 38,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "b2",
+      "kind": "enemy",
+      "cx": 37,
+      "cy": 34,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "b3",
+      "kind": "enemy",
+      "cx": 41,
+      "cy": 32,
+      "ref": "cinder-mote"
+    },
+    {
+      "id": "c0",
+      "kind": "enemy",
+      "cx": 62,
+      "cy": 23,
+      "ref": "grave-brute"
+    },
+    {
+      "id": "c1",
+      "kind": "enemy",
+      "cx": 55,
+      "cy": 23,
+      "ref": "wisp-caster"
+    },
+    {
+      "id": "c2",
+      "kind": "enemy",
+      "cx": 58,
+      "cy": 17,
+      "ref": "wisp-caster"
+    },
+    {
+      "id": "d0",
+      "kind": "enemy",
+      "cx": 14,
+      "cy": 38,
+      "ref": "wisp-caster"
+    },
+    {
+      "id": "d1",
+      "kind": "enemy",
+      "cx": 10,
+      "cy": 38,
+      "ref": "cinder-mote"
+    },
+    {
+      "id": "d2",
+      "kind": "enemy",
+      "cx": 12,
+      "cy": 35,
+      "ref": "cinder-mote"
+    },
+    {
+      "id": "road0",
+      "kind": "enemy",
+      "cx": 30,
+      "cy": 24,
+      "ref": "cinder-mote"
+    },
+    {
+      "id": "road1",
+      "kind": "enemy",
+      "cx": 47,
+      "cy": 25,
+      "ref": "cinder-mote"
+    }
+  ],
+  "portals": [
+    {
+      "id": "to-hub",
+      "cx": 0,
+      "cy": 23,
+      "w": 1,
+      "h": 4,
+      "to": "cinderhold",
+      "arrive": "from-wilds"
+    }
+  ]
+}

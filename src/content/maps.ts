@@ -1,5 +1,5 @@
 import { hashSeed } from "@/core/math/rng";
-import type { GameMap, MapLayer } from "@/core/world/map";
+import type { GameMap, MapLayer, MapLight } from "@/core/world/map";
 import type { MapContent } from "./schemas/map";
 
 /**
@@ -83,5 +83,9 @@ export function toGameMap(content: MapContent): GameMap {
     x: (s.cx + 0.5) * tileSize,
     y: (s.cy + 0.5) * tileSize,
   }));
-  return { id: content.id, zone: content.zone, width, height, tileSize, layers, objects, solid, spawns };
+  const portals = content.portals.map((p) => ({ id: p.id, x: p.cx * tileSize, y: p.cy * tileSize, w: p.w * tileSize, h: p.h * tileSize, to: p.to, arrive: p.arrive }));
+  const lights: MapLight[] = content.objects.flatMap((o, i) =>
+    o.light ? [{ x: objects[i]!.x, y: objects[i]!.y + o.light.offsetY, radius: o.light.radius, color: o.light.color, intensity: o.light.intensity, flicker: o.light.flicker }] : []
+  );
+  return { id: content.id, zone: content.zone, width, height, tileSize, layers, objects, solid, spawns, portals, lights };
 }

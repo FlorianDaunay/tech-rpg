@@ -27,6 +27,27 @@ export interface MapObject {
   flipX: boolean;
 }
 
+/** Trigger rectangle in world pixels that sends players to another map. */
+export interface MapPortal {
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  to: string;
+  arrive: string;
+}
+
+/** A light source in world pixels (rendering only, but data lives with the map). */
+export interface MapLight {
+  x: number;
+  y: number;
+  radius: number;
+  color: string;
+  intensity: number;
+  flicker: boolean;
+}
+
 export interface GameMap {
   id: string;
   zone: string;
@@ -38,6 +59,8 @@ export interface GameMap {
   /** 1 = solid, per cell. */
   solid: Uint8Array;
   spawns: MapSpawn[];
+  portals: MapPortal[];
+  lights: MapLight[];
 }
 
 export const cellIndex = (map: GameMap, cx: number, cy: number) => cy * map.width + cx;

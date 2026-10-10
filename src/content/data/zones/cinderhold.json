@@ -1,0 +1,23 @@
+{
+  "id": "cinderhold",
+  "name": {
+    "en": "Cinderhold",
+    "fr": "Cendrebourg"
+  },
+  "subtitle": {
+    "en": "Where the last flame burns",
+    "fr": "Là où brûle la dernière flamme"
+  },
+  "safe": true,
+  "lighting": {
+    "ambient": "#0b0a1a",
+    "darkness": [
+      0.32,
+      0.6
+    ],
+    "playerLight": 60
+  },
+  "weather": [
+    "embers"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "ashen-graveyard",
+  "name": {
+    "en": "Ashen Graveyard",
+    "fr": "Cimetière de Cendres"
+  },
+  "subtitle": {
+    "en": "Where the Shroud gathers the dead",
+    "fr": "Là où le Linceul rassemble les morts"
+  },
+  "lighting": {
+    "ambient": "#0d0c14",
+    "darkness": [
+      0.55,
+      0.85
+    ],
+    "playerLight": 80
+  },
+  "weather": [
+    "ash",
+    "fog"
+  ]
+}

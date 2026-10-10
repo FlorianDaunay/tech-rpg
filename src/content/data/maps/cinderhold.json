@@ -1,8 +1,8 @@
 {
-  "id": "test-grove",
+  "id": "cinderhold",
   "name": {
-    "en": "Cinderhold (prototype)",
-    "fr": "Cendrebourg (prototype)"
+    "en": "Cinderhold",
+    "fr": "Cendrebourg"
   },
   "zone": "cinderhold",
   "width": 44,
@@ -82,8 +82,8 @@
         ".....................pp.....................",
         "..................pppppppp..................",
         "..................pppppppp..................",
-        "..pppppppppppppppppppppppppppppppppppppppp..",
-        "..pppppppppppppppppppppppppppppppppppppppp..",
+        "..pppppppppppppppppppppppppppppppppppppppppp",
+        "..pppppppppppppppppppppppppppppppppppppppppp",
         "..................pppppppp..................",
         "..................pppppppp..................",
         ".....................pp.....................",
@@ -149,7 +149,14 @@
       "footprint": [
         3,
         1
-      ]
+      ],
+      "light": {
+        "radius": 170,
+        "color": "lantern",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -78
+      }
     },
     {
       "asset": "props/house-2",
@@ -158,7 +165,13 @@
       "footprint": [
         4,
         2
-      ]
+      ],
+      "light": {
+        "radius": 56,
+        "color": "lantern",
+        "intensity": 0.55,
+        "offsetY": -30
+      }
     },
     {
       "asset": "props/house-1",
@@ -167,7 +180,13 @@
       "footprint": [
         3,
         2
-      ]
+      ],
+      "light": {
+        "radius": 48,
+        "color": "lantern",
+        "intensity": 0.55,
+        "offsetY": -26
+      }
     },
     {
       "asset": "props/house-1",
@@ -177,7 +196,13 @@
         3,
         2
       ],
-      "flipX": true
+      "flipX": true,
+      "light": {
+        "radius": 48,
+        "color": "lantern",
+        "intensity": 0.55,
+        "offsetY": -26
+      }
     },
     {
       "asset": "props/forge",
@@ -186,7 +211,14 @@
       "footprint": [
         4,
         2
-      ]
+      ],
+      "light": {
+        "radius": 96,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -22
+      }
     },
     {
       "asset": "props/market-stall",
@@ -195,7 +227,13 @@
       "footprint": [
         3,
         1
-      ]
+      ],
+      "light": {
+        "radius": 44,
+        "color": "lantern",
+        "intensity": 0.5,
+        "offsetY": -30
+      }
     },
     {
       "asset": "props/well",
@@ -851,13 +889,25 @@
       "asset": "props/mushrooms",
       "cx": 39,
       "cy": 29,
-      "frame": 2
+      "frame": 2,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.6,
+        "offsetY": -6
+      }
     },
     {
       "asset": "props/mushrooms",
       "cx": 5,
       "cy": 9,
-      "frame": 0
+      "frame": 0,
+      "light": {
+        "radius": 26,
+        "color": "rift",
+        "intensity": 0.6,
+        "offsetY": -6
+      }
     },
     {
       "asset": "props/chest",
@@ -871,12 +921,26 @@
     {
       "asset": "props/torch",
       "cx": 19,
-      "cy": 16
+      "cy": 16,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
     },
     {
       "asset": "props/torch",
       "cx": 24,
-      "cy": 16
+      "cy": 16,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
     }
   ],
   "spawns": [
@@ -887,53 +951,21 @@
       "cy": 18
     },
     {
-      "id": "shade-w1",
-      "kind": "enemy",
-      "cx": 8,
+      "id": "from-wilds",
+      "kind": "player",
+      "cx": 40,
+      "cy": 13
+    }
+  ],
+  "portals": [
+    {
+      "id": "to-wilds",
+      "cx": 43,
       "cy": 13,
-      "ref": "hollow-shade"
-    },
-    {
-      "id": "shade-w2",
-      "kind": "enemy",
-      "cx": 10,
-      "cy": 14,
-      "ref": "hollow-shade"
-    },
-    {
-      "id": "brute-n",
-      "kind": "enemy",
-      "cx": 22,
-      "cy": 5,
-      "ref": "grave-brute"
-    },
-    {
-      "id": "wisp-e",
-      "kind": "enemy",
-      "cx": 36,
-      "cy": 14,
-      "ref": "wisp-caster"
-    },
-    {
-      "id": "shade-e",
-      "kind": "enemy",
-      "cx": 34,
-      "cy": 13,
-      "ref": "hollow-shade"
-    },
-    {
-      "id": "mote-w",
-      "kind": "enemy",
-      "cx": 15,
-      "cy": 14,
-      "ref": "cinder-mote"
-    },
-    {
-      "id": "wraith-s",
-      "kind": "enemy",
-      "cx": 22,
-      "cy": 29,
-      "ref": "rime-wraith"
+      "w": 1,
+      "h": 2,
+      "to": "whispering-wilds",
+      "arrive": "from-hub"
     }
   ]
 }

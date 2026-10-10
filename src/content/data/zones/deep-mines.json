@@ -1,0 +1,22 @@
+{
+  "id": "deep-mines",
+  "name": {
+    "en": "Deep Mines",
+    "fr": "Mines Profondes"
+  },
+  "subtitle": {
+    "en": "The Deepdelvers dug too far",
+    "fr": "Les Fouisseurs ont creusé trop loin"
+  },
+  "lighting": {
+    "ambient": "#050406",
+    "darkness": [
+      0.82,
+      0.82
+    ],
+    "playerLight": 100
+  },
+  "weather": [
+    "motes"
+  ]
+}

@@ -5,8 +5,25 @@ import { ASSET_INDEX_KEY, ASSET_INDEX_PATH, queueAssets, type AssetEntry } from 
 /** Asset kinds the world needs up front. Others (bosses, rare enemies) load on demand later. */
 const WORLD_KINDS = ["character", "enemy", "tileset", "tile", "prop", "vfx", "light", "item", "weapon", "shield", "ui"];
 
+/** What the world scene starts with: from the title (mode only) or from a map transition. */
 export interface WorldStart {
   mode: GameMode;
+  /** Map id (default: the hub). */
+  map?: string;
+  /** Player spawn id to arrive at (default: the map's first player spawn). */
+  arrive?: string;
+  /** Local player state carried across maps. */
+  carry?: PlayerCarry;
+  /** Shared world clock (day/night), continued across maps. */
+  time?: number;
+}
+
+export interface PlayerCarry {
+  hp: number;
+  stamina: number;
+  bag: Record<string, number>;
+  weapon: string | null;
+  shield: string | null;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */

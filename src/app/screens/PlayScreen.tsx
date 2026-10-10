@@ -9,6 +9,7 @@ import { useSettings } from "@/store/settings";
 import { TouchControls } from "@/ui/touch/TouchControls";
 import { LootToasts } from "../hud/LootToasts";
 import { Vitals } from "../hud/Vitals";
+import { ZoneBanner } from "../hud/ZoneBanner";
 import { InventoryScreen } from "./InventoryScreen";
 import { PauseMenu } from "./PauseMenu";
 import { SettingsScreen } from "./SettingsScreen";
@@ -34,7 +35,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
   const quit = () => {
     closeAll();
     bridge.emit("ui:quit");
-    useGameStatus.setState({ inWorld: false, vitals: null, inventory: null });
+    useGameStatus.setState({ inWorld: false, vitals: null, inventory: null, zoneEnter: null });
     go("title");
   };
 
@@ -63,6 +64,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
         </div>
       )}
       <LootToasts />
+      <ZoneBanner />
       {menu === "pause" && <PauseMenu onQuit={quit} />}
       {menu === "inventory" && <InventoryScreen />}
       {menu === "settings" && <SettingsScreen onBack={back} />}

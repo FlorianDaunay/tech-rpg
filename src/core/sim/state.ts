@@ -19,8 +19,9 @@ export interface SimState extends CombatWorld {
   rngState: number;
 }
 
-export function createSim(mapId: string, seed: number): SimState {
-  return { tick: 0, time: 0, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1 };
+/** `time` is the shared world clock (day/night): carried over when the party changes map. */
+export function createSim(mapId: string, seed: number, time = 0): SimState {
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1 };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -36,6 +37,16 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
   const a = createActor({ id, team: "enemies", kind: "enemy", type, look: def.look, x, y, stats: def.stats, radius: def.radius });
   state.actors[id] = a;
   return a;
+}
+
+/** Living players standing inside a portal rectangle (feet position). */
+function detectPortals(state: SimState, map: GameMap): void {
+  if (!map.portals.length) return;
+  for (const a of players(state)) {
+    if (a.action.kind === "dead") continue;
+    const p = map.portals.find((r) => a.x >= r.x && a.x < r.x + r.w && a.y >= r.y && a.y < r.y + r.h);
+    if (p) state.events.push({ type: "portal", id: a.id, portal: p.id, to: p.to, arrive: p.arrive });
+  }
 }
 
 export const players = (state: SimState) => Object.values(state.actors).filter((a) => a.kind === "player");
@@ -61,5 +72,6 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepProjectiles(state, map, rng, SIM_DT);
   stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
+  detectPortals(state, map);
   state.rngState = rng.state;
 }

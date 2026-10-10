@@ -2,12 +2,14 @@ import type { z } from "zod";
 import { EnemySchema, ItemSchema, LootTableSchema, MoveSchema, ReactionSchema, ShieldSchema, StatusSchema, SwordSchema } from "./schemas/combat";
 import { LoreSchema } from "./schemas/lore";
 import { MapSchema } from "./schemas/map";
+import { ZoneSchema } from "./schemas/zone";
 
 /**
  * Every content type: its schema and its JSON files (one entry per file, `data/<type>/<id>.json`).
  * Files are bundled at build time and validated when first accessed. See content-type-recipe skill.
  */
 const sources = {
+  zone: { schema: ZoneSchema, folder: "zones", files: import.meta.glob("./data/zones/*.json", { eager: true, import: "default" }) },
   map: { schema: MapSchema, folder: "maps", files: import.meta.glob("./data/maps/*.json", { eager: true, import: "default" }) },
   lore: { schema: LoreSchema, folder: "lore", files: import.meta.glob("./data/lore/*.json", { eager: true, import: "default" }) },
   move: { schema: MoveSchema, folder: "moves", files: import.meta.glob("./data/moves/*.json", { eager: true, import: "default" }) },
@@ -69,6 +71,7 @@ function collection<T extends ContentType>(type: T): Collection<EntryOf<T>> {
 }
 
 export const content = {
+  zones: collection("zone"),
   maps: collection("map"),
   lore: collection("lore"),
   moves: collection("move"),
