@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { bridge } from "@/bridge/events";
+import { audio } from "../audio";
 
 /** Ambient backdrop behind the title menu: drifting embers rising from a dim lantern glow. */
 export class TitleScene extends Phaser.Scene {
@@ -9,6 +10,8 @@ export class TitleScene extends Phaser.Scene {
 
   create(): void {
     this.makeTextures();
+    audio.music.play("title");
+    audio.ambience.set("title");
     const { width, height } = this.scale;
 
     const glow = this.add.image(width / 2, height * 0.62, "glow").setTint(0xff8a3d).setAlpha(0.35).setBlendMode(Phaser.BlendModes.ADD);

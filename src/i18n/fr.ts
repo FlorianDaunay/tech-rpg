@@ -15,5 +15,7 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "soundtest.volume.master": "Général",
   "soundtest.volume.music": "Musique",
   "soundtest.volume.sfx": "Effets",
+  "hud.vitals": "Vie et endurance",
+  "hud.fallen": "Vous êtes tombé… la Lanterne vous rappelle",
   "common.loading": "On ranime la lanterne…",
 };

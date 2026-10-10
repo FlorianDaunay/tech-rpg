@@ -5,6 +5,7 @@ import { useGameStatus } from "@/store/game";
 import { useScreen } from "@/store/screen";
 import { useSettings } from "@/store/settings";
 import { TouchControls } from "@/ui/touch/TouchControls";
+import { Vitals } from "../hud/Vitals";
 
 /** In-game screen: loading veil, then the HUD layer over the running world. */
 export function PlayScreen({ mode }: { mode: GameMode }) {
@@ -19,7 +20,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
 
   const quit = () => {
     bridge.emit("ui:quit");
-    useGameStatus.setState({ inWorld: false });
+    useGameStatus.setState({ inWorld: false, vitals: null });
     go("title");
   };
 
@@ -37,10 +38,13 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
   return (
     <div className="pointer-events-none absolute inset-0 z-10">
       <TouchControls />
-      <div className="safe pointer-events-none absolute left-0 top-0 p-3">
-        <button className="btn-ghost pointer-events-auto px-3 py-1.5 text-sm" onClick={quit}>
-          {t("menu.back")}
-        </button>
+      <div className="safe pointer-events-none absolute left-0 top-0 flex flex-col gap-2 p-3">
+        <div className="flex items-start gap-3">
+          <button className="btn-ghost pointer-events-auto px-3 py-1.5 text-sm" onClick={quit}>
+            {t("menu.back")}
+          </button>
+          <Vitals />
+        </div>
         {showDebug && <pre className="mt-2 font-pixel text-[10px] leading-4 text-warning">{debugText}</pre>}
       </div>
     </div>

@@ -57,3 +57,22 @@ export const LIGHT_COLORS = {
   moon: "#9DB8FF",
   rift: "#9A6BFF",
 } as const;
+
+/** Combat feedback colours (damage numbers, flashes, telegraphs). */
+export const COMBAT_COLORS = {
+  damage: "#F2EEE3",
+  damageTaken: "#FF6B5E",
+  crit: "#FFC65C",
+  blocked: "#9DA3AE",
+  parry: "#9DE7FF",
+  telegraph: "#FF4A3D",
+  hitFlash: "#FFFFFF",
+  slash: "#FFF1D6",
+  enemyBolt: "#B98CFF",
+  enemyBoltRim: "#4A2A80",
+  hpBar: "#D9483B",
+  hpBarBack: "#1A1216",
+} as const;
+
+/** "#RRGGBB" → 0xRRGGBB for Phaser. */
+export const hex = (color: string) => parseInt(color.slice(1, 7), 16);

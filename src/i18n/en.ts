@@ -13,6 +13,8 @@ export const en = {
   "soundtest.volume.master": "Master",
   "soundtest.volume.music": "Music",
   "soundtest.volume.sfx": "Effects",
+  "hud.vitals": "Health and stamina",
+  "hud.fallen": "You have fallen… the Lantern calls you back",
   "common.loading": "Kindling the lantern…",
 } as const;
 

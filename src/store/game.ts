@@ -9,11 +9,13 @@ interface GameStatus {
   loading: number | null;
   inWorld: boolean;
   debugText: string;
+  vitals: { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean } | null;
 }
 
-export const useGameStatus = create<GameStatus>()(() => ({ engineReady: false, loading: null, inWorld: false, debugText: "" }));
+export const useGameStatus = create<GameStatus>()(() => ({ engineReady: false, loading: null, inWorld: false, debugText: "", vitals: null }));
 
 bridge.on("game:ready", () => useGameStatus.setState({ engineReady: true, inWorld: false, loading: null }));
 bridge.on("game:loading", (p) => useGameStatus.setState({ loading: p < 1 ? p : null }));
 bridge.on("game:world-ready", () => useGameStatus.setState({ inWorld: true, loading: null }));
 bridge.on("game:debug", (debugText) => useGameStatus.setState({ debugText }));
+bridge.on("game:vitals", (vitals) => useGameStatus.setState({ vitals }));

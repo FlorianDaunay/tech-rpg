@@ -1,0 +1,138 @@
+import type { Facing, Vec2 } from "../math/vec";
+import type { Body } from "../sim/movement";
+import { STAMINA } from "./moves";
+
+export type Team = "players" | "enemies";
+
+/** What an actor is doing. One state at a time; timers count up in seconds. */
+export type ActionState =
+  | { kind: "free" }
+  | { kind: "charge"; t: number }
+  | {
+      kind: "attack";
+      move: string;
+      t: number;
+      dir: Vec2;
+      /** Ids already hit by this swing (each target is hit once per swing). */
+      hit: string[];
+      /** Attack pressed during this move: chain into `move.next`. */
+      queued: boolean;
+      /** 0..1 heavy charge level. */
+      charge: number;
+      /** The "active" event was emitted (lunge applied). */
+      started: boolean;
+    }
+  | { kind: "dodge"; t: number; dir: Vec2 }
+  | { kind: "hurt"; t: number; duration: number }
+  | { kind: "stagger"; t: number; duration: number }
+  | { kind: "dead"; t: number };
+
+export interface CombatStats {
+  maxHp: number;
+  /** Base damage of a 1× move. */
+  power: number;
+  /** Damage reduction: taken = dmg × 100 / (100 + defense). */
+  defense: number;
+  critChance: number;
+  critMultiplier: number;
+  /** Hits below this poise damage don't interrupt (hyper-armour for brutes, bosses). */
+  maxPoise: number;
+  /** Movement speed px/s. */
+  speed: number;
+}
+
+/** Enemy brain memory (null for players). */
+export interface AiState {
+  target: string | null;
+  /** Seconds until the next attack is allowed. */
+  cooldown: number;
+  /** +1 / -1: which way it circles the target while waiting. */
+  strafe: number;
+  /** Seconds until it re-picks its strafe direction. */
+  think: number;
+}
+
+export interface Actor extends Body {
+  id: string;
+  team: Team;
+  kind: "player" | "enemy";
+  /** Enemy definition id (enemies) or class id (players). */
+  type: string;
+  /** Character sheet asset key. */
+  look: string;
+  facing: Facing;
+  aim: Vec2;
+  moving: boolean;
+  stats: CombatStats;
+  hp: number;
+  stamina: number;
+  /** Seconds before stamina regenerates again. */
+  staminaDelay: number;
+  poise: number;
+  action: ActionState;
+  /** Sim time when block was raised, or null when not blocking. */
+  blockSince: number | null;
+  /** Seconds of invulnerability left. */
+  iframes: number;
+  cooldowns: Record<string, number>;
+  /** Spawn point (respawn for players, leash for enemies). */
+  home: Vec2;
+  /** Seconds since the last hit taken (poise regenerates after a pause). */
+  sinceHit: number;
+  /** Last action pressed while busy, replayed as soon as the actor can act (input buffering). */
+  buffered: { action: "attack" | "heavy" | "dodge"; ttl: number } | null;
+  ai: AiState | null;
+}
+
+export function createActor(init: {
+  id: string;
+  team: Team;
+  kind: Actor["kind"];
+  type: string;
+  look: string;
+  x: number;
+  y: number;
+  stats: CombatStats;
+  radius?: number;
+}): Actor {
+  return {
+    id: init.id,
+    team: init.team,
+    kind: init.kind,
+    type: init.type,
+    look: init.look,
+    x: init.x,
+    y: init.y,
+    vx: 0,
+    vy: 0,
+    radius: init.radius ?? 6,
+    facing: "down",
+    aim: { x: 0, y: 1 },
+    moving: false,
+    stats: init.stats,
+    hp: init.stats.maxHp,
+    stamina: STAMINA.max,
+    staminaDelay: 0,
+    poise: init.stats.maxPoise,
+    action: { kind: "free" },
+    blockSince: null,
+    iframes: 0,
+    cooldowns: {},
+    home: { x: init.x, y: init.y },
+    sinceHit: 99,
+    buffered: null,
+    ai: init.kind === "enemy" ? { target: null, cooldown: 0.5, strafe: 1, think: 0 } : null,
+  };
+}
+
+export const isAlive = (a: Actor) => a.action.kind !== "dead";
+
+export const PLAYER_STATS: CombatStats = {
+  maxHp: 100,
+  power: 12,
+  defense: 10,
+  critChance: 0.08,
+  critMultiplier: 1.75,
+  maxPoise: 40,
+  speed: 92,
+};

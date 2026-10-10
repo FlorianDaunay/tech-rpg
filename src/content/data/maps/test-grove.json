@@ -885,6 +885,41 @@
       "kind": "player",
       "cx": 21,
       "cy": 18
+    },
+    {
+      "id": "shade-w1",
+      "kind": "enemy",
+      "cx": 8,
+      "cy": 13,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "shade-w2",
+      "kind": "enemy",
+      "cx": 10,
+      "cy": 14,
+      "ref": "hollow-shade"
+    },
+    {
+      "id": "brute-n",
+      "kind": "enemy",
+      "cx": 22,
+      "cy": 5,
+      "ref": "grave-brute"
+    },
+    {
+      "id": "wisp-e",
+      "kind": "enemy",
+      "cx": 36,
+      "cy": 14,
+      "ref": "wisp-caster"
+    },
+    {
+      "id": "shade-e",
+      "kind": "enemy",
+      "cx": 34,
+      "cy": 13,
+      "ref": "hollow-shade"
     }
   ]
 }
