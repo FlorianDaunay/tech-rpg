@@ -1,0 +1,14 @@
+{
+  "id": "deep-ore",
+  "name": {
+    "en": "Deep Ore",
+    "fr": "Minerai profond"
+  },
+  "description": {
+    "en": "Blue-veined ore from below the Deepdelvers' last seam. Cold even in the forge.",
+    "fr": "Un minerai veiné de bleu, extrait sous le dernier filon des Fouisseurs. Froid même dans la forge."
+  },
+  "rarity": "uncommon",
+  "kind": "material",
+  "value": 10
+}

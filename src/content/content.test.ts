@@ -71,6 +71,39 @@ describe("content", () => {
     }
   });
 
+  it("every spawn and portal is reachable on foot from the map's first player spawn", () => {
+    const problems: string[] = [];
+    for (const m of content.maps.all()) {
+      const map = toGameMap(m);
+      const start = map.spawns.find((s) => s.kind === "player")!;
+      const cell = (px: number) => Math.floor(px / map.tileSize);
+      const seen = new Uint8Array(map.width * map.height);
+      const queue: number[] = [cell(start.y) * map.width + cell(start.x)];
+      seen[queue[0]!] = 1;
+      while (queue.length) {
+        const i = queue.pop()!;
+        const x = i % map.width;
+        const y = (i - x) / map.width;
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]] as const) {
+          const nx = x + dx;
+          const ny = y + dy;
+          if (nx < 0 || ny < 0 || nx >= map.width || ny >= map.height) continue;
+          const j = ny * map.width + nx;
+          if (seen[j] || map.solid[j]) continue;
+          seen[j] = 1;
+          queue.push(j);
+        }
+      }
+      for (const s of map.spawns) if (!seen[cell(s.y) * map.width + cell(s.x)]) problems.push(`${m.id}: spawn ${s.id} unreachable`);
+      for (const p of map.portals) {
+        let any = false;
+        for (let y = cell(p.y); y < cell(p.y + p.h); y++) for (let x = cell(p.x); x < cell(p.x + p.w); x++) any ||= !!seen[y * map.width + x];
+        if (!any) problems.push(`${m.id}: portal ${p.id} unreachable`);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+
   it("each element pair has at most one reaction", () => {
     const pairs = content.reactions.all().map((r) => `${r.on}+${r.by}`);
     expect(new Set(pairs).size).toBe(pairs.length);

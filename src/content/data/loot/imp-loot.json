@@ -1,0 +1,27 @@
+{
+  "id": "imp-loot",
+  "rolls": 1,
+  "chance": 0.7,
+  "entries": [
+    {
+      "item": "ember-shard",
+      "weight": 5
+    },
+    {
+      "item": "healing-draught",
+      "weight": 3
+    },
+    {
+      "item": "cinder-edge",
+      "weight": 0.3
+    },
+    {
+      "item": "gale-needle",
+      "weight": 0.3
+    }
+  ],
+  "gold": {
+    "min": 5,
+    "max": 12
+  }
+}

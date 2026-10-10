@@ -1,0 +1,37 @@
+{
+  "id": "rattling-bones",
+  "name": {
+    "en": "Rattling Bones",
+    "fr": "Os cliquetants"
+  },
+  "description": {
+    "en": "A skeleton too stubborn to lie down. Fast, brittle, and never alone.",
+    "fr": "Un squelette trop têtu pour rester couché. Rapide, fragile, et jamais seul."
+  },
+  "look": "enemies/enemy-06-1",
+  "family": "undead",
+  "zones": [
+    "ashen-graveyard"
+  ],
+  "stats": {
+    "maxHp": 30,
+    "power": 9,
+    "defense": 4,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 10,
+    "speed": 66
+  },
+  "ai": "melee",
+  "attack": "claw",
+  "aggroRange": 160,
+  "attackRange": 28,
+  "attackCooldown": 0.95,
+  "radius": 6,
+  "xp": 9,
+  "loot": "bones-loot",
+  "resist": {
+    "frost": 0.75,
+    "ember": 1.25
+  }
+}

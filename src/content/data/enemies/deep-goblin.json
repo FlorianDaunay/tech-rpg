@@ -1,0 +1,36 @@
+{
+  "id": "deep-goblin",
+  "name": {
+    "en": "Deep Goblin",
+    "fr": "Gobelin des profondeurs"
+  },
+  "description": {
+    "en": "Descendants of the Deepdelvers' diggers, gone green and mean in the dark.",
+    "fr": "Descendants des mineurs des Fouisseurs, devenus verts et mauvais dans le noir."
+  },
+  "look": "enemies/enemy-18",
+  "family": "beast",
+  "zones": [
+    "deep-mines"
+  ],
+  "stats": {
+    "maxHp": 42,
+    "power": 11,
+    "defense": 6,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 14,
+    "speed": 62
+  },
+  "ai": "melee",
+  "attack": "claw",
+  "aggroRange": 160,
+  "attackRange": 30,
+  "attackCooldown": 1.0,
+  "radius": 6,
+  "xp": 12,
+  "loot": "goblin-loot",
+  "resist": {
+    "storm": 1.25
+  }
+}

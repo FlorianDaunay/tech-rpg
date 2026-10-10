@@ -1,0 +1,21 @@
+{
+  "id": "frost-bite",
+  "windup": 0.38,
+  "active": 0.08,
+  "recovery": 0.45,
+  "hitbox": {
+    "kind": "arc",
+    "range": 22,
+    "angle": 90
+  },
+  "damage": 0.8,
+  "knockback": 90,
+  "lunge": 250,
+  "weight": "light",
+  "poise": 12,
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.5
+  }
+}

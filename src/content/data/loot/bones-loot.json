@@ -1,0 +1,25 @@
+{
+  "id": "bones-loot",
+  "rolls": 1,
+  "chance": 0.6,
+  "entries": [
+    {
+      "item": "hollow-dust",
+      "weight": 6,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "grave-iron",
+      "weight": 3
+    },
+    {
+      "item": "healing-draught",
+      "weight": 2
+    }
+  ],
+  "gold": {
+    "min": 2,
+    "max": 6
+  }
+}

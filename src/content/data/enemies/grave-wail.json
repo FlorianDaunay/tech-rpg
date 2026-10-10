@@ -1,0 +1,37 @@
+{
+  "id": "grave-wail",
+  "name": {
+    "en": "Grave Wail",
+    "fr": "Lamentation"
+  },
+  "description": {
+    "en": "The grief of a whole cemetery, given a voice. Its cries chill the blood.",
+    "fr": "Le chagrin de tout un cimetière, doté d'une voix. Ses cris glacent le sang."
+  },
+  "look": "enemies/enemy-10-1",
+  "family": "spirit",
+  "zones": [
+    "ashen-graveyard"
+  ],
+  "stats": {
+    "maxHp": 34,
+    "power": 10,
+    "defense": 0,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 6,
+    "speed": 46
+  },
+  "ai": "ranged",
+  "attack": "wail",
+  "aggroRange": 200,
+  "attackRange": 150,
+  "attackCooldown": 2.2,
+  "radius": 6,
+  "xp": 14,
+  "loot": "bones-loot",
+  "resist": {
+    "hollow": 0.25,
+    "ember": 1.5
+  }
+}

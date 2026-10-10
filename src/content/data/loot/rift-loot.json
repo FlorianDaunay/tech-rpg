@@ -1,0 +1,29 @@
+{
+  "id": "rift-loot",
+  "rolls": 1,
+  "chance": 0.75,
+  "entries": [
+    {
+      "item": "rift-shard",
+      "weight": 4
+    },
+    {
+      "item": "hollow-dust",
+      "weight": 4,
+      "min": 2,
+      "max": 4
+    },
+    {
+      "item": "healing-draught",
+      "weight": 2
+    },
+    {
+      "item": "dawnshard",
+      "weight": 0.05
+    }
+  ],
+  "gold": {
+    "min": 8,
+    "max": 18
+  }
+}

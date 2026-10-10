@@ -1,0 +1,37 @@
+{
+  "id": "ember-imp",
+  "name": {
+    "en": "Ember Imp",
+    "fr": "Diablotin de braise"
+  },
+  "description": {
+    "en": "Born in the Citadel's burning archives. It throws what it was made of.",
+    "fr": "Né dans les archives en flammes de la Citadelle. Il lance ce dont il est fait."
+  },
+  "look": "enemies/enemy-13-1",
+  "family": "spirit",
+  "zones": [
+    "fallen-citadel"
+  ],
+  "stats": {
+    "maxHp": 34,
+    "power": 11,
+    "defense": 2,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 8,
+    "speed": 58
+  },
+  "ai": "ranged",
+  "attack": "ember-bolt",
+  "aggroRange": 200,
+  "attackRange": 150,
+  "attackCooldown": 1.9,
+  "radius": 6,
+  "xp": 14,
+  "loot": "imp-loot",
+  "resist": {
+    "ember": 0.2,
+    "frost": 1.5
+  }
+}

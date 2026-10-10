@@ -1,0 +1,829 @@
+{
+  "id": "hollow-rift",
+  "name": {
+    "en": "Hollow Rift",
+    "fr": "Faille du Néant"
+  },
+  "zone": "hollow-rift",
+  "width": 50,
+  "height": 44,
+  "tileSize": 32,
+  "legend": {
+    "r": {
+      "tile": "tiles/rift-ground#0-3"
+    },
+    "V": {
+      "tile": "tiles/void",
+      "autotile": true,
+      "solid": true
+    }
+  },
+  "layers": [
+    {
+      "id": "ground",
+      "rows": [
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+        "rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"
+      ]
+    },
+    {
+      "id": "terrain",
+      "rows": [
+        "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVVVVVV.VVVVVVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVVVV.....VVVVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVVV.......VVVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVVV.......VVVVVVVVVV.VVVVVVVVVV",
+        "VVVVVVVVVVV.VVVVVVVVV.........VVVVVVV.....VVVVVVVV",
+        "VVVVVVVVV.....VVVVVVVV.......VVVVVVV.......VVVVVVV",
+        "VVVVVVVV.......VVVVVVV.......VVVVVVV.......VVVVVVV",
+        "VVVVVVVV.......VVVVVVVV.....VVVVVVV.........VVVVVV",
+        "VVVVVVV.........VVVVVVVVV..VVVVVVVVV.......VVVVVVV",
+        "VVVVVVVV........VVVVVVVVV..VVVVVVVVV.......VVVVVVV",
+        "VVVVVVVV.........VVVVVVVV..VVVVVVV........VVVVVVVV",
+        "VVVVVVVVV..........VVV.......VVV.....VV.VVVVVVVVVV",
+        "VVVVVVVVVVV.VVVV....................VVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVV................VVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVV.............VVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVV.............VVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVV.............VVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV...........VVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV...........VVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV...........VVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV............VVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV.............VVV.VVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVV.VVVV...VVV.VVVV..........VVVVVVVVVV",
+        "VVVVVVVVVVV..........VVVVVVVVVVV.........VVVVVVVVV",
+        "VVVVVVVVVV..........VVVVVVVVVVVV.........VVVVVVVVV",
+        "VVVVVVVVVV.........VVVVVVVVVVVVV.........VVVVVVVVV",
+        "VVVVVVVVVV.........VVVVVVVVVVVV...........VVVVVVVV",
+        "VVVVVVVVV...........VVVVVVVVVVVV.........VVVVVVVVV",
+        "VVVVVVVVVV.........VVVVVVVVVVVVV.........VVVVVVVVV",
+        "VVVVVVVVVV.........VVVVVVVVVVVVV.........VVVVVVVVV",
+        "VVVVVVVVVV..........VVVVVVVVVVVV........VVVVVVVVVV",
+        "VVVVVVVVVVV.........VVVVVVVVVV....VV.VVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVV.VVV....VVV.VVVV....VVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVV.............VVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV............VVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVV.........VVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVV.........VVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVV...........VVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVV.........VVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVV.........VVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVV.........VVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVVV.......VVVVVVVVVVVVVVVVVVVVV",
+        "VVVVVVVVVVVVVVVVVVVVVVVVV..VVVVVVVVVVVVVVVVVVVVVVV"
+      ]
+    },
+    {
+      "id": "deco",
+      "rows": [
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        "..................................................",
+        ".................................................."
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "asset": "props/rift-crystal",
+      "cx": 22,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 23,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 20,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 29,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 28,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 29,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 16,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 23,
+      "cy": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 39,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 24,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 32,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 27,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 27,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 11,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 18,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 36,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 38,
+      "cy": 5,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 21,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 35,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 20,
+      "cy": 13,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 7,
+      "cy": 9,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-crystal",
+      "cx": 33,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 44,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 13,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 60,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -30
+      }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 36,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 60,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -30
+      }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 24,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 60,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -30
+      }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 32,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 60,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -30
+      }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 39,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 60,
+        "color": "rift",
+        "intensity": 0.8,
+        "offsetY": -30
+      }
+    },
+    {
+      "asset": "props/bones",
+      "cx": 20,
+      "cy": 19,
+      "frame": 0
+    },
+    {
+      "asset": "props/bones",
+      "cx": 10,
+      "cy": 7,
+      "frame": 0
+    },
+    {
+      "asset": "props/bones",
+      "cx": 36,
+      "cy": 9,
+      "frame": 1
+    },
+    {
+      "asset": "props/bones",
+      "cx": 26,
+      "cy": 19,
+      "frame": 1
+    },
+    {
+      "asset": "props/bones",
+      "cx": 12,
+      "cy": 7,
+      "frame": 1
+    },
+    {
+      "asset": "props/bones",
+      "cx": 41,
+      "cy": 7,
+      "frame": 0
+    },
+    {
+      "asset": "props/bones",
+      "cx": 18,
+      "cy": 25,
+      "frame": 0
+    },
+    {
+      "asset": "props/bones",
+      "cx": 18,
+      "cy": 30,
+      "frame": 1
+    },
+    {
+      "asset": "props/bones",
+      "cx": 27,
+      "cy": 4,
+      "frame": 1
+    },
+    {
+      "asset": "props/bones",
+      "cx": 35,
+      "cy": 24,
+      "frame": 0
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 23,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 90,
+        "color": "rift",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -14
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 27,
+      "cy": 3,
+      "footprint": [
+        1,
+        1
+      ],
+      "light": {
+        "radius": 90,
+        "color": "rift",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -14
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "id": "from-citadel",
+      "kind": "player",
+      "cx": 25,
+      "cy": 40
+    },
+    {
+      "id": "w0",
+      "kind": "enemy",
+      "cx": 17,
+      "cy": 29,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "w1",
+      "kind": "enemy",
+      "cx": 11,
+      "cy": 30,
+      "ref": "void-mote"
+    },
+    {
+      "id": "w2",
+      "kind": "enemy",
+      "cx": 14,
+      "cy": 25,
+      "ref": "void-mote"
+    },
+    {
+      "id": "e0",
+      "kind": "enemy",
+      "cx": 39,
+      "cy": 28,
+      "ref": "lost-soul"
+    },
+    {
+      "id": "e1",
+      "kind": "enemy",
+      "cx": 33,
+      "cy": 29,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "e2",
+      "kind": "enemy",
+      "cx": 36,
+      "cy": 24,
+      "ref": "void-mote"
+    },
+    {
+      "id": "mid0",
+      "kind": "enemy",
+      "cx": 29,
+      "cy": 19,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "mid1",
+      "kind": "enemy",
+      "cx": 23,
+      "cy": 21,
+      "ref": "lost-soul"
+    },
+    {
+      "id": "mid2",
+      "kind": "enemy",
+      "cx": 21,
+      "cy": 15,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "mid3",
+      "kind": "enemy",
+      "cx": 27,
+      "cy": 13,
+      "ref": "void-mote"
+    },
+    {
+      "id": "nw0",
+      "kind": "enemy",
+      "cx": 13,
+      "cy": 10,
+      "ref": "lost-soul"
+    },
+    {
+      "id": "nw1",
+      "kind": "enemy",
+      "cx": 9,
+      "cy": 8,
+      "ref": "void-mote"
+    },
+    {
+      "id": "ne0",
+      "kind": "enemy",
+      "cx": 41,
+      "cy": 9,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "ne1",
+      "kind": "enemy",
+      "cx": 37,
+      "cy": 7,
+      "ref": "lost-soul"
+    },
+    {
+      "id": "top0",
+      "kind": "enemy",
+      "cx": 27,
+      "cy": 7,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "top1",
+      "kind": "enemy",
+      "cx": 23,
+      "cy": 7,
+      "ref": "rift-stalker"
+    },
+    {
+      "id": "top2",
+      "kind": "enemy",
+      "cx": 25,
+      "cy": 4,
+      "ref": "lost-soul"
+    }
+  ],
+  "portals": [
+    {
+      "id": "to-citadel",
+      "cx": 24,
+      "cy": 43,
+      "w": 3,
+      "h": 1,
+      "to": "fallen-citadel",
+      "arrive": "from-rift"
+    }
+  ]
+}

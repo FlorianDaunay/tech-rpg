@@ -1,0 +1,14 @@
+{
+  "id": "rift-shard",
+  "name": {
+    "en": "Rift Shard",
+    "fr": "Éclat de faille"
+  },
+  "description": {
+    "en": "A splinter of solid night. It hums when held near the Lantern.",
+    "fr": "Un éclat de nuit solide. Il bourdonne près de la Lanterne."
+  },
+  "rarity": "rare",
+  "kind": "material",
+  "value": 30
+}

@@ -1,0 +1,25 @@
+{
+  "id": "storm-bolt",
+  "windup": 0.55,
+  "active": 0.05,
+  "recovery": 0.7,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 0.9,
+  "knockback": 70,
+  "weight": "light",
+  "poise": 10,
+  "projectile": {
+    "speed": 190,
+    "radius": 4,
+    "range": 260
+  },
+  "element": "storm",
+  "onHit": {
+    "status": "shocked",
+    "chance": 0.5
+  }
+}

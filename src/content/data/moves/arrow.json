@@ -1,0 +1,20 @@
+{
+  "id": "arrow",
+  "windup": 0.6,
+  "active": 0.05,
+  "recovery": 0.55,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 4,
+    "offset": 0
+  },
+  "damage": 1.1,
+  "knockback": 110,
+  "weight": "light",
+  "poise": 14,
+  "projectile": {
+    "speed": 220,
+    "radius": 3,
+    "range": 280
+  }
+}

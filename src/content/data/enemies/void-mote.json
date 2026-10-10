@@ -1,0 +1,37 @@
+{
+  "id": "void-mote",
+  "name": {
+    "en": "Void Mote",
+    "fr": "Escarbille du vide"
+  },
+  "description": {
+    "en": "A drop of the Hollow, rolling hungrily towards warmth.",
+    "fr": "Une goutte du Néant, qui roule avidement vers la chaleur."
+  },
+  "look": "enemies/enemy-17-7",
+  "family": "hollow",
+  "zones": [
+    "hollow-rift"
+  ],
+  "stats": {
+    "maxHp": 28,
+    "power": 9,
+    "defense": 0,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 6,
+    "speed": 88
+  },
+  "ai": "melee",
+  "attack": "void-touch",
+  "aggroRange": 170,
+  "attackRange": 32,
+  "attackCooldown": 0.85,
+  "radius": 5,
+  "xp": 10,
+  "loot": "rift-loot",
+  "resist": {
+    "hollow": 0.2,
+    "ember": 1.5
+  }
+}

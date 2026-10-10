@@ -1,0 +1,33 @@
+{
+  "id": "goblin-loot",
+  "rolls": 1,
+  "chance": 0.7,
+  "entries": [
+    {
+      "item": "deep-ore",
+      "weight": 6,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2
+    },
+    {
+      "item": "healing-draught",
+      "weight": 2
+    },
+    {
+      "item": "rimefang",
+      "weight": 0.25
+    },
+    {
+      "item": "duelist-rapier",
+      "weight": 0.4
+    }
+  ],
+  "gold": {
+    "min": 4,
+    "max": 10
+  }
+}

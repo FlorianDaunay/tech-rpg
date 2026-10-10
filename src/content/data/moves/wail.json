@@ -1,0 +1,25 @@
+{
+  "id": "wail",
+  "windup": 0.8,
+  "active": 0.05,
+  "recovery": 0.8,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 6,
+    "offset": 0
+  },
+  "damage": 1,
+  "knockback": 60,
+  "weight": "medium",
+  "poise": 18,
+  "projectile": {
+    "speed": 95,
+    "radius": 6,
+    "range": 200
+  },
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.5
+  }
+}

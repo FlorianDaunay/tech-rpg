@@ -1,0 +1,37 @@
+{
+  "id": "hollow-knight",
+  "name": {
+    "en": "Hollow Knight",
+    "fr": "Chevalier du Néant"
+  },
+  "description": {
+    "en": "Vaelgor's sworn. The armour still stands to attention; nothing inside does.",
+    "fr": "Lige de Vaelgor. L'armure se tient encore au garde-à-vous ; rien à l'intérieur."
+  },
+  "look": "enemies/enemy-01-1",
+  "family": "hollow",
+  "zones": [
+    "fallen-citadel"
+  ],
+  "stats": {
+    "maxHp": 220,
+    "power": 20,
+    "defense": 20,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 90,
+    "speed": 44
+  },
+  "ai": "brute",
+  "attack": "cleave",
+  "aggroRange": 150,
+  "attackRange": 40,
+  "attackCooldown": 2.0,
+  "radius": 8,
+  "xp": 70,
+  "loot": "knight-loot",
+  "resist": {
+    "hollow": 0.5,
+    "ember": 1.25
+  }
+}

@@ -47,6 +47,12 @@ export const WORLD_RAMPS = {
   flowers: ["#e8d36a", "#e07a6a", "#c7a3e6", "#f2f0e6", "#7fb6e0"],
   mushroomRed: ["#4a1612", "#7d2219", "#b03a26", "#d9583a"],
   shadow: ["#14100c"],
+  /** Graveyard soil: grey-brown ash. */
+  ash: ["#26211f", "#3a3330", "#4f4642", "#665b55", "#7f736b", "#9a8e85"],
+  /** Mine crystals: icy blue, glowing tips. */
+  crystal: ["#14243a", "#1f4466", "#2f6f9c", "#4fa6d1", "#8fdcf2", "#e2fbff"],
+  /** Wrought iron (fences, braziers, carts). */
+  iron: ["#141519", "#24262d", "#383b45", "#53576a", "#7a8094"],
 } as const;
 export type WorldRamp = keyof typeof WORLD_RAMPS;
 

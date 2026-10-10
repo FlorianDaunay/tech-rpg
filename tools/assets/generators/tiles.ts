@@ -13,10 +13,10 @@ import { mix, type Color, type RGB } from "../png";
 import type { GeneratedAsset, PaletteModule } from "../types";
 import { asset, Canvas, clamp, fbm, hash2, noise, rampPick } from "./lib";
 
-const T = 32;
-const LAYOUT = { layout: "terrain-3x3+inner", blockCols: 5, blockRows: 3 } as const;
+export const T = 32;
+export const LAYOUT = { layout: "terrain-3x3+inner", blockCols: 5, blockRows: 3 } as const;
 
-type SdfFn = (x: number, y: number) => number;
+export type SdfFn = (x: number, y: number) => number;
 
 /** Signed distance (negative inside the terrain) of a rounded box occupying the 3×3 block. */
 function roundedBox(u: number, v: number, inset: number, r: number, size = 96) {
@@ -39,7 +39,7 @@ function notch(up: number, vp: number, inset: number, r: number) {
  * Build the 13 masks of a terrain autotile. Edge perturbation uses 1-D noise periodic on 32 px of
  * the tile-local coordinate, so every edge tile repeats seamlessly.
  */
-function terrainSdfs(inset: number, r: number, amp: number, seed: number): SdfFn[][] {
+export function terrainSdfs(inset: number, r: number, amp: number, seed: number): SdfFn[][] {
   const n1 = (t: number) => noise(t, 0, 8, seed, T) - 0.5;
   const wob = (lx: number, ly: number) => amp * (n1(lx) + n1(ly + 13));
   const grid: SdfFn[][] = [];

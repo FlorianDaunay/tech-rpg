@@ -1,0 +1,37 @@
+{
+  "id": "storm-acolyte",
+  "name": {
+    "en": "Storm Acolyte",
+    "fr": "Acolyte de l'orage"
+  },
+  "description": {
+    "en": "A Citadel scholar who prayed to the wrong sky.",
+    "fr": "Un érudit de la Citadelle qui a prié le mauvais ciel."
+  },
+  "look": "enemies/enemy-02-1",
+  "family": "hollow",
+  "zones": [
+    "fallen-citadel"
+  ],
+  "stats": {
+    "maxHp": 40,
+    "power": 12,
+    "defense": 4,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 10,
+    "speed": 50
+  },
+  "ai": "ranged",
+  "attack": "storm-bolt",
+  "aggroRange": 210,
+  "attackRange": 170,
+  "attackCooldown": 2.0,
+  "radius": 6,
+  "xp": 16,
+  "loot": "imp-loot",
+  "resist": {
+    "storm": 0.25,
+    "hollow": 1.25
+  }
+}

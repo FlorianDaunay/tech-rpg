@@ -69,9 +69,9 @@
     {
       "id": "terrain",
       "rows": [
-        "............................................",
-        "............................................",
-        "............................................",
+        ".....................pp.....................",
+        ".....................pp.....................",
+        ".....................pp.....................",
         ".....................pp.....................",
         ".....................pp.....................",
         ".....................pp.....................",
@@ -82,8 +82,8 @@
         ".....................pp.....................",
         "..................pppppppp..................",
         "..................pppppppp..................",
-        "..pppppppppppppppppppppppppppppppppppppppppp",
-        "..pppppppppppppppppppppppppppppppppppppppppp",
+        "pppppppppppppppppppppppppppppppppppppppppppp",
+        "pppppppppppppppppppppppppppppppppppppppppppp",
         "..................pppppppp..................",
         "..................pppppppp..................",
         ".....................pp.....................",
@@ -409,15 +409,6 @@
     {
       "asset": "props/tree-pine",
       "cx": 19,
-      "cy": 2,
-      "footprint": [
-        1,
-        1
-      ]
-    },
-    {
-      "asset": "props/tree-oak-2",
-      "cx": 21,
       "cy": 2,
       "footprint": [
         1,
@@ -997,6 +988,24 @@
       "cx": 18,
       "cy": 21,
       "ref": "cinder"
+    },
+    {
+      "id": "from-graveyard",
+      "kind": "player",
+      "cx": 3,
+      "cy": 13
+    },
+    {
+      "id": "from-mines",
+      "kind": "player",
+      "cx": 21,
+      "cy": 28
+    },
+    {
+      "id": "from-citadel",
+      "kind": "player",
+      "cx": 21,
+      "cy": 4
     }
   ],
   "portals": [
@@ -1007,6 +1016,33 @@
       "w": 1,
       "h": 2,
       "to": "whispering-wilds",
+      "arrive": "from-hub"
+    },
+    {
+      "id": "to-graveyard",
+      "cx": 0,
+      "cy": 13,
+      "w": 1,
+      "h": 2,
+      "to": "ashen-graveyard",
+      "arrive": "from-hub"
+    },
+    {
+      "id": "to-mines",
+      "cx": 21,
+      "cy": 31,
+      "w": 2,
+      "h": 1,
+      "to": "deep-mines",
+      "arrive": "from-hub"
+    },
+    {
+      "id": "to-citadel",
+      "cx": 21,
+      "cy": 0,
+      "w": 2,
+      "h": 1,
+      "to": "fallen-citadel",
       "arrive": "from-hub"
     }
   ]

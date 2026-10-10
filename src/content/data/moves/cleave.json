@@ -1,0 +1,16 @@
+{
+  "id": "cleave",
+  "windup": 0.7,
+  "active": 0.12,
+  "recovery": 0.7,
+  "hitbox": {
+    "kind": "arc",
+    "range": 42,
+    "angle": 200
+  },
+  "damage": 1.9,
+  "knockback": 300,
+  "lunge": 150,
+  "weight": "heavy",
+  "poise": 70
+}

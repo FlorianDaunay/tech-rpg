@@ -1,0 +1,37 @@
+{
+  "id": "frost-mote",
+  "name": {
+    "en": "Frost Mote",
+    "fr": "Escarbille de givre"
+  },
+  "description": {
+    "en": "A cold spark from the crystal seams. Its bite numbs.",
+    "fr": "Une étincelle froide des veines de cristal. Sa morsure engourdit."
+  },
+  "look": "enemies/enemy-17-5",
+  "family": "spirit",
+  "zones": [
+    "deep-mines"
+  ],
+  "stats": {
+    "maxHp": 24,
+    "power": 8,
+    "defense": 0,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 6,
+    "speed": 84
+  },
+  "ai": "melee",
+  "attack": "frost-bite",
+  "aggroRange": 170,
+  "attackRange": 34,
+  "attackCooldown": 0.9,
+  "radius": 5,
+  "xp": 8,
+  "loot": "goblin-loot",
+  "resist": {
+    "frost": 0.2,
+    "ember": 1.6
+  }
+}

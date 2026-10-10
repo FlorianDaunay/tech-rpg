@@ -5,6 +5,7 @@ import { nature } from "./nature";
 import { tiles } from "./tiles";
 import { ui } from "./ui";
 import { vfx } from "./vfx";
+import { zones } from "./zones";
 
 export const GENERATORS: Record<string, Generator> = {
   tiles,
@@ -12,4 +13,5 @@ export const GENERATORS: Record<string, Generator> = {
   buildings,
   vfx,
   ui,
+  zones,
 };

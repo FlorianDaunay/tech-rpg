@@ -1,0 +1,34 @@
+{
+  "id": "goblin-slinger",
+  "name": {
+    "en": "Goblin Slinger",
+    "fr": "Frondeur gobelin"
+  },
+  "description": {
+    "en": "Stays on the ledges and shoots. Close in, and it squeals.",
+    "fr": "Reste sur les corniches et tire. Approchez, et il couine."
+  },
+  "look": "enemies/enemy-19",
+  "family": "beast",
+  "zones": [
+    "deep-mines"
+  ],
+  "stats": {
+    "maxHp": 30,
+    "power": 10,
+    "defense": 2,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 8,
+    "speed": 56
+  },
+  "ai": "ranged",
+  "attack": "arrow",
+  "aggroRange": 210,
+  "attackRange": 165,
+  "attackCooldown": 1.7,
+  "radius": 6,
+  "xp": 12,
+  "loot": "goblin-loot",
+  "resist": {}
+}

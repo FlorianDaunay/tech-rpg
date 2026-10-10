@@ -1,0 +1,37 @@
+{
+  "id": "rift-stalker",
+  "name": {
+    "en": "Rift Stalker",
+    "fr": "Rôdeur de faille"
+  },
+  "description": {
+    "en": "It walks between the gaps in the world, and steps out behind you.",
+    "fr": "Il marche dans les failles du monde, et ressort derrière vous."
+  },
+  "look": "enemies/enemy-15-4",
+  "family": "hollow",
+  "zones": [
+    "hollow-rift"
+  ],
+  "stats": {
+    "maxHp": 48,
+    "power": 13,
+    "defense": 4,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 12,
+    "speed": 78
+  },
+  "ai": "melee",
+  "attack": "void-touch",
+  "aggroRange": 180,
+  "attackRange": 32,
+  "attackCooldown": 0.9,
+  "radius": 6,
+  "xp": 18,
+  "loot": "rift-loot",
+  "resist": {
+    "hollow": 0.2,
+    "ember": 1.5
+  }
+}

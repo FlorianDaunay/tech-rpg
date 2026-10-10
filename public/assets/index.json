@@ -2471,6 +2471,41 @@
    }
   },
   {
+   "key": "props/banner",
+   "path": "props/banner.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "props/bones",
+   "path": "props/bones.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 2,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "props/brazier",
+   "path": "props/brazier.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
    "key": "props/bushes",
    "path": "props/bushes.png",
    "kind": "prop",
@@ -2491,6 +2526,35 @@
    "meta": {
     "credit": "decor",
     "source": "mine/chest.png"
+   }
+  },
+  {
+   "key": "props/crypt",
+   "path": "props/crypt.png",
+   "kind": "prop",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     3,
+     2
+    ],
+    "building": true,
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "props/crystal",
+   "path": "props/crystal.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "zones"
    }
   },
   {
@@ -2584,6 +2648,30 @@
    }
   },
   {
+   "key": "props/mine-beam",
+   "path": "props/mine-beam.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "props/minecart",
+   "path": "props/minecart.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
    "key": "props/mushrooms",
    "path": "props/mushrooms.png",
    "kind": "prop",
@@ -2609,6 +2697,19 @@
    }
   },
   {
+   "key": "props/pillar",
+   "path": "props/pillar.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 64,
+   "frames": 2,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "generator": "zones"
+   }
+  },
+  {
    "key": "props/props",
    "path": "props/props.png",
    "kind": "prop",
@@ -2623,6 +2724,30 @@
    }
   },
   {
+   "key": "props/rift-crystal",
+   "path": "props/rift-crystal.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "props/rift-spire",
+   "path": "props/rift-spire.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 0.95,
+    "generator": "zones"
+   }
+  },
+  {
    "key": "props/rocks",
    "path": "props/rocks.png",
    "kind": "prop",
@@ -2631,6 +2756,28 @@
    "frames": 4,
    "meta": {
     "generator": "nature"
+   }
+  },
+  {
+   "key": "props/rubble",
+   "path": "props/rubble.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "props/tombstone",
+   "path": "props/tombstone.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "zones"
    }
   },
   {
@@ -3774,6 +3921,42 @@
    }
   },
   {
+   "key": "tiles/ash-ground",
+   "path": "tiles/ash-ground.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 8,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "tiles/cave-floor",
+   "path": "tiles/cave-floor.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 6,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "tiles/cave-wall",
+   "path": "tiles/cave-wall.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 15,
+   "meta": {
+    "layout": "terrain-3x3+inner",
+    "blockCols": 5,
+    "blockRows": 3,
+    "generator": "zones"
+   }
+  },
+  {
    "key": "tiles/dirt-path",
    "path": "tiles/dirt-path.png",
    "kind": "tileset",
@@ -3785,6 +3968,17 @@
     "blockCols": 5,
     "blockRows": 3,
     "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/flagstone",
+   "path": "tiles/flagstone.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "generator": "zones"
    }
   },
   {
@@ -3848,6 +4042,20 @@
     "anim": "loop",
     "fps": 3,
     "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/void",
+   "path": "tiles/void.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 15,
+   "meta": {
+    "layout": "terrain-3x3+inner",
+    "blockCols": 5,
+    "blockRows": 3,
+    "generator": "zones"
    }
   },
   {

@@ -1,0 +1,719 @@
+{
+  "id": "deep-mines",
+  "name": {
+    "en": "Deep Mines",
+    "fr": "Mines Profondes"
+  },
+  "zone": "deep-mines",
+  "width": 56,
+  "height": 42,
+  "tileSize": 32,
+  "legend": {
+    "c": {
+      "tile": "tiles/cave-floor#0-5"
+    },
+    "W": {
+      "tile": "tiles/cave-wall",
+      "autotile": true,
+      "solid": true
+    },
+    "w": {
+      "tile": "tiles/water-shore",
+      "autotile": true,
+      "solid": true
+    }
+  },
+  "layers": [
+    {
+      "id": "ground",
+      "rows": [
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ]
+    },
+    {
+      "id": "terrain",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWW...WWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWW...WWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWW...WWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWW.....WWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.......WWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.......WWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWW..........WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWW.WWWWWWW.............WWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWW.......WW........WW.......WWW.WWWWWWWWWWWWWWW",
+        "WWWWWWWWWW...............WWWWWW.............WWWWWWWWWWWW",
+        "WWWWWWWWWW..............WWWWWWWW.............WWWWWWWWWWW",
+        "WWWWWWWWWW.............WWWWWWWWWWW...........WWWWWWWWWWW",
+        "WWWWWWWWW............WWWWWWWWWWWWWW..........WWWWWWWWWWW",
+        "WWWWWWWWWW...........WWWWWWWWWWWWWW...........WWWWWWWWWW",
+        "WWWWWWWWWW...........WWWWWWWWWWWWWWW.........WWWWWWWWWWW",
+        "WWWWWWWWWW...........WWWWWWWWWWWWWWW.........WWWWWWWWWWW",
+        "WWWWWWWWWWW............WWWWW.WWWWWWW.........WWWWWWWWWWW",
+        "WWWWWWWWWWWWWW.WWW..............WW..........WWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWW......................WWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWW..................WWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWW...............WWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWW.............WWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWW.............WWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWW............WWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWW............WWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWW.WWWWWWWWW...............WWWWWWW.WWWWWWWWWWW",
+        "WWWWWWWWW.......WWW....................WW.......WWWWWWWW",
+        "WWWWWWWW.........................................WWWWWWW",
+        "WWWWWWWW................WWWW.WWWWW................WWWWWW",
+        "WWWWWWWW.............WWWWWWWWWWWWWWW..............WWWWWW",
+        "WWWWWWW.............WWWWWWWWWWWWWWWWWW............WWWWWW",
+        "WWWWWWWW.........WWWWWWWWWWWWWWWWWWWWW........w....WWWWW",
+        "WWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWW......www..WWWWWW",
+        "WWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWW.....wwwww.WWWWWW",
+        "WWWWWWWWW.......WWWWWWWWWWWWWWWWWWWWWWW......www..WWWWWW",
+        "WWWWWWWWWWWW.WWWWWWWWWWWWWWWWWWWWWWWWWWW......w..WWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.......WWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.WWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+      ]
+    },
+    {
+      "id": "deco",
+      "rows": [
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................",
+        "........................................................"
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "asset": "props/crystal",
+      "cx": 10,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 43,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 49,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 41,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 30,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 16,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 10,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 12,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 31,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 44,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 27,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 29,
+      "cy": 1,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 46,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 19,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 41,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 26,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 23,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ]
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 13,
+      "cy": 12,
+      "frame": 2
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 25,
+      "cy": 19,
+      "frame": 1
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 48,
+      "cy": 33,
+      "frame": 2
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 37,
+      "cy": 15,
+      "frame": 2
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 11,
+      "cy": 17,
+      "frame": 0
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 40,
+      "cy": 36,
+      "frame": 0
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 19,
+      "cy": 32,
+      "frame": 2
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 20,
+      "cy": 30,
+      "frame": 1
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 29,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 13,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 33,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 38,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3
+    },
+    {
+      "asset": "props/torch",
+      "cx": 26,
+      "cy": 3,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 29,
+      "cy": 3,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/mine-beam",
+      "cx": 20,
+      "cy": 19
+    },
+    {
+      "asset": "props/mine-beam",
+      "cx": 34,
+      "cy": 20
+    },
+    {
+      "asset": "props/mine-beam",
+      "cx": 20,
+      "cy": 28
+    },
+    {
+      "asset": "props/torch",
+      "cx": 14,
+      "cy": 12,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 40,
+      "cy": 13,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 28,
+      "cy": 22,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 12,
+      "cy": 30,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 44,
+      "cy": 31,
+      "light": {
+        "radius": 80,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "id": "from-hub",
+      "kind": "player",
+      "cx": 27,
+      "cy": 3
+    },
+    {
+      "id": "west0",
+      "kind": "enemy",
+      "cx": 17,
+      "cy": 15,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "west1",
+      "kind": "enemy",
+      "cx": 11,
+      "cy": 16,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "west2",
+      "kind": "enemy",
+      "cx": 14,
+      "cy": 11,
+      "ref": "goblin-slinger"
+    },
+    {
+      "id": "east0",
+      "kind": "enemy",
+      "cx": 43,
+      "cy": 16,
+      "ref": "frost-mote"
+    },
+    {
+      "id": "east1",
+      "kind": "enemy",
+      "cx": 37,
+      "cy": 17,
+      "ref": "frost-mote"
+    },
+    {
+      "id": "east2",
+      "kind": "enemy",
+      "cx": 40,
+      "cy": 12,
+      "ref": "goblin-slinger"
+    },
+    {
+      "id": "mid0",
+      "kind": "enemy",
+      "cx": 31,
+      "cy": 25,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "mid1",
+      "kind": "enemy",
+      "cx": 27,
+      "cy": 27,
+      "ref": "rime-wraith"
+    },
+    {
+      "id": "mid2",
+      "kind": "enemy",
+      "cx": 25,
+      "cy": 23,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "mid3",
+      "kind": "enemy",
+      "cx": 29,
+      "cy": 21,
+      "ref": "frost-mote"
+    },
+    {
+      "id": "sw0",
+      "kind": "enemy",
+      "cx": 15,
+      "cy": 33,
+      "ref": "goblin-slinger"
+    },
+    {
+      "id": "sw1",
+      "kind": "enemy",
+      "cx": 9,
+      "cy": 34,
+      "ref": "goblin-slinger"
+    },
+    {
+      "id": "sw2",
+      "kind": "enemy",
+      "cx": 12,
+      "cy": 29,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "se0",
+      "kind": "enemy",
+      "cx": 45,
+      "cy": 33,
+      "ref": "rime-wraith"
+    },
+    {
+      "id": "se1",
+      "kind": "enemy",
+      "cx": 39,
+      "cy": 34,
+      "ref": "frost-mote"
+    },
+    {
+      "id": "se2",
+      "kind": "enemy",
+      "cx": 42,
+      "cy": 29,
+      "ref": "deep-goblin"
+    }
+  ],
+  "portals": [
+    {
+      "id": "to-hub",
+      "cx": 26,
+      "cy": 0,
+      "w": 4,
+      "h": 1,
+      "to": "cinderhold",
+      "arrive": "from-mines"
+    }
+  ]
+}
