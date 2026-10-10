@@ -8,17 +8,20 @@ import { MapSchema } from "./schemas/map";
  * Files are bundled at build time and validated when first accessed. See content-type-recipe skill.
  */
 const sources = {
-  map: { schema: MapSchema, files: import.meta.glob("./data/maps/*.json", { eager: true, import: "default" }) },
-  lore: { schema: LoreSchema, files: import.meta.glob("./data/lore/*.json", { eager: true, import: "default" }) },
-  move: { schema: MoveSchema, files: import.meta.glob("./data/moves/*.json", { eager: true, import: "default" }) },
-  enemy: { schema: EnemySchema, files: import.meta.glob("./data/enemies/*.json", { eager: true, import: "default" }) },
-  status: { schema: StatusSchema, files: import.meta.glob("./data/statuses/*.json", { eager: true, import: "default" }) },
-  reaction: { schema: ReactionSchema, files: import.meta.glob("./data/reactions/*.json", { eager: true, import: "default" }) },
-  sword: { schema: SwordSchema, files: import.meta.glob("./data/swords/*.json", { eager: true, import: "default" }) },
-  shield: { schema: ShieldSchema, files: import.meta.glob("./data/shields/*.json", { eager: true, import: "default" }) },
-  item: { schema: ItemSchema, files: import.meta.glob("./data/items/*.json", { eager: true, import: "default" }) },
-  loot: { schema: LootTableSchema, files: import.meta.glob("./data/loot/*.json", { eager: true, import: "default" }) },
+  map: { schema: MapSchema, folder: "maps", files: import.meta.glob("./data/maps/*.json", { eager: true, import: "default" }) },
+  lore: { schema: LoreSchema, folder: "lore", files: import.meta.glob("./data/lore/*.json", { eager: true, import: "default" }) },
+  move: { schema: MoveSchema, folder: "moves", files: import.meta.glob("./data/moves/*.json", { eager: true, import: "default" }) },
+  enemy: { schema: EnemySchema, folder: "enemies", files: import.meta.glob("./data/enemies/*.json", { eager: true, import: "default" }) },
+  status: { schema: StatusSchema, folder: "statuses", files: import.meta.glob("./data/statuses/*.json", { eager: true, import: "default" }) },
+  reaction: { schema: ReactionSchema, folder: "reactions", files: import.meta.glob("./data/reactions/*.json", { eager: true, import: "default" }) },
+  sword: { schema: SwordSchema, folder: "swords", files: import.meta.glob("./data/swords/*.json", { eager: true, import: "default" }) },
+  shield: { schema: ShieldSchema, folder: "shields", files: import.meta.glob("./data/shields/*.json", { eager: true, import: "default" }) },
+  item: { schema: ItemSchema, folder: "items", files: import.meta.glob("./data/items/*.json", { eager: true, import: "default" }) },
+  loot: { schema: LootTableSchema, folder: "loot", files: import.meta.glob("./data/loot/*.json", { eager: true, import: "default" }) },
 } as const;
+
+/** Folder under `src/content/data/` per content type (admin write path). */
+export const folders = Object.fromEntries(Object.entries(sources).map(([k, v]) => [k, v.folder])) as Record<ContentType, string>;
 
 /** Schemas by content type (admin forms, reference checks). */
 export const schemas = Object.fromEntries(Object.entries(sources).map(([k, v]) => [k, v.schema])) as { [K in ContentType]: (typeof sources)[K]["schema"] };
