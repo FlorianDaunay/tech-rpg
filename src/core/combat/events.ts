@@ -42,6 +42,9 @@ export type SimEvent =
   | { type: "dodge"; id: string }
   | { type: "death"; id: string; killer: string | null; xp: number }
   | { type: "respawn"; id: string }
+  /** A player earned XP (kills are shared by the party, quests go to whoever turned in). */
+  | { type: "xp"; id: string; amount: number }
+  | { type: "level-up"; id: string; level: number }
   /** A player killed an enemy (quests, bestiary). */
   | { type: "kill-credit"; id: string; enemy: string }
   /** A player started talking to an NPC: the UI opens the dialogue. */

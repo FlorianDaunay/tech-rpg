@@ -88,7 +88,7 @@ export const QuestSchema = z
     type: z.enum(["main", "side", "bounty"]),
     giver: ref("npc").optional(),
     objectives: z.array(ObjectiveSchema).min(1),
-    rewards: z.object({ gold: z.number().int().nonnegative().default(0), items: z.array(z.object({ item: ItemRef, count: z.number().int().min(1).default(1) })).default([]) }).default({ gold: 0, items: [] }),
+    rewards: z.object({ gold: z.number().int().nonnegative().default(0), xp: z.number().int().nonnegative().default(0).describe("Experience granted on turn-in"), items: z.array(z.object({ item: ItemRef, count: z.number().int().min(1).default(1) })).default([]) }).default({ gold: 0, xp: 0, items: [] }),
     consumeItems: z.boolean().default(true).describe("Collected items are handed over on turn-in"),
     next: ref("quest").optional().describe("Starts when this one completes"),
   })

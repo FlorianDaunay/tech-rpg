@@ -23,6 +23,7 @@
     }
   ],
   "rewards": {
+    "xp": 60,
     "gold": 20,
     "items": [
       {

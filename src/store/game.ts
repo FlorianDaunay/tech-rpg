@@ -12,7 +12,7 @@ interface GameStatus {
   inventory: InventoryView | null;
   /** Last zone entered; `n` increments on every map entry (the banner replays). */
   zoneEnter: { zone: string; n: number } | null;
-  vitals: { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[] } | null;
+  vitals: { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[]; level: number; xp: number; xpNext: number } | null;
 }
 
 export const useGameStatus = create<GameStatus>()(() => ({ engineReady: false, loading: null, inWorld: false, debugText: "", vitals: null, inventory: null, zoneEnter: null }));

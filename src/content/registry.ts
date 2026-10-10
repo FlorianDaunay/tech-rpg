@@ -3,6 +3,7 @@ import { EnemySchema, ItemSchema, LootTableSchema, MoveSchema, ReactionSchema, S
 import { LoreSchema } from "./schemas/lore";
 import { MapSchema } from "./schemas/map";
 import { DialogueSchema, NpcSchema, QuestSchema } from "./schemas/narrative";
+import { ProgressionSchema } from "./schemas/progression";
 import { ZoneSchema } from "./schemas/zone";
 
 /**
@@ -24,6 +25,7 @@ const sources = {
   dialogue: { schema: DialogueSchema, folder: "dialogues", files: import.meta.glob("./data/dialogues/*.json", { eager: true, import: "default" }) },
   quest: { schema: QuestSchema, folder: "quests", files: import.meta.glob("./data/quests/*.json", { eager: true, import: "default" }) },
   loot: { schema: LootTableSchema, folder: "loot", files: import.meta.glob("./data/loot/*.json", { eager: true, import: "default" }) },
+  progression: { schema: ProgressionSchema, folder: "progression", files: import.meta.glob("./data/progression/*.json", { eager: true, import: "default" }) },
 } as const;
 
 /** Folder under `src/content/data/` per content type (admin write path). */
@@ -89,6 +91,7 @@ export const content = {
   npcs: collection("npc"),
   dialogues: collection("dialogue"),
   quests: collection("quest"),
+  progression: collection("progression"),
 };
 
 /** Ids of every entry of a type (reference checks). */

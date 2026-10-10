@@ -7,6 +7,7 @@ import { getEnemy } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
 import { createRng } from "../math/rng";
+import { awardXp } from "../progression/level";
 import type { GameMap } from "../world/map";
 import { emptyIntent, type Intent } from "./intent";
 
@@ -110,5 +111,6 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepLifecycle(state);
   detectPortals(state, map);
   for (const a of players(state)) if (a.progress) trackProgress(state.events, { id: a.id, bag: a.bag, progress: a.progress }, state.mapId);
+  awardXp(state.events, state.actors);
   state.rngState = rng.state;
 }

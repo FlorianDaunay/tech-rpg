@@ -26,6 +26,8 @@ export interface PlayerCarry {
   weapon: string | null;
   shield: string | null;
   progress: Progress;
+  level: number;
+  xp: number;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */

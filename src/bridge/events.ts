@@ -29,7 +29,7 @@ export interface BridgeEvents {
   /** The world scene is running and the HUD can show. */
   "game:world-ready": { mapId: string };
   /** Local player vitals for the HUD (sent on change, ≤ 15 Hz). */
-  "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[] };
+  "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[]; level: number; xp: number; xpNext: number };
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
   /** Game → UI: a menu key was pressed in game (Esc/Start, Tab/I/D-pad up). */

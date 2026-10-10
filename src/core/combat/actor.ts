@@ -108,6 +108,9 @@ export interface Actor extends Body {
   ai: AiState | null;
   /** Story state (players only). */
   progress: Progress | null;
+  /** Character level (players; enemies stay 1) and XP inside it (see core/progression). */
+  level: number;
+  xp: number;
 }
 
 export function createActor(init: {
@@ -154,6 +157,8 @@ export function createActor(init: {
     buffered: null,
     ai: init.kind === "player" ? null : { target: null, cooldown: 0.5, strafe: 1, think: 0, regen: 0 },
     progress: init.kind === "player" ? emptyProgress() : null,
+    level: 1,
+    xp: 0,
   };
 }
 

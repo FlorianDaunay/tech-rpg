@@ -7,7 +7,7 @@ import { getMove, type Element } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import type { Pickup, Projectile } from "@/core/combat/step";
 import { audio, type SfxHandle } from "@/game/audio";
-import { getLang } from "@/i18n";
+import { getLang, t } from "@/i18n";
 import { useSettings } from "@/store/settings";
 
 /** Freeze-frame length per hit weight (ms). Short: the game must stay responsive. */
@@ -140,6 +140,15 @@ export class CombatFx {
         if (!a) break;
         audio.sfx(a.kind === "player" ? "death" : "enemy-die", { x: a.x, y: a.y });
         if (a.kind === "enemy") this.burst(a.x, a.y - 10);
+        break;
+      }
+      case "level-up": {
+        const a = h.actor(ev.id);
+        if (!a) break;
+        if (ev.id === h.localId) audio.sfx("level-up");
+        h.light?.(a.x, a.y - 10, 90, "lantern");
+        this.ring(a.x, a.y - 10, COMBAT_COLORS.levelUp, 6);
+        this.label(a.x, a.y - 34, t("fx.levelUp"), COMBAT_COLORS.levelUp);
         break;
       }
       case "respawn": {

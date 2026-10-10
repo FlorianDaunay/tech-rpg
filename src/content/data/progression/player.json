@@ -1,0 +1,14 @@
+{
+  "id": "player",
+  "maxLevel": 30,
+  "xpBase": 40,
+  "xpExponent": 1.5,
+  "perLevel": {
+    "maxHp": 8,
+    "power": 1,
+    "defense": 1,
+    "maxPoise": 1
+  },
+  "talentPointsPerLevel": 1,
+  "healOnLevelUp": true
+}

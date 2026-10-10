@@ -15,7 +15,7 @@ export interface QuestDef {
   id: string;
   type: "main" | "side" | "bounty";
   objectives: Objective[];
-  rewards: { gold: number; items: { item: string; count: number }[] };
+  rewards: { gold: number; xp: number; items: { item: string; count: number }[] };
   /** Collect objectives' items are handed over on turn-in. */
   consumeItems: boolean;
   /** Started automatically when this one completes. */
