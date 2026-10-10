@@ -1,0 +1,28 @@
+# Local-only folders (never pushed)
+.claude/
+ref_sprites/
+.work/
+admin/
+
+# Dependencies & builds
+node_modules/
+dist/
+dist-admin/
+coverage/
+*.tsbuildinfo
+
+# Capacitor / Android build outputs (android/ project is generated in CI)
+android/
+*.apk
+*.aab
+*.keystore
+
+# Tooling
+.vite/
+playwright-report/
+test-results/
+.DS_Store
+Thumbs.db
+*.log
+.env*
+!.env.example

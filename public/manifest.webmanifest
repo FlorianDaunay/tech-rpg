@@ -1,0 +1,10 @@
+{
+  "name": "Embersworn",
+  "short_name": "Embersworn",
+  "start_url": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#07060b",
+  "theme_color": "#07060b",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

@@ -1,0 +1,33 @@
+@font-face { font-family: "Cinzel"; src: url("./assets/fonts/cinzel-latin.woff2") format("woff2"); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "Inter"; src: url("./assets/fonts/inter-latin.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Silkscreen"; src: url("./assets/fonts/silkscreen-latin.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { border-style: var(--border-style); }
+  html, body, #root { height: 100%; overflow: hidden; overscroll-behavior: none; }
+  body {
+    @apply bg-canvas text-text-primary font-sans antialiased select-none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+  }
+  :focus-visible { outline: var(--focus-width) solid rgb(var(--color-accent)); outline-offset: var(--focus-offset); }
+}
+
+@layer components {
+  .surface { @apply bg-surface border border-border; backdrop-filter: var(--effect-surface-backdrop); }
+  .panel { @apply surface rounded-card shadow-card; }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-control px-5 py-3 font-semibold transition
+           duration-150 ease-out active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none short:py-2;
+  }
+  .btn:active { box-shadow: var(--shadow-inset); }
+  .btn-primary { @apply btn bg-accent text-accent-foreground hover:bg-accent-hover shadow-control; }
+  .btn-ghost { @apply btn surface text-text-primary hover:bg-surface-hover; }
+  .title-display { @apply font-display tracking-[0.18em] uppercase; }
+  /* Respect phone notches/home bars in landscape. */
+  .safe { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
+}
