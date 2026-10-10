@@ -1,0 +1,40 @@
+{
+  "id": "cinder",
+  "start": "woof",
+  "nodes": {
+    "woof": {
+      "speaker": "npc",
+      "text": {
+        "en": "Woof!",
+        "fr": "Ouaf !"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Pet the dog.",
+            "fr": "Caresser le chien."
+          },
+          "do": [
+            {
+              "setFlag": "pet-cinder"
+            }
+          ],
+          "next": "happy"
+        },
+        {
+          "text": {
+            "en": "Good dog.",
+            "fr": "Bon chien."
+          }
+        }
+      ]
+    },
+    "happy": {
+      "speaker": "npc",
+      "text": {
+        "en": "Cinder wags so hard his whole back half wags too.",
+        "fr": "Escarbille remue la queue si fort que tout son arrière-train remue aussi."
+      }
+    }
+  }
+}

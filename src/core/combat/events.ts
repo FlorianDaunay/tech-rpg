@@ -42,6 +42,11 @@ export type SimEvent =
   | { type: "dodge"; id: string }
   | { type: "death"; id: string; killer: string | null; xp: number }
   | { type: "respawn"; id: string }
+  /** A player killed an enemy (quests, bestiary). */
+  | { type: "kill-credit"; id: string; enemy: string }
+  /** A player started talking to an NPC: the UI opens the dialogue. */
+  | { type: "talk"; id: string; npc: string; actor: string; dialogue: string }
+  | { type: "quest"; id: string; quest: string; change: "started" | "progress" | "ready" | "done" }
   /** A player stands in a portal: the host moves the party to `to` (arriving at spawn `arrive`). */
   | { type: "portal"; id: string; portal: string; to: string; arrive: string }
   /** The actor was removed from the sim (corpse faded). */

@@ -1,0 +1,37 @@
+{
+  "id": "hollowed-warden",
+  "name": {
+    "en": "Hollowed Warden",
+    "fr": "Gardien évidé"
+  },
+  "description": {
+    "en": "A Shieldwarden who never left his post, long after his heart did. He guards something warm.",
+    "fr": "Un Gardien qui n'a jamais quitté son poste, bien après son cœur. Il garde quelque chose de chaud."
+  },
+  "look": "enemies/enemy-04-1",
+  "family": "undead",
+  "zones": [
+    "whispering-wilds"
+  ],
+  "stats": {
+    "maxHp": 200,
+    "power": 17,
+    "defense": 18,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 80,
+    "speed": 42
+  },
+  "ai": "brute",
+  "attack": "slam",
+  "aggroRange": 150,
+  "attackRange": 34,
+  "attackCooldown": 1.8,
+  "radius": 8,
+  "xp": 60,
+  "loot": "warden-loot",
+  "resist": {
+    "frost": 0.75,
+    "ember": 1.25
+  }
+}

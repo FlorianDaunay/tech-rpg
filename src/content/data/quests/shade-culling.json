@@ -1,0 +1,34 @@
+{
+  "id": "shade-culling",
+  "type": "bounty",
+  "giver": "oskar",
+  "title": {
+    "en": "Bounty: Shade Culling",
+    "fr": "Prime : chasse aux ombres"
+  },
+  "summary": {
+    "en": "Shades have been creeping to the fences of Cinderhold. Oskar pays for every one that stops.",
+    "fr": "Les ombres rôdent jusqu'aux palissades de Cendrebourg. Oskar paie pour chacune qui s'arrête."
+  },
+  "objectives": [
+    {
+      "id": "shades",
+      "kind": "kill",
+      "enemy": "hollow-shade",
+      "count": 5,
+      "text": {
+        "en": "Destroy 5 Hollow Shades",
+        "fr": "Détruire 5 Ombres du Néant"
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 40,
+    "items": [
+      {
+        "item": "healing-draught",
+        "count": 1
+      }
+    ]
+  }
+}

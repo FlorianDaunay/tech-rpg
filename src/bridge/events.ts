@@ -2,6 +2,7 @@
  * Typed event bus: the ONLY coupling between the Phaser runtime and the React UI.
  * Phaser emits state the HUD needs; React emits commands (start, pause, menu actions).
  */
+import type { Progress } from "@/core/narrative/progress";
 import type { Command } from "@/core/sim/intent";
 
 type Listener<T> = (payload: T) => void;
@@ -14,6 +15,8 @@ export interface InventoryView {
   hp: number;
   maxHp: number;
   stats: { power: number; defense: number; critChance: number; critMultiplier: number; speed: number };
+  /** Story state: quests, flags, kills, NPCs met (journal, codex, dialogue conditions). */
+  progress: Progress;
 }
 
 export type GameMode = "solo" | "host" | "client";
@@ -35,6 +38,12 @@ export interface BridgeEvents {
   "game:inventory": InventoryView;
   /** Entered a map: the HUD shows the zone banner. */
   "game:zone": { zone: string; map: string };
+  /** The local player started talking to an NPC. */
+  "game:dialogue": { npc: string; dialogue: string };
+  /** Quest started / progressed / ready to turn in / done (toasts). */
+  "game:quest": { quest: string; change: "started" | "progress" | "ready" | "done" };
+  /** Context action available near the player (null = none). */
+  "game:prompt": { kind: "talk"; npc: string } | null;
   /** Local player picked something up (toast). */
   "game:loot": { item: string; count: number };
   /** UI → game: inventory command for the local player (sent with the next Intent). */

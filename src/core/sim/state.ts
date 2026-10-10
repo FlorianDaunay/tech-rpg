@@ -1,5 +1,7 @@
 import { createActor, PLAYER_STATS, type Actor } from "../combat/actor";
-import { thinkEnemy } from "../combat/ai";
+import { thinkEnemy, thinkNpc } from "../combat/ai";
+import { findNpc } from "../narrative/defs";
+import { trackProgress } from "../narrative/progress";
 import { applyCommand } from "../combat/commands";
 import { getEnemy } from "../combat/defs";
 import { equip } from "../combat/equipment";
@@ -49,6 +51,34 @@ function detectPortals(state: SimState, map: GameMap): void {
   }
 }
 
+const NPC_STATS = { maxHp: 1, power: 0, defense: 0, critChance: 0, critMultiplier: 1, maxPoise: 999, speed: 34 };
+/** Reach for the interact action (px from the player's feet to the NPC's). */
+export const TALK_RANGE = 34;
+
+export function spawnNpc(state: SimState, npc: string, x: number, y: number): Actor | null {
+  const def = findNpc(npc);
+  if (!def) return null;
+  const id = `n${state.nextId++}`;
+  const a = createActor({ id, team: "neutral", kind: "npc", type: npc, look: def.look, x, y, stats: NPC_STATS });
+  state.actors[id] = a;
+  return a;
+}
+
+/** Nearest NPC a player can talk to, or null. Shared by the sim (interact) and the HUD prompt. */
+export function talkTarget(state: SimState, player: Actor): Actor | null {
+  let best: Actor | null = null;
+  let bestD = TALK_RANGE;
+  for (const a of Object.values(state.actors)) {
+    if (a.kind !== "npc") continue;
+    const d = Math.hypot(a.x - player.x, a.y - player.y);
+    if (d < bestD) {
+      bestD = d;
+      best = a;
+    }
+  }
+  return best;
+}
+
 export const players = (state: SimState) => Object.values(state.actors).filter((a) => a.kind === "player");
 
 /**
@@ -63,8 +93,14 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   const rng = createRng(state.rngState);
   for (const id of Object.keys(state.actors).sort()) {
     const a = state.actors[id]!;
-    const intent = a.kind === "player" ? (intents[id] ?? emptyIntent()) : thinkEnemy(state, a, rng, SIM_DT);
+    const intent =
+      a.kind === "player" ? (intents[id] ?? emptyIntent()) : a.kind === "npc" ? thinkNpc(state, a, rng, SIM_DT, findNpc(a.type)?.wander ?? 0) : thinkEnemy(state, a, rng, SIM_DT);
     for (const cmd of intent.commands ?? []) applyCommand(state.events, a, cmd);
+    if (a.kind === "player" && intent.pressed.includes("interact") && a.action.kind === "free") {
+      const npc = talkTarget(state, a);
+      const def = npc && findNpc(npc.type);
+      if (npc && def) state.events.push({ type: "talk", id: a.id, npc: npc.type, actor: npc.id, dialogue: def.dialogue });
+    }
     stepActor(state, map, rng, a, intent, SIM_DT);
   }
   separate(state, map);
@@ -73,5 +109,6 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
   detectPortals(state, map);
+  for (const a of players(state)) if (a.progress) trackProgress(state.events, { id: a.id, bag: a.bag, progress: a.progress }, state.mapId);
   state.rngState = rng.state;
 }

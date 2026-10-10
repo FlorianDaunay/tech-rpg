@@ -1,0 +1,18 @@
+{
+  "id": "harl",
+  "name": {
+    "en": "Harl",
+    "fr": "Harl"
+  },
+  "title": {
+    "en": "Sentry of the east road",
+    "fr": "Sentinelle de la route de l'est"
+  },
+  "description": {
+    "en": "He watches the east road all night. He has never once looked bored.",
+    "fr": "Il surveille la route de l'est toute la nuit. Il n'a jamais eu l'air de s'ennuyer."
+  },
+  "look": "characters/soldier-02-1",
+  "dialogue": "harl",
+  "wander": 6
+}

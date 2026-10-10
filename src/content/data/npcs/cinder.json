@@ -1,0 +1,18 @@
+{
+  "id": "cinder",
+  "name": {
+    "en": "Cinder",
+    "fr": "Escarbille"
+  },
+  "title": {
+    "en": "Good dog",
+    "fr": "Bon chien"
+  },
+  "description": {
+    "en": "Cinderhold's dog. Belongs to everyone, obeys no one, loved by all.",
+    "fr": "Le chien de Cendrebourg. Il appartient à tous, n'obéit à personne, et tout le monde l'adore."
+  },
+  "look": "characters/dog-01-1",
+  "dialogue": "cinder",
+  "wander": 48
+}

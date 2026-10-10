@@ -1,0 +1,126 @@
+{
+  "id": "oskar",
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "shade-culling",
+          "is": "ready"
+        }
+      ],
+      "node": "turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "shade-culling",
+          "is": "active"
+        }
+      ],
+      "node": "remind"
+    },
+    {
+      "if": [
+        {
+          "quest": "shade-culling",
+          "is": "done"
+        }
+      ],
+      "node": "after"
+    }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "npc",
+      "text": {
+        "en": "Coin for a peddler of oddments? No? Then perhaps coin for you. The shades have been creeping to our fences. Five fewer would let folk sleep.",
+        "fr": "Une pièce pour un colporteur de bizarreries ? Non ? Alors peut-être une pièce pour toi. Les ombres rôdent jusqu'à nos palissades. Cinq de moins, et les gens dormiraient."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll thin them out.",
+            "fr": "Je vais les éclaircir."
+          },
+          "do": [
+            {
+              "startQuest": "shade-culling"
+            }
+          ],
+          "next": "deal"
+        },
+        {
+          "text": {
+            "en": "What do you sell?",
+            "fr": "Que vendez-vous ?"
+          },
+          "next": "wares"
+        },
+        {
+          "text": {
+            "en": "Goodbye.",
+            "fr": "Au revoir."
+          }
+        }
+      ]
+    },
+    "wares": {
+      "speaker": "npc",
+      "text": {
+        "en": "Today? Rumours, mostly. Proper wares when the road is safer.",
+        "fr": "Aujourd'hui ? Des rumeurs, surtout. De vraies marchandises quand la route sera plus sûre."
+      },
+      "next": "intro"
+    },
+    "deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five shades. I'll count the quiet.",
+        "fr": "Cinq ombres. Je compterai le silence."
+      }
+    },
+    "remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Still a little loud out there. Five shades, remember.",
+        "fr": "C'est encore un peu bruyant là-dehors. Cinq ombres, souviens-toi."
+      }
+    },
+    "turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "You've a shade-chill about you. Five, you say?",
+        "fr": "Tu as le frisson des ombres sur toi. Cinq, dis-tu ?"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Five.",
+            "fr": "Cinq."
+          },
+          "do": [
+            {
+              "completeQuest": "shade-culling"
+            }
+          ],
+          "next": "reward"
+        }
+      ]
+    },
+    "reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "A bargain at twice the price. Don't tell anyone I said that.",
+        "fr": "Une affaire, même au double du prix. Ne dis à personne que j'ai dit ça."
+      }
+    },
+    "after": {
+      "speaker": "npc",
+      "text": {
+        "en": "Folk are sleeping again. Bad for the rumour trade, good for everything else.",
+        "fr": "Les gens dorment à nouveau. Mauvais pour le commerce des rumeurs, bon pour tout le reste."
+      }
+    }
+  }
+}

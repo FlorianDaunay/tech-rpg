@@ -6,7 +6,7 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { createSim, SIM_DT, spawnEnemy, spawnPlayer, stepSim, type SimState } from "@/core/sim/state";
+import { createSim, SIM_DT, spawnEnemy, spawnNpc, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { equip } from "@/core/combat/equipment";
 import { darknessAt, START_TIME } from "@/core/world/daynight";
@@ -61,6 +61,7 @@ export class WorldScene extends Phaser.Scene {
   /** Menu commands waiting for the next local Intent. */
   private commands: Command[] = [];
   private inventoryKey = "";
+  private promptKey = "";
   private disposers: (() => void)[] = [];
 
   constructor() {
@@ -80,6 +81,7 @@ export class WorldScene extends Phaser.Scene {
     this.paused = false;
     this.commands = [];
     this.inventoryKey = "";
+    this.promptKey = "";
 
     this.map = toGameMap(content.maps.get(data.map ?? START_MAP));
     this.zone = content.zones.get(this.map.zone);
@@ -92,9 +94,12 @@ export class WorldScene extends Phaser.Scene {
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
     if (data.carry) {
       equip(me, data.carry.weapon, data.carry.shield);
-      Object.assign(me, { hp: Math.max(1, Math.min(me.stats.maxHp, data.carry.hp)), stamina: data.carry.stamina, bag: { ...data.carry.bag } });
+      Object.assign(me, { hp: Math.max(1, Math.min(me.stats.maxHp, data.carry.hp)), stamina: data.carry.stamina, bag: { ...data.carry.bag }, progress: structuredClone(data.carry.progress) });
     }
-    for (const s of this.map.spawns) if (s.kind === "enemy" && s.ref) spawnEnemy(this.sim, s.ref, s.x, s.y);
+    for (const s of this.map.spawns) {
+      if (s.kind === "enemy" && s.ref) spawnEnemy(this.sim, s.ref, s.x, s.y);
+      else if (s.kind === "npc" && s.ref) spawnNpc(this.sim, s.ref, s.x, s.y);
+    }
 
     this.fx = new CombatFx({
       scene: this,
@@ -168,6 +173,13 @@ export class WorldScene extends Phaser.Scene {
       for (const ev of this.sim.events) {
         if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
         if (ev.type === "portal" && ev.id === LOCAL_ID) return this.travel(ev.to, ev.arrive);
+        if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
+        if (ev.type === "talk" && ev.id === LOCAL_ID) {
+          // The dialogue reads progress for its conditions: publish it first (talk objectives just moved).
+          this.updateInventory(this.sim.actors[LOCAL_ID]);
+          this.turnToward(ev.actor);
+          bridge.emit("game:dialogue", { npc: ev.npc, dialogue: ev.dialogue });
+        }
       }
     }
     this.syncViews();
@@ -192,6 +204,7 @@ export class WorldScene extends Phaser.Scene {
     this.updateMusic(me);
     this.updateVitals(me);
     this.updateInventory(me);
+    this.updatePrompt(me);
     this.updateDebug();
   }
 
@@ -200,7 +213,7 @@ export class WorldScene extends Phaser.Scene {
     if (this.travelling) return;
     this.travelling = true;
     const me = this.sim.actors[LOCAL_ID];
-    const carry: PlayerCarry | undefined = me && { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield };
+    const carry: PlayerCarry | undefined = me?.progress ? { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield, progress: structuredClone(me.progress) } : undefined;
     audio.sfx("portal", { volume: 0.5 });
     this.cameras.main.fadeOut(350, 7, 6, 11);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
@@ -219,11 +232,28 @@ export class WorldScene extends Phaser.Scene {
     if (!me) return;
     stepSim(this.sim, this.map, { [LOCAL_ID]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
     this.fx.handle(this.sim.events);
+    for (const ev of this.sim.events) if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
     this.updateInventory(me);
   }
 
+  /** NPCs face the player who talks to them. */
+  private turnToward(npcId: string): void {
+    const npc = this.sim.actors[npcId];
+    const me = this.sim.actors[LOCAL_ID];
+    if (npc && me) npc.aim = { x: me.x - npc.x, y: me.y - npc.y };
+  }
+
+  /** "Talk" prompt near an NPC (HUD shows the key, or a tappable button on touch). */
+  private updatePrompt(me: Actor | undefined): void {
+    const npc = me && me.action.kind !== "dead" ? talkTarget(this.sim, me) : null;
+    const key = npc?.type ?? "";
+    if (key === this.promptKey) return;
+    this.promptKey = key;
+    bridge.emit("game:prompt", npc ? { kind: "talk", npc: npc.type } : null);
+  }
+
   private updateInventory(me: Actor | undefined): void {
-    if (!me) return;
+    if (!me?.progress) return;
     const view: InventoryView = {
       bag: { ...me.bag },
       weapon: me.weapon,
@@ -231,6 +261,7 @@ export class WorldScene extends Phaser.Scene {
       hp: me.hp,
       maxHp: me.stats.maxHp,
       stats: { power: me.stats.power, defense: me.stats.defense, critChance: me.stats.critChance, critMultiplier: me.stats.critMultiplier, speed: me.stats.speed },
+      progress: structuredClone(me.progress),
     };
     const key = JSON.stringify(view);
     if (key === this.inventoryKey) return;

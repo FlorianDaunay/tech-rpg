@@ -10,6 +10,33 @@ const LEASH = 260;
 
 const dist = (a: Vec2, b: Vec2) => Math.hypot(a.x - b.x, a.y - b.y);
 
+/** NPC idle: short strolls around home with pauses; stops and faces a player who comes close. */
+export function thinkNpc(w: CombatWorld, a: Actor, rng: Rng, dt: number, wander: number): Intent {
+  const intent = emptyIntent();
+  const ai = a.ai!;
+  ai.think -= dt;
+  const near = Object.values(w.actors).find((p) => p.kind === "player" && isAlive(p) && dist(a, p) < 40);
+  if (near) {
+    intent.aim = normalize({ x: near.x - a.x, y: near.y - a.y });
+    ai.think = Math.max(ai.think, 1);
+    return intent;
+  }
+  if (wander <= 0) return intent;
+  if (ai.think <= 0) {
+    // Pick: rest (2/3) or walk a little in a direction that stays near home.
+    ai.think = rng.range(1.5, 4);
+    ai.strafe = rng.chance(0.35) ? 1 : 0;
+    const ang = rng.range(0, Math.PI * 2);
+    ai.target = `${Math.cos(ang)},${Math.sin(ang)}`;
+  }
+  if (ai.strafe && ai.target) {
+    const [x, y] = ai.target.split(",").map(Number) as [number, number];
+    const homeDist = dist(a, a.home);
+    intent.move = homeDist > wander ? normalize({ x: a.home.x - a.x, y: a.home.y - a.y }) : { x: x * 0.45, y: y * 0.45 };
+  }
+  return intent;
+}
+
 /**
  * Enemy brain: turns the world into an Intent, exactly like a player's input. The same action
  * state machine then runs for both, so enemies obey the same rules (windups, stagger, knockback).
@@ -33,7 +60,7 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
     let best = def.aggroRange;
     for (const id of Object.keys(w.actors).sort()) {
       const p = w.actors[id]!;
-      if (p.team === a.team || !isAlive(p)) continue;
+      if (p.kind !== "player" || !isAlive(p)) continue;
       const d = dist(a, p);
       if (d < best) {
         best = d;

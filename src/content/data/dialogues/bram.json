@@ -1,0 +1,111 @@
+{
+  "id": "bram",
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "grave-iron",
+          "is": "ready"
+        }
+      ],
+      "node": "turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "grave-iron",
+          "is": "active"
+        }
+      ],
+      "node": "remind"
+    },
+    {
+      "if": [
+        {
+          "quest": "grave-iron",
+          "is": "done"
+        }
+      ],
+      "node": "after"
+    }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "npc",
+      "text": {
+        "en": "Mind the sparks. My anvil's gone cold for want of good iron. The brutes out in the dark are stitched together with grave-iron: best metal there is, if you're not squeamish.",
+        "fr": "Attention aux étincelles. Mon enclume s'est refroidie, faute de bon fer. Les brutes de la nuit sont cousues de fer funéraire : le meilleur métal qui soit, si t'es pas trop délicat."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll bring you some.",
+            "fr": "Je vous en rapporterai."
+          },
+          "do": [
+            {
+              "startQuest": "grave-iron"
+            }
+          ],
+          "next": "deal"
+        },
+        {
+          "text": {
+            "en": "Maybe later.",
+            "fr": "Peut-être plus tard."
+          }
+        }
+      ]
+    },
+    "deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Three pieces. Bring them and I'll make you a shield worth carrying.",
+        "fr": "Trois morceaux. Rapporte-les et je te forgerai un bouclier qui vaut la peine d'être porté."
+      }
+    },
+    "remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Three pieces of grave-iron. The brutes wear it like jewellery.",
+        "fr": "Trois morceaux de fer funéraire. Les brutes le portent comme des bijoux."
+      }
+    },
+    "turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "Now that's iron! Hand it over.",
+        "fr": "Ça, c'est du fer ! Donne-moi ça."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Here you go.",
+            "fr": "Tenez."
+          },
+          "do": [
+            {
+              "completeQuest": "grave-iron"
+            }
+          ],
+          "next": "reward"
+        }
+      ]
+    },
+    "reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "A warden's kite shield. Heavy, but it'll stop a slam that would fold you in half.",
+        "fr": "Un écu de gardien. Lourd, mais il arrêtera un coup qui te plierait en deux."
+      }
+    },
+    "after": {
+      "speaker": "npc",
+      "text": {
+        "en": "The anvil sings again. Come back when you find stranger metal.",
+        "fr": "L'enclume chante à nouveau. Reviens quand tu trouveras un métal plus étrange."
+      }
+    }
+  }
+}

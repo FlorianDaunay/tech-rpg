@@ -10,7 +10,7 @@ export function assistAim(self: Actor, actors: Iterable<Actor>, range = 70, cone
   let best: Vec2 | null = null;
   let bestScore = Infinity;
   for (const o of actors) {
-    if (o.team === self.team || !isAlive(o)) continue;
+    if (o.team === self.team || o.kind === "npc" || !isAlive(o)) continue;
     const dx = o.x - self.x;
     const dy = o.y - self.y;
     const d = Math.hypot(dx, dy);

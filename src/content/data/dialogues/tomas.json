@@ -1,0 +1,56 @@
+{
+  "id": "tomas",
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "npc",
+      "text": {
+        "en": "Sit, sit. Don't mind the well, it only echoes when it's lonely.",
+        "fr": "Assieds-toi, assieds-toi. Ne fais pas attention au puits, il ne fait écho que quand il se sent seul."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Tell me about the Wilds.",
+            "fr": "Parlez-moi des Bois."
+          },
+          "do": [
+            {
+              "setFlag": "rumour-pale-weaver"
+            }
+          ],
+          "next": "wilds"
+        },
+        {
+          "text": {
+            "en": "Tell me about the Sundering.",
+            "fr": "Parlez-moi de la Brisure."
+          },
+          "next": "sundering"
+        },
+        {
+          "text": {
+            "en": "Goodbye.",
+            "fr": "Au revoir."
+          }
+        }
+      ]
+    },
+    "wilds": {
+      "speaker": "npc",
+      "text": {
+        "en": "The trees there repeat what they hear. Say your name in there and you'll hear it for days. And the silk... don't touch the silk. Something holds the other end.",
+        "fr": "Là-bas, les arbres répètent ce qu'ils entendent. Dis ton nom et tu l'entendras pendant des jours. Et la soie... ne touche pas la soie. Quelque chose tient l'autre bout."
+      },
+      "next": "intro"
+    },
+    "sundering": {
+      "speaker": "npc",
+      "text": {
+        "en": "I wasn't born, nor was my grandmother's grandmother. But the story is the same in every mouth: the sun broke, and the Keeper caught the last spark.",
+        "fr": "Je n'étais pas né, ni la grand-mère de ma grand-mère. Mais l'histoire est la même dans toutes les bouches : le soleil s'est brisé, et la Gardienne a attrapé la dernière étincelle."
+      },
+      "next": "intro"
+    }
+  }
+}

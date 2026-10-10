@@ -5983,7 +5983,7 @@
       "kind": "enemy",
       "cx": 62,
       "cy": 23,
-      "ref": "grave-brute"
+      "ref": "hollowed-warden"
     },
     {
       "id": "c1",
@@ -6033,6 +6033,13 @@
       "cx": 47,
       "cy": 25,
       "ref": "cinder-mote"
+    },
+    {
+      "id": "b-brute",
+      "kind": "enemy",
+      "cx": 40,
+      "cy": 35,
+      "ref": "grave-brute"
     }
   ],
   "portals": [

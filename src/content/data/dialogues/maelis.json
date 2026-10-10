@@ -1,0 +1,137 @@
+{
+  "id": "maelis",
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "first-ember",
+          "is": "ready"
+        }
+      ],
+      "node": "turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "first-ember",
+          "is": "active"
+        }
+      ],
+      "node": "remind"
+    },
+    {
+      "if": [
+        {
+          "quest": "first-ember",
+          "is": "done"
+        }
+      ],
+      "node": "after"
+    }
+  ],
+  "start": "intro",
+  "nodes": {
+    "intro": {
+      "speaker": "npc",
+      "text": {
+        "en": "There you are, little spark. The Lantern guttered again last night... and when it flared back, its flame leaned east. Towards the Wilds.",
+        "fr": "Te voilà, petite étincelle. La Lanterne a vacillé cette nuit... et quand elle s'est ranimée, sa flamme s'est penchée vers l'est. Vers les Bois."
+      },
+      "next": "ask"
+    },
+    "ask": {
+      "speaker": "npc",
+      "text": {
+        "en": "Something out there holds a piece of the sun. I felt it. I am too old for that road, and you are the only one the flame follows.",
+        "fr": "Quelque chose là-bas détient un fragment du soleil. Je l'ai senti. Je suis trop vieille pour cette route, et tu es le seul que la flamme suit."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll go. What will I find?",
+            "fr": "J'irai. Qu'est-ce que je vais trouver ?"
+          },
+          "do": [
+            {
+              "startQuest": "first-ember"
+            }
+          ],
+          "next": "brief"
+        },
+        {
+          "text": {
+            "en": "Why does the flame follow me?",
+            "fr": "Pourquoi la flamme me suit-elle ?"
+          },
+          "next": "why"
+        },
+        {
+          "text": {
+            "en": "Not yet.",
+            "fr": "Pas encore."
+          }
+        }
+      ]
+    },
+    "why": {
+      "speaker": "npc",
+      "text": {
+        "en": "If I knew, I would have told you sixteen winters ago. The night we found you, the Lantern leaned to your cradle. It has never stopped.",
+        "fr": "Si je le savais, je te l'aurais dit il y a seize hivers. La nuit où nous t'avons trouvé, la Lanterne s'est penchée vers ton berceau. Elle n'a jamais cessé."
+      },
+      "next": "ask"
+    },
+    "brief": {
+      "speaker": "npc",
+      "text": {
+        "en": "Take the east road past Harl's post. Beyond the pond, something wearing an old warden's armour guards a light the Wilds should not have. Bring it home.",
+        "fr": "Prends la route de l'est, passe le poste de Harl. Au-delà de l'étang, quelque chose qui porte une vieille armure de gardien protège une lumière que les Bois ne devraient pas avoir. Rapporte-la."
+      }
+    },
+    "remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "The east road, little spark. Beyond the pond, past the trees that whisper. Mind the shades: they fear flame, so give them some.",
+        "fr": "La route de l'est, petite étincelle. Au-delà de l'étang, passé les arbres qui murmurent. Méfie-toi des ombres : elles craignent la flamme, alors donne-leur-en."
+      }
+    },
+    "turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "You came back. And you carry... yes. I can feel its warmth from here.",
+        "fr": "Tu es revenu. Et tu portes... oui. Je sens sa chaleur d'ici."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "It's yours, Keeper.",
+            "fr": "Elle est à vous, Gardienne."
+          },
+          "do": [
+            {
+              "completeQuest": "first-ember"
+            },
+            {
+              "setFlag": "first-ember-returned"
+            }
+          ],
+          "next": "reward"
+        }
+      ]
+    },
+    "reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Not mine. The Lantern's. And this blade is yours: it was quenched in the Lantern's oil. Carry the flame, never the fire.",
+        "fr": "Pas à moi. À la Lanterne. Et cette lame est à toi : elle a été trempée dans l'huile de la Lanterne. Porte la flamme, jamais le feu."
+      }
+    },
+    "after": {
+      "speaker": "npc",
+      "text": {
+        "en": "The flame burns a hair taller tonight. Rest, then go further. There are twenty-nine more shards out there.",
+        "fr": "La flamme brûle un cheveu plus haut ce soir. Repose-toi, puis va plus loin. Il reste vingt-neuf éclats là-dehors."
+      }
+    }
+  }
+}

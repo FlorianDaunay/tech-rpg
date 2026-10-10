@@ -10,6 +10,11 @@ import { TouchControls } from "@/ui/touch/TouchControls";
 import { LootToasts } from "../hud/LootToasts";
 import { Vitals } from "../hud/Vitals";
 import { ZoneBanner } from "../hud/ZoneBanner";
+import { Prompt } from "../hud/Prompt";
+import { QuestToasts } from "../hud/QuestToasts";
+import { CodexScreen } from "./CodexScreen";
+import { DialogueBox } from "./DialogueBox";
+import { JournalScreen } from "./JournalScreen";
 import { InventoryScreen } from "./InventoryScreen";
 import { PauseMenu } from "./PauseMenu";
 import { SettingsScreen } from "./SettingsScreen";
@@ -65,9 +70,14 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       )}
       <LootToasts />
       <ZoneBanner />
+      <QuestToasts />
+      <Prompt />
       {menu === "pause" && <PauseMenu onQuit={quit} />}
       {menu === "inventory" && <InventoryScreen />}
       {menu === "settings" && <SettingsScreen onBack={back} />}
+      {menu === "dialogue" && <DialogueBox />}
+      {menu === "journal" && <JournalScreen />}
+      {menu === "codex" && <CodexScreen />}
     </div>
   );
 }

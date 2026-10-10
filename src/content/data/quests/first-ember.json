@@ -1,0 +1,57 @@
+{
+  "id": "first-ember",
+  "type": "main",
+  "giver": "maelis",
+  "title": {
+    "en": "The First Ember",
+    "fr": "La première braise"
+  },
+  "summary": {
+    "en": "The Lantern leaned east, towards the Whispering Wilds. Something there holds a piece of the sun.",
+    "fr": "La Lanterne s'est penchée vers l'est, vers les Bois Murmurants. Quelque chose là-bas détient un fragment du soleil."
+  },
+  "objectives": [
+    {
+      "id": "enter",
+      "kind": "reach",
+      "map": "whispering-wilds",
+      "text": {
+        "en": "Enter the Whispering Wilds",
+        "fr": "Entrer dans les Bois Murmurants"
+      }
+    },
+    {
+      "id": "warden",
+      "kind": "kill",
+      "enemy": "hollowed-warden",
+      "count": 1,
+      "text": {
+        "en": "Defeat the warden beyond the pond",
+        "fr": "Vaincre le gardien au-delà de l'étang"
+      }
+    },
+    {
+      "id": "ember",
+      "kind": "collect",
+      "item": "sunlit-ember",
+      "count": 1,
+      "text": {
+        "en": "Recover what it guards",
+        "fr": "Récupérer ce qu'il garde"
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 50,
+    "items": [
+      {
+        "item": "cinder-edge",
+        "count": 1
+      },
+      {
+        "item": "healing-draught",
+        "count": 2
+      }
+    ]
+  }
+}

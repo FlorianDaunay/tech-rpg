@@ -241,7 +241,7 @@ export function resolveMelee(w: CombatWorld, rng: Rng): void {
     if (act.kind !== "attack" || !m || m.projectile || !act.started || act.t > m.windup + m.active) continue;
     for (const tid of ids) {
       const target = w.actors[tid]!;
-      if (target.team === a.team || !isAlive(target) || act.hit.includes(tid)) continue;
+      if (target.team === a.team || target.kind === "npc" || !isAlive(target) || act.hit.includes(tid)) continue;
       if (!hitboxTouches(m.hitbox, a, act.dir, target, target.radius)) continue;
       act.hit.push(tid);
       applyHit(w, rng, { id: a.id, stats: a.stats, x: a.x, y: a.y }, target, m, act.charge, act.dir);
@@ -262,7 +262,7 @@ export function stepProjectiles(w: CombatWorld, map: GameMap, rng: Rng, dt: numb
     }
     for (const tid of ids) {
       const t = w.actors[tid]!;
-      if (t.team === p.team || !isAlive(t)) continue;
+      if (t.team === p.team || t.kind === "npc" || !isAlive(t)) continue;
       if (Math.hypot(t.x - p.x, t.y - 6 - p.y) > p.radius + t.radius + 2) continue;
       const dir = normalize({ x: p.vx, y: p.vy });
       applyHit(w, rng, { id: p.owner, stats: p.stats, x: p.x - dir.x * 8, y: p.y + 6 - dir.y * 8 }, t, getMove(p.move), 0, dir);
@@ -386,6 +386,7 @@ function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): v
   target.statuses = [];
   const def = target.kind === "enemy" ? getEnemy(target.type) : null;
   w.events.push({ type: "death", id: target.id, killer, xp: def?.xp ?? 0 });
+  if (def && killer && w.actors[killer]?.kind === "player") w.events.push({ type: "kill-credit", id: killer, enemy: target.type });
   if (!def?.loot) return;
   for (const drop of rollLoot(getLootTable(def.loot), rng)) {
     const angle = rng.range(0, Math.PI * 2);

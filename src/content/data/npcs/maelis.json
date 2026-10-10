@@ -1,0 +1,18 @@
+{
+  "id": "maelis",
+  "name": {
+    "en": "High Keeper Maelis",
+    "fr": "Haute Gardienne Maelis"
+  },
+  "title": {
+    "en": "Keeper of the Lantern",
+    "fr": "Gardienne de la Lanterne"
+  },
+  "description": {
+    "en": "Old, kind, and keeper of more secrets than candles. She raised you.",
+    "fr": "Âgée, bienveillante, et gardienne de plus de secrets que de chandelles. Elle vous a élevé."
+  },
+  "look": "characters/female-05-1",
+  "dialogue": "maelis",
+  "wander": 10
+}

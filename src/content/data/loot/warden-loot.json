@@ -1,0 +1,15 @@
+{
+  "id": "warden-loot",
+  "rolls": 1,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "sunlit-ember",
+      "weight": 1
+    }
+  ],
+  "gold": {
+    "min": 20,
+    "max": 30
+  }
+}

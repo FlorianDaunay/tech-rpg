@@ -2,7 +2,9 @@ import type { Facing, Vec2 } from "../math/vec";
 import type { Body } from "../sim/movement";
 import { STAMINA } from "./moves";
 
-export type Team = "players" | "enemies";
+import { emptyProgress, type Progress } from "../narrative/progress";
+
+export type Team = "players" | "enemies" | "neutral";
 
 /** What an actor is doing. One state at a time; timers count up in seconds. */
 export type ActionState =
@@ -70,7 +72,7 @@ export interface StatusInstance {
 export interface Actor extends Body {
   id: string;
   team: Team;
-  kind: "player" | "enemy";
+  kind: "player" | "enemy" | "npc";
   /** Enemy definition id (enemies) or class id (players). */
   type: string;
   /** Character sheet asset key. */
@@ -104,6 +106,8 @@ export interface Actor extends Body {
   /** Last action pressed while busy, replayed as soon as the actor can act (input buffering). */
   buffered: { action: "attack" | "heavy" | "dodge"; ttl: number } | null;
   ai: AiState | null;
+  /** Story state (players only). */
+  progress: Progress | null;
 }
 
 export function createActor(init: {
@@ -148,7 +152,8 @@ export function createActor(init: {
     home: { x: init.x, y: init.y },
     sinceHit: 99,
     buffered: null,
-    ai: init.kind === "enemy" ? { target: null, cooldown: 0.5, strafe: 1, think: 0, regen: 0 } : null,
+    ai: init.kind === "player" ? null : { target: null, cooldown: 0.5, strafe: 1, think: 0, regen: 0 },
+    progress: init.kind === "player" ? emptyProgress() : null,
   };
 }
 

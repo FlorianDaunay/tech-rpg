@@ -1,0 +1,43 @@
+{
+  "id": "harl",
+  "start": "post",
+  "nodes": {
+    "post": {
+      "speaker": "npc",
+      "text": {
+        "en": "East road's open, but I wouldn't. Fireflies out there don't sleep, and neither does whatever's under them.",
+        "fr": "La route de l'est est ouverte, mais à ta place je n'irais pas. Les lucioles là-bas ne dorment jamais, et ce qu'il y a dessous non plus."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I can handle it.",
+            "fr": "Je peux m'en sortir."
+          },
+          "next": "ok"
+        },
+        {
+          "text": {
+            "en": "Any advice?",
+            "fr": "Un conseil ?"
+          },
+          "next": "advice"
+        }
+      ]
+    },
+    "advice": {
+      "speaker": "npc",
+      "text": {
+        "en": "Block when they wind up, roll when they glow. And if you see white thread between the trees, go around.",
+        "fr": "Pare quand ils armen leur coup, roule quand ils brillent. Et si tu vois du fil blanc entre les arbres, fais le tour."
+      }
+    },
+    "ok": {
+      "speaker": "npc",
+      "text": {
+        "en": "Then carry a light. You're the Keeper's foundling, aren't you? Go on, then.",
+        "fr": "Alors emporte de la lumière. T'es l'enfant trouvé de la Gardienne, non ? Vas-y, alors."
+      }
+    }
+  }
+}

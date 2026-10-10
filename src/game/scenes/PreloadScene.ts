@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { bridge, type GameMode } from "@/bridge/events";
+import type { Progress } from "@/core/narrative/progress";
 import { ASSET_INDEX_KEY, ASSET_INDEX_PATH, queueAssets, type AssetEntry } from "../assets";
 
 /** Asset kinds the world needs up front. Others (bosses, rare enemies) load on demand later. */
@@ -24,6 +25,7 @@ export interface PlayerCarry {
   bag: Record<string, number>;
   weapon: string | null;
   shield: string | null;
+  progress: Progress;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */

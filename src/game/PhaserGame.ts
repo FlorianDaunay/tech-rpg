@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { combatData } from "@/content/combat";
 import { registerCombatData } from "@/core/combat/defs";
+import { narrativeData } from "@/content/narrative";
+import { registerNarrativeData } from "@/core/narrative/defs";
 import { PreloadScene } from "./scenes/PreloadScene";
 import { TitleScene } from "./scenes/TitleScene";
 import { WorldScene } from "./scenes/WorldScene";
@@ -9,6 +11,7 @@ import { WorldScene } from "./scenes/WorldScene";
 export function createGame(parent: HTMLElement): Phaser.Game {
   // Rules in core read content through this registry (core never imports content).
   registerCombatData(combatData());
+  registerNarrativeData(narrativeData());
   const game = new Phaser.Game({
     type: Phaser.WEBGL,
     parent,

@@ -1,0 +1,18 @@
+{
+  "id": "tomas",
+  "name": {
+    "en": "Old Tomas",
+    "fr": "Le vieux Tomas"
+  },
+  "title": {
+    "en": "Teller of stories",
+    "fr": "Conteur"
+  },
+  "description": {
+    "en": "Older than the well he sits on, or so he says. He remembers stories nobody else does.",
+    "fr": "Plus vieux que le puits où il s'assoit, à l'en croire. Il se souvient d'histoires que tous ont oubliées."
+  },
+  "look": "characters/male-07-1",
+  "dialogue": "tomas",
+  "wander": 0
+}

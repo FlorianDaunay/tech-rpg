@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { bridge } from "@/bridge/events";
 
-export type Menu = "pause" | "inventory" | "settings";
+export type Menu = "pause" | "inventory" | "settings" | "dialogue" | "journal" | "codex";
 
 interface MenuState {
   /** Stack of open in-game menus (settings can open over pause). Empty = playing. */
@@ -25,3 +25,10 @@ useMenu.subscribe((s, prev) => {
 });
 
 bridge.on("game:menu", (m) => useMenu.getState().open(m));
+
+/** The conversation being shown (set when the game reports a talk). */
+export const useDialogue = create<{ npc: string; dialogue: string } | null>()(() => null);
+bridge.on("game:dialogue", (d) => {
+  useDialogue.setState(d, true);
+  useMenu.getState().open("dialogue");
+});

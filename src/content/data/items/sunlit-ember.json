@@ -1,0 +1,14 @@
+{
+  "id": "sunlit-ember",
+  "name": {
+    "en": "Sunlit Ember",
+    "fr": "Braise solaire"
+  },
+  "description": {
+    "en": "A sliver of warm light that refuses to cool. The Lantern would know what to do with it.",
+    "fr": "Un éclat de lumière tiède qui refuse de refroidir. La Lanterne saurait quoi en faire."
+  },
+  "rarity": "legendary",
+  "kind": "key",
+  "stack": 9
+}

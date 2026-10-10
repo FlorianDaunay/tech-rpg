@@ -1,0 +1,18 @@
+{
+  "id": "bram",
+  "name": {
+    "en": "Bram",
+    "fr": "Bram"
+  },
+  "title": {
+    "en": "Smith",
+    "fr": "Forgeron"
+  },
+  "description": {
+    "en": "Cinderhold's smith. His anvil sings when the iron is good, and sulks when it isn't.",
+    "fr": "Le forgeron de Cendrebourg. Son enclume chante quand le fer est bon, et boude sinon."
+  },
+  "look": "characters/male-03-4",
+  "dialogue": "bram",
+  "wander": 12
+}

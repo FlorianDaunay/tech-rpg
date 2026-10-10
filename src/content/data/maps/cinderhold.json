@@ -955,6 +955,48 @@
       "kind": "player",
       "cx": 40,
       "cy": 13
+    },
+    {
+      "id": "maelis",
+      "kind": "npc",
+      "cx": 23,
+      "cy": 14,
+      "ref": "maelis"
+    },
+    {
+      "id": "bram",
+      "kind": "npc",
+      "cx": 31,
+      "cy": 19,
+      "ref": "bram"
+    },
+    {
+      "id": "oskar",
+      "kind": "npc",
+      "cx": 12,
+      "cy": 18,
+      "ref": "oskar"
+    },
+    {
+      "id": "tomas",
+      "kind": "npc",
+      "cx": 27,
+      "cy": 19,
+      "ref": "tomas"
+    },
+    {
+      "id": "harl",
+      "kind": "npc",
+      "cx": 39,
+      "cy": 12,
+      "ref": "harl"
+    },
+    {
+      "id": "cinder",
+      "kind": "npc",
+      "cx": 18,
+      "cy": 21,
+      "ref": "cinder"
     }
   ],
   "portals": [

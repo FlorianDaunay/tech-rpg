@@ -2,6 +2,7 @@ import type { z } from "zod";
 import { EnemySchema, ItemSchema, LootTableSchema, MoveSchema, ReactionSchema, ShieldSchema, StatusSchema, SwordSchema } from "./schemas/combat";
 import { LoreSchema } from "./schemas/lore";
 import { MapSchema } from "./schemas/map";
+import { DialogueSchema, NpcSchema, QuestSchema } from "./schemas/narrative";
 import { ZoneSchema } from "./schemas/zone";
 
 /**
@@ -19,6 +20,9 @@ const sources = {
   sword: { schema: SwordSchema, folder: "swords", files: import.meta.glob("./data/swords/*.json", { eager: true, import: "default" }) },
   shield: { schema: ShieldSchema, folder: "shields", files: import.meta.glob("./data/shields/*.json", { eager: true, import: "default" }) },
   item: { schema: ItemSchema, folder: "items", files: import.meta.glob("./data/items/*.json", { eager: true, import: "default" }) },
+  npc: { schema: NpcSchema, folder: "npcs", files: import.meta.glob("./data/npcs/*.json", { eager: true, import: "default" }) },
+  dialogue: { schema: DialogueSchema, folder: "dialogues", files: import.meta.glob("./data/dialogues/*.json", { eager: true, import: "default" }) },
+  quest: { schema: QuestSchema, folder: "quests", files: import.meta.glob("./data/quests/*.json", { eager: true, import: "default" }) },
   loot: { schema: LootTableSchema, folder: "loot", files: import.meta.glob("./data/loot/*.json", { eager: true, import: "default" }) },
 } as const;
 
@@ -82,6 +86,9 @@ export const content = {
   shields: collection("shield"),
   items: collection("item"),
   loot: collection("loot"),
+  npcs: collection("npc"),
+  dialogues: collection("dialogue"),
+  quests: collection("quest"),
 };
 
 /** Ids of every entry of a type (reference checks). */

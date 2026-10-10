@@ -1,0 +1,18 @@
+{
+  "id": "oskar",
+  "name": {
+    "en": "Oskar",
+    "fr": "Oskar"
+  },
+  "title": {
+    "en": "Peddler of oddments",
+    "fr": "Colporteur de bizarreries"
+  },
+  "description": {
+    "en": "He sells rumours when the road is closed, and everything else when it isn't.",
+    "fr": "Il vend des rumeurs quand la route est fermée, et tout le reste quand elle ne l'est pas."
+  },
+  "look": "characters/male-09-1",
+  "dialogue": "oskar",
+  "wander": 16
+}

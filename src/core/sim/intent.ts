@@ -19,7 +19,9 @@ export type Action = (typeof ACTIONS)[number];
 /** Discrete player commands from menus (inventory). They travel with the Intent so the host applies them. */
 export type Command =
   | { type: "equip"; slot: "weapon" | "shield"; item: string | null }
-  | { type: "use"; item: string };
+  | { type: "use"; item: string }
+  /** A dialogue choice (the host re-validates conditions before applying effects). */
+  | { type: "dialogue"; dialogue: string; node: string; choice: number };
 
 /** What one player wants this tick. Serializable: it's also the network input message. */
 export interface Intent {

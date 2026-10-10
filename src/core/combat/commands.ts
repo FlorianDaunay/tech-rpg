@@ -5,6 +5,7 @@ import { equip } from "./equipment";
 import type { SimEvent } from "./events";
 import { STAMINA } from "./moves";
 import { applyStatus } from "./status";
+import { chooseDialogue } from "../narrative/progress";
 
 const take = (a: Actor, item: string): boolean => {
   const n = a.bag[item] ?? 0;
@@ -21,6 +22,10 @@ const give = (a: Actor, item: string) => (a.bag[item] = (a.bag[item] ?? 0) + 1);
  */
 export function applyCommand(events: SimEvent[], a: Actor, cmd: Command): void {
   if (!isAlive(a)) return;
+  if (cmd.type === "dialogue") {
+    if (a.progress) chooseDialogue(events, { id: a.id, bag: a.bag, progress: a.progress }, cmd.dialogue, cmd.node, cmd.choice);
+    return;
+  }
   if (cmd.type === "equip") {
     const current = cmd.slot === "weapon" ? a.weapon : a.shield;
     if (cmd.item === current) return;

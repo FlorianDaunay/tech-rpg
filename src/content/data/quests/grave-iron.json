@@ -1,0 +1,34 @@
+{
+  "id": "grave-iron",
+  "type": "side",
+  "giver": "bram",
+  "title": {
+    "en": "Iron for the Anvil",
+    "fr": "Du fer pour l'enclume"
+  },
+  "summary": {
+    "en": "Bram's anvil has gone cold. The brutes of the dark are stitched with grave-iron, the best metal there is.",
+    "fr": "L'enclume de Bram s'est refroidie. Les brutes de la nuit sont cousues de fer funéraire, le meilleur métal qui soit."
+  },
+  "objectives": [
+    {
+      "id": "iron",
+      "kind": "collect",
+      "item": "grave-iron",
+      "count": 3,
+      "text": {
+        "en": "Bring 3 grave-iron to Bram",
+        "fr": "Rapporter 3 fers funéraires à Bram"
+      }
+    }
+  ],
+  "rewards": {
+    "gold": 20,
+    "items": [
+      {
+        "item": "warden-kite",
+        "count": 1
+      }
+    ]
+  }
+}
