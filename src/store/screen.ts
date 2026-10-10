@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 /** Top-level screens. A game doesn't need URLs: one state machine, no router. */
-export type Screen = "title" | "solo" | "multi" | "settings" | "credits";
+export type Screen = "title" | "solo" | "multi" | "settings" | "credits" | "soundtest";
 
 interface ScreenState {
   screen: Screen;
