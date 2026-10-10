@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "the-embersworn",
+  "category": "faction",
+  "order": 0,
+  "title": {
+    "en": "The Embersworn",
+    "fr": "Les Jure-Braise"
+  },
+  "summary": {
+    "en": "Keepers of the Lantern. Carry the flame, never the fire.",
+    "fr": "Gardiens de la Lanterne. Porter la flamme, jamais l'incendie."
+  },
+  "body": {
+    "en": "The order founded by Seraphine Vale to guard the Lantern and walk into the dark with a piece of its light. Their initiates learn the **Arcana** of flame and light; their oath is short: *carry the flame, never the fire*.\n\nThey are led by **High Keeper Maelis**, who is old, kind, and keeps more secrets than candles.",
+    "fr": "L'ordre fondé par Séraphine Vale pour garder la Lanterne et marcher dans le noir avec un fragment de sa lumière. Ses initiés apprennent les **Arcanes** de la flamme et de la lumière ; leur serment est court : *porter la flamme, jamais l'incendie*.\n\nIls sont menés par la **Grande Gardienne Maélis**, vieille, bienveillante, et qui garde plus de secrets que de chandelles."
+  }
+}

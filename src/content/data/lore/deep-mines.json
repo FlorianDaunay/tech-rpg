@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "deep-mines",
+  "category": "place",
+  "order": 3,
+  "title": {
+    "en": "The Deep Mines",
+    "fr": "Les Mines Profondes"
+  },
+  "summary": {
+    "en": "Veins of ember-ore, and a wound that breathes.",
+    "fr": "Des veines de minerai de braise, et une blessure qui respire."
+  },
+  "body": {
+    "en": "The Deepdelvers' richest galleries go down further every year. At the bottom, the rock is warm and soft, and on quiet nights miners hear something below them, swallowing.",
+    "fr": "Les galeries les plus riches des Fouilleurs descendent plus bas chaque année. Tout au fond, la roche est tiède et molle, et les nuits calmes, les mineurs entendent quelque chose en dessous d'eux qui avale."
+  }
+}

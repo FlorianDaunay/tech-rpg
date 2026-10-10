@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "valaria",
+  "category": "world",
+  "order": 0,
+  "title": {
+    "en": "Valaria",
+    "fr": "Valaria"
+  },
+  "summary": {
+    "en": "A land that once knew only noon.",
+    "fr": "Une terre qui n'a connu que midi."
+  },
+  "body": {
+    "en": "For a thousand years Valaria lived under an endless noon. Above it hung the **Dawnblade**, the sword of the sun-god Aurel, driven into the sky after he struck down the first darkness. Its light was warmth, harvest and time itself: no one in Valaria owned a candle.\n\nThree hundred years ago, in a single night now called **the Sundering**, the Dawnblade broke. Its shards fell across the land as thirty **Ember Blades**, and the sky kept only a cracked, smouldering disc: the **Shattered Sun**. It gives a dim copper twilight by day and almost nothing by night.\n\nSince then the **Hollow** seeps up from beneath the world. What it touches forgets itself: trees forget to grow, the dead forget to rest, people forget their names.",
+    "fr": "Pendant mille ans, Valaria a vécu sous un midi sans fin. Au-dessus d'elle était suspendue la **Lame de l'Aube**, l'épée du dieu-soleil Aurel, plantée dans le ciel après qu'il eut terrassé la première obscurité. Sa lumière était chaleur, moisson et le temps lui-même : personne en Valaria ne possédait de bougie.\n\nIl y a trois cents ans, en une seule nuit que l'on nomme aujourd'hui **la Brisure**, la Lame de l'Aube s'est rompue. Ses éclats sont tombés sur le pays en trente **Lames de Braise**, et le ciel n'a gardé qu'un disque fêlé et rougeoyant : le **Soleil Brisé**. Il donne un pâle crépuscule cuivré le jour, et presque rien la nuit.\n\nDepuis, le **Creux** suinte des profondeurs du monde. Ce qu'il touche s'oublie : les arbres oublient de pousser, les morts oublient de reposer, les gens oublient leur nom."
+  }
+}

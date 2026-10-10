@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "the-initiate",
+  "category": "people",
+  "order": 0,
+  "title": {
+    "en": "The Initiate",
+    "fr": "L'Initié"
+  },
+  "summary": {
+    "en": "You. A foundling the Lantern chose.",
+    "fr": "Toi. Un enfant trouvé que la Lanterne a choisi."
+  },
+  "body": {
+    "en": "Found as a child at the foot of the Lantern, with no name and a burn on the palm shaped like a sunburst. Raised by the Embersworn. On the night your story begins, the Lantern's flame gutters, almost dies, and then **follows you** out of Cinderhold.",
+    "fr": "Trouvé enfant au pied de la Lanterne, sans nom, avec une brûlure en forme de soleil au creux de la main. Élevé par les Jure-Braise. La nuit où ton histoire commence, la flamme de la Lanterne vacille, manque de mourir, puis **te suit** hors de Cendrebourg."
+  }
+}

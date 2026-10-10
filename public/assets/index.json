@@ -1,0 +1,7273 @@
+{
+ "version": 1,
+ "kinds": [
+  "character",
+  "enemy",
+  "boss",
+  "tileset",
+  "tile",
+  "prop",
+  "item",
+  "weapon",
+  "shield",
+  "vfx",
+  "light",
+  "ui"
+ ],
+ "assets": [
+  {
+   "key": "bosses/maw",
+   "path": "bosses/maw.png",
+   "kind": "boss",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 3,
+   "meta": {
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Boss/Boss 01.png",
+    "sourceRow": 2
+   }
+  },
+  {
+   "key": "bosses/pale-weaver",
+   "path": "bosses/pale-weaver.png",
+   "kind": "boss",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 3,
+   "meta": {
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Boss/Boss 01.png",
+    "sourceRow": 0
+   }
+  },
+  {
+   "key": "bosses/shroud",
+   "path": "bosses/shroud.png",
+   "kind": "boss",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 3,
+   "meta": {
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Boss/Boss 01.png",
+    "sourceRow": 1
+   }
+  },
+  {
+   "key": "bosses/vaelgor",
+   "path": "bosses/vaelgor.png",
+   "kind": "boss",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 3,
+   "meta": {
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Boss/Boss 01.png",
+    "sourceRow": 3
+   }
+  },
+  {
+   "key": "characters/cat-01-1",
+   "path": "characters/cat-01-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "pet",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Animal/Cat 01-1.png"
+   }
+  },
+  {
+   "key": "characters/dog-01-1",
+   "path": "characters/dog-01-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "pet",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Animal/Dog 01-1.png"
+   }
+  },
+  {
+   "key": "characters/female-01-1",
+   "path": "characters/female-01-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 01-1.png"
+   }
+  },
+  {
+   "key": "characters/female-01-2",
+   "path": "characters/female-01-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 01-2.png"
+   }
+  },
+  {
+   "key": "characters/female-01-3",
+   "path": "characters/female-01-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 01-3.png"
+   }
+  },
+  {
+   "key": "characters/female-01-4",
+   "path": "characters/female-01-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 01-4.png"
+   }
+  },
+  {
+   "key": "characters/female-02-1",
+   "path": "characters/female-02-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 02-1.png"
+   }
+  },
+  {
+   "key": "characters/female-02-2",
+   "path": "characters/female-02-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 02-2.png"
+   }
+  },
+  {
+   "key": "characters/female-02-3",
+   "path": "characters/female-02-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 02-3.png"
+   }
+  },
+  {
+   "key": "characters/female-02-4",
+   "path": "characters/female-02-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 02-4.png"
+   }
+  },
+  {
+   "key": "characters/female-05-1",
+   "path": "characters/female-05-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 05-1.png"
+   }
+  },
+  {
+   "key": "characters/female-06-1",
+   "path": "characters/female-06-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 06-1.png"
+   }
+  },
+  {
+   "key": "characters/female-07-1",
+   "path": "characters/female-07-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 07-1.png"
+   }
+  },
+  {
+   "key": "characters/female-08-1",
+   "path": "characters/female-08-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 08-1.png"
+   }
+  },
+  {
+   "key": "characters/female-09-1",
+   "path": "characters/female-09-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 09-1.png"
+   }
+  },
+  {
+   "key": "characters/female-10-1",
+   "path": "characters/female-10-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Female/Female 10-1.png"
+   }
+  },
+  {
+   "key": "characters/male-01-1",
+   "path": "characters/male-01-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 01-1.png"
+   }
+  },
+  {
+   "key": "characters/male-01-2",
+   "path": "characters/male-01-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 01-2.png"
+   }
+  },
+  {
+   "key": "characters/male-01-3",
+   "path": "characters/male-01-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 01-3.png"
+   }
+  },
+  {
+   "key": "characters/male-01-4",
+   "path": "characters/male-01-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 01-4.png"
+   }
+  },
+  {
+   "key": "characters/male-02-1",
+   "path": "characters/male-02-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 02-1.png"
+   }
+  },
+  {
+   "key": "characters/male-02-2",
+   "path": "characters/male-02-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 02-2.png"
+   }
+  },
+  {
+   "key": "characters/male-02-3",
+   "path": "characters/male-02-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 02-3.png"
+   }
+  },
+  {
+   "key": "characters/male-02-4",
+   "path": "characters/male-02-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 02-4.png"
+   }
+  },
+  {
+   "key": "characters/male-03-1",
+   "path": "characters/male-03-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 03-1.png"
+   }
+  },
+  {
+   "key": "characters/male-03-2",
+   "path": "characters/male-03-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 03-2.png"
+   }
+  },
+  {
+   "key": "characters/male-03-3",
+   "path": "characters/male-03-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 03-3.png"
+   }
+  },
+  {
+   "key": "characters/male-03-4",
+   "path": "characters/male-03-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 03-4.png"
+   }
+  },
+  {
+   "key": "characters/male-04-1",
+   "path": "characters/male-04-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 04-1.png"
+   }
+  },
+  {
+   "key": "characters/male-04-2",
+   "path": "characters/male-04-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 04-2.png"
+   }
+  },
+  {
+   "key": "characters/male-04-3",
+   "path": "characters/male-04-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 04-3.png"
+   }
+  },
+  {
+   "key": "characters/male-04-4",
+   "path": "characters/male-04-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 04-4.png"
+   }
+  },
+  {
+   "key": "characters/male-05-1",
+   "path": "characters/male-05-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 05-1.png"
+   }
+  },
+  {
+   "key": "characters/male-06-1",
+   "path": "characters/male-06-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 06-1.png"
+   }
+  },
+  {
+   "key": "characters/male-07-1",
+   "path": "characters/male-07-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 07-1.png"
+   }
+  },
+  {
+   "key": "characters/male-08-1",
+   "path": "characters/male-08-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 08-1.png"
+   }
+  },
+  {
+   "key": "characters/male-09-1",
+   "path": "characters/male-09-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 09-1.png"
+   }
+  },
+  {
+   "key": "characters/male-10-1",
+   "path": "characters/male-10-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "villager",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Male/Male 10-1.png"
+   }
+  },
+  {
+   "key": "characters/soldier-01-1",
+   "path": "characters/soldier-01-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "player",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 01-1.png"
+   }
+  },
+  {
+   "key": "characters/soldier-02-1",
+   "path": "characters/soldier-02-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 02-1.png"
+   }
+  },
+  {
+   "key": "characters/soldier-02-2",
+   "path": "characters/soldier-02-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 02-2.png"
+   }
+  },
+  {
+   "key": "characters/soldier-02-3",
+   "path": "characters/soldier-02-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 02-3.png"
+   }
+  },
+  {
+   "key": "characters/soldier-02-4",
+   "path": "characters/soldier-02-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 02-4.png"
+   }
+  },
+  {
+   "key": "characters/soldier-03-1",
+   "path": "characters/soldier-03-1.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 03-1.png"
+   }
+  },
+  {
+   "key": "characters/soldier-03-2",
+   "path": "characters/soldier-03-2.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 03-2.png"
+   }
+  },
+  {
+   "key": "characters/soldier-03-3",
+   "path": "characters/soldier-03-3.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 03-3.png"
+   }
+  },
+  {
+   "key": "characters/soldier-03-4",
+   "path": "characters/soldier-03-4.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "shieldwarden",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Soldier/Soldier 03-4.png"
+   }
+  },
+  {
+   "key": "characters/soldier-captain",
+   "path": "characters/soldier-captain.png",
+   "kind": "character",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "captain",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Other/pipo-charachip_soldier01.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-01-1",
+   "path": "enemies/enemy-01-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 01-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-02-1",
+   "path": "enemies/enemy-02-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 02-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-03-1",
+   "path": "enemies/enemy-03-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 03-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-04-1",
+   "path": "enemies/enemy-04-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 04-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-05-1",
+   "path": "enemies/enemy-05-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 05-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-06-1",
+   "path": "enemies/enemy-06-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 06-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-07-1",
+   "path": "enemies/enemy-07-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 07-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-08-1",
+   "path": "enemies/enemy-08-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 08-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-09-1",
+   "path": "enemies/enemy-09-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 09-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-10-1",
+   "path": "enemies/enemy-10-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 10-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-11-1",
+   "path": "enemies/enemy-11-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 11-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-12-1",
+   "path": "enemies/enemy-12-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 12-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-13-1",
+   "path": "enemies/enemy-13-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 13-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-14-1",
+   "path": "enemies/enemy-14-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 14-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-15-1",
+   "path": "enemies/enemy-15-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 15-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-15-2",
+   "path": "enemies/enemy-15-2.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 15-2.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-15-3",
+   "path": "enemies/enemy-15-3.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 15-3.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-15-4",
+   "path": "enemies/enemy-15-4.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 15-4.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-15-5",
+   "path": "enemies/enemy-15-5.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 15-5.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-15-6",
+   "path": "enemies/enemy-15-6.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 15-6.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-1",
+   "path": "enemies/enemy-16-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-2",
+   "path": "enemies/enemy-16-2.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-2.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-3",
+   "path": "enemies/enemy-16-3.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-3.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-4",
+   "path": "enemies/enemy-16-4.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-4.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-5",
+   "path": "enemies/enemy-16-5.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-5.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-6",
+   "path": "enemies/enemy-16-6.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-6.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-7",
+   "path": "enemies/enemy-16-7.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-7.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-16-8",
+   "path": "enemies/enemy-16-8.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 16-8.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-1",
+   "path": "enemies/enemy-17-1.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-1.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-2",
+   "path": "enemies/enemy-17-2.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-2.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-3",
+   "path": "enemies/enemy-17-3.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-3.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-4",
+   "path": "enemies/enemy-17-4.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-4.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-5",
+   "path": "enemies/enemy-17-5.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-5.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-6",
+   "path": "enemies/enemy-17-6.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-6.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-7",
+   "path": "enemies/enemy-17-7.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-7.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-17-8",
+   "path": "enemies/enemy-17-8.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 17-8.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-18",
+   "path": "enemies/enemy-18.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 18.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-19",
+   "path": "enemies/enemy-19.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 19.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-20",
+   "path": "enemies/enemy-20.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 20.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-21",
+   "path": "enemies/enemy-21.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 21.png"
+   }
+  },
+  {
+   "key": "enemies/enemy-22",
+   "path": "enemies/enemy-22.png",
+   "kind": "enemy",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 12,
+   "meta": {
+    "cols": 3,
+    "rows": 4,
+    "directions": [
+     "down",
+     "left",
+     "right",
+     "up"
+    ],
+    "walk": [
+     0,
+     1,
+     2,
+     1
+    ],
+    "role": "enemy",
+    "credit": "pipoya",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 22.png"
+   }
+  },
+  {
+   "key": "props/bushes",
+   "path": "props/bushes.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/chest",
+   "path": "props/chest.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "decor",
+    "source": "mine/chest.png"
+   }
+  },
+  {
+   "key": "props/forge",
+   "path": "props/forge.png",
+   "kind": "prop",
+   "frameWidth": 128,
+   "frameHeight": 96,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     4,
+     2
+    ],
+    "building": true,
+    "generator": "buildings"
+   }
+  },
+  {
+   "key": "props/house-1",
+   "path": "props/house-1.png",
+   "kind": "prop",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     3,
+     2
+    ],
+    "building": true,
+    "generator": "buildings"
+   }
+  },
+  {
+   "key": "props/house-2",
+   "path": "props/house-2.png",
+   "kind": "prop",
+   "frameWidth": 128,
+   "frameHeight": 128,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     4,
+     2
+    ],
+    "building": true,
+    "generator": "buildings"
+   }
+  },
+  {
+   "key": "props/lantern-shrine",
+   "path": "props/lantern-shrine.png",
+   "kind": "prop",
+   "frameWidth": 96,
+   "frameHeight": 128,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     3,
+     1
+    ],
+    "building": true,
+    "generator": "buildings"
+   }
+  },
+  {
+   "key": "props/market-stall",
+   "path": "props/market-stall.png",
+   "kind": "prop",
+   "frameWidth": 96,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     3,
+     1
+    ],
+    "building": true,
+    "generator": "buildings"
+   }
+  },
+  {
+   "key": "props/mushrooms",
+   "path": "props/mushrooms.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/objects",
+   "path": "props/objects.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 36,
+   "meta": {
+    "credit": "decor",
+    "cols": 12,
+    "rows": 3,
+    "source": "decor_sprite_sheet/Objects.png"
+   }
+  },
+  {
+   "key": "props/props",
+   "path": "props/props.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 256,
+   "meta": {
+    "credit": "decor",
+    "cols": 16,
+    "rows": 16,
+    "source": "decor_sprite_sheet/props.png"
+   }
+  },
+  {
+   "key": "props/rocks",
+   "path": "props/rocks.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/torch",
+   "path": "props/torch.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "decor",
+    "source": "mine/torch.png"
+   }
+  },
+  {
+   "key": "props/treasures",
+   "path": "props/treasures.png",
+   "kind": "prop",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 64,
+   "meta": {
+    "credit": "decor",
+    "cols": 8,
+    "rows": 8,
+    "source": "decor_sprite_sheet/treasures.png"
+   }
+  },
+  {
+   "key": "props/tree-dead",
+   "path": "props/tree-dead.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "collider": "trunk",
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/tree-oak",
+   "path": "props/tree-oak.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "collider": "trunk",
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/tree-oak-2",
+   "path": "props/tree-oak-2.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "collider": "trunk",
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/tree-pine",
+   "path": "props/tree-pine.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "collider": "trunk",
+    "generator": "nature"
+   }
+  },
+  {
+   "key": "props/well",
+   "path": "props/well.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 1,
+    "footprintTiles": [
+     2,
+     1
+    ],
+    "building": true,
+    "generator": "buildings"
+   }
+  },
+  {
+   "key": "shields/pack1-01",
+   "path": "shields/pack1-01.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 24,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/1.png"
+   }
+  },
+  {
+   "key": "shields/pack1-02",
+   "path": "shields/pack1-02.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/2.png"
+   }
+  },
+  {
+   "key": "shields/pack1-03",
+   "path": "shields/pack1-03.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/3.png"
+   }
+  },
+  {
+   "key": "shields/pack1-04",
+   "path": "shields/pack1-04.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/4.png"
+   }
+  },
+  {
+   "key": "shields/pack1-05",
+   "path": "shields/pack1-05.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/5.png"
+   }
+  },
+  {
+   "key": "shields/pack1-06",
+   "path": "shields/pack1-06.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 20,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/6.png"
+   }
+  },
+  {
+   "key": "shields/pack1-07",
+   "path": "shields/pack1-07.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/7.png"
+   }
+  },
+  {
+   "key": "shields/pack1-08",
+   "path": "shields/pack1-08.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/8.png"
+   }
+  },
+  {
+   "key": "shields/pack1-09",
+   "path": "shields/pack1-09.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/9.png"
+   }
+  },
+  {
+   "key": "shields/pack1-10",
+   "path": "shields/pack1-10.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/10.png"
+   }
+  },
+  {
+   "key": "shields/pack1-11",
+   "path": "shields/pack1-11.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/11.png"
+   }
+  },
+  {
+   "key": "shields/pack1-12",
+   "path": "shields/pack1-12.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/12.png"
+   }
+  },
+  {
+   "key": "shields/pack1-13",
+   "path": "shields/pack1-13.png",
+   "kind": "shield",
+   "frameWidth": 32,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/13.png"
+   }
+  },
+  {
+   "key": "shields/pack1-14",
+   "path": "shields/pack1-14.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 21,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/14.png"
+   }
+  },
+  {
+   "key": "shields/pack1-15",
+   "path": "shields/pack1-15.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 25,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/15.png"
+   }
+  },
+  {
+   "key": "shields/pack1-16",
+   "path": "shields/pack1-16.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/16.png"
+   }
+  },
+  {
+   "key": "shields/pack1-17",
+   "path": "shields/pack1-17.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 24,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/17.png"
+   }
+  },
+  {
+   "key": "shields/pack1-18",
+   "path": "shields/pack1-18.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/18.png"
+   }
+  },
+  {
+   "key": "shields/pack1-19",
+   "path": "shields/pack1-19.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/19.png"
+   }
+  },
+  {
+   "key": "shields/pack1-20",
+   "path": "shields/pack1-20.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 15,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/20.png"
+   }
+  },
+  {
+   "key": "shields/pack1-21",
+   "path": "shields/pack1-21.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/21.png"
+   }
+  },
+  {
+   "key": "shields/pack1-22",
+   "path": "shields/pack1-22.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/22.png"
+   }
+  },
+  {
+   "key": "shields/pack1-23",
+   "path": "shields/pack1-23.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 19,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/23.png"
+   }
+  },
+  {
+   "key": "shields/pack1-24",
+   "path": "shields/pack1-24.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/24.png"
+   }
+  },
+  {
+   "key": "shields/pack1-25",
+   "path": "shields/pack1-25.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/25.png"
+   }
+  },
+  {
+   "key": "shields/pack1-26",
+   "path": "shields/pack1-26.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/26.png"
+   }
+  },
+  {
+   "key": "shields/pack1-27",
+   "path": "shields/pack1-27.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/27.png"
+   }
+  },
+  {
+   "key": "shields/pack1-28",
+   "path": "shields/pack1-28.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 31,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/28.png"
+   }
+  },
+  {
+   "key": "shields/pack1-29",
+   "path": "shields/pack1-29.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/29.png"
+   }
+  },
+  {
+   "key": "shields/pack1-30",
+   "path": "shields/pack1-30.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/30.png"
+   }
+  },
+  {
+   "key": "shields/pack1-31",
+   "path": "shields/pack1-31.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 22,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/31.png"
+   }
+  },
+  {
+   "key": "shields/pack1-32",
+   "path": "shields/pack1-32.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 24,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/32.png"
+   }
+  },
+  {
+   "key": "shields/pack1-32b",
+   "path": "shields/pack1-32b.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/32b.png"
+   }
+  },
+  {
+   "key": "shields/pack1-33",
+   "path": "shields/pack1-33.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack1",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 1/1px/33.png"
+   }
+  },
+  {
+   "key": "shields/pack2-01",
+   "path": "shields/pack2-01.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 25,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/1.png"
+   }
+  },
+  {
+   "key": "shields/pack2-02",
+   "path": "shields/pack2-02.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 31,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/2.png"
+   }
+  },
+  {
+   "key": "shields/pack2-03",
+   "path": "shields/pack2-03.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 27,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/3.png"
+   }
+  },
+  {
+   "key": "shields/pack2-04",
+   "path": "shields/pack2-04.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 27,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/4.png"
+   }
+  },
+  {
+   "key": "shields/pack2-05",
+   "path": "shields/pack2-05.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 25,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/5.png"
+   }
+  },
+  {
+   "key": "shields/pack2-06",
+   "path": "shields/pack2-06.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/6.png"
+   }
+  },
+  {
+   "key": "shields/pack2-07",
+   "path": "shields/pack2-07.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 25,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/7.png"
+   }
+  },
+  {
+   "key": "shields/pack2-08",
+   "path": "shields/pack2-08.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/8.png"
+   }
+  },
+  {
+   "key": "shields/pack2-09",
+   "path": "shields/pack2-09.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 24,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/9.png"
+   }
+  },
+  {
+   "key": "shields/pack2-10",
+   "path": "shields/pack2-10.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 24,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/10.png"
+   }
+  },
+  {
+   "key": "shields/pack2-11",
+   "path": "shields/pack2-11.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/11.png"
+   }
+  },
+  {
+   "key": "shields/pack2-12",
+   "path": "shields/pack2-12.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 25,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/12.png"
+   }
+  },
+  {
+   "key": "shields/pack2-13",
+   "path": "shields/pack2-13.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 23,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/13.png"
+   }
+  },
+  {
+   "key": "shields/pack2-14",
+   "path": "shields/pack2-14.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/14.png"
+   }
+  },
+  {
+   "key": "shields/pack2-15",
+   "path": "shields/pack2-15.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/15.png"
+   }
+  },
+  {
+   "key": "shields/pack2-16",
+   "path": "shields/pack2-16.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/16.png"
+   }
+  },
+  {
+   "key": "shields/pack2-17",
+   "path": "shields/pack2-17.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/17.png"
+   }
+  },
+  {
+   "key": "shields/pack2-18",
+   "path": "shields/pack2-18.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 31,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/18.png"
+   }
+  },
+  {
+   "key": "shields/pack2-19",
+   "path": "shields/pack2-19.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/19.png"
+   }
+  },
+  {
+   "key": "shields/pack2-20",
+   "path": "shields/pack2-20.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 24,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/20.png"
+   }
+  },
+  {
+   "key": "shields/pack2-21",
+   "path": "shields/pack2-21.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/21.png"
+   }
+  },
+  {
+   "key": "shields/pack2-22",
+   "path": "shields/pack2-22.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/22.png"
+   }
+  },
+  {
+   "key": "shields/pack2-23",
+   "path": "shields/pack2-23.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/23.png"
+   }
+  },
+  {
+   "key": "shields/pack2-24",
+   "path": "shields/pack2-24.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 25,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/24.png"
+   }
+  },
+  {
+   "key": "shields/pack2-25",
+   "path": "shields/pack2-25.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/25.png"
+   }
+  },
+  {
+   "key": "shields/pack2-26",
+   "path": "shields/pack2-26.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/26.png"
+   }
+  },
+  {
+   "key": "shields/pack2-27",
+   "path": "shields/pack2-27.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/27.png"
+   }
+  },
+  {
+   "key": "shields/pack2-28",
+   "path": "shields/pack2-28.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/28.png"
+   }
+  },
+  {
+   "key": "shields/pack2-29",
+   "path": "shields/pack2-29.png",
+   "kind": "shield",
+   "frameWidth": 22,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/29.png"
+   }
+  },
+  {
+   "key": "shields/pack2-30",
+   "path": "shields/pack2-30.png",
+   "kind": "shield",
+   "frameWidth": 20,
+   "frameHeight": 27,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/30.png"
+   }
+  },
+  {
+   "key": "shields/pack2-31",
+   "path": "shields/pack2-31.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 28,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/31.png"
+   }
+  },
+  {
+   "key": "shields/pack2-32",
+   "path": "shields/pack2-32.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 27,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack2",
+    "licence": "CC0",
+    "source": "SnoopethDuckDuck Shields/Pack 2/1px/32.png"
+   }
+  },
+  {
+   "key": "shields/pack3-01",
+   "path": "shields/pack3-01.png",
+   "kind": "shield",
+   "frameWidth": 30,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/1.png"
+   }
+  },
+  {
+   "key": "shields/pack3-02",
+   "path": "shields/pack3-02.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/2.png"
+   }
+  },
+  {
+   "key": "shields/pack3-03",
+   "path": "shields/pack3-03.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/3.png"
+   }
+  },
+  {
+   "key": "shields/pack3-04",
+   "path": "shields/pack3-04.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 26,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/4.png"
+   }
+  },
+  {
+   "key": "shields/pack3-05",
+   "path": "shields/pack3-05.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/5.png"
+   }
+  },
+  {
+   "key": "shields/pack3-06",
+   "path": "shields/pack3-06.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/6.png"
+   }
+  },
+  {
+   "key": "shields/pack3-07",
+   "path": "shields/pack3-07.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 31,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/7.png"
+   }
+  },
+  {
+   "key": "shields/pack3-08",
+   "path": "shields/pack3-08.png",
+   "kind": "shield",
+   "frameWidth": 24,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/8.png"
+   }
+  },
+  {
+   "key": "shields/pack3-09",
+   "path": "shields/pack3-09.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/9.png"
+   }
+  },
+  {
+   "key": "shields/pack3-10",
+   "path": "shields/pack3-10.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/10.png"
+   }
+  },
+  {
+   "key": "shields/pack3-11",
+   "path": "shields/pack3-11.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 30,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/11.png"
+   }
+  },
+  {
+   "key": "shields/pack3-12",
+   "path": "shields/pack3-12.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 31,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/12.png"
+   }
+  },
+  {
+   "key": "shields/pack3-13",
+   "path": "shields/pack3-13.png",
+   "kind": "shield",
+   "frameWidth": 28,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/13.png"
+   }
+  },
+  {
+   "key": "shields/pack3-14",
+   "path": "shields/pack3-14.png",
+   "kind": "shield",
+   "frameWidth": 26,
+   "frameHeight": 29,
+   "frames": 1,
+   "meta": {
+    "credit": "snoopethduckduck-pack3",
+    "licence": "CC-BY-4.0",
+    "source": "SnoopethDuckDuck Shields/Pack 3/1px/14.png"
+   }
+  },
+  {
+   "key": "tiles/dirt-path",
+   "path": "tiles/dirt-path.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 15,
+   "meta": {
+    "layout": "terrain-3x3+inner",
+    "blockCols": 5,
+    "blockRows": 3,
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/flowers",
+   "path": "tiles/flowers.png",
+   "kind": "tile",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 5,
+   "meta": {
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/grass",
+   "path": "tiles/grass.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 64,
+   "meta": {
+    "credit": "decor",
+    "cols": 8,
+    "rows": 8,
+    "source": "decor_sprite_sheet/grass.png"
+   }
+  },
+  {
+   "key": "tiles/rift-ground",
+   "path": "tiles/rift-ground.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/stone-ground",
+   "path": "tiles/stone-ground.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 64,
+   "meta": {
+    "credit": "decor",
+    "cols": 8,
+    "rows": 8,
+    "source": "decor_sprite_sheet/stone_ground.png"
+   }
+  },
+  {
+   "key": "tiles/tall-grass",
+   "path": "tiles/tall-grass.png",
+   "kind": "tile",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "anim": "loop",
+    "fps": 3,
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/wall",
+   "path": "tiles/wall.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 256,
+   "meta": {
+    "credit": "decor",
+    "cols": 16,
+    "rows": 16,
+    "source": "decor_sprite_sheet/wall.png"
+   }
+  },
+  {
+   "key": "tiles/water",
+   "path": "tiles/water.png",
+   "kind": "tile",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "anim": "loop",
+    "fps": 4,
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/water-shore",
+   "path": "tiles/water-shore.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 60,
+   "meta": {
+    "layout": "terrain-3x3+inner",
+    "blockCols": 5,
+    "blockRows": 3,
+    "animFrames": 4,
+    "blockWidth": 160,
+    "fps": 4,
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/wood-floor",
+   "path": "tiles/wood-floor.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 3,
+   "meta": {
+    "generator": "tiles"
+   }
+  },
+  {
+   "key": "ui/item-frame-common",
+   "path": "ui/item-frame-common.png",
+   "kind": "ui",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "rarity": "common",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/item-frame-epic",
+   "path": "ui/item-frame-epic.png",
+   "kind": "ui",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "rarity": "epic",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/item-frame-legendary",
+   "path": "ui/item-frame-legendary.png",
+   "kind": "ui",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "rarity": "legendary",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/item-frame-rare",
+   "path": "ui/item-frame-rare.png",
+   "kind": "ui",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "rarity": "rare",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/item-frame-uncommon",
+   "path": "ui/item-frame-uncommon.png",
+   "kind": "ui",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "rarity": "uncommon",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/joystick-base",
+   "path": "ui/joystick-base.png",
+   "kind": "ui",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/joystick-knob",
+   "path": "ui/joystick-knob.png",
+   "kind": "ui",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "ui/skill-slot",
+   "path": "ui/skill-slot.png",
+   "kind": "ui",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 1,
+   "meta": {
+    "generator": "ui"
+   }
+  },
+  {
+   "key": "vfx/burst-ember",
+   "path": "vfx/burst-ember.png",
+   "kind": "vfx",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 6,
+   "meta": {
+    "tint": "runtime",
+    "element": "ember",
+    "fps": 14,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/burst-frost",
+   "path": "vfx/burst-frost.png",
+   "kind": "vfx",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 6,
+   "meta": {
+    "tint": "runtime",
+    "element": "frost",
+    "fps": 14,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/burst-hollow",
+   "path": "vfx/burst-hollow.png",
+   "kind": "vfx",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 6,
+   "meta": {
+    "tint": "runtime",
+    "element": "hollow",
+    "fps": 14,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/burst-storm",
+   "path": "vfx/burst-storm.png",
+   "kind": "vfx",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 6,
+   "meta": {
+    "tint": "runtime",
+    "element": "storm",
+    "fps": 14,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/dust-puff",
+   "path": "vfx/dust-puff.png",
+   "kind": "vfx",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 5,
+   "meta": {
+    "tint": "runtime",
+    "fps": 12,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/impact-spark",
+   "path": "vfx/impact-spark.png",
+   "kind": "vfx",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "tint": "runtime",
+    "fps": 18,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/light-banded",
+   "path": "vfx/light-banded.png",
+   "kind": "light",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "blend": "add",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/light-soft",
+   "path": "vfx/light-soft.png",
+   "kind": "light",
+   "frameWidth": 128,
+   "frameHeight": 128,
+   "frames": 1,
+   "meta": {
+    "blend": "add",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/shadow",
+   "path": "vfx/shadow.png",
+   "kind": "vfx",
+   "frameWidth": 32,
+   "frameHeight": 16,
+   "frames": 1,
+   "meta": {
+    "blend": "normal",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/slash-l",
+   "path": "vfx/slash-l.png",
+   "kind": "vfx",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 4,
+   "meta": {
+    "tint": "runtime",
+    "fps": 20,
+    "direction": "right",
+    "originX": 32,
+    "originY": 32,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/slash-m",
+   "path": "vfx/slash-m.png",
+   "kind": "vfx",
+   "frameWidth": 48,
+   "frameHeight": 48,
+   "frames": 4,
+   "meta": {
+    "tint": "runtime",
+    "fps": 20,
+    "direction": "right",
+    "originX": 24,
+    "originY": 24,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/slash-s",
+   "path": "vfx/slash-s.png",
+   "kind": "vfx",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "tint": "runtime",
+    "fps": 20,
+    "direction": "right",
+    "originX": 16,
+    "originY": 16,
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/telegraph-circle",
+   "path": "vfx/telegraph-circle.png",
+   "kind": "vfx",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "telegraph": "circle",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/telegraph-circle-fill",
+   "path": "vfx/telegraph-circle-fill.png",
+   "kind": "vfx",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "telegraph": "circle-fill",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/telegraph-cone",
+   "path": "vfx/telegraph-cone.png",
+   "kind": "vfx",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "telegraph": "cone",
+    "angleDeg": 60,
+    "originX": 1,
+    "originY": 32,
+    "direction": "right",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "weapons/sword-001",
+   "path": "weapons/sword-001.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 0,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-002",
+   "path": "weapons/sword-002.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 1,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-003",
+   "path": "weapons/sword-003.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 2,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-004",
+   "path": "weapons/sword-004.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 3,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-005",
+   "path": "weapons/sword-005.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 4,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-006",
+   "path": "weapons/sword-006.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 5,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-007",
+   "path": "weapons/sword-007.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 0,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-008",
+   "path": "weapons/sword-008.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 1,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-009",
+   "path": "weapons/sword-009.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 2,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-010",
+   "path": "weapons/sword-010.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 3,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-011",
+   "path": "weapons/sword-011.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 4,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-012",
+   "path": "weapons/sword-012.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 5,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-013",
+   "path": "weapons/sword-013.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 0,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-014",
+   "path": "weapons/sword-014.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 1,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-015",
+   "path": "weapons/sword-015.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 2,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-016",
+   "path": "weapons/sword-016.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 3,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-017",
+   "path": "weapons/sword-017.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 4,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-018",
+   "path": "weapons/sword-018.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 5,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-019",
+   "path": "weapons/sword-019.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 0,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-020",
+   "path": "weapons/sword-020.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 1,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-021",
+   "path": "weapons/sword-021.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 2,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-022",
+   "path": "weapons/sword-022.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 3,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-023",
+   "path": "weapons/sword-023.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 4,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-024",
+   "path": "weapons/sword-024.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 5,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-025",
+   "path": "weapons/sword-025.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 0,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-026",
+   "path": "weapons/sword-026.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 1,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-027",
+   "path": "weapons/sword-027.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 2,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-028",
+   "path": "weapons/sword-028.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 3,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-029",
+   "path": "weapons/sword-029.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 4,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-030",
+   "path": "weapons/sword-030.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File.png",
+    "sheetIndex": 0,
+    "col": 5,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File.png"
+   }
+  },
+  {
+   "key": "weapons/sword-031",
+   "path": "weapons/sword-031.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 0,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-032",
+   "path": "weapons/sword-032.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 1,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-033",
+   "path": "weapons/sword-033.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 2,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-034",
+   "path": "weapons/sword-034.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 3,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-035",
+   "path": "weapons/sword-035.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 4,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-036",
+   "path": "weapons/sword-036.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 5,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-037",
+   "path": "weapons/sword-037.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 0,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-038",
+   "path": "weapons/sword-038.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 1,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-039",
+   "path": "weapons/sword-039.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 2,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-040",
+   "path": "weapons/sword-040.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 3,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-041",
+   "path": "weapons/sword-041.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 4,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-042",
+   "path": "weapons/sword-042.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 5,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-043",
+   "path": "weapons/sword-043.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 0,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-044",
+   "path": "weapons/sword-044.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 1,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-045",
+   "path": "weapons/sword-045.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 2,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-046",
+   "path": "weapons/sword-046.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 3,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-047",
+   "path": "weapons/sword-047.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 4,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-048",
+   "path": "weapons/sword-048.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 5,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-049",
+   "path": "weapons/sword-049.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 0,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-050",
+   "path": "weapons/sword-050.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 1,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-051",
+   "path": "weapons/sword-051.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 2,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-052",
+   "path": "weapons/sword-052.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 3,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-053",
+   "path": "weapons/sword-053.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 4,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-054",
+   "path": "weapons/sword-054.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 5,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-055",
+   "path": "weapons/sword-055.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 0,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-056",
+   "path": "weapons/sword-056.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 1,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-057",
+   "path": "weapons/sword-057.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 2,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-058",
+   "path": "weapons/sword-058.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 3,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-059",
+   "path": "weapons/sword-059.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 4,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-060",
+   "path": "weapons/sword-060.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File (1).png",
+    "sheetIndex": 1,
+    "col": 5,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File (1).png"
+   }
+  },
+  {
+   "key": "weapons/sword-061",
+   "path": "weapons/sword-061.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 0,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-062",
+   "path": "weapons/sword-062.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 1,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-063",
+   "path": "weapons/sword-063.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 2,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-064",
+   "path": "weapons/sword-064.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 3,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-065",
+   "path": "weapons/sword-065.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 4,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-066",
+   "path": "weapons/sword-066.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 5,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-067",
+   "path": "weapons/sword-067.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 0,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-068",
+   "path": "weapons/sword-068.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 1,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-069",
+   "path": "weapons/sword-069.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 2,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-070",
+   "path": "weapons/sword-070.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 3,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-071",
+   "path": "weapons/sword-071.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 4,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-072",
+   "path": "weapons/sword-072.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 5,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-073",
+   "path": "weapons/sword-073.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 0,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-074",
+   "path": "weapons/sword-074.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 1,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-075",
+   "path": "weapons/sword-075.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 2,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-076",
+   "path": "weapons/sword-076.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 3,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-077",
+   "path": "weapons/sword-077.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 4,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-078",
+   "path": "weapons/sword-078.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 5,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-079",
+   "path": "weapons/sword-079.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 0,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-080",
+   "path": "weapons/sword-080.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 1,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-081",
+   "path": "weapons/sword-081.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 2,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-082",
+   "path": "weapons/sword-082.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 3,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-083",
+   "path": "weapons/sword-083.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 4,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-084",
+   "path": "weapons/sword-084.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 5,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-085",
+   "path": "weapons/sword-085.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 0,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-086",
+   "path": "weapons/sword-086.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 1,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-087",
+   "path": "weapons/sword-087.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 2,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-088",
+   "path": "weapons/sword-088.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 3,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-089",
+   "path": "weapons/sword-089.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 4,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-090",
+   "path": "weapons/sword-090.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2022.png",
+    "sheetIndex": 2,
+    "col": 5,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2022.png"
+   }
+  },
+  {
+   "key": "weapons/sword-091",
+   "path": "weapons/sword-091.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 0,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-092",
+   "path": "weapons/sword-092.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 1,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-093",
+   "path": "weapons/sword-093.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 2,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-094",
+   "path": "weapons/sword-094.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 3,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-095",
+   "path": "weapons/sword-095.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 4,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-096",
+   "path": "weapons/sword-096.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 5,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-097",
+   "path": "weapons/sword-097.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 0,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-098",
+   "path": "weapons/sword-098.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 1,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-099",
+   "path": "weapons/sword-099.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 2,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-100",
+   "path": "weapons/sword-100.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 3,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-101",
+   "path": "weapons/sword-101.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 4,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-102",
+   "path": "weapons/sword-102.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 5,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-103",
+   "path": "weapons/sword-103.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 0,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-104",
+   "path": "weapons/sword-104.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 1,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-105",
+   "path": "weapons/sword-105.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 2,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-106",
+   "path": "weapons/sword-106.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 3,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-107",
+   "path": "weapons/sword-107.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 4,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-108",
+   "path": "weapons/sword-108.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 5,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-109",
+   "path": "weapons/sword-109.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 0,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-110",
+   "path": "weapons/sword-110.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 1,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-111",
+   "path": "weapons/sword-111.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 2,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-112",
+   "path": "weapons/sword-112.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 3,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-113",
+   "path": "weapons/sword-113.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 4,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-114",
+   "path": "weapons/sword-114.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 5,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-115",
+   "path": "weapons/sword-115.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 0,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-116",
+   "path": "weapons/sword-116.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 1,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-117",
+   "path": "weapons/sword-117.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 2,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-118",
+   "path": "weapons/sword-118.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 3,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-119",
+   "path": "weapons/sword-119.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 4,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-120",
+   "path": "weapons/sword-120.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2023.png",
+    "sheetIndex": 3,
+    "col": 5,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2023.png"
+   }
+  },
+  {
+   "key": "weapons/sword-121",
+   "path": "weapons/sword-121.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 0,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-122",
+   "path": "weapons/sword-122.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 1,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-123",
+   "path": "weapons/sword-123.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 2,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-124",
+   "path": "weapons/sword-124.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 3,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-125",
+   "path": "weapons/sword-125.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 4,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-126",
+   "path": "weapons/sword-126.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 5,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-127",
+   "path": "weapons/sword-127.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 0,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-128",
+   "path": "weapons/sword-128.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 1,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-129",
+   "path": "weapons/sword-129.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 2,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-130",
+   "path": "weapons/sword-130.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 3,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-131",
+   "path": "weapons/sword-131.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 4,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-132",
+   "path": "weapons/sword-132.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 5,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-133",
+   "path": "weapons/sword-133.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 0,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-134",
+   "path": "weapons/sword-134.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 1,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-135",
+   "path": "weapons/sword-135.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 2,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-136",
+   "path": "weapons/sword-136.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 3,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-137",
+   "path": "weapons/sword-137.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 4,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-138",
+   "path": "weapons/sword-138.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 5,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-139",
+   "path": "weapons/sword-139.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 0,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-140",
+   "path": "weapons/sword-140.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 1,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-141",
+   "path": "weapons/sword-141.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 2,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-142",
+   "path": "weapons/sword-142.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 3,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-143",
+   "path": "weapons/sword-143.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 4,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-144",
+   "path": "weapons/sword-144.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 5,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-145",
+   "path": "weapons/sword-145.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 0,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-146",
+   "path": "weapons/sword-146.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 1,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-147",
+   "path": "weapons/sword-147.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 2,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-148",
+   "path": "weapons/sword-148.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 3,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-149",
+   "path": "weapons/sword-149.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 4,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-150",
+   "path": "weapons/sword-150.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2024.png",
+    "sheetIndex": 4,
+    "col": 5,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2024.png"
+   }
+  },
+  {
+   "key": "weapons/sword-151",
+   "path": "weapons/sword-151.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 0,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-152",
+   "path": "weapons/sword-152.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 1,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-153",
+   "path": "weapons/sword-153.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 2,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-154",
+   "path": "weapons/sword-154.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 3,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-155",
+   "path": "weapons/sword-155.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 4,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-156",
+   "path": "weapons/sword-156.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 5,
+    "row": 0,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-157",
+   "path": "weapons/sword-157.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 0,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-158",
+   "path": "weapons/sword-158.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 1,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-159",
+   "path": "weapons/sword-159.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 2,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-160",
+   "path": "weapons/sword-160.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 3,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-161",
+   "path": "weapons/sword-161.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 4,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-162",
+   "path": "weapons/sword-162.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 5,
+    "row": 1,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-163",
+   "path": "weapons/sword-163.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 0,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-164",
+   "path": "weapons/sword-164.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 1,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-165",
+   "path": "weapons/sword-165.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 2,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-166",
+   "path": "weapons/sword-166.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 3,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-167",
+   "path": "weapons/sword-167.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 4,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-168",
+   "path": "weapons/sword-168.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 5,
+    "row": 2,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-169",
+   "path": "weapons/sword-169.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 0,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-170",
+   "path": "weapons/sword-170.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 1,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-171",
+   "path": "weapons/sword-171.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 2,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-172",
+   "path": "weapons/sword-172.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 3,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-173",
+   "path": "weapons/sword-173.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 4,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-174",
+   "path": "weapons/sword-174.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 5,
+    "row": 3,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-175",
+   "path": "weapons/sword-175.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 0,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-176",
+   "path": "weapons/sword-176.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 1,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-177",
+   "path": "weapons/sword-177.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 2,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-178",
+   "path": "weapons/sword-178.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 3,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-179",
+   "path": "weapons/sword-179.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 4,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  },
+  {
+   "key": "weapons/sword-180",
+   "path": "weapons/sword-180.png",
+   "kind": "weapon",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "meta": {
+    "credit": "swords",
+    "sheet": "File 2025.png",
+    "sheetIndex": 5,
+    "col": 5,
+    "row": 4,
+    "grid": "6x5@32",
+    "source": "swords/File 2025.png"
+   }
+  }
+ ]
+}

@@ -27,9 +27,15 @@ export class TitleScene extends Phaser.Scene {
       frequency: 90,
     });
 
-    this.scale.on("resize", (size: Phaser.Structs.Size) => {
+    const onResize = (size: Phaser.Structs.Size) => {
       glow.setPosition(size.width / 2, size.height * 0.62);
       embers.updateConfig({ x: { min: 0, max: size.width }, y: size.height + 10 });
+    };
+    this.scale.on("resize", onResize);
+    const off = bridge.on("ui:start", (start) => this.scene.start("preload", start));
+    this.events.once("shutdown", () => {
+      off();
+      this.scale.off("resize", onResize);
     });
     bridge.emit("game:ready");
   }

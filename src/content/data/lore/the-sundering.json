@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "the-sundering",
+  "category": "history",
+  "order": 0,
+  "title": {
+    "en": "The Sundering",
+    "fr": "La Brisure"
+  },
+  "summary": {
+    "en": "The night the sun broke.",
+    "fr": "La nuit où le soleil s'est brisé."
+  },
+  "body": {
+    "en": "Every child in Cinderhold can recite it: the Hollow rose from the deep, swallowed the light, and the Dawnblade cracked under its hunger. The Heralds of the Hollow came that same night, and the kingdom of Solmere fell before dawn, a dawn that never came.\n\nThe Embersworn say that their founder, **Seraphine Vale**, caught the last falling spark in a lantern of glass and iron, and carried it to the hill where Cinderhold now stands.",
+    "fr": "Chaque enfant de Cendrebourg peut la réciter : le Creux s'est levé des profondeurs, a avalé la lumière, et la Lame de l'Aube s'est fendue sous sa faim. Les Hérauts du Creux sont venus cette même nuit, et le royaume de Solmère est tombé avant l'aube, une aube qui n'est jamais venue.\n\nLes Jure-Braise racontent que leur fondatrice, **Séraphine Vale**, a recueilli la dernière étincelle tombée dans une lanterne de verre et de fer, et l'a portée jusqu'à la colline où se dresse aujourd'hui Cendrebourg."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:met-pale-weaver",
+  "secret": false,
+  "id": "herald-pale-weaver",
+  "category": "herald",
+  "order": 0,
+  "title": {
+    "en": "The Pale Weaver",
+    "fr": "La Tisseuse Pâle"
+  },
+  "summary": {
+    "en": "First Herald. Once the queen's oracle, now she weaves souls.",
+    "fr": "Première Héraut. Jadis oracle de la reine, elle tisse désormais les âmes."
+  },
+  "body": {
+    "en": "**Ilyth** wove the fates of Solmere's nobles into tapestries, and every one came true. When she saw the Sundering in her loom, no one believed her. She asked the Hollow to let her keep weaving, so that she could at least choose how the story ended.\n\nNow she crowns herself with thread and binds whoever enters the Wilds, stitching them into a tapestry that never ends.",
+    "fr": "**Ilyth** tissait le destin des nobles de Solmère dans des tapisseries, et chacune se réalisait. Quand elle a vu la Brisure sur son métier, personne ne l'a crue. Elle a demandé au Creux de la laisser continuer à tisser, pour au moins choisir la fin de l'histoire.\n\nDésormais couronnée de fils, elle lie quiconque entre dans les Bois, et le coud dans une tapisserie qui ne finit jamais."
+  }
+}

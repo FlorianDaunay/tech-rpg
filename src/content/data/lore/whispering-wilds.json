@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "whispering-wilds",
+  "category": "place",
+  "order": 1,
+  "title": {
+    "en": "The Whispering Wilds",
+    "fr": "Les Bois Murmurants"
+  },
+  "summary": {
+    "en": "A forest where the trees repeat the names they hear.",
+    "fr": "Une forêt où les arbres répètent les noms qu'ils entendent."
+  },
+  "body": {
+    "en": "Grey grass, pale trunks, fireflies that never sleep. The trees of the Wilds whisper the names of travellers back to them, which is pleasant until you hear one you have forgotten. Threads of white silk hang between the branches, and something on the other end feels every step.",
+    "fr": "Herbe grise, troncs pâles, lucioles qui ne dorment jamais. Les arbres des Bois murmurent aux voyageurs leur propre nom, ce qui est charmant jusqu'au jour où l'on en entend un qu'on avait oublié. Des fils de soie blanche pendent entre les branches, et quelque chose, à l'autre bout, sent chaque pas."
+  }
+}

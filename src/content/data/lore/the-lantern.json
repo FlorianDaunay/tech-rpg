@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "the-lantern",
+  "category": "relic",
+  "order": 0,
+  "title": {
+    "en": "The Lantern",
+    "fr": "La Lanterne"
+  },
+  "summary": {
+    "en": "The last flame of the sun, or so they say.",
+    "fr": "La dernière flamme du soleil, dit-on."
+  },
+  "body": {
+    "en": "A lantern of black iron and clouded glass, taller than a man, standing in the square of Cinderhold. Its flame never needs fuel and never quite goes out, but for three hundred years it has been shrinking.\n\nThe night you arrived as a foundling, the flame **leaned towards you**. It has done so ever since.",
+    "fr": "Une lanterne de fer noir et de verre trouble, plus haute qu'un homme, dressée sur la place de Cendrebourg. Sa flamme n'a jamais besoin de combustible et ne s'éteint jamais tout à fait, mais depuis trois cents ans elle rétrécit.\n\nLa nuit où l'on t'a trouvé, enfant abandonné, la flamme **s'est penchée vers toi**. Elle n'a jamais cessé depuis."
+  }
+}

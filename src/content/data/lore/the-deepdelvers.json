@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "the-deepdelvers",
+  "category": "faction",
+  "order": 2,
+  "title": {
+    "en": "The Deepdelvers",
+    "fr": "Les Fouilleurs"
+  },
+  "summary": {
+    "en": "Miners and smiths who dig sunlight out of the rock.",
+    "fr": "Mineurs et forgerons qui extraient la lumière de la roche."
+  },
+  "body": {
+    "en": "Sun-dust fell everywhere during the Sundering and sank deep. The Deepdelvers mine it as **ember-ore**, the only fuel that still burns bright, and forge it into blades and charms. They trade with anyone, and argue with everyone.\n\n**Forgemistress Dagna Coalheart** can reforge almost anything, if you bring her the ore and listen to her complain.",
+    "fr": "La poussière de soleil est tombée partout lors de la Brisure et s'est enfoncée profond. Les Fouilleurs l'extraient sous forme de **minerai de braise**, le seul combustible qui brûle encore vif, et la forgent en lames et en charmes. Ils commercent avec tout le monde, et se disputent avec tout le monde.\n\n**Dame-Forge Dagna Cœur-de-Houille** peut reforger presque tout, si tu lui apportes le minerai et que tu l'écoutes se plaindre."
+  }
+}

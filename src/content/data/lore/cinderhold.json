@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "cinderhold",
+  "category": "place",
+  "order": 0,
+  "title": {
+    "en": "Cinderhold",
+    "fr": "Cendrebourg"
+  },
+  "summary": {
+    "en": "The last lit village, gathered around the Lantern.",
+    "fr": "Le dernier village éclairé, blotti autour de la Lanterne."
+  },
+  "body": {
+    "en": "A ring of houses, a forge, a market and a hundred stubborn people, all within the reach of the Lantern's light. Beyond its circle, the night belongs to the Hollow.\n\nEvery shard you bring back makes the light reach a little further, and Cinderhold grows into it.",
+    "fr": "Un cercle de maisons, une forge, un marché et une centaine de têtes dures, tous à portée de la lumière de la Lanterne. Au-delà de son cercle, la nuit appartient au Creux.\n\nChaque éclat que tu rapportes fait porter la lumière un peu plus loin, et Cendrebourg grandit avec elle."
+  }
+}

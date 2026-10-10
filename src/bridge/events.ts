@@ -1,12 +1,24 @@
 /**
  * Typed event bus: the ONLY coupling between the Phaser runtime and the React UI.
- * Phaser emits state the HUD needs; React emits commands (pause, resume, menu actions).
+ * Phaser emits state the HUD needs; React emits commands (start, pause, menu actions).
  */
 type Listener<T> = (payload: T) => void;
 
+export type GameMode = "solo" | "host" | "client";
+
 export interface BridgeEvents {
+  /** Title backdrop is up. */
   "game:ready": void;
-  "game:fps": number;
+  /** Asset loading progress 0..1 while entering the world. */
+  "game:loading": number;
+  /** The world scene is running and the HUD can show. */
+  "game:world-ready": { mapId: string };
+  /** Debug overlay text (when settings.showFps). */
+  "game:debug": string;
+  /** UI → game: leave the title and start playing. */
+  "ui:start": { mode: GameMode };
+  /** UI → game: back to the title backdrop. */
+  "ui:quit": void;
   "ui:pause": boolean;
 }
 

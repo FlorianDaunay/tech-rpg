@@ -11,7 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "assets": "tsx tools/assets/build.ts",
-    "content:check": "tsx tools/content/validate.ts",
+    "content:check": "vitest run src/content",
     "admin": "vite --config admin/vite.config.ts",
     "android:sync": "npm run build && cap sync android"
   },

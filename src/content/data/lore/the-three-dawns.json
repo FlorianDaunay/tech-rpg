@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:game-complete",
+  "secret": true,
+  "id": "the-three-dawns",
+  "category": "history",
+  "order": 2,
+  "title": {
+    "en": "The Three Dawns",
+    "fr": "Les Trois Aubes"
+  },
+  "summary": {
+    "en": "How the story can end.",
+    "fr": "Comment l'histoire peut finir."
+  },
+  "body": {
+    "en": "**Reforge the Sun**: bring every Ember Blade to the Lantern and make the Dawnblade whole. Noon returns, and so does the Hollow, fully awake. The war never ends, but people can see again.\n\n**Become the Lantern**: take Seraphine's place inside the crack. The Hollow sleeps forever; the light stays dim, gentle, and yours.\n\n**The Twin Dawn** (secret): free the four Heralds instead of destroying them, and give the Hollow what it always wanted: **its own sky**. Day for the sun, night for the shadow, the way the world was meant to be.",
+    "fr": "**Reforger le Soleil** : apporter toutes les Lames de Braise à la Lanterne et rendre la Lame de l'Aube entière. Midi revient, et le Creux aussi, pleinement éveillé. La guerre ne finit jamais, mais on peut de nouveau voir.\n\n**Devenir la Lanterne** : prendre la place de Séraphine dans la fêlure. Le Creux dort pour toujours ; la lumière reste faible, douce, et tienne.\n\n**L'Aube Jumelle** (secrète) : libérer les quatre Hérauts au lieu de les détruire, et donner au Creux ce qu'il a toujours voulu : **son propre ciel**. Le jour pour le soleil, la nuit pour l'ombre, comme le monde aurait dû être."
+  }
+}

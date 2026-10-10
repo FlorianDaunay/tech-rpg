@@ -1,0 +1,69 @@
+{
+  "credits": [
+    {
+      "id": "pipoya",
+      "title": "Pipoya RPG character sets",
+      "author": "Pipoya",
+      "url": "https://pipoya.itch.io/",
+      "licence": "Pipoya free asset terms (see author page)",
+      "attributionRequired": false,
+      "families": ["characters", "enemies", "bosses"],
+      "toVerify": "Confirm the exact licence text of the downloaded pack."
+    },
+    {
+      "id": "decor",
+      "title": "Decor sprite sheets (grass, stone ground, walls, props, objects, treasures, chest, torch)",
+      "author": "Unknown (reference library)",
+      "licence": "Unknown",
+      "attributionRequired": false,
+      "families": ["tiles/grass", "tiles/stone-ground", "tiles/wall", "props/props", "props/objects", "props/treasures", "props/chest", "props/torch"],
+      "toVerify": "Author and licence not included with the files: find the source before release."
+    },
+    {
+      "id": "swords",
+      "title": "Pixel sword sheets",
+      "author": "Unknown (reference library)",
+      "licence": "Unknown",
+      "attributionRequired": false,
+      "families": ["weapons"],
+      "toVerify": "Author and licence not included with the files: find the source before release."
+    },
+    {
+      "id": "snoopethduckduck-pack1",
+      "title": "Shields Pack 1",
+      "author": "SnoopethDuckDuck",
+      "url": "https://snoopethduckduck.itch.io/",
+      "licence": "CC0 1.0",
+      "attributionRequired": false,
+      "families": ["shields/pack1-*"]
+    },
+    {
+      "id": "snoopethduckduck-pack2",
+      "title": "Shields Pack 2",
+      "author": "SnoopethDuckDuck",
+      "url": "https://snoopethduckduck.itch.io/",
+      "licence": "CC0 1.0",
+      "attributionRequired": false,
+      "families": ["shields/pack2-*"]
+    },
+    {
+      "id": "snoopethduckduck-pack3",
+      "title": "Shields Pack 3",
+      "author": "SnoopethDuckDuck",
+      "url": "https://snoopethduckduck.itch.io/",
+      "licence": "CC BY 4.0",
+      "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "attributionRequired": true,
+      "attribution": "Shields Pack 3 by SnoopethDuckDuck (snoopethduckduck.itch.io), CC BY 4.0",
+      "families": ["shields/pack3-*"]
+    },
+    {
+      "id": "generated",
+      "title": "Procedural art (tiles, nature, buildings, VFX, UI)",
+      "author": "Valaria project (tools/assets/generators)",
+      "licence": "Project licence",
+      "attributionRequired": false,
+      "families": ["tiles/water", "tiles/water-shore", "tiles/dirt-path", "tiles/wood-floor", "tiles/rift-ground", "tiles/tall-grass", "tiles/flowers", "props/tree-*", "props/bushes", "props/rocks", "props/mushrooms", "props/house-*", "props/forge", "props/lantern-shrine", "props/market-stall", "props/well", "vfx/*", "ui/*"]
+    }
+  ]
+}

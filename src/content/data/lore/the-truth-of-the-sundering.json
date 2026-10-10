@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:truth-revealed",
+  "secret": true,
+  "id": "the-truth-of-the-sundering",
+  "category": "history",
+  "order": 1,
+  "title": {
+    "en": "What Seraphine Did",
+    "fr": "Ce qu'a fait Séraphine"
+  },
+  "summary": {
+    "en": "The sun did not fall. It was broken.",
+    "fr": "Le soleil n'est pas tombé. On l'a brisé."
+  },
+  "body": {
+    "en": "The Hollow is not the sun's enemy. It is its **shadow**. The brighter the Dawnblade burned, the deeper the Hollow grew beneath the world, until it was large enough to swallow everything.\n\nSeraphine Vale understood it. She climbed the Sky Stair of Solmere and **broke the Dawnblade herself**, halving the light so that the shadow would halve too. The Lantern does not hold the last flame of the sun: it holds the crack, the seal that keeps the Hollow asleep.\n\nEvery Ember Blade that is reforged makes the world brighter, and wakes the Hollow a little more.",
+    "fr": "Le Creux n'est pas l'ennemi du soleil. C'est son **ombre**. Plus la Lame de l'Aube brûlait, plus le Creux se creusait sous le monde, jusqu'à devenir assez vaste pour tout engloutir.\n\nSéraphine Vale l'a compris. Elle a gravi l'Escalier Céleste de Solmère et **a brisé elle-même la Lame de l'Aube**, divisant la lumière pour que l'ombre se divise aussi. La Lanterne ne garde pas la dernière flamme du soleil : elle garde la fêlure, le sceau qui maintient le Creux endormi.\n\nChaque Lame de Braise reforgée rend le monde plus lumineux, et réveille le Creux un peu plus."
+  }
+}

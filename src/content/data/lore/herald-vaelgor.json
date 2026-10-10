@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:met-vaelgor",
+  "secret": false,
+  "id": "herald-vaelgor",
+  "category": "herald",
+  "order": 3,
+  "title": {
+    "en": "Archfiend Vaelgor",
+    "fr": "L'Archidémon Vaelgor"
+  },
+  "summary": {
+    "en": "Last Herald. Once Vaelgor the Radiant, the king's champion.",
+    "fr": "Dernier Héraut. Jadis Vaelgor le Radieux, champion du roi."
+  },
+  "body": {
+    "en": "**Vaelgor the Radiant** was the brightest knight of Solmere, and the only one to read Seraphine's warning. He believed the Hollow could be reasoned with, that if the city opened its gates, the dark would spare it.\n\nHe opened them. The Hollow kept its word in its own way: Solmere was not destroyed. It was kept. And so was he.",
+    "fr": "**Vaelgor le Radieux** était le plus brillant chevalier de Solmère, et le seul à avoir lu l'avertissement de Séraphine. Il croyait qu'on pouvait raisonner le Creux, que si la cité ouvrait ses portes, l'obscurité l'épargnerait.\n\nIl les a ouvertes. Le Creux a tenu parole, à sa façon : Solmère n'a pas été détruite. Elle a été gardée. Et lui aussi."
+  }
+}

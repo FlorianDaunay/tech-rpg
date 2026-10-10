@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "ashen-graveyard",
+  "category": "place",
+  "order": 2,
+  "title": {
+    "en": "The Ashen Graveyard",
+    "fr": "Le Cimetière de Cendre"
+  },
+  "summary": {
+    "en": "Where the dead of the Sundering wait to be remembered.",
+    "fr": "Où les morts de la Brisure attendent qu'on se souvienne d'eux."
+  },
+  "body": {
+    "en": "Ten thousand graves dug in a single week. The stones have lost their names, one by one, and the dead beneath them have started to walk, looking for them.",
+    "fr": "Dix mille tombes creusées en une seule semaine. Les pierres ont perdu leurs noms, une à une, et les morts qui dorment dessous se sont mis à marcher pour les chercher."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "the-shieldwardens",
+  "category": "faction",
+  "order": 1,
+  "title": {
+    "en": "The Shieldwardens",
+    "fr": "Les Gardes-Écu"
+  },
+  "summary": {
+    "en": "What remains of the royal guard of Solmere.",
+    "fr": "Ce qui reste de la garde royale de Solmère."
+  },
+  "body": {
+    "en": "When Solmere fell, its guard did not. Their descendants still drill at dawn that never comes, carry shields etched with sun-sigils, and hold the old roads open. They are masters of the **Ward**: block, parry, endure.\n\n**Captain Brannoc** distrusts the Embersworn (\"priests with lamps\") but respects anyone who holds the line.",
+    "fr": "Quand Solmère est tombée, sa garde, elle, a tenu. Leurs descendants s'entraînent encore à l'aube qui ne vient pas, portent des boucliers gravés de sceaux solaires, et gardent les vieilles routes ouvertes. Ils sont maîtres de la **Garde** : bloquer, parer, endurer.\n\nLe **Capitaine Brannoc** se méfie des Jure-Braise (« des prêtres avec des lampes ») mais respecte quiconque tient la ligne."
+  }
+}

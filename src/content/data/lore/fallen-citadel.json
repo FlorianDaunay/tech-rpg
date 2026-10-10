@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "fallen-citadel",
+  "category": "place",
+  "order": 4,
+  "title": {
+    "en": "The Fallen Citadel of Solmere",
+    "fr": "La Citadelle Déchue de Solmère"
+  },
+  "summary": {
+    "en": "The royal capital, where the gates were opened from inside.",
+    "fr": "La capitale royale, dont les portes furent ouvertes de l'intérieur."
+  },
+  "body": {
+    "en": "White walls gone black, banners still flying. Solmere did not fall to a siege: on the night of the Sundering, its gates were opened from inside.",
+    "fr": "Des murs blancs devenus noirs, des bannières qui flottent encore. Solmère n'est pas tombée sous un siège : la nuit de la Brisure, ses portes ont été ouvertes de l'intérieur."
+  }
+}

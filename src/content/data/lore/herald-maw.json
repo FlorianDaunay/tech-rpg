@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:met-maw",
+  "secret": false,
+  "id": "herald-maw",
+  "category": "herald",
+  "order": 2,
+  "title": {
+    "en": "The Maw",
+    "fr": "La Gueule"
+  },
+  "summary": {
+    "en": "Third Herald. Not a person: the hunger itself.",
+    "fr": "Troisième Héraut. Pas une personne : la faim elle-même."
+  },
+  "body": {
+    "en": "The other Heralds were people once. The Maw never was. It is the place where the Hollow touches the world, a spiral of dark that breathes in, and in, and in. The Deepdelvers dug too far and found its edge.",
+    "fr": "Les autres Hérauts ont été des personnes. Pas la Gueule. C'est l'endroit où le Creux touche le monde, une spirale d'obscurité qui inspire, et inspire, et inspire encore. Les Fouilleurs ont creusé trop loin et en ont trouvé le bord."
+  }
+}

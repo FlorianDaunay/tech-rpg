@@ -1,0 +1,19 @@
+{
+  "unlock": "start",
+  "secret": false,
+  "id": "ember-blades",
+  "category": "relic",
+  "order": 1,
+  "title": {
+    "en": "The Ember Blades",
+    "fr": "Les Lames de Braise"
+  },
+  "summary": {
+    "en": "Thirty shards of a god's sword, each holding a memory.",
+    "fr": "Trente éclats d'une épée divine, chacun gardant un souvenir."
+  },
+  "body": {
+    "en": "When the Dawnblade broke, its thirty largest shards cooled into swords. Each kept a piece of the sun's memory: a harvest, a war, a lullaby, the face of someone long dead. Wielding one lets you see it, and learn the way it wants to be swung.\n\nSome blades burn (**Ember**), some bite with cold (**Frost**), some crackle (**Storm**), and some have drunk too deep from the dark (**Hollow**). Gathered at the Lantern, they make its flame grow. Gathered all together, they could make a sun.",
+    "fr": "Quand la Lame de l'Aube s'est brisée, ses trente plus grands éclats ont refroidi en épées. Chacune a gardé un fragment de la mémoire du soleil : une moisson, une guerre, une berceuse, le visage d'un mort oublié. La manier permet de le voir, et d'apprendre comment elle veut être maniée.\n\nCertaines brûlent (**Braise**), d'autres mordent de froid (**Givre**), d'autres crépitent (**Orage**), et certaines ont bu trop profondément dans l'obscurité (**Creux**). Rassemblées à la Lanterne, elles font grandir sa flamme. Toutes réunies, elles pourraient refaire un soleil."
+  }
+}

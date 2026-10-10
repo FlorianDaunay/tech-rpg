@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:met-shroud",
+  "secret": false,
+  "id": "herald-shroud",
+  "category": "herald",
+  "order": 1,
+  "title": {
+    "en": "The Shroud",
+    "fr": "Le Linceul"
+  },
+  "summary": {
+    "en": "Second Herald. A gravekeeper who steals names.",
+    "fr": "Second Héraut. Un fossoyeur qui vole les noms."
+  },
+  "body": {
+    "en": "**Oren the gravekeeper** buried his daughter in the first week after the Sundering, and refused to let her be forgotten like the others. The Hollow offered him a bargain: every name he takes, she keeps.\n\nHe has taken thousands. She still does not remember her own.",
+    "fr": "**Oren le fossoyeur** a enterré sa fille la première semaine après la Brisure, et a refusé qu'elle soit oubliée comme les autres. Le Creux lui a proposé un marché : chaque nom qu'il prend, elle le garde.\n\nIl en a pris des milliers. Elle ne se souvient toujours pas du sien."
+  }
+}

@@ -15,7 +15,7 @@
 | `npm test` | vitest (pure logic in `src/core`, content validation) |
 | `npm run typecheck` / `npm run build` | strict TS, production build in `dist/` |
 | `npm run assets` | copy sprites listed in `tools/assets/manifest.ts` from `ref_sprites/` + run generators → `public/assets/` |
-| `npm run content:check` | validate every content JSON against its schema |
+| `npm run content:check` | validate every content JSON (schemas, unique ids, map invariants) — runs `src/content/*.test.ts` |
 | `npm run admin` | local admin/showcase site (`admin/`, gitignored, never pushed) |
 
 ## Hard rules
@@ -25,12 +25,16 @@
 - No hard-coded UI colours: React UI uses theme token classes (see `.claude/skills/SKILL-theme-system.md`). In-game palette (world art, elements, rarities) lives in `src/config/palette.ts`.
 - Every player-visible string goes through `t()` (`src/i18n`). Content JSON stores i18n keys or `{en, fr}` objects, never raw strings in code.
 - Commit messages: imperative, scoped (`combat: add perfect parry window`).
+- **Push only after asking the user, every time.** Commit locally freely once typecheck + tests pass.
+- Tooling pitfall (Windows Git Bash): heredocs containing apostrophes break — write files with the Write tool.
+- Project skills in `.claude/skills/`: `phaser-react-hybrid`, `pixel-asset-pipeline`, `realtime-p2p-netcode`, `content-type-recipe` (+ the base `SKILL-p2p-static-game.md`, `SKILL-theme-system.md`). Load the relevant one before working in its area, and update it when you learn a new pitfall.
 
 ## Architecture (keep the boundaries)
 ```
 src/
   config/      game constants, palette, feature flags (no logic)
-  core/        PURE TypeScript: no Phaser, no DOM, no network. Stats, damage, statuses, loot, progression,
+  core/        PURE TypeScript: no Phaser, no DOM, no network. `sim/` = fixed-step 60 Hz simulation
+               (movement/collision are ours, not Phaser physics) shared by solo, host, prediction and replays. Stats, damage, statuses, loot, progression,
                quests, dialogue, seeded RNG, save model. Deterministic (rng + `now` are inputs). Unit-tested.
   content/     schemas/ (zod = types + validation + JSON Schema for the admin), data/ (*.json), loader.ts
   game/        Phaser runtime. Thin: renders and drives `core`.

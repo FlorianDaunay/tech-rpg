@@ -1,0 +1,19 @@
+{
+  "unlock": "flag:act4-started",
+  "secret": false,
+  "id": "hollow-rift",
+  "category": "place",
+  "order": 5,
+  "title": {
+    "en": "The Hollow Rift",
+    "fr": "La Faille du Creux"
+  },
+  "summary": {
+    "en": "The place where the world forgets to exist.",
+    "fr": "L'endroit où le monde oublie d'exister."
+  },
+  "body": {
+    "en": "Below the citadel, the ground simply stops. Fragments of forgotten places drift in a purple dark: a kitchen, a street, a field of wheat under a sun that isn't there. The Rifts that open across Valaria are pieces of it, and they are never the same twice.",
+    "fr": "Sous la citadelle, le sol s'arrête, tout simplement. Des fragments de lieux oubliés dérivent dans une obscurité violette : une cuisine, une rue, un champ de blé sous un soleil qui n'existe pas. Les Failles qui s'ouvrent à travers Valaria en sont des morceaux, et elles ne sont jamais deux fois les mêmes."
+  }
+}
