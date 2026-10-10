@@ -241,4 +241,39 @@ describe("combat", () => {
     expect(ev.some((x) => x.type === "attack" && x.move === "rapier-light-1")).toBe(true);
     expect(p.stats.defense).toBe(p.baseStats.defense + 5);
   });
+
+  it("equip commands swap gear through the bag and refuse what you don't own", () => {
+    const { map, sim, p } = setup();
+    equip(p, "initiate-blade", null);
+    p.bag["cinder-edge"] = 1;
+    const cmd = (c: NonNullable<Intent["commands"]>[number]) => run(sim, map, 1, () => ({ ...intent(), commands: [c] }));
+    cmd({ type: "equip", slot: "weapon", item: "dawnshard" }); // not owned
+    expect(p.weapon).toBe("initiate-blade");
+    cmd({ type: "equip", slot: "shield", item: "cinder-edge" }); // wrong slot
+    expect(p.shield).toBeNull();
+    const ev = cmd({ type: "equip", slot: "weapon", item: "cinder-edge" });
+    expect(ev.some((e) => e.type === "equip")).toBe(true);
+    expect(p.weapon).toBe("cinder-edge");
+    expect(p.bag).toEqual({ "initiate-blade": 1 });
+    expect(p.stats.power).toBe(p.baseStats.power + 2);
+    cmd({ type: "equip", slot: "weapon", item: null });
+    expect(p.weapon).toBeNull();
+    expect(p.bag).toEqual({ "initiate-blade": 1, "cinder-edge": 1 });
+  });
+
+  it("consumables heal, are consumed, and need to be owned", () => {
+    const { map, sim, p } = setup();
+    p.hp = 30;
+    p.bag["healing-draught"] = 1;
+    const use = () => run(sim, map, 1, () => ({ ...intent(), commands: [{ type: "use", item: "healing-draught" }] }));
+    const ev = use();
+    expect(p.hp).toBe(70);
+    expect(ev.find((e) => e.type === "use")).toMatchObject({ heal: 40 });
+    expect(p.bag["healing-draught"]).toBeUndefined();
+    use();
+    expect(p.hp).toBe(70);
+    p.bag["hollow-dust"] = 3;
+    run(sim, map, 1, () => ({ ...intent(), commands: [{ type: "use", item: "hollow-dust" }] })); // not a consumable
+    expect(p.bag["hollow-dust"]).toBe(3);
+  });
 });

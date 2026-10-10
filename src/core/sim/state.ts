@@ -1,5 +1,6 @@
 import { createActor, PLAYER_STATS, type Actor } from "../combat/actor";
 import { thinkEnemy } from "../combat/ai";
+import { applyCommand } from "../combat/commands";
 import { getEnemy } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
@@ -52,6 +53,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   for (const id of Object.keys(state.actors).sort()) {
     const a = state.actors[id]!;
     const intent = a.kind === "player" ? (intents[id] ?? emptyIntent()) : thinkEnemy(state, a, rng, SIM_DT);
+    for (const cmd of intent.commands ?? []) applyCommand(state.events, a, cmd);
     stepActor(state, map, rng, a, intent, SIM_DT);
   }
   separate(state, map);

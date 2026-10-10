@@ -101,6 +101,13 @@ export interface LootTableDef {
   gold: { min: number; max: number };
 }
 
+/** Bag items the rules care about (consumable effects). */
+export interface ItemDef {
+  id: string;
+  kind: "currency" | "material" | "consumable" | "key";
+  effect?: { heal?: number; stamina?: number; status?: string };
+}
+
 export interface CombatData {
   moves: Record<string, Move>;
   enemies: Record<string, EnemyDef>;
@@ -109,6 +116,7 @@ export interface CombatData {
   weapons: Record<string, WeaponDef>;
   shields: Record<string, ShieldDef>;
   loot: Record<string, LootTableDef>;
+  items: Record<string, ItemDef>;
 }
 
 let data: CombatData | null = null;
@@ -136,4 +144,7 @@ export const getStatus = getter("statuses", "status");
 export const getWeapon = getter("weapons", "weapon");
 export const getShield = getter("shields", "shield");
 export const getLootTable = getter("loot", "loot table");
+export const findItem = (id: string): ItemDef | undefined => db().items[id];
+export const isWeapon = (id: string) => id in db().weapons;
+export const isShield = (id: string) => id in db().shields;
 export const findReaction = (on: Element, by: Element) => db().reactions.find((r) => r.on === on && r.by === by);

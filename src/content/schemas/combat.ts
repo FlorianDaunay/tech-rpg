@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { EnemyDef, LootTableDef, ReactionDef, ShieldDef, StatusDef, WeaponDef } from "@/core/combat/defs";
+import type { EnemyDef, ItemDef, LootTableDef, ReactionDef, ShieldDef, StatusDef, WeaponDef } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny } from "./common";
 
@@ -177,4 +177,5 @@ export type _Contracts = [
   Assert<Fits<SwordContent, WeaponDef>>,
   Assert<Fits<ShieldContent, ShieldDef>>,
   Assert<Fits<LootTableContent, LootTableDef>>,
+  Assert<Fits<ItemContent, ItemDef>>,
 ];

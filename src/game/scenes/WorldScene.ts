@@ -1,10 +1,11 @@
 import Phaser from "phaser";
-import { bridge } from "@/bridge/events";
+import { bridge, type InventoryView } from "@/bridge/events";
 import { toGameMap } from "@/content/maps";
 import { content } from "@/content/registry";
 import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
+import type { Command } from "@/core/sim/intent";
 import { createSim, SIM_DT, spawnEnemy, spawnPlayer, stepSim, type SimState } from "@/core/sim/state";
 import type { GameMap } from "@/core/world/map";
 import { useInputDevice } from "@/store/input";
@@ -44,6 +45,11 @@ export class WorldScene extends Phaser.Scene {
   private lastVitals = 0;
   private vitalsKey = "";
   private musicState = "";
+  /** Solo: a menu is open, the simulation is frozen. */
+  private paused = false;
+  /** Menu commands waiting for the next local Intent. */
+  private commands: Command[] = [];
+  private inventoryKey = "";
   private disposers: (() => void)[] = [];
 
   constructor() {
@@ -58,6 +64,9 @@ export class WorldScene extends Phaser.Scene {
     this.slowMo = { scale: 1, ms: 0 };
     this.musicState = "";
     this.vitalsKey = "";
+    this.paused = false;
+    this.commands = [];
+    this.inventoryKey = "";
 
     this.map = toGameMap(content.maps.get(START_MAP));
     renderMap(this, this.map);
@@ -92,12 +101,27 @@ export class WorldScene extends Phaser.Scene {
     audio.ambience.set(this.map.zone);
 
     this.disposers.push(bridge.on("ui:quit", () => this.scene.start("title")));
+    this.disposers.push(bridge.on("ui:command", (c) => this.commands.push(c)));
+    this.disposers.push(
+      bridge.on("ui:pause", (paused) => {
+        this.paused = paused;
+        audio.duck(paused ? 0.55 : 0, 250);
+        if (!paused) this.input2.flush();
+        // Commands from the menu (equip, drink) apply right away even while paused.
+        if (paused) this.applyMenuCommands();
+      })
+    );
     this.events.once("shutdown", () => this.cleanup());
     this.cameras.main.fadeIn(400, 7, 6, 11);
     bridge.emit("game:world-ready", { mapId: this.map.id });
   }
 
   override update(_time: number, delta: number): void {
+    if (this.paused) {
+      this.applyMenuCommands();
+      this.updateVitals(this.sim.actors[LOCAL_ID]);
+      return;
+    }
     // Hit-stop freezes the sim (the frame holds); slow-mo scales sim time after a perfect parry.
     let simDelta = delta;
     if (this.freezeMs > 0) {
@@ -116,6 +140,7 @@ export class WorldScene extends Phaser.Scene {
       for (const a of Object.values(this.sim.actors)) this.prev.set(a.id, { x: a.x, y: a.y });
       stepSim(this.sim, this.map, { [LOCAL_ID]: this.localIntent() });
       this.fx.handle(this.sim.events);
+      for (const ev of this.sim.events) if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
       this.accumulator -= SIM_DT;
     }
     this.syncViews();
@@ -135,11 +160,46 @@ export class WorldScene extends Phaser.Scene {
     this.updateAimOrigin();
     this.updateMusic(me);
     this.updateVitals(me);
+    this.updateInventory(me);
     this.updateDebug();
+  }
+
+  /**
+   * While paused the sim doesn't step, but equip/use must still feel instant: run one zero-input
+   * step that carries only the commands. (Online, commands just ride the next Intent.)
+   */
+  private applyMenuCommands(): void {
+    if (!this.commands.length) return;
+    const commands = this.commands.splice(0);
+    const me = this.sim.actors[LOCAL_ID];
+    if (!me) return;
+    stepSim(this.sim, this.map, { [LOCAL_ID]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
+    this.fx.handle(this.sim.events);
+    this.updateInventory(me);
+  }
+
+  private updateInventory(me: Actor | undefined): void {
+    if (!me) return;
+    const view: InventoryView = {
+      bag: { ...me.bag },
+      weapon: me.weapon,
+      shield: me.shield,
+      hp: me.hp,
+      maxHp: me.stats.maxHp,
+      stats: { power: me.stats.power, defense: me.stats.defense, critChance: me.stats.critChance, critMultiplier: me.stats.critMultiplier, speed: me.stats.speed },
+    };
+    const key = JSON.stringify(view);
+    if (key === this.inventoryKey) return;
+    this.inventoryKey = key;
+    bridge.emit("game:inventory", view);
   }
 
   private localIntent() {
     const intent = this.input2.sample();
+    // Menu keys open React menus instead of reaching the sim.
+    if (intent.pressed.includes("pause")) bridge.emit("game:menu", "pause");
+    else if (intent.pressed.includes("inventory")) bridge.emit("game:menu", "inventory");
+    if (this.commands.length) intent.commands = this.commands.splice(0);
     const me = this.sim.actors[LOCAL_ID];
     const device = useInputDevice.getState().device;
     // Aim assist for touch and stick-less gamepad aiming: snap attacks onto the nearest foe in front.

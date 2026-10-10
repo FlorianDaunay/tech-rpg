@@ -2,25 +2,39 @@ import { useEffect } from "react";
 import { bridge, type GameMode } from "@/bridge/events";
 import { t } from "@/i18n";
 import { useGameStatus } from "@/store/game";
+import { useInputDevice } from "@/store/input";
+import { useMenu } from "@/store/menu";
 import { useScreen } from "@/store/screen";
 import { useSettings } from "@/store/settings";
 import { TouchControls } from "@/ui/touch/TouchControls";
+import { LootToasts } from "../hud/LootToasts";
 import { Vitals } from "../hud/Vitals";
+import { InventoryScreen } from "./InventoryScreen";
+import { PauseMenu } from "./PauseMenu";
+import { SettingsScreen } from "./SettingsScreen";
 
-/** In-game screen: loading veil, then the HUD layer over the running world. */
+/** In-game screen: loading veil, then the HUD layer over the running world, and the in-game menus. */
 export function PlayScreen({ mode }: { mode: GameMode }) {
   const { engineReady, loading, inWorld, debugText } = useGameStatus();
   const showDebug = useSettings((s) => s.showFps);
+  const device = useInputDevice((s) => s.device);
   const go = useScreen((s) => s.go);
+  const menu = useMenu((s) => s.stack.at(-1));
+  const { open, back, closeAll } = useMenu();
 
   useEffect(() => {
     if (engineReady && !inWorld) bridge.emit("ui:start", { mode });
     // Start once, when the engine is up (it may still be downloading when the screen opens).
   }, [engineReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Leaving the screen never leaves a menu (and the pause) behind. A language change re-mounts this
+  // screen while staying in game: keep the menus then.
+  useEffect(() => () => void (useScreen.getState().screen !== "solo" && useMenu.getState().closeAll()), []);
+
   const quit = () => {
+    closeAll();
     bridge.emit("ui:quit");
-    useGameStatus.setState({ inWorld: false, vitals: null });
+    useGameStatus.setState({ inWorld: false, vitals: null, inventory: null });
     go("title");
   };
 
@@ -39,14 +53,19 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
     <div className="pointer-events-none absolute inset-0 z-10">
       <TouchControls />
       <div className="safe pointer-events-none absolute left-0 top-0 flex flex-col gap-2 p-3">
-        <div className="flex items-start gap-3">
-          <button className="btn-ghost pointer-events-auto px-3 py-1.5 text-sm" onClick={quit}>
-            {t("menu.back")}
-          </button>
-          <Vitals />
-        </div>
-        {showDebug && <pre className="mt-2 font-pixel text-[10px] leading-4 text-warning">{debugText}</pre>}
+        <Vitals />
+        {showDebug && <pre className="font-pixel text-[10px] leading-4 text-warning">{debugText}</pre>}
       </div>
+      {device !== "touch" && !menu && (
+        <div className="safe pointer-events-auto absolute right-3 top-3 flex gap-2">
+          <button className="btn-ghost px-3 py-1.5 text-sm" onClick={() => open("inventory")} title={`${t("inventory.title")} (I)`}>⛁</button>
+          <button className="btn-ghost px-3 py-1.5 text-sm" onClick={() => open("pause")} title={`${t("pause.title")} (Esc)`}>☰</button>
+        </div>
+      )}
+      <LootToasts />
+      {menu === "pause" && <PauseMenu onQuit={quit} />}
+      {menu === "inventory" && <InventoryScreen />}
+      {menu === "settings" && <SettingsScreen onBack={back} />}
     </div>
   );
 }

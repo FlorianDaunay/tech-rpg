@@ -1,9 +1,13 @@
 import { GAME } from "@/config/game";
 import { t } from "@/i18n";
+import { useRef } from "react";
 import { useScreen } from "@/store/screen";
+import { useMenuNav } from "@/ui/menu/useMenuNav";
 
 export function TitleScreen() {
   const go = useScreen((s) => s.go);
+  const nav = useRef<HTMLElement>(null);
+  useMenuNav(nav);
   return (
     <div className="safe relative z-10 flex h-full flex-col items-center justify-center gap-10 px-6 short:flex-row short:gap-12">
       <header className="text-center short:text-left animate-[fadeUp_900ms_ease-out_both]">
@@ -13,7 +17,7 @@ export function TitleScreen() {
         <p className="mt-2 font-display text-lg tracking-[0.35em] text-accent uppercase short:text-base">{GAME.subtitle}</p>
         <p className="mt-3 font-display text-xs tracking-[0.4em] text-text-muted uppercase">{GAME.tagline}</p>
       </header>
-      <nav className="panel flex w-full max-w-xs flex-col gap-3 p-4 short:gap-2 short:p-3 animate-[fadeUp_900ms_200ms_ease-out_both]">
+      <nav ref={nav} className="panel flex w-full max-w-xs flex-col gap-3 p-4 short:gap-2 short:p-3 animate-[fadeUp_900ms_200ms_ease-out_both]">
         <button className="btn-primary" onClick={() => go("solo")}>{t("menu.solo")}</button>
         <button className="btn-ghost" onClick={() => go("multi")}>{t("menu.multi")}</button>
         <button className="btn-ghost" onClick={() => go("settings")}>{t("menu.settings")}</button>

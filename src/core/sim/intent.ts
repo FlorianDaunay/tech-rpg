@@ -16,6 +16,11 @@ export const ACTIONS = [
 ] as const;
 export type Action = (typeof ACTIONS)[number];
 
+/** Discrete player commands from menus (inventory). They travel with the Intent so the host applies them. */
+export type Command =
+  | { type: "equip"; slot: "weapon" | "shield"; item: string | null }
+  | { type: "use"; item: string };
+
 /** What one player wants this tick. Serializable: it's also the network input message. */
 export interface Intent {
   /** Analog movement, length ≤ 1. */
@@ -26,6 +31,8 @@ export interface Intent {
   held: Action[];
   /** Actions that went down this tick (edge). */
   pressed: Action[];
+  /** Menu commands issued this tick (rare). */
+  commands?: Command[];
 }
 
 export const emptyIntent = (): Intent => ({ move: { x: 0, y: 0 }, aim: null, held: [], pressed: [] });

@@ -32,6 +32,8 @@ export type SimEvent =
   | { type: "reaction"; reaction: string; target: string; x: number; y: number; radius: number }
   /** Loot spawned on the ground. */
   | { type: "drop"; id: string; item: string; count: number; x: number; y: number }
+  | { type: "equip"; id: string; slot: "weapon" | "shield"; item: string | null }
+  | { type: "use"; id: string; item: string; heal: number }
   | { type: "pickup"; id: string; actor: string; item: string; count: number; x: number; y: number }
   /** Perfect parry: the attacker is staggered (slow-mo counter window). */
   | { type: "parry"; attacker: string; target: string; x: number; y: number }

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { touchInput, touchPress, touchRelease } from "@/bridge/touch";
 import type { Action } from "@/core/sim/intent";
+import { t } from "@/i18n";
 import { useInputDevice } from "@/store/input";
 import { useSettings } from "@/store/settings";
 
@@ -125,14 +126,24 @@ function ActionCluster({ mirrored }: { mirrored: boolean }) {
           <ActionButton key={b.action} spec={b} mirrored={mirrored} />
         ))}
       </div>
-      <button
-        className="pointer-events-auto absolute right-4 top-4 h-11 w-11 rounded-full surface text-lg text-text-primary"
-        onPointerDown={() => touchPress("pause")}
-        onPointerUp={() => touchRelease("pause")}
-        aria-label="Pause"
-      >
-        ❚❚
-      </button>
+      <div className="safe absolute right-4 top-4 flex gap-2">
+        <button
+          className="pointer-events-auto h-11 w-11 rounded-full surface text-lg text-text-primary"
+          onPointerDown={() => touchPress("inventory")}
+          onPointerUp={() => touchRelease("inventory")}
+          aria-label={t("inventory.title")}
+        >
+          ⛁
+        </button>
+        <button
+          className="pointer-events-auto h-11 w-11 rounded-full surface text-lg text-text-primary"
+          onPointerDown={() => touchPress("pause")}
+          onPointerUp={() => touchRelease("pause")}
+          aria-label={t("pause.title")}
+        >
+          ❚❚
+        </button>
+      </div>
     </div>
   );
 }

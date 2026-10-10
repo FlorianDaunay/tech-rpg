@@ -7,7 +7,11 @@
       "url": "https://pipoya.itch.io/",
       "licence": "Pipoya free asset terms (see author page)",
       "attributionRequired": false,
-      "families": ["characters", "enemies", "bosses"],
+      "families": [
+        "characters",
+        "enemies",
+        "bosses"
+      ],
       "toVerify": "Confirm the exact licence text of the downloaded pack."
     },
     {
@@ -16,7 +20,16 @@
       "author": "Unknown (reference library)",
       "licence": "Unknown",
       "attributionRequired": false,
-      "families": ["tiles/grass", "tiles/stone-ground", "tiles/wall", "props/props", "props/objects", "props/treasures", "props/chest", "props/torch"],
+      "families": [
+        "tiles/grass",
+        "tiles/stone-ground",
+        "tiles/wall",
+        "props/props",
+        "props/objects",
+        "props/treasures",
+        "props/chest",
+        "props/torch"
+      ],
       "toVerify": "Author and licence not included with the files: find the source before release."
     },
     {
@@ -25,7 +38,9 @@
       "author": "Unknown (reference library)",
       "licence": "Unknown",
       "attributionRequired": false,
-      "families": ["weapons"],
+      "families": [
+        "weapons"
+      ],
       "toVerify": "Author and licence not included with the files: find the source before release."
     },
     {
@@ -35,7 +50,9 @@
       "url": "https://snoopethduckduck.itch.io/",
       "licence": "CC0 1.0",
       "attributionRequired": false,
-      "families": ["shields/pack1-*"]
+      "families": [
+        "shields/pack1-*"
+      ]
     },
     {
       "id": "snoopethduckduck-pack2",
@@ -44,7 +61,9 @@
       "url": "https://snoopethduckduck.itch.io/",
       "licence": "CC0 1.0",
       "attributionRequired": false,
-      "families": ["shields/pack2-*"]
+      "families": [
+        "shields/pack2-*"
+      ]
     },
     {
       "id": "snoopethduckduck-pack3",
@@ -55,7 +74,9 @@
       "licenceUrl": "https://creativecommons.org/licenses/by/4.0/",
       "attributionRequired": true,
       "attribution": "Shields Pack 3 by SnoopethDuckDuck (snoopethduckduck.itch.io), CC BY 4.0",
-      "families": ["shields/pack3-*"]
+      "families": [
+        "shields/pack3-*"
+      ]
     },
     {
       "id": "generated",
@@ -63,7 +84,47 @@
       "author": "Valaria project (tools/assets/generators)",
       "licence": "Project licence",
       "attributionRequired": false,
-      "families": ["tiles/water", "tiles/water-shore", "tiles/dirt-path", "tiles/wood-floor", "tiles/rift-ground", "tiles/tall-grass", "tiles/flowers", "props/tree-*", "props/bushes", "props/rocks", "props/mushrooms", "props/house-*", "props/forge", "props/lantern-shrine", "props/market-stall", "props/well", "vfx/*", "ui/*"]
+      "families": [
+        "tiles/water",
+        "tiles/water-shore",
+        "tiles/dirt-path",
+        "tiles/wood-floor",
+        "tiles/rift-ground",
+        "tiles/tall-grass",
+        "tiles/flowers",
+        "props/tree-*",
+        "props/bushes",
+        "props/rocks",
+        "props/mushrooms",
+        "props/house-*",
+        "props/forge",
+        "props/lantern-shrine",
+        "props/market-stall",
+        "props/well",
+        "vfx/*",
+        "ui/*"
+      ]
+    },
+    {
+      "id": "fonts",
+      "title": "Fonts: Cinzel, Inter, Silkscreen",
+      "author": "Natanael Gama (Cinzel), Rasmus Andersson (Inter), Jason Kottke (Silkscreen)",
+      "url": "https://fonts.google.com/",
+      "licence": "SIL Open Font License 1.1",
+      "attributionRequired": false,
+      "families": [
+        "src/assets/fonts/*"
+      ]
+    },
+    {
+      "id": "libraries",
+      "title": "Phaser, React, PeerJS, zod, zustand, Tailwind CSS, Capacitor",
+      "author": "Their respective authors",
+      "licence": "MIT",
+      "attributionRequired": false,
+      "families": [
+        "npm dependencies"
+      ]
     }
   ]
 }

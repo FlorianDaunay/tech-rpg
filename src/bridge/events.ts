@@ -2,7 +2,19 @@
  * Typed event bus: the ONLY coupling between the Phaser runtime and the React UI.
  * Phaser emits state the HUD needs; React emits commands (start, pause, menu actions).
  */
+import type { Command } from "@/core/sim/intent";
+
 type Listener<T> = (payload: T) => void;
+
+/** What the inventory screen shows: the local player's bag and gear. */
+export interface InventoryView {
+  bag: Record<string, number>;
+  weapon: string | null;
+  shield: string | null;
+  hp: number;
+  maxHp: number;
+  stats: { power: number; defense: number; critChance: number; critMultiplier: number; speed: number };
+}
 
 export type GameMode = "solo" | "host" | "client";
 
@@ -17,6 +29,14 @@ export interface BridgeEvents {
   "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[] };
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
+  /** Game → UI: a menu key was pressed in game (Esc/Start, Tab/I/D-pad up). */
+  "game:menu": "pause" | "inventory";
+  /** Local player's bag/gear changed (and once when the world starts). */
+  "game:inventory": InventoryView;
+  /** Local player picked something up (toast). */
+  "game:loot": { item: string; count: number };
+  /** UI → game: inventory command for the local player (sent with the next Intent). */
+  "ui:command": Command;
   /** UI → game: leave the title and start playing. */
   "ui:start": { mode: GameMode };
   /** UI → game: back to the title backdrop. */

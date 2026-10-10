@@ -94,6 +94,18 @@ export class InputRouter {
     return { move, aim, held: [...held], pressed };
   }
 
+  /**
+   * Forgets pending presses and treats currently held keys/buttons as already pressed. Called when
+   * gameplay resumes after a menu, so the key that closed the menu doesn't act in game.
+   */
+  flush() {
+    this.latched.clear();
+    touchInput.pressedQueue.length = 0;
+    const pad = navigator.getGamepads?.().find((p) => p?.connected && p.mapping === "standard");
+    this.padPrev = new Set();
+    if (pad) for (const [action, buttons] of Object.entries(PAD) as [Action, number[]][]) if (buttons.some((b) => pad.buttons[b]?.pressed)) this.padPrev.add(action);
+  }
+
   destroy() {
     this.disposers.forEach((dispose) => dispose());
     this.disposers = [];
