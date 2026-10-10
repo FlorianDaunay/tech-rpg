@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { bridge, type GameMode } from "@/bridge/events";
 import type { Progress } from "@/core/narrative/progress";
+import type { Actor } from "@/core/combat/actor";
 import { ASSET_INDEX_KEY, ASSET_INDEX_PATH, queueAssets, type AssetEntry } from "../assets";
 
 /** Asset kinds the world needs up front. Others (bosses, rare enemies) load on demand later. */
@@ -28,6 +29,10 @@ export interface PlayerCarry {
   progress: Progress;
   level: number;
   xp: number;
+  loadout: Actor["loadout"];
+  ultCharge: number;
+  /** Skill cooldowns keep running across a map change. */
+  cooldowns: Record<string, number>;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */

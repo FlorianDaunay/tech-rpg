@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } f
 import { touchInput, touchPress, touchRelease } from "@/bridge/touch";
 import type { Action } from "@/core/sim/intent";
 import { t } from "@/i18n";
+import { useGameStatus } from "@/store/game";
 import { useInputDevice } from "@/store/input";
 import { useSettings } from "@/store/settings";
 
@@ -152,12 +153,17 @@ function ActionButton({ spec, mirrored }: { spec: ButtonSpec; mirrored: boolean 
   const [down, setDown] = useState(false);
   const origin = useRef<{ x: number; y: number } | null>(null);
   const x = mirrored ? 100 - spec.x : spec.x;
+  // Skill buttons show their cooldown / readiness (and hide when the slot is empty).
+  const skill = useGameStatus((s) => s.vitals?.skills.find((k) => k.slot === spec.action));
+  const ult = useGameStatus((s) => (spec.action === "ultimate" ? (s.vitals?.ult ?? 0) : null));
+  if (skill && !skill.id) return null;
+  const cooling = !!skill && skill.cd > 0 && skill.cdMax > 0;
   return (
     <button
       aria-label={spec.action}
       className={`pointer-events-auto absolute flex touch-none items-center justify-center rounded-full font-display text-xl transition-transform duration-75 ${
         spec.primary ? "bg-accent/80 text-accent-foreground shadow-overlay" : "surface text-text-primary"
-      } ${down ? "scale-90 brightness-125" : ""}`}
+      } ${down ? "scale-90 brightness-125" : ""} ${skill && !skill.ready ? "opacity-60" : ""} ${ult === 1 && skill?.ready ? "ring-2 ring-accent" : ""} overflow-hidden`}
       style={{ width: spec.size, height: spec.size, left: `calc(${x}% - ${spec.size / 2}px)`, top: `calc(${spec.y}% - ${spec.size / 2}px)` }}
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);
@@ -187,6 +193,10 @@ function ActionButton({ spec, mirrored }: { spec: ButtonSpec; mirrored: boolean 
       }}
     >
       {spec.label}
+      {cooling && (
+        <span className="absolute inset-0 flex items-center justify-center bg-canvas/60 font-pixel text-xs text-text-primary">{Math.ceil(skill.cd)}</span>
+      )}
+      {ult !== null && ult < 1 && <span className="absolute inset-x-0 bottom-0 bg-accent/40" style={{ height: `${ult * 100}%` }} />}
     </button>
   );
 }

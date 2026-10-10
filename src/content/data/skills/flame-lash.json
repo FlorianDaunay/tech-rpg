@@ -1,0 +1,16 @@
+{
+  "id": "flame-lash",
+  "name": {
+    "en": "Flame Lash",
+    "fr": "Fouet de flamme"
+  },
+  "description": {
+    "en": "Hurl a lash of Lantern fire that sets foes burning.",
+    "fr": "Projette un fouet du feu de la Lanterne qui embrase les ennemis."
+  },
+  "kind": "skill",
+  "move": "flame-lash",
+  "cooldown": 5,
+  "unlockLevel": 1,
+  "element": "ember"
+}

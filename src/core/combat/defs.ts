@@ -108,6 +108,22 @@ export interface ItemDef {
   effect?: { heal?: number; stamina?: number; status?: string };
 }
 
+export const SKILL_SLOTS = ["skill1", "skill2", "ultimate"] as const;
+export type SkillSlot = (typeof SKILL_SLOTS)[number];
+
+/** An active ability: a move with a cooldown, unlocked by level. Ultimates also need a full Ember gauge. */
+export interface SkillDef {
+  id: string;
+  kind: "skill" | "ultimate";
+  /** The move it performs (melee, area or projectile). */
+  move: string;
+  /** Seconds before it can be used again. */
+  cooldown: number;
+  unlockLevel: number;
+  /** Ultimates: damage the player must deal to fill the Ember gauge. */
+  charge: number;
+}
+
 export interface CombatData {
   moves: Record<string, Move>;
   enemies: Record<string, EnemyDef>;
@@ -117,6 +133,7 @@ export interface CombatData {
   shields: Record<string, ShieldDef>;
   loot: Record<string, LootTableDef>;
   items: Record<string, ItemDef>;
+  skills: Record<string, SkillDef>;
 }
 
 let data: CombatData | null = null;
@@ -144,6 +161,9 @@ export const getStatus = getter("statuses", "status");
 export const getWeapon = getter("weapons", "weapon");
 export const getShield = getter("shields", "shield");
 export const getLootTable = getter("loot", "loot table");
+export const getSkill = getter("skills", "skill");
+export const findSkill = (id: string): SkillDef | undefined => db().skills[id];
+export const allSkills = (): SkillDef[] => Object.values(db().skills);
 export const findItem = (id: string): ItemDef | undefined => db().items[id];
 export const isWeapon = (id: string) => id in db().weapons;
 export const isShield = (id: string) => id in db().shields;

@@ -85,7 +85,25 @@ export class CombatFx {
         const move = getMove(ev.move);
         if (move.projectile) break;
         audio.sfx(ev.weight === "heavy" ? "swing-heavy" : "swing-light", { x: ev.x, y: ev.y });
-        this.slash(ev.x, ev.y - 8, ev.dir, move);
+        // Area moves centred on the attacker (Frost Nova, Dawnbreak): a burst instead of a slash.
+        const area = move.hitbox.kind === "circle" && move.hitbox.offset === 0 ? move.hitbox.radius : 0;
+        if (area >= 40) {
+          if (move.element) this.elementBurst(ev.x, ev.y - 6, move.element, area);
+          h.light?.(ev.x, ev.y - 6, area * 1.6, move.element ? ELEMENT_LIGHT[move.element] : "lantern");
+          if (area >= 80) this.shake(0.008);
+        } else this.slash(ev.x, ev.y - 8, ev.dir, move);
+        break;
+      }
+      case "skill": {
+        const a = h.actor(ev.id);
+        const def = content.skills.find(ev.skill);
+        if (!a || !def) break;
+        const move = getMove(def.move);
+        if (move.element) audio.sfx(ELEMENT_SFX[move.element], { x: a.x, y: a.y, volume: ev.slot === "ultimate" ? 1 : 0.6 });
+        if (ev.slot === "ultimate") {
+          audio.sfx("swing-charge", { x: a.x, y: a.y });
+          this.ring(a.x, a.y - 10, COMBAT_COLORS.levelUp, 3);
+        }
         break;
       }
       case "hit": {
@@ -319,7 +337,8 @@ export class CombatFx {
         this.scene.anims.create({ key, frames: this.scene.anims.generateFrameNumbers(key, { start: 0, end: frames - 1 }), frameRate: 16 });
       }
       const s = this.scene.add.sprite(x, y, key).setBlendMode(Phaser.BlendModes.ADD).setDepth(y + 30);
-      s.setScale(Math.max(0.8, (radius * 2.2) / 48));
+      // Big areas (ultimate) lean on the ring: past ~2.5× the 48 px sprite turns into a white blob.
+      s.setScale(Math.min(2.5, Math.max(0.8, (radius * 2.2) / 48)));
       s.play(key);
       s.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => s.destroy());
     }

@@ -1,0 +1,16 @@
+{
+  "id": "frost-nova",
+  "name": {
+    "en": "Frost Nova",
+    "fr": "Nova de givre"
+  },
+  "description": {
+    "en": "A ring of rime bursts around you, chilling everything it touches.",
+    "fr": "Un anneau de givre éclate autour de vous et glace tout ce qu'il touche."
+  },
+  "kind": "skill",
+  "move": "frost-nova",
+  "cooldown": 9,
+  "unlockLevel": 3,
+  "element": "frost"
+}

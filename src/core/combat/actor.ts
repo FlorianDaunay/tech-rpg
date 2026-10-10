@@ -1,6 +1,7 @@
 import type { Facing, Vec2 } from "../math/vec";
 import type { Body } from "../sim/movement";
 import { STAMINA } from "./moves";
+import type { SkillSlot } from "./defs";
 
 import { emptyProgress, type Progress } from "../narrative/progress";
 
@@ -104,14 +105,21 @@ export interface Actor extends Body {
   /** Seconds since the last hit taken (poise regenerates after a pause). */
   sinceHit: number;
   /** Last action pressed while busy, replayed as soon as the actor can act (input buffering). */
-  buffered: { action: "attack" | "heavy" | "dodge"; ttl: number } | null;
+  buffered: { action: BufferedAction; ttl: number } | null;
   ai: AiState | null;
   /** Story state (players only). */
   progress: Progress | null;
   /** Character level (players; enemies stay 1) and XP inside it (see core/progression). */
   level: number;
   xp: number;
+  /** Skill per slot (players). */
+  loadout: Record<SkillSlot, string | null>;
+  /** Ember gauge: damage dealt since the last ultimate. */
+  ultCharge: number;
 }
+
+/** Actions remembered while busy (input buffering). */
+export type BufferedAction = "attack" | "heavy" | "dodge" | SkillSlot;
 
 export function createActor(init: {
   id: string;
@@ -159,6 +167,8 @@ export function createActor(init: {
     progress: init.kind === "player" ? emptyProgress() : null,
     level: 1,
     xp: 0,
+    loadout: { skill1: null, skill2: null, ultimate: null },
+    ultCharge: 0,
   };
 }
 

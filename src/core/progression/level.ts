@@ -2,6 +2,7 @@ import type { Actor, CombatStats } from "../combat/actor";
 import { PLAYER_STATS } from "../combat/actor";
 import { equip } from "../combat/equipment";
 import { STAMINA } from "../combat/moves";
+import { refreshLoadout } from "../combat/skills";
 import type { SimEvent } from "../combat/events";
 import { findQuest } from "../narrative/defs";
 
@@ -52,6 +53,7 @@ export function setLevel(a: Actor, level: number, xp = 0): void {
   a.xp = a.level >= curve.maxLevel ? 0 : Math.max(0, xp);
   a.baseStats = statsAtLevel(a.level);
   equip(a, a.weapon, a.shield);
+  refreshLoadout(null, a);
 }
 
 /** Adds XP, levelling up as many times as it covers. Emits `xp` then one `level-up` per level gained. */
@@ -59,6 +61,7 @@ export function grantXp(events: SimEvent[], a: Actor, amount: number): void {
   if (amount <= 0 || a.level >= curve.maxLevel) return;
   a.xp += amount;
   events.push({ type: "xp", id: a.id, amount });
+  const before = a.level;
   let gained = 0;
   while (a.level < curve.maxLevel && a.xp >= xpToNext(a.level)) {
     a.xp -= xpToNext(a.level);
@@ -66,6 +69,7 @@ export function grantXp(events: SimEvent[], a: Actor, amount: number): void {
     setLevel(a, a.level + 1, a.xp);
     events.push({ type: "level-up", id: a.id, level: a.level });
   }
+  if (gained) refreshLoadout(events, a, before);
   if (gained && curve.healOnLevelUp && a.action.kind !== "dead") {
     a.hp = a.stats.maxHp;
     a.stamina = STAMINA.max;

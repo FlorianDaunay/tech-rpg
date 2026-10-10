@@ -12,6 +12,7 @@ import { Vitals } from "../hud/Vitals";
 import { ZoneBanner } from "../hud/ZoneBanner";
 import { Prompt } from "../hud/Prompt";
 import { QuestToasts } from "../hud/QuestToasts";
+import { SkillBar } from "../hud/SkillBar";
 import { CodexScreen } from "./CodexScreen";
 import { DialogueBox } from "./DialogueBox";
 import { JournalScreen } from "./JournalScreen";
@@ -72,6 +73,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <ZoneBanner />
       <QuestToasts />
       <Prompt />
+      {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} />}
       {menu === "inventory" && <InventoryScreen />}
       {menu === "settings" && <SettingsScreen onBack={back} />}

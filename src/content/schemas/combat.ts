@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { EnemyDef, ItemDef, LootTableDef, ReactionDef, ShieldDef, StatusDef, WeaponDef } from "@/core/combat/defs";
+import type { EnemyDef, ItemDef, LootTableDef, ReactionDef, ShieldDef, SkillDef, StatusDef, WeaponDef } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny } from "./common";
 
@@ -157,7 +157,23 @@ export const LootTableSchema = z
   .refine((t) => t.gold.min <= t.gold.max && t.entries.every((e) => e.min <= e.max), "min must be ≤ max")
   .describe("Loot table");
 
+export const SkillSchema = z
+  .object({
+    id: Id,
+    name: LocalizedText,
+    description: LocalizedText,
+    kind: z.enum(["skill", "ultimate"]).describe("Skill slots (1, 2) or the ultimate slot"),
+    move: ref("move").describe("Move performed (melee, area or projectile)"),
+    cooldown: z.number().min(0).describe("Seconds before it can be used again"),
+    unlockLevel: z.number().int().min(1).default(1).describe("Character level that unlocks it"),
+    charge: z.number().int().min(0).default(0).describe("Ultimates: damage to deal to fill the Ember gauge"),
+    element: ElementSchema.optional().describe("Colour of its HUD glyph (the move decides the real element)"),
+  })
+  .refine((s) => s.kind !== "ultimate" || s.charge > 0, "ultimates need a charge > 0")
+  .describe("Skill");
+
 export type MoveContent = z.infer<typeof MoveSchema>;
+export type SkillContent = z.infer<typeof SkillSchema>;
 export type EnemyContent = z.infer<typeof EnemySchema>;
 export type StatusContent = z.infer<typeof StatusSchema>;
 export type ReactionContent = z.infer<typeof ReactionSchema>;
@@ -178,4 +194,5 @@ export type _Contracts = [
   Assert<Fits<ShieldContent, ShieldDef>>,
   Assert<Fits<LootTableContent, LootTableDef>>,
   Assert<Fits<ItemContent, ItemDef>>,
+  Assert<Fits<SkillContent, SkillDef>>,
 ];

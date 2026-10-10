@@ -10,6 +10,8 @@ import { createSim, SIM_DT, spawnEnemy, spawnNpc, spawnPlayer, stepSim, talkTarg
 import type { ZoneContent } from "@/content/schemas/zone";
 import { equip } from "@/core/combat/equipment";
 import { setLevel, xpToNext } from "@/core/progression/level";
+import { findSkill, SKILL_SLOTS } from "@/core/combat/defs";
+import { skillBlocker, skillCooldown, ultimateFill } from "@/core/combat/skills";
 import { darknessAt, START_TIME } from "@/core/world/daynight";
 import type { GameMap } from "@/core/world/map";
 import { useInputDevice } from "@/store/input";
@@ -98,6 +100,7 @@ export class WorldScene extends Phaser.Scene {
     if (data.carry) {
       equip(me, data.carry.weapon, data.carry.shield);
       setLevel(me, data.carry.level, data.carry.xp);
+      Object.assign(me, { loadout: { ...data.carry.loadout }, ultCharge: data.carry.ultCharge, cooldowns: { ...data.carry.cooldowns } });
       Object.assign(me, { hp: Math.max(1, Math.min(me.stats.maxHp, data.carry.hp)), stamina: data.carry.stamina, bag: { ...data.carry.bag }, progress: structuredClone(data.carry.progress) });
     }
     for (const s of this.map.spawns) {
@@ -178,6 +181,7 @@ export class WorldScene extends Phaser.Scene {
         if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
         if (ev.type === "portal" && ev.id === LOCAL_ID) return this.travel(ev.to, ev.arrive);
         if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
+        if (ev.type === "skill-unlocked" && ev.id === LOCAL_ID) bridge.emit("game:skill-unlocked", { skill: ev.skill });
         if (ev.type === "talk" && ev.id === LOCAL_ID) {
           // The dialogue reads progress for its conditions: publish it first (talk objectives just moved).
           this.updateInventory(this.sim.actors[LOCAL_ID]);
@@ -217,7 +221,7 @@ export class WorldScene extends Phaser.Scene {
     if (this.travelling) return;
     this.travelling = true;
     const me = this.sim.actors[LOCAL_ID];
-    const carry: PlayerCarry | undefined = me?.progress ? { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield, progress: structuredClone(me.progress), level: me.level, xp: me.xp } : undefined;
+    const carry: PlayerCarry | undefined = me?.progress ? { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield, progress: structuredClone(me.progress), level: me.level, xp: me.xp, loadout: { ...me.loadout }, ultCharge: me.ultCharge, cooldowns: { ...me.cooldowns } } : undefined;
     audio.sfx("portal", { volume: 0.5 });
     this.cameras.main.fadeOut(350, 7, 6, 11);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
@@ -236,7 +240,10 @@ export class WorldScene extends Phaser.Scene {
     if (!me) return;
     stepSim(this.sim, this.map, { [LOCAL_ID]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
     this.fx.handle(this.sim.events);
-    for (const ev of this.sim.events) if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
+    for (const ev of this.sim.events) {
+      if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
+      if (ev.type === "skill-unlocked" && ev.id === LOCAL_ID) bridge.emit("game:skill-unlocked", { skill: ev.skill });
+    }
     this.updateInventory(me);
   }
 
@@ -317,8 +324,8 @@ export class WorldScene extends Phaser.Scene {
   private updateVitals(me: Actor | undefined): void {
     if (!me || this.time.now - this.lastVitals < VITALS_INTERVAL) return;
     this.lastVitals = this.time.now;
-    const vitals = { hp: me.hp, maxHp: me.stats.maxHp, stamina: Math.round(me.stamina), maxStamina: STAMINA.max, dead: me.action.kind === "dead", gold: me.bag.gold ?? 0, statuses: me.statuses.map((s) => s.id), level: me.level, xp: me.xp, xpNext: xpToNext(me.level) };
-    const key = `${vitals.hp}|${vitals.stamina}|${vitals.dead}|${vitals.gold}|${vitals.statuses.join()}|${vitals.level}|${vitals.xp}`;
+    const vitals = { hp: me.hp, maxHp: me.stats.maxHp, stamina: Math.round(me.stamina), maxStamina: STAMINA.max, dead: me.action.kind === "dead", gold: me.bag.gold ?? 0, statuses: me.statuses.map((s) => s.id), level: me.level, xp: me.xp, xpNext: xpToNext(me.level), skills: skillViews(me), ult: ultimateFill(me) };
+    const key = `${vitals.hp}|${vitals.stamina}|${vitals.dead}|${vitals.gold}|${vitals.statuses.join()}|${vitals.level}|${vitals.xp}|${vitals.skills.map((s) => `${s.id}:${s.cd.toFixed(1)}:${s.ready}`).join()}|${vitals.ult.toFixed(2)}`;
     if (key === this.vitalsKey) return;
     this.vitalsKey = key;
     bridge.emit("game:vitals", vitals);
@@ -360,4 +367,13 @@ export class WorldScene extends Phaser.Scene {
     audio.music.setState("explore");
     audio.ambience.set(null);
   }
+}
+
+/** HUD view of the skill slots: equipped skill, cooldown left / total, usable now. */
+function skillViews(me: Actor) {
+  return SKILL_SLOTS.map((slot) => {
+    const id = me.loadout[slot];
+    const def = id ? findSkill(id) : undefined;
+    return { slot, id: def?.id ?? null, cd: def ? skillCooldown(me, def.id) : 0, cdMax: def?.cooldown ?? 0, ready: skillBlocker(me, slot) === null };
+  });
 }

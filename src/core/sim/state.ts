@@ -5,6 +5,7 @@ import { trackProgress } from "../narrative/progress";
 import { applyCommand } from "../combat/commands";
 import { getEnemy } from "../combat/defs";
 import { equip } from "../combat/equipment";
+import { refreshLoadout } from "../combat/skills";
 import { resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
 import { createRng } from "../math/rng";
 import { awardXp } from "../progression/level";
@@ -30,6 +31,7 @@ export function createSim(mapId: string, seed: number, time = 0): SimState {
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
   const a = createActor({ id, team: "players", kind: "player", type: "embersworn", look, x, y, stats: PLAYER_STATS });
   equip(a, gear.weapon ?? null, gear.shield ?? null);
+  refreshLoadout(null, a);
   state.actors[id] = a;
   return a;
 }

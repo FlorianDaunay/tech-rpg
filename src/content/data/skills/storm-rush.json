@@ -1,0 +1,16 @@
+{
+  "id": "storm-rush",
+  "name": {
+    "en": "Storm Rush",
+    "fr": "Ruée de l'orage"
+  },
+  "description": {
+    "en": "Dash forward on a thunderclap and cut through the line.",
+    "fr": "Bondissez dans un coup de tonnerre et tranchez la ligne ennemie."
+  },
+  "kind": "skill",
+  "move": "storm-rush",
+  "cooldown": 7,
+  "unlockLevel": 6,
+  "element": "storm"
+}

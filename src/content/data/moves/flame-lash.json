@@ -1,0 +1,26 @@
+{
+  "id": "flame-lash",
+  "windup": 0.12,
+  "active": 0.05,
+  "recovery": 0.32,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 6,
+    "offset": 0
+  },
+  "damage": 1.6,
+  "staminaCost": 16,
+  "knockback": 130,
+  "weight": "medium",
+  "poise": 18,
+  "projectile": {
+    "speed": 270,
+    "radius": 6,
+    "range": 210
+  },
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.85
+  }
+}

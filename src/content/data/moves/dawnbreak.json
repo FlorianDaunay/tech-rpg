@@ -1,0 +1,21 @@
+{
+  "id": "dawnbreak",
+  "windup": 0.45,
+  "active": 0.16,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 92,
+    "offset": 0
+  },
+  "damage": 4,
+  "staminaCost": 0,
+  "knockback": 280,
+  "weight": "heavy",
+  "poise": 90,
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 1
+  }
+}

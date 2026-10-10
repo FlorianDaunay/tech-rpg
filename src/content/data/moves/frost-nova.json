@@ -1,0 +1,21 @@
+{
+  "id": "frost-nova",
+  "windup": 0.22,
+  "active": 0.12,
+  "recovery": 0.36,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 54,
+    "offset": 0
+  },
+  "damage": 1.2,
+  "staminaCost": 24,
+  "knockback": 170,
+  "weight": "heavy",
+  "poise": 35,
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 1
+  }
+}

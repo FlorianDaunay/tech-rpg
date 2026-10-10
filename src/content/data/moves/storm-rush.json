@@ -1,0 +1,22 @@
+{
+  "id": "storm-rush",
+  "windup": 0.08,
+  "active": 0.16,
+  "recovery": 0.3,
+  "hitbox": {
+    "kind": "arc",
+    "range": 42,
+    "angle": 130
+  },
+  "damage": 1.8,
+  "staminaCost": 20,
+  "knockback": 150,
+  "lunge": 430,
+  "weight": "medium",
+  "poise": 28,
+  "element": "storm",
+  "onHit": {
+    "status": "shocked",
+    "chance": 0.7
+  }
+}

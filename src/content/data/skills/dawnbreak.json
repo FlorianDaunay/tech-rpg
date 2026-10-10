@@ -1,0 +1,17 @@
+{
+  "id": "dawnbreak",
+  "name": {
+    "en": "Dawnbreak",
+    "fr": "Point du jour"
+  },
+  "description": {
+    "en": "Unleash a shard of the shattered sun. Fill the Ember gauge by dealing damage.",
+    "fr": "Libérez un éclat du soleil brisé. La jauge de Braise se remplit en infligeant des dégâts."
+  },
+  "kind": "ultimate",
+  "move": "dawnbreak",
+  "cooldown": 1,
+  "unlockLevel": 2,
+  "charge": 260,
+  "element": "ember"
+}

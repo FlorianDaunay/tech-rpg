@@ -3,12 +3,13 @@ import { clampLength, facingOf, normalize, type Vec2 } from "../math/vec";
 import type { Intent } from "../sim/intent";
 import { moveAndCollide, steer, type MoveTuning } from "../sim/movement";
 import { isSolidCell, type GameMap } from "../world/map";
-import { isAlive, type Actor, type CombatStats, type Team } from "./actor";
+import { isAlive, type Actor, type BufferedAction, type CombatStats, type Team } from "./actor";
 import { hitboxTouches, rollDamage } from "./damage";
-import { findReaction, getEnemy, getLootTable, getMove, type Element } from "./defs";
+import { findReaction, getEnemy, getLootTable, getMove, SKILL_SLOTS, type Element } from "./defs";
 import { blockOf, hitTraits, kitOf } from "./equipment";
 import type { SimEvent } from "./events";
 import { rollLoot } from "./loot";
+import { castSkill, chargeUltimate } from "./skills";
 import { BLOCK, CHARGE, DODGE, HURT_TIME, PARRY_STAGGER_TIME, STAGGER_TIME, STAMINA, type Move } from "./moves";
 import { applyStatus, damageTakenMultOf, elementalStatus, speedMultOf, stepStatuses } from "./status";
 
@@ -102,16 +103,22 @@ function tryDodge(w: CombatWorld, a: Actor, move: Vec2): boolean {
   return true;
 }
 
+const BUFFERED = ["attack", "heavy", "dodge", ...SKILL_SLOTS] as const;
+
+/** A buffered skill press: cast it if the slot is ready (players only). */
+const useSkill = (w: CombatWorld, a: Actor, pressed: (k: BufferedAction) => boolean) =>
+  a.kind === "player" && SKILL_SLOTS.some((s) => pressed(s) && castSkill(w.events, a, s, (m) => startAttack(w, a, m)));
+
 const primaryMove = (a: Actor) => (a.kind === "player" ? kitOf(a).light : getEnemy(a.type).attack);
 
 /** Advances one actor's action state machine and moves it. Hits are resolved afterwards for everyone. */
 export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, intent: Intent, dt: number): void {
   const held = (k: Intent["held"][number]) => intent.held.includes(k);
   const move = clampLength(intent.move, 1);
-  for (const k of ["attack", "heavy", "dodge"] as const) if (intent.pressed.includes(k)) a.buffered = { action: k, ttl: INPUT_BUFFER };
+  for (const k of BUFFERED) if (intent.pressed.includes(k)) a.buffered = { action: k, ttl: INPUT_BUFFER };
   if (a.buffered && (a.buffered.ttl -= dt) < 0) a.buffered = null;
   /** True when `k` was pressed recently and not yet consumed; consumes it. */
-  const pressed = (k: "attack" | "heavy" | "dodge") => {
+  const pressed = (k: BufferedAction) => {
     if (a.buffered?.action !== k) return false;
     a.buffered = null;
     return true;
@@ -183,6 +190,7 @@ export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, inte
       if (act.t >= activeEnd + m.recovery * COMBO_CANCEL) {
         if (act.queued && m.next && startAttack(w, a, m.next)) break;
         if (pressed("dodge") && tryDodge(w, a, move)) break;
+        if (useSkill(w, a, pressed)) break;
       }
       if (act.t >= activeEnd + m.recovery) a.action = { kind: "free" };
       break;
@@ -191,6 +199,7 @@ export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, inte
       decel = DECEL;
       wish = move;
       if (pressed("dodge") && tryDodge(w, a, move)) break;
+      if (useSkill(w, a, pressed)) break;
       if (pressed("attack") && startAttack(w, a, primaryMove(a))) break;
       if (pressed("heavy") && a.kind === "player") {
         a.action = { kind: "charge", t: 0 };
@@ -322,6 +331,7 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
   const roll = rollDamage(src, target, m, charge, rng);
   const amount = Math.max(1, Math.round(roll.amount * resistOf(target, element) * damageTakenMultOf(target)));
   target.hp = Math.max(0, target.hp - amount);
+  if (attacker?.kind === "player") chargeUltimate(attacker, amount, m.id);
   target.sinceHit = 0;
   target.poise -= m.poise * (1 + charge * 0.5);
   w.events.push({ type: "hit", attacker: src.id, target: target.id, amount, crit: roll.crit, blocked: false, weight: m.weight, element, x: target.x, y: target.y, dir: kdir });

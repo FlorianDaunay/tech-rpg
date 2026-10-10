@@ -16,12 +16,23 @@ interface Toast {
 
 const LIFETIME = 4200;
 
-/** Quest feed, top-centre under the zone banner: new / updated / ready / complete. */
+/** Quest feed, top-centre under the zone banner: new / updated / ready / complete (+ skill unlocks). */
 export function QuestToasts() {
   const [toasts, setToasts] = useState<Toast[]>([]);
   useEffect(() => {
     let n = 0;
-    return bridge.on("game:quest", ({ quest, change }) => {
+    const push = (toast: Omit<Toast, "key">) => {
+      const key = ++n;
+      setToasts((list) => [...list.slice(-2), { key, ...toast }]);
+      setTimeout(() => setToasts((list) => list.filter((x) => x.key !== key)), LIFETIME);
+    };
+    const offSkill = bridge.on("game:skill-unlocked", ({ skill }) => {
+      const def = content.skills.find(skill);
+      if (!def) return;
+      audio.sfx("notify", { volume: 0.8 });
+      push({ title: localized(def.name), line: t("skill.unlocked"), done: true });
+    });
+    const offQuest = bridge.on("game:quest", ({ quest, change }) => {
       const def = content.quests.find(quest);
       if (!def) return;
       // The inventory view is published right after the step that produced this event.
@@ -40,11 +51,13 @@ export function QuestToasts() {
         }
         if (!line) return;
         audio.sfx(change === "done" ? "quest-complete" : "notify", { volume: change === "progress" ? 0.4 : 0.8 });
-        const key = ++n;
-        setToasts((list) => [...list.slice(-2), { key, title: localized(def.title), line, done: change === "done" }]);
-        setTimeout(() => setToasts((list) => list.filter((x) => x.key !== key)), LIFETIME);
+        push({ title: localized(def.title), line, done: change === "done" });
       }, 50);
     });
+    return () => {
+      offSkill();
+      offQuest();
+    };
   }, []);
 
   return (

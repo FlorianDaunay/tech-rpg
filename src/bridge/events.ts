@@ -7,6 +7,15 @@ import type { Command } from "@/core/sim/intent";
 
 type Listener<T> = (payload: T) => void;
 
+/** A skill slot on the HUD (cooldown in seconds, ready = usable right now). */
+export interface SkillView {
+  slot: "skill1" | "skill2" | "ultimate";
+  id: string | null;
+  cd: number;
+  cdMax: number;
+  ready: boolean;
+}
+
 /** What the inventory screen shows: the local player's bag and gear. */
 export interface InventoryView {
   bag: Record<string, number>;
@@ -29,7 +38,7 @@ export interface BridgeEvents {
   /** The world scene is running and the HUD can show. */
   "game:world-ready": { mapId: string };
   /** Local player vitals for the HUD (sent on change, ≤ 15 Hz). */
-  "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[]; level: number; xp: number; xpNext: number };
+  "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[]; level: number; xp: number; xpNext: number; skills: SkillView[]; ult: number };
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
   /** Game → UI: a menu key was pressed in game (Esc/Start, Tab/I/D-pad up). */
@@ -42,6 +51,8 @@ export interface BridgeEvents {
   "game:dialogue": { npc: string; dialogue: string };
   /** Quest started / progressed / ready to turn in / done (toasts). */
   "game:quest": { quest: string; change: "started" | "progress" | "ready" | "done" };
+  /** A new skill became available (level-up). */
+  "game:skill-unlocked": { skill: string };
   /** Context action available near the player (null = none). */
   "game:prompt": { kind: "talk"; npc: string } | null;
   /** Local player picked something up (toast). */
