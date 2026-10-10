@@ -43,6 +43,8 @@ export class WorldScene extends Phaser.Scene {
   private weather!: Weather;
   /** A portal was taken: the scene is fading out to the next map. */
   private travelling = false;
+  /** Made with scene.make (not on the display list): must be destroyed by hand on shutdown. */
+  private tilemap: Phaser.Tilemaps.Tilemap | null = null;
   private sim!: SimState;
   private input2!: InputRouter;
   private fx!: CombatFx;
@@ -85,7 +87,7 @@ export class WorldScene extends Phaser.Scene {
 
     this.map = toGameMap(content.maps.get(data.map ?? START_MAP));
     this.zone = content.zones.get(this.map.zone);
-    renderMap(this, this.map);
+    this.tilemap = renderMap(this, this.map);
     renderObjects(this, this.map);
 
     this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME);
@@ -348,6 +350,8 @@ export class WorldScene extends Phaser.Scene {
     this.fx.destroy();
     this.lighting.destroy();
     this.weather.destroy();
+    this.tilemap?.destroy();
+    this.tilemap = null;
     this.views.forEach((v) => v.destroy());
     this.views.clear();
     this.anims.globalTimeScale = 1;

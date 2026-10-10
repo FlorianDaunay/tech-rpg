@@ -16,6 +16,12 @@ const GLOW = "vfx/light-soft"; // 128 px soft radial: additive colour on top
  * follow step moves it, so fast camera moves (lerp after a teleport/transition) need slack.
  */
 const MARGIN = 48;
+/**
+ * The darkness texture is created once per game and reused by every World scene: Phaser 4.2.1
+ * leaks a GL texture per DynamicTexture (its placeholder source texture is replaced by the drawing
+ * context's and never deleted), so a RenderTexture per map load crashed the page after ~10 zones.
+ */
+const DARK_KEY = "lighting/darkness";
 
 interface Flash {
   x: number;
@@ -32,7 +38,8 @@ interface Flash {
  * player's lantern and short flashes (reactions, explosions).
  */
 export class Lighting {
-  private readonly rt: Phaser.GameObjects.RenderTexture;
+  private readonly dark: Phaser.Textures.DynamicTexture;
+  private readonly darkImage: Phaser.GameObjects.Image;
   private readonly stamp: Phaser.GameObjects.Image;
   private readonly glows: Phaser.GameObjects.Image[] = [];
   private readonly playerGlow: Phaser.GameObjects.Image;
@@ -45,7 +52,8 @@ export class Lighting {
     private readonly lights: MapLight[],
     private readonly playerRadius: number
   ) {
-    this.rt = scene.add.renderTexture(0, 0, 32, 32).setOrigin(0, 0).setDepth(DEPTH_LIGHT);
+    this.dark = (scene.textures.exists(DARK_KEY) ? scene.textures.get(DARK_KEY) : scene.textures.addDynamicTexture(DARK_KEY, 32, 32)) as Phaser.Textures.DynamicTexture;
+    this.darkImage = scene.add.image(0, 0, DARK_KEY).setOrigin(0, 0).setDepth(DEPTH_LIGHT);
     // Not on the display list: only drawn into the render texture.
     this.stamp = new Phaser.GameObjects.Image(scene, 0, 0, STAMP).setOrigin(0.5);
     for (const l of lights) {
@@ -70,10 +78,14 @@ export class Lighting {
     const view = cam.worldView;
     const left = Math.floor(view.x) - MARGIN;
     const top = Math.floor(view.y) - MARGIN;
-    const w = Math.ceil(view.width) + MARGIN * 2;
-    const h = Math.ceil(view.height) + MARGIN * 2;
-    if (this.rt.width !== w || this.rt.height !== h) this.rt.resize(w, h);
-    this.rt.setPosition(left, top);
+    // Even sizes: DynamicTexture rounds odd sizes up, which would re-trigger the resize every frame.
+    const w = (Math.ceil(view.width) + MARGIN * 2 + 1) & ~1;
+    const h = (Math.ceil(view.height) + MARGIN * 2 + 1) & ~1;
+    if (this.dark.width !== w || this.dark.height !== h) {
+      this.dark.setSize(w, h);
+      this.darkImage.setSizeToFrame();
+    }
+    this.darkImage.setPosition(left, top);
 
     const now = this.scene.time.now;
     const t = now / 1000;
@@ -81,12 +93,12 @@ export class Lighting {
     // Glows matter more in deep darkness; in the grey dawn they fade back.
     const glowK = 0.15 + 0.35 * this.darkness;
 
-    this.rt.clear();
-    this.rt.fill(this.ambient, this.darkness);
+    this.dark.clear();
+    this.dark.fill(this.ambient, this.darkness);
     const erase = (x: number, y: number, radius: number, strength: number) => {
       if (x + radius < left || x - radius > left + w || y + radius < top || y - radius > top + h) return;
       this.stamp.setPosition(x - left, y - top).setScale((radius * 2 * STAMP_REACH) / STAMP_SIZE).setAlpha(Math.min(1, strength));
-      this.rt.erase(this.stamp);
+      this.dark.erase(this.stamp);
     };
 
     this.lights.forEach((l, i) => {
@@ -105,11 +117,11 @@ export class Lighting {
       const k = (f.until - now) / f.duration;
       erase(f.x, f.y, f.radius * (1.2 - 0.2 * k), k);
     }
-    this.rt.render();
+    this.dark.render();
   }
 
   destroy(): void {
-    this.rt.destroy();
+    this.darkImage.destroy(); // the shared texture stays for the next map
     this.stamp.destroy();
     this.glows.forEach((g) => g.destroy());
     this.playerGlow.destroy();
