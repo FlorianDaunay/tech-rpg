@@ -1,0 +1,19 @@
+{
+  "id": "quickened-rites",
+  "name": {
+    "en": "Quickened Rites",
+    "fr": "Rites hâtés"
+  },
+  "description": {
+    "en": "Skill cooldowns 8% shorter per rank.",
+    "fr": "Temps de recharge des compétences réduits de 8 % par rang."
+  },
+  "tree": "arcana",
+  "x": 0,
+  "y": 1,
+  "ranks": 3,
+  "requires": [
+    "kindling"
+  ],
+  "cooldown": 0.08
+}

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { EnemyDef, ItemDef, LootTableDef, ReactionDef, ShieldDef, SkillDef, StatusDef, WeaponDef } from "@/core/combat/defs";
+import { TALENT_STATS, TALENT_TREES, type EnemyDef, type ItemDef, type LootTableDef, type ReactionDef, type ShieldDef, type SkillDef, type StatusDef, type TalentDef, type WeaponDef } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny } from "./common";
 
@@ -172,7 +172,27 @@ export const SkillSchema = z
   .refine((s) => s.kind !== "ultimate" || s.charge > 0, "ultimates need a charge > 0")
   .describe("Skill");
 
+export const TalentSchema = z
+  .object({
+    id: Id,
+    name: LocalizedText,
+    description: LocalizedText,
+    tree: z.enum(TALENT_TREES).describe("Constellation: Blade (offence), Ward (defence), Arcana (skills)"),
+    x: z.number().int().min(0).max(4).describe("Column in the constellation (0–4)"),
+    y: z.number().int().min(0).max(6).describe("Row in the constellation (0 = first)"),
+    ranks: z.number().int().min(1).max(5).default(1),
+    cost: z.number().int().min(1).default(1).describe("Talent points per rank"),
+    requires: z.array(ref("talent")).default([]).describe("Talents that need at least one rank first"),
+    treePoints: z.number().int().min(0).default(0).describe("Points already spent in this tree before it opens"),
+    stats: z.partialRecord(z.enum(TALENT_STATS), z.number()).default({}).describe("Stats per rank"),
+    cooldown: z.number().min(0).max(0.5).default(0).describe("Skill cooldowns shortened by this fraction per rank"),
+    ultGain: z.number().min(0).default(0).describe("Ember gauge fills this fraction faster per rank"),
+    skill: ref("skill").optional().describe("Unlocks this skill regardless of level"),
+  })
+  .describe("Talent");
+
 export type MoveContent = z.infer<typeof MoveSchema>;
+export type TalentContent = z.infer<typeof TalentSchema>;
 export type SkillContent = z.infer<typeof SkillSchema>;
 export type EnemyContent = z.infer<typeof EnemySchema>;
 export type StatusContent = z.infer<typeof StatusSchema>;
@@ -195,4 +215,5 @@ export type _Contracts = [
   Assert<Fits<LootTableContent, LootTableDef>>,
   Assert<Fits<ItemContent, ItemDef>>,
   Assert<Fits<SkillContent, SkillDef>>,
+  Assert<Fits<TalentContent, TalentDef>>,
 ];

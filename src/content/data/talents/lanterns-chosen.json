@@ -1,0 +1,22 @@
+{
+  "id": "lanterns-chosen",
+  "name": {
+    "en": "Lantern's Chosen",
+    "fr": "Élu de la Lanterne"
+  },
+  "description": {
+    "en": "Skill cooldowns 10% shorter and the Ember gauge fills 20% faster.",
+    "fr": "Temps de recharge réduits de 10 % et jauge de Braise 20 % plus rapide."
+  },
+  "tree": "arcana",
+  "x": 2,
+  "y": 4,
+  "cost": 2,
+  "requires": [
+    "ember-soul",
+    "spellblade"
+  ],
+  "treePoints": 7,
+  "cooldown": 0.1,
+  "ultGain": 0.2
+}

@@ -1,0 +1,23 @@
+{
+  "id": "spellblade",
+  "name": {
+    "en": "Spellblade",
+    "fr": "Lame-sort"
+  },
+  "description": {
+    "en": "+3 power and +2% critical chance per rank.",
+    "fr": "+3 puissance et +2 % de critique par rang."
+  },
+  "tree": "arcana",
+  "x": 3,
+  "y": 3,
+  "ranks": 2,
+  "requires": [
+    "rimecall"
+  ],
+  "treePoints": 4,
+  "stats": {
+    "power": 3,
+    "critChance": 0.02
+  }
+}

@@ -26,6 +26,13 @@ export interface InventoryView {
   stats: { power: number; defense: number; critChance: number; critMultiplier: number; speed: number };
   /** Story state: quests, flags, kills, NPCs met (journal, codex, dialogue conditions). */
   progress: Progress;
+  level: number;
+  /** Learned talent ranks and points left to spend. */
+  talents: Record<string, number>;
+  talentPoints: number;
+  loadout: Record<"skill1" | "skill2" | "ultimate", string | null>;
+  /** Skills that may be slotted (by level or talent). */
+  unlockedSkills: string[];
 }
 
 export type GameMode = "solo" | "host" | "client";
@@ -42,7 +49,7 @@ export interface BridgeEvents {
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
   /** Game → UI: a menu key was pressed in game (Esc/Start, Tab/I/D-pad up). */
-  "game:menu": "pause" | "inventory";
+  "game:menu": "pause" | "inventory" | "talents";
   /** Local player's bag/gear changed (and once when the world starts). */
   "game:inventory": InventoryView;
   /** Entered a map: the HUD shows the zone banner. */

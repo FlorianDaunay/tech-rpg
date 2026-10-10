@@ -1,0 +1,19 @@
+{
+  "id": "thunderstep",
+  "name": {
+    "en": "Thunderstep",
+    "fr": "Pas de tonnerre"
+  },
+  "description": {
+    "en": "Unlocks Storm Rush now.",
+    "fr": "Débloque Ruée de l'orage dès maintenant."
+  },
+  "tree": "blade",
+  "x": 1,
+  "y": 2,
+  "requires": [
+    "fleetfoot"
+  ],
+  "treePoints": 3,
+  "skill": "storm-rush"
+}

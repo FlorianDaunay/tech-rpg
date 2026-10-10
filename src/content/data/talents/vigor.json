@@ -1,0 +1,21 @@
+{
+  "id": "vigor",
+  "name": {
+    "en": "Vigor",
+    "fr": "Vigueur"
+  },
+  "description": {
+    "en": "+15 maximum health per rank.",
+    "fr": "+15 santé maximale par rang."
+  },
+  "tree": "ward",
+  "x": 0,
+  "y": 1,
+  "ranks": 3,
+  "requires": [
+    "iron-skin"
+  ],
+  "stats": {
+    "maxHp": 15
+  }
+}

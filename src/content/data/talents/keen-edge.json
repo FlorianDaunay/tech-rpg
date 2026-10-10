@@ -1,0 +1,18 @@
+{
+  "id": "keen-edge",
+  "name": {
+    "en": "Keen Edge",
+    "fr": "Fil acéré"
+  },
+  "description": {
+    "en": "+2 power per rank.",
+    "fr": "+2 puissance par rang."
+  },
+  "tree": "blade",
+  "x": 2,
+  "y": 0,
+  "ranks": 3,
+  "stats": {
+    "power": 2
+  }
+}

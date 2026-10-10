@@ -19,6 +19,7 @@ import { JournalScreen } from "./JournalScreen";
 import { InventoryScreen } from "./InventoryScreen";
 import { PauseMenu } from "./PauseMenu";
 import { SettingsScreen } from "./SettingsScreen";
+import { TalentsScreen } from "./TalentsScreen";
 
 /** In-game screen: loading veil, then the HUD layer over the running world, and the in-game menus. */
 export function PlayScreen({ mode }: { mode: GameMode }) {
@@ -80,6 +81,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       {menu === "dialogue" && <DialogueBox />}
       {menu === "journal" && <JournalScreen />}
       {menu === "codex" && <CodexScreen />}
+      {menu === "talents" && <TalentsScreen />}
     </div>
   );
 }

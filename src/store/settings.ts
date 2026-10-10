@@ -24,6 +24,7 @@ export const DEFAULT_KEYS: Record<Action | MoveDir, Binding[]> = {
   pause: ["Escape"],
   map: ["KeyM"],
   inventory: ["Tab", "KeyI"],
+  talents: ["KeyT"],
 };
 
 export type TouchMode = "auto" | "always" | "never";

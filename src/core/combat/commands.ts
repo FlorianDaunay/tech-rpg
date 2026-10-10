@@ -6,6 +6,8 @@ import type { SimEvent } from "./events";
 import { STAMINA } from "./moves";
 import { applyStatus } from "./status";
 import { chooseDialogue } from "../narrative/progress";
+import { learnTalent, resetTalents } from "../progression/talents";
+import { setLoadout } from "./skills";
 
 const take = (a: Actor, item: string): boolean => {
   const n = a.bag[item] ?? 0;
@@ -26,6 +28,9 @@ export function applyCommand(events: SimEvent[], a: Actor, cmd: Command): void {
     if (a.progress) chooseDialogue(events, { id: a.id, bag: a.bag, progress: a.progress }, cmd.dialogue, cmd.node, cmd.choice);
     return;
   }
+  if (cmd.type === "talent") return void learnTalent(events, a, cmd.talent);
+  if (cmd.type === "respec") return resetTalents(events, a);
+  if (cmd.type === "loadout") return void setLoadout(events, a, cmd.slot, cmd.skill);
   if (cmd.type === "equip") {
     const current = cmd.slot === "weapon" ? a.weapon : a.shield;
     if (cmd.item === current) return;

@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { EnemySchema, ItemSchema, LootTableSchema, MoveSchema, ReactionSchema, ShieldSchema, SkillSchema, StatusSchema, SwordSchema } from "./schemas/combat";
+import { EnemySchema, ItemSchema, LootTableSchema, MoveSchema, ReactionSchema, ShieldSchema, SkillSchema, StatusSchema, SwordSchema, TalentSchema } from "./schemas/combat";
 import { LoreSchema } from "./schemas/lore";
 import { MapSchema } from "./schemas/map";
 import { DialogueSchema, NpcSchema, QuestSchema } from "./schemas/narrative";
@@ -26,6 +26,7 @@ const sources = {
   quest: { schema: QuestSchema, folder: "quests", files: import.meta.glob("./data/quests/*.json", { eager: true, import: "default" }) },
   loot: { schema: LootTableSchema, folder: "loot", files: import.meta.glob("./data/loot/*.json", { eager: true, import: "default" }) },
   skill: { schema: SkillSchema, folder: "skills", files: import.meta.glob("./data/skills/*.json", { eager: true, import: "default" }) },
+  talent: { schema: TalentSchema, folder: "talents", files: import.meta.glob("./data/talents/*.json", { eager: true, import: "default" }) },
   progression: { schema: ProgressionSchema, folder: "progression", files: import.meta.glob("./data/progression/*.json", { eager: true, import: "default" }) },
 } as const;
 
@@ -94,6 +95,7 @@ export const content = {
   quests: collection("quest"),
   progression: collection("progression"),
   skills: collection("skill"),
+  talents: collection("talent"),
 };
 
 /** Ids of every entry of a type (reference checks). */

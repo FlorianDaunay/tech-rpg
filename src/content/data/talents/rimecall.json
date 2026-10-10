@@ -1,0 +1,18 @@
+{
+  "id": "rimecall",
+  "name": {
+    "en": "Rimecall",
+    "fr": "Appel du givre"
+  },
+  "description": {
+    "en": "Unlocks Frost Nova now.",
+    "fr": "Débloque Nova de givre dès maintenant."
+  },
+  "tree": "arcana",
+  "x": 4,
+  "y": 1,
+  "requires": [
+    "kindling"
+  ],
+  "skill": "frost-nova"
+}

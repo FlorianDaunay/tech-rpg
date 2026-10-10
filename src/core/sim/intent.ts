@@ -13,6 +13,7 @@ export const ACTIONS = [
   "pause",
   "map",
   "inventory",
+  "talents",
 ] as const;
 export type Action = (typeof ACTIONS)[number];
 
@@ -21,7 +22,11 @@ export type Command =
   | { type: "equip"; slot: "weapon" | "shield"; item: string | null }
   | { type: "use"; item: string }
   /** A dialogue choice (the host re-validates conditions before applying effects). */
-  | { type: "dialogue"; dialogue: string; node: string; choice: number };
+  | { type: "dialogue"; dialogue: string; node: string; choice: number }
+  /** Learn one rank of a talent / refund every talent / put an unlocked skill in a slot. */
+  | { type: "talent"; talent: string }
+  | { type: "respec" }
+  | { type: "loadout"; slot: "skill1" | "skill2" | "ultimate"; skill: string };
 
 /** What one player wants this tick. Serializable: it's also the network input message. */
 export interface Intent {

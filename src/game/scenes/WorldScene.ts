@@ -11,7 +11,8 @@ import type { ZoneContent } from "@/content/schemas/zone";
 import { equip } from "@/core/combat/equipment";
 import { setLevel, xpToNext } from "@/core/progression/level";
 import { findSkill, SKILL_SLOTS } from "@/core/combat/defs";
-import { skillBlocker, skillCooldown, ultimateFill } from "@/core/combat/skills";
+import { skillBlocker, skillCooldown, ultimateFill, unlockedSkills } from "@/core/combat/skills";
+import { talentPointsLeft } from "@/core/progression/talents";
 import { darknessAt, START_TIME } from "@/core/world/daynight";
 import type { GameMap } from "@/core/world/map";
 import { useInputDevice } from "@/store/input";
@@ -99,6 +100,7 @@ export class WorldScene extends Phaser.Scene {
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
     if (data.carry) {
       equip(me, data.carry.weapon, data.carry.shield);
+      me.talents = { ...data.carry.talents };
       setLevel(me, data.carry.level, data.carry.xp);
       Object.assign(me, { loadout: { ...data.carry.loadout }, ultCharge: data.carry.ultCharge, cooldowns: { ...data.carry.cooldowns } });
       Object.assign(me, { hp: Math.max(1, Math.min(me.stats.maxHp, data.carry.hp)), stamina: data.carry.stamina, bag: { ...data.carry.bag }, progress: structuredClone(data.carry.progress) });
@@ -221,7 +223,7 @@ export class WorldScene extends Phaser.Scene {
     if (this.travelling) return;
     this.travelling = true;
     const me = this.sim.actors[LOCAL_ID];
-    const carry: PlayerCarry | undefined = me?.progress ? { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield, progress: structuredClone(me.progress), level: me.level, xp: me.xp, loadout: { ...me.loadout }, ultCharge: me.ultCharge, cooldowns: { ...me.cooldowns } } : undefined;
+    const carry: PlayerCarry | undefined = me?.progress ? { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield, progress: structuredClone(me.progress), level: me.level, xp: me.xp, loadout: { ...me.loadout }, ultCharge: me.ultCharge, cooldowns: { ...me.cooldowns }, talents: { ...me.talents } } : undefined;
     audio.sfx("portal", { volume: 0.5 });
     this.cameras.main.fadeOut(350, 7, 6, 11);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
@@ -273,6 +275,11 @@ export class WorldScene extends Phaser.Scene {
       maxHp: me.stats.maxHp,
       stats: { power: me.stats.power, defense: me.stats.defense, critChance: me.stats.critChance, critMultiplier: me.stats.critMultiplier, speed: me.stats.speed },
       progress: structuredClone(me.progress),
+      level: me.level,
+      talents: { ...me.talents },
+      talentPoints: talentPointsLeft(me),
+      loadout: { ...me.loadout },
+      unlockedSkills: unlockedSkills(me),
     };
     const key = JSON.stringify(view);
     if (key === this.inventoryKey) return;
@@ -285,6 +292,7 @@ export class WorldScene extends Phaser.Scene {
     // Menu keys open React menus instead of reaching the sim.
     if (intent.pressed.includes("pause")) bridge.emit("game:menu", "pause");
     else if (intent.pressed.includes("inventory")) bridge.emit("game:menu", "inventory");
+    else if (intent.pressed.includes("talents")) bridge.emit("game:menu", "talents");
     if (this.commands.length) intent.commands = this.commands.splice(0);
     const me = this.sim.actors[LOCAL_ID];
     const device = useInputDevice.getState().device;

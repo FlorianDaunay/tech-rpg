@@ -20,6 +20,7 @@ export function PauseMenu({ onQuit }: { onQuit: () => void }) {
           <>
             <MenuButton primary autoFocus onClick={closeAll}>{t("pause.resume")}</MenuButton>
             <MenuButton onClick={() => open("inventory")}>{t("inventory.title")}</MenuButton>
+            <MenuButton onClick={() => open("talents")}>{t("talents.title")}</MenuButton>
             <MenuButton onClick={() => open("journal")}>{t("journal.title")}</MenuButton>
             <MenuButton onClick={() => open("codex")}>{t("codex.title")}</MenuButton>
             <MenuButton onClick={() => open("settings")}>{t("menu.settings")}</MenuButton>

@@ -1,0 +1,23 @@
+{
+  "id": "lantern-ward",
+  "name": {
+    "en": "Lantern Ward",
+    "fr": "Garde de la Lanterne"
+  },
+  "description": {
+    "en": "+10 maximum health and +2 defense per rank.",
+    "fr": "+10 santé maximale et +2 défense par rang."
+  },
+  "tree": "ward",
+  "x": 1,
+  "y": 2,
+  "ranks": 2,
+  "requires": [
+    "vigor"
+  ],
+  "treePoints": 3,
+  "stats": {
+    "maxHp": 10,
+    "defense": 2
+  }
+}

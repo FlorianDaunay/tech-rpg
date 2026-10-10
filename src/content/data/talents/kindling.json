@@ -1,0 +1,16 @@
+{
+  "id": "kindling",
+  "name": {
+    "en": "Kindling",
+    "fr": "Petit bois"
+  },
+  "description": {
+    "en": "The Ember gauge fills 15% faster per rank.",
+    "fr": "La jauge de Braise se remplit 15 % plus vite par rang."
+  },
+  "tree": "arcana",
+  "x": 2,
+  "y": 0,
+  "ranks": 2,
+  "ultGain": 0.15
+}

@@ -1,0 +1,21 @@
+{
+  "id": "precision",
+  "name": {
+    "en": "Precision",
+    "fr": "Précision"
+  },
+  "description": {
+    "en": "+3% critical chance per rank.",
+    "fr": "+3 % de chances de critique par rang."
+  },
+  "tree": "blade",
+  "x": 4,
+  "y": 1,
+  "ranks": 3,
+  "requires": [
+    "keen-edge"
+  ],
+  "stats": {
+    "critChance": 0.03
+  }
+}

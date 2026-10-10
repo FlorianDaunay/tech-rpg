@@ -19,6 +19,7 @@ const PAD: Partial<Record<Action, number[]>> = {
   map: [8], // Back / Share
   pause: [9], // Start / Options
   inventory: [12], // D-pad up
+  talents: [13], // D-pad down
 };
 
 /**

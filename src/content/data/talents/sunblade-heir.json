@@ -1,0 +1,24 @@
+{
+  "id": "sunblade-heir",
+  "name": {
+    "en": "Heir of the Sunblade",
+    "fr": "Héritier de la Lame-Soleil"
+  },
+  "description": {
+    "en": "+5 power and +5% critical chance. The Dawnblade remembers you.",
+    "fr": "+5 puissance et +5 % de critique. La Lame de l'Aube se souvient de vous."
+  },
+  "tree": "blade",
+  "x": 2,
+  "y": 4,
+  "cost": 2,
+  "requires": [
+    "thunderstep",
+    "executioner"
+  ],
+  "treePoints": 8,
+  "stats": {
+    "power": 5,
+    "critChance": 0.05
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "executioner",
+  "name": {
+    "en": "Executioner",
+    "fr": "Exécuteur"
+  },
+  "description": {
+    "en": "Critical hits deal +25% more per rank.",
+    "fr": "Les critiques infligent +25 % de plus par rang."
+  },
+  "tree": "blade",
+  "x": 3,
+  "y": 3,
+  "ranks": 2,
+  "requires": [
+    "precision"
+  ],
+  "treePoints": 5,
+  "stats": {
+    "critMultiplier": 0.25
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "fleetfoot",
+  "name": {
+    "en": "Fleetfoot",
+    "fr": "Pied léger"
+  },
+  "description": {
+    "en": "+5 movement speed per rank.",
+    "fr": "+5 vitesse de déplacement par rang."
+  },
+  "tree": "blade",
+  "x": 0,
+  "y": 1,
+  "ranks": 2,
+  "requires": [
+    "keen-edge"
+  ],
+  "stats": {
+    "speed": 5
+  }
+}

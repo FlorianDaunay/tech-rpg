@@ -1,0 +1,21 @@
+{
+  "id": "steadfast",
+  "name": {
+    "en": "Steadfast",
+    "fr": "Inébranlable"
+  },
+  "description": {
+    "en": "+10 poise per rank: shrug off more blows.",
+    "fr": "+10 d'équilibre par rang : encaissez plus de coups."
+  },
+  "tree": "ward",
+  "x": 4,
+  "y": 1,
+  "ranks": 2,
+  "requires": [
+    "iron-skin"
+  ],
+  "stats": {
+    "maxPoise": 10
+  }
+}

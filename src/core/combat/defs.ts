@@ -124,6 +124,33 @@ export interface SkillDef {
   charge: number;
 }
 
+export const TALENT_TREES = ["blade", "ward", "arcana"] as const;
+export type TalentTree = (typeof TALENT_TREES)[number];
+export const TALENT_STATS = ["maxHp", "power", "defense", "critChance", "critMultiplier", "maxPoise", "speed"] as const;
+
+/** A star of the talent constellation. Effects are per rank. */
+export interface TalentDef {
+  id: string;
+  tree: TalentTree;
+  ranks: number;
+  /** Points per rank. */
+  cost: number;
+  /** Talents that must have at least one rank first. */
+  requires: string[];
+  /** Points already spent in this tree before it opens. */
+  treePoints: number;
+  /** Constellation grid position (column, row). */
+  x: number;
+  y: number;
+  stats: Partial<Record<(typeof TALENT_STATS)[number], number>>;
+  /** Skill cooldowns shortened by this fraction. */
+  cooldown: number;
+  /** Ember gauge fills this fraction faster. */
+  ultGain: number;
+  /** Unlocks a skill regardless of its level. */
+  skill?: string;
+}
+
 export interface CombatData {
   moves: Record<string, Move>;
   enemies: Record<string, EnemyDef>;
@@ -134,6 +161,7 @@ export interface CombatData {
   loot: Record<string, LootTableDef>;
   items: Record<string, ItemDef>;
   skills: Record<string, SkillDef>;
+  talents: Record<string, TalentDef>;
 }
 
 let data: CombatData | null = null;
@@ -164,6 +192,8 @@ export const getLootTable = getter("loot", "loot table");
 export const getSkill = getter("skills", "skill");
 export const findSkill = (id: string): SkillDef | undefined => db().skills[id];
 export const allSkills = (): SkillDef[] => Object.values(db().skills);
+export const findTalent = (id: string): TalentDef | undefined => db().talents[id];
+export const allTalents = (): TalentDef[] => Object.values(db().talents);
 export const findItem = (id: string): ItemDef | undefined => db().items[id];
 export const isWeapon = (id: string) => id in db().weapons;
 export const isShield = (id: string) => id in db().shields;

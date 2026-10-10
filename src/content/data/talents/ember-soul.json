@@ -1,0 +1,19 @@
+{
+  "id": "ember-soul",
+  "name": {
+    "en": "Ember Soul",
+    "fr": "Âme de braise"
+  },
+  "description": {
+    "en": "The Ember gauge fills 25% faster.",
+    "fr": "La jauge de Braise se remplit 25 % plus vite."
+  },
+  "tree": "arcana",
+  "x": 1,
+  "y": 2,
+  "requires": [
+    "quickened-rites"
+  ],
+  "treePoints": 3,
+  "ultGain": 0.25
+}

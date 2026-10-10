@@ -1,0 +1,24 @@
+{
+  "id": "bastion",
+  "name": {
+    "en": "Bastion of Cinderhold",
+    "fr": "Bastion de Cendrefort"
+  },
+  "description": {
+    "en": "+40 maximum health and +6 defense.",
+    "fr": "+40 santé maximale et +6 défense."
+  },
+  "tree": "ward",
+  "x": 2,
+  "y": 4,
+  "cost": 2,
+  "requires": [
+    "lantern-ward",
+    "unbroken"
+  ],
+  "treePoints": 8,
+  "stats": {
+    "maxHp": 40,
+    "defense": 6
+  }
+}

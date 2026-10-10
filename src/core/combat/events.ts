@@ -48,6 +48,9 @@ export type SimEvent =
   /** A skill started (its move's attack/swing events follow). */
   | { type: "skill"; id: string; skill: string; slot: "skill1" | "skill2" | "ultimate" }
   | { type: "skill-unlocked"; id: string; skill: string }
+  /** A talent rank was learned (talent null = every talent refunded). */
+  | { type: "talent"; id: string; talent: string | null; rank: number }
+  | { type: "loadout"; id: string; slot: "skill1" | "skill2" | "ultimate"; skill: string }
   /** A player killed an enemy (quests, bestiary). */
   | { type: "kill-credit"; id: string; enemy: string }
   /** A player started talking to an NPC: the UI opens the dialogue. */

@@ -7,7 +7,7 @@ import { content, idsOf, schemas, validateAllContent, type ContentType } from ".
 const TYPES = Object.keys(schemas) as ContentType[];
 const all = (type: ContentType) => (content as unknown as Record<string, { all(): unknown[] }>)[collectionName(type)]!.all();
 const collectionName = (type: ContentType) =>
-  ({ zone: "zones", map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot", npc: "npcs", dialogue: "dialogues", quest: "quests", progression: "progression", skill: "skills" })[type];
+  ({ zone: "zones", map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot", npc: "npcs", dialogue: "dialogues", quest: "quests", progression: "progression", skill: "skills", talent: "talents" })[type];
 const assetKeys = new Set(
   (JSON.parse(readFileSync("public/assets/index.json", "utf8")) as { assets: { key: string }[] }).assets.map((a) => a.key)
 );
@@ -99,6 +99,21 @@ describe("content", () => {
         let any = false;
         for (let y = cell(p.y); y < cell(p.y + p.h); y++) for (let x = cell(p.x); x < cell(p.x + p.w); x++) any ||= !!seen[y * map.width + x];
         if (!any) problems.push(`${m.id}: portal ${p.id} unreachable`);
+      }
+    }
+    expect(problems).toEqual([]);
+  });
+
+  it("talent constellations: one star per cell, prerequisites in the same tree on an earlier row", () => {
+    const problems: string[] = [];
+    const cells = new Set<string>();
+    for (const t of content.talents.all()) {
+      const cell = `${t.tree}:${t.x},${t.y}`;
+      if (cells.has(cell)) problems.push(`${t.id}: cell ${cell} taken`);
+      cells.add(cell);
+      for (const r of t.requires) {
+        const req = content.talents.find(r);
+        if (req && (req.tree !== t.tree || req.y >= t.y)) problems.push(`${t.id}: requires ${r} (other tree or not above)`);
       }
     }
     expect(problems).toEqual([]);

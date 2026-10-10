@@ -1,0 +1,18 @@
+{
+  "id": "iron-skin",
+  "name": {
+    "en": "Iron Skin",
+    "fr": "Peau de fer"
+  },
+  "description": {
+    "en": "+3 defense per rank.",
+    "fr": "+3 défense par rang."
+  },
+  "tree": "ward",
+  "x": 2,
+  "y": 0,
+  "ranks": 3,
+  "stats": {
+    "defense": 3
+  }
+}

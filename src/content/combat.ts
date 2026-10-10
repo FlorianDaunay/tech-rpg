@@ -15,5 +15,6 @@ export function combatData(): CombatData {
     loot: byId(content.loot.all()),
     items: byId(content.items.all()),
     skills: byId(content.skills.all()),
+    talents: byId(content.talents.all()),
   };
 }

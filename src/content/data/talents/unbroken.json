@@ -1,0 +1,22 @@
+{
+  "id": "unbroken",
+  "name": {
+    "en": "Unbroken",
+    "fr": "Indomptable"
+  },
+  "description": {
+    "en": "+20 poise and +4 defense.",
+    "fr": "+20 d'équilibre et +4 défense."
+  },
+  "tree": "ward",
+  "x": 3,
+  "y": 3,
+  "requires": [
+    "steadfast"
+  ],
+  "treePoints": 5,
+  "stats": {
+    "maxPoise": 20,
+    "defense": 4
+  }
+}

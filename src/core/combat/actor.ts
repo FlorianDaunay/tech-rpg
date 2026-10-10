@@ -116,6 +116,8 @@ export interface Actor extends Body {
   loadout: Record<SkillSlot, string | null>;
   /** Ember gauge: damage dealt since the last ultimate. */
   ultCharge: number;
+  /** Learned talent ranks by id (players). */
+  talents: Record<string, number>;
 }
 
 /** Actions remembered while busy (input buffering). */
@@ -169,6 +171,7 @@ export function createActor(init: {
     xp: 0,
     loadout: { skill1: null, skill2: null, ultimate: null },
     ultCharge: 0,
+    talents: {},
   };
 }
 

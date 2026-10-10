@@ -33,6 +33,7 @@ export interface PlayerCarry {
   ultCharge: number;
   /** Skill cooldowns keep running across a map change. */
   cooldowns: Record<string, number>;
+  talents: Record<string, number>;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */
