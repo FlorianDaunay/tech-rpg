@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "dev.embersworn.game",
-  appName: "Embersworn",
+  appId: "dev.valaria.game",
+  appName: "Valaria",
   webDir: "dist",
   android: { backgroundColor: "#07060b" },
 };

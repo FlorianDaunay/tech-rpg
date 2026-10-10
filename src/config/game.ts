@@ -1,10 +1,11 @@
 /** Identity and global constants. The display name lives ONLY here. */
 export const GAME = {
-  title: "Embersworn",
+  title: "Valaria",
+  subtitle: "The Shattered Sun",
   tagline: "Carry the last flame.",
   version: __APP_VERSION__,
   /** Prefix for every localStorage key and the P2P peer ids. */
-  storagePrefix: "embersworn",
+  storagePrefix: "valaria",
 } as const;
 
 /** Rendering: pixel art drawn at a low resolution, scaled up by the camera. */

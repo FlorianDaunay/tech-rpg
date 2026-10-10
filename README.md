@@ -1,4 +1,4 @@
-# Embersworn
+# Valaria: The Shattered Sun
 
 Top-down real-time action RPG — web (desktop & mobile) and Android. Solo and peer-to-peer multiplayer.
 

@@ -1,6 +1,6 @@
-# Embersworn — project guide
+# Valaria: The Shattered Sun — project guide
 
-> Working title. The display name lives in one place: `src/config/game.ts`.
+> The display name lives in one place: `src/config/game.ts`. (The repo name `tech-rpg` is a placeholder; ignore it creatively.)
 > Top-down real-time action RPG. Web (desktop + mobile browsers, GitHub Pages) and Android (Capacitor APK). Solo + peer-to-peer co-op/PvP.
 
 ## Start of every session
@@ -63,7 +63,7 @@ Dependency direction: `app/ui → bridge ← game → core ← content`. `core` 
 - **Saves** are versioned and always normalized on load (`core/save/migrate.ts`).
 
 ## Game design snapshot
-- **World**: Veyra, plunged into night when the Dawnblade (the sun, a god's sword) shattered into 30 Ember Blades. The last flame burns in the Lantern of Cinderhold. The player is an Embersworn initiate. Four Heralds of the Hollow (the bosses: Pale Weaver, the Shroud, the Maw, Archfiend Vaelgor). Full bible: `src/content/data/lore/`.
+- **World**: Valaria, plunged into night when the Dawnblade (the sun, a god's sword) shattered into 30 Ember Blades. The last flame burns in the Lantern of Cinderhold. The player is an initiate of the Embersworn, the order that guards the Lantern. Four Heralds of the Hollow (the bosses: Pale Weaver, the Shroud, the Maw, Archfiend Vaelgor). Full bible: `src/content/data/lore/`.
 - **Combat**: light/heavy combos, charged attacks, dodge-roll with i-frames, stamina, shield block/parry (perfect parry → slow-mo counter), 2 skills + ultimate, elements Ember/Frost/Storm/Hollow with reactions, telegraphed enemy attacks, multi-phase bosses, pet companion.
 - **Progression**: levels + talent constellation (Blade / Ward / Arcana), gear rarities + affixes + sets, weapon mastery per sword family, codex completion, difficulty (Story/Normal/Hard/Nightmare) + Omens modifiers + NG+.
 - **World**: hub Cinderhold (grows with quests), zones Whispering Wilds, Ashen Graveyard, Deep Mines, Fallen Citadel, Hollow Rift; procedural Rift dungeons (daily seed); day/night, weather, dynamic light; adaptive music.

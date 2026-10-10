@@ -4,8 +4,8 @@ import { applyTheme } from "./css";
 import { DEFAULT_THEME_IDS, findTheme } from "./registry";
 import type { Theme } from "./types";
 
-const STORAGE_KEY = "embersworn-appearance";
-const LEGACY_KEY = "embersworn-theme";
+const STORAGE_KEY = "valaria-appearance";
+const LEGACY_KEY = "valaria-theme";
 const DARK_QUERY = "(prefers-color-scheme: dark)";
 
 interface AppearanceState {
