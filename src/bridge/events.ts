@@ -5,6 +5,7 @@
 import type { Progress } from "@/core/narrative/progress";
 import type { Command } from "@/core/sim/intent";
 import type { SaveData } from "@/core/save/save";
+import type { WorldRules } from "@/core/sim/rules";
 
 type Listener<T> = (payload: T) => void;
 
@@ -36,6 +37,8 @@ export interface InventoryView {
   unlockedSkills: string[];
   /** Weapon-mastery XP by sword family. */
   mastery: Record<string, number>;
+  /** The run's difficulty, Omens and NG+ cycle. */
+  rules: WorldRules;
 }
 
 export type GameMode = "solo" | "host" | "client";
@@ -72,11 +75,13 @@ export interface BridgeEvents {
   /** UI → game: inventory command for the local player (sent with the next Intent). */
   "ui:command": Command;
   /** UI → game: enter the world: a new game in `slot`, or the loaded `save` (no slot = nothing is saved). */
-  "ui:start": { mode: GameMode; slot?: number; save?: SaveData | null };
+  "ui:start": { mode: GameMode; slot?: number; save?: SaveData | null; rules?: WorldRules };
   /** UI → game: back to the title backdrop. */
   "ui:quit": void;
   /** Save now (pause menu). */
   "ui:save": void;
+  /** Change the run's difficulty / Omens (solo host; applied to living enemies at once). */
+  "ui:rules": WorldRules;
   "ui:pause": boolean;
 }
 

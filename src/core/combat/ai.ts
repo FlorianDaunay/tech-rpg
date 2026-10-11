@@ -1,4 +1,5 @@
 import type { Rng } from "../math/rng";
+import { modOf } from "./modifiers";
 import { normalize, type Vec2 } from "../math/vec";
 import { emptyIntent, type Intent } from "../sim/intent";
 import { isAlive, type Actor } from "./actor";
@@ -101,7 +102,7 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
 
   if (canAttack && d <= def.attackRange) {
     intent.pressed.push("attack");
-    ai.cooldown = def.attackCooldown * rng.range(0.8, 1.25);
+    ai.cooldown = (def.attackCooldown * rng.range(0.8, 1.25)) / modOf(w, "enemyAttackRate");
   }
   return intent;
 }

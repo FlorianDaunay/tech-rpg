@@ -1,0 +1,17 @@
+{
+  "id": "restless-dead",
+  "name": {
+    "en": "Restless Dead",
+    "fr": "Morts sans repos"
+  },
+  "description": {
+    "en": "Nothing sleeps tonight. Enemies move and strike faster, and drop more.",
+    "fr": "Rien ne dort cette nuit. Les ennemis bougent et frappent plus vite, et lâchent davantage."
+  },
+  "glyph": "☠",
+  "mods": {
+    "enemySpeed": 1.15,
+    "enemyAttackRate": 1.25,
+    "lootChance": 1.3
+  }
+}

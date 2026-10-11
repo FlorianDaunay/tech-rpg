@@ -1,0 +1,17 @@
+{
+  "id": "story",
+  "name": {
+    "en": "Story",
+    "fr": "Récit"
+  },
+  "description": {
+    "en": "For the tale more than the trial. Enemies are frail and slow to strike.",
+    "fr": "Pour le récit plus que l’épreuve. Les ennemis sont frêles et lents à frapper."
+  },
+  "order": 0,
+  "mods": {
+    "enemyHp": 0.6,
+    "enemyDamage": 0.5,
+    "enemyAttackRate": 0.8
+  }
+}

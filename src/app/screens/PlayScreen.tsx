@@ -16,6 +16,7 @@ import { QuestToasts } from "../hud/QuestToasts";
 import { SaveIndicator } from "../hud/SaveIndicator";
 import { SkillBar } from "../hud/SkillBar";
 import { CodexScreen } from "./CodexScreen";
+import { RulesScreen } from "./RulesScreen";
 import { DialogueBox } from "./DialogueBox";
 import { JournalScreen } from "./JournalScreen";
 import { InventoryScreen } from "./InventoryScreen";
@@ -35,8 +36,8 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
   useEffect(() => {
     if (engineReady && !inWorld) {
       // Chosen on the title screen (Continue / New game / Load); default: a new game in a free slot.
-      const pending = useSaves.getState().pending ?? (mode === "solo" ? { slot: firstEmptySlot() ?? undefined, save: null } : null);
-      bridge.emit("ui:start", { mode, slot: pending?.slot, save: pending?.save });
+      const pending = useSaves.getState().pending ?? (mode === "solo" ? { slot: firstEmptySlot() ?? undefined, save: null, rules: undefined } : null);
+      bridge.emit("ui:start", { mode, slot: pending?.slot, save: pending?.save, rules: pending?.rules });
       useSaves.setState({ pending: null });
     }
     // Start once, when the engine is up (it may still be downloading when the screen opens).
@@ -83,13 +84,14 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <Prompt />
       <SaveIndicator />
       {!menu && <SkillBar />}
-      {menu === "pause" && <PauseMenu onQuit={quit} />}
+      {menu === "pause" && <PauseMenu onQuit={quit} mode={mode} />}
       {menu === "inventory" && <InventoryScreen />}
       {menu === "settings" && <SettingsScreen onBack={back} />}
       {menu === "dialogue" && <DialogueBox />}
       {menu === "journal" && <JournalScreen />}
       {menu === "codex" && <CodexScreen />}
       {menu === "talents" && <TalentsScreen />}
+      {menu === "rules" && <RulesScreen />}
     </div>
   );
 }

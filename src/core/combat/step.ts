@@ -9,6 +9,7 @@ import { findReaction, getEnemy, getLootTable, getMove, SKILL_SLOTS, type Elemen
 import { blockOf, hitTraits, kitOf } from "./equipment";
 import type { SimEvent } from "./events";
 import { rollLoot } from "./loot";
+import { modOf, type Modifiers } from "./modifiers";
 import { castSkill, chargeUltimate } from "./skills";
 import { BLOCK, CHARGE, DODGE, HURT_TIME, PARRY_STAGGER_TIME, STAGGER_TIME, STAMINA, type Move } from "./moves";
 import { applyStatus, damageTakenMultOf, elementalStatus, speedMultOf, stepStatuses } from "./status";
@@ -38,6 +39,8 @@ export interface CombatWorld {
   events: SimEvent[];
   pickups: Pickup[];
   nextId: number;
+  /** Difficulty / Omens / NG+ multipliers (absent = neutral). */
+  mods?: Modifiers;
 }
 
 /** Loot lying on the ground. */
@@ -395,10 +398,10 @@ function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): v
   target.blockSince = null;
   target.statuses = [];
   const def = target.kind === "enemy" ? getEnemy(target.type) : null;
-  w.events.push({ type: "death", id: target.id, killer, xp: def?.xp ?? 0 });
+  w.events.push({ type: "death", id: target.id, killer, xp: Math.round((def?.xp ?? 0) * modOf(w, "xp")) });
   if (def && killer && w.actors[killer]?.kind === "player") w.events.push({ type: "kill-credit", id: killer, enemy: target.type });
   if (!def?.loot) return;
-  for (const drop of rollLoot(getLootTable(def.loot), rng)) {
+  for (const drop of rollLoot(getLootTable(def.loot), rng, w.mods)) {
     const angle = rng.range(0, Math.PI * 2);
     const speed = rng.range(40, 90);
     const id = `pk${w.nextId++}`;

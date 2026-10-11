@@ -22,7 +22,7 @@ const give = (a: Actor, item: string) => (a.bag[item] = (a.bag[item] ?? 0) + 1);
  * Applies a menu command. Everything is checked against the actor's own state (the host never
  * trusts a client: you can only equip or drink what is in your bag). Invalid commands are ignored.
  */
-export function applyCommand(events: SimEvent[], a: Actor, cmd: Command): void {
+export function applyCommand(events: SimEvent[], a: Actor, cmd: Command, healing = 1): void {
   if (!isAlive(a)) return;
   if (cmd.type === "dialogue") {
     if (a.progress) chooseDialogue(events, { id: a.id, bag: a.bag, progress: a.progress }, cmd.dialogue, cmd.node, cmd.choice);
@@ -47,7 +47,7 @@ export function applyCommand(events: SimEvent[], a: Actor, cmd: Command): void {
   const def = findItem(cmd.item);
   if (!def?.effect || def.kind !== "consumable") return;
   if (!take(a, cmd.item)) return;
-  const heal = Math.min(def.effect.heal ?? 0, a.stats.maxHp - a.hp);
+  const heal = Math.min(Math.round((def.effect.heal ?? 0) * healing), a.stats.maxHp - a.hp);
   a.hp += heal;
   if (def.effect.stamina) a.stamina = Math.min(STAMINA.max, a.stamina + def.effect.stamina);
   if (def.effect.status) applyStatus(events, a, def.effect.status, a.id, a.stats.power);

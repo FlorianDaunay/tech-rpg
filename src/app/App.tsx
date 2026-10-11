@@ -8,6 +8,7 @@ import { ComingSoon } from "./screens/ComingSoon";
 import { CreditsScreen } from "./screens/CreditsScreen";
 import { PlayScreen } from "./screens/PlayScreen";
 import { SavesScreen } from "./screens/SavesScreen";
+import { NewGameScreen } from "./screens/NewGameScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
 import { SoundTest } from "./screens/SoundTest";
 import { TitleScreen } from "./screens/TitleScreen";
@@ -28,6 +29,7 @@ export function App() {
         {screen === "title" && <TitleScreen />}
         {screen === "solo" && <PlayScreen mode="solo" />}
         {screen === "saves" && <SavesScreen />}
+        {screen === "newgame" && <NewGameScreen />}
         {screen === "multi" && <ComingSoon title={t("menu.multi")} />}
         {screen === "settings" && <SettingsScreen onBack={() => go("title")} />}
         {screen === "soundtest" && <SoundTest />}

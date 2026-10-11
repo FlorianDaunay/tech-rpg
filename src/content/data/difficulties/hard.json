@@ -1,0 +1,20 @@
+{
+  "id": "hard",
+  "name": {
+    "en": "Hard",
+    "fr": "Difficile"
+  },
+  "description": {
+    "en": "Enemies hit harder and last longer. Better spoils for those who endure.",
+    "fr": "Les ennemis frappent plus fort et tiennent plus longtemps. Un meilleur butin pour qui endure."
+  },
+  "order": 2,
+  "mods": {
+    "enemyHp": 1.4,
+    "enemyDamage": 1.4,
+    "enemyAttackRate": 1.15,
+    "xp": 1.2,
+    "gold": 1.2,
+    "lootChance": 1.1
+  }
+}

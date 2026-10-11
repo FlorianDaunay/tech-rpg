@@ -26,6 +26,7 @@ import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
 import type { WorldStart } from "./PreloadScene";
 import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
+import { applyRules } from "@/core/sim/rules";
 import { isSolidCell } from "@/core/world/map";
 import { writeSave } from "@/store/saves";
 
@@ -105,7 +106,7 @@ export class WorldScene extends Phaser.Scene {
     this.tilemap = renderMap(this, this.map);
     renderObjects(this, this.map);
 
-    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME);
+    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules);
     const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
     let spawn: { x: number; y: number } = playerSpawns.find((s) => s.id === data.arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
     // A loaded save resumes where the player stood, if that spot is still walkable.
@@ -151,6 +152,16 @@ export class WorldScene extends Phaser.Scene {
       })
     );
     this.disposers.push(bridge.on("ui:save", () => this.save(true)));
+    this.disposers.push(
+      bridge.on("ui:rules", (rules) => {
+        // Solo only for now: in co-op the host's lobby will own the rules.
+        if (this.start.mode !== "solo") return;
+        applyRules(this.sim, { ...rules, ngPlus: this.sim.rules.ngPlus });
+        this.inventoryKey = "";
+        this.updateInventory(this.sim.actors[LOCAL_ID]);
+        this.save();
+      })
+    );
     // Leaving the tab / backgrounding the Android app may be the last chance to save.
     const onHide = () => document.visibilityState === "hidden" && this.save();
     document.addEventListener("visibilitychange", onHide);
@@ -186,7 +197,7 @@ export class WorldScene extends Phaser.Scene {
     if (this.start.slot === undefined || !me || me.action.kind === "dead" || this.travelling) return false;
     this.lastSave = this.time.now;
     this.saveSoon = false;
-    const ok = writeSave(this.start.slot, captureSave(me, this.map.id, this.sim.time, this.playtime, Date.now()));
+    const ok = writeSave(this.start.slot, captureSave(me, this.map.id, this.sim.time, this.playtime, Date.now(), this.sim.rules));
     bridge.emit("game:saved", { ok, manual });
     return ok;
   }
@@ -278,7 +289,7 @@ export class WorldScene extends Phaser.Scene {
     audio.sfx("portal", { volume: 0.5 });
     this.cameras.main.fadeOut(350, 7, 6, 11);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
-      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time, slot: this.start.slot, playtime: this.playtime } satisfies WorldStart)
+      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time, slot: this.start.slot, playtime: this.playtime, rules: this.sim.rules } satisfies WorldStart)
     );
   }
 
@@ -333,6 +344,7 @@ export class WorldScene extends Phaser.Scene {
       talentPoints: talentPointsLeft(me),
       loadout: { ...me.loadout },
       unlockedSkills: unlockedSkills(me),
+      rules: this.sim.rules,
       mastery: { ...me.mastery },
     };
     const key = JSON.stringify(view);

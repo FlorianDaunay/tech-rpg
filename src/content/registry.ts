@@ -4,6 +4,7 @@ import { LoreSchema } from "./schemas/lore";
 import { MapSchema } from "./schemas/map";
 import { DialogueSchema, NpcSchema, QuestSchema } from "./schemas/narrative";
 import { ProgressionSchema } from "./schemas/progression";
+import { DifficultySchema, OmenSchema } from "./schemas/rules";
 import { ZoneSchema } from "./schemas/zone";
 
 /**
@@ -29,6 +30,8 @@ const sources = {
   talent: { schema: TalentSchema, folder: "talents", files: import.meta.glob("./data/talents/*.json", { eager: true, import: "default" }) },
   affix: { schema: AffixSchema, folder: "affixes", files: import.meta.glob("./data/affixes/*.json", { eager: true, import: "default" }) },
   set: { schema: GearSetSchema, folder: "sets", files: import.meta.glob("./data/sets/*.json", { eager: true, import: "default" }) },
+  difficulty: { schema: DifficultySchema, folder: "difficulties", files: import.meta.glob("./data/difficulties/*.json", { eager: true, import: "default" }) },
+  omen: { schema: OmenSchema, folder: "omens", files: import.meta.glob("./data/omens/*.json", { eager: true, import: "default" }) },
   progression: { schema: ProgressionSchema, folder: "progression", files: import.meta.glob("./data/progression/*.json", { eager: true, import: "default" }) },
 } as const;
 
@@ -100,6 +103,8 @@ export const content = {
   talents: collection("talent"),
   affixes: collection("affix"),
   sets: collection("set"),
+  difficulties: collection("difficulty"),
+  omens: collection("omen"),
 };
 
 /** Ids of every entry of a type (reference checks). */

@@ -1,0 +1,16 @@
+{
+  "id": "blood-moon",
+  "name": {
+    "en": "Blood Moon",
+    "fr": "Lune de sang"
+  },
+  "description": {
+    "en": "A red moon over Valaria: the Hollow strikes harder, and its fallen leave more of themselves behind.",
+    "fr": "Une lune rouge sur Valaria : le Néant frappe plus fort, et ses morts laissent davantage derrière eux."
+  },
+  "glyph": "☾",
+  "mods": {
+    "enemyDamage": 1.3,
+    "xp": 1.25
+  }
+}

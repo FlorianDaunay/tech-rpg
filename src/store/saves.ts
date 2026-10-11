@@ -3,6 +3,7 @@ import { GAME } from "@/config/game";
 import { registerContent } from "@/content/boot";
 import { content } from "@/content/registry";
 import { migrateSave, type SaveData } from "@/core/save/save";
+import { ngPlusUnlocked, type WorldRules } from "@/core/sim/rules";
 
 /**
  * Save slots in localStorage (browser: per site; Android: the app's private WebView storage).
@@ -20,6 +21,9 @@ export interface SaveSummary {
   map: string;
   playtime: number;
   savedAt: number;
+  rules: WorldRules;
+  /** Story finished: New Game+ can start from it. */
+  canNgPlus: boolean;
 }
 
 const mapExists = (id: string) => !!content.maps.find(id);
@@ -34,7 +38,15 @@ export function readSave(slot: number): SaveData | null {
   }
 }
 
-const summarize = (slot: Slot, s: SaveData): SaveSummary => ({ slot, level: s.player.level, map: s.map, playtime: s.playtime, savedAt: s.savedAt });
+const summarize = (slot: Slot, s: SaveData): SaveSummary => ({
+  slot,
+  level: s.player.level,
+  map: s.map,
+  playtime: s.playtime,
+  savedAt: s.savedAt,
+  rules: s.rules,
+  canNgPlus: ngPlusUnlocked(s.player.progress.flags),
+});
 
 function scan(): Record<Slot, SaveSummary | null> {
   return Object.fromEntries(SLOTS.map((slot) => {
@@ -46,13 +58,16 @@ function scan(): Record<Slot, SaveSummary | null> {
 interface SavesState {
   slots: Record<Slot, SaveSummary | null>;
   /** What the next world start uses: chosen on the title screen, read by the play screen. */
-  pending: { slot: Slot; save: SaveData | null } | null;
+  pending: { slot: Slot; save: SaveData | null; rules?: WorldRules } | null;
+  /** Slot the New Game screen will start in. */
+  newSlot: Slot | null;
   refresh: () => void;
 }
 
 export const useSaves = create<SavesState>()((set) => ({
   slots: { 1: null, 2: null, 3: null },
   pending: null,
+  newSlot: null,
   refresh: () => set({ slots: scan() }),
 }));
 
@@ -95,7 +110,10 @@ export function lastSlot(): Slot | null {
 export const firstEmptySlot = (): Slot | null => SLOTS.find((s) => !useSaves.getState().slots[s]) ?? null;
 
 /** Picks what the next "Solo" start loads (save) or begins (null save = new game in that slot). */
-export const chooseStart = (slot: Slot, save: SaveData | null) => useSaves.setState({ pending: { slot, save } });
+export const chooseStart = (slot: Slot, save: SaveData | null, rules?: WorldRules) => useSaves.setState({ pending: { slot, save, rules } });
+
+/** Opens the New Game screen (difficulty, Omens) for a slot. */
+export const pickNewGame = (slot: Slot) => useSaves.setState({ newSlot: slot });
 
 const fileName = (slot: Slot) => `${GAME.storagePrefix}-save-${slot}-${new Date().toISOString().slice(0, 10)}.json`;
 

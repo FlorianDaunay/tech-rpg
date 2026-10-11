@@ -1,7 +1,8 @@
 import { GAME } from "@/config/game";
 import { t } from "@/i18n";
 import { useEffect, useRef } from "react";
-import { chooseStart, firstEmptySlot, lastSlot, readSave, useSaves } from "@/store/saves";
+import { chooseStart, firstEmptySlot, lastSlot, pickNewGame, readSave, useSaves } from "@/store/saves";
+import { rulesLabel } from "./RulesPicker";
 import { formatPlaytime, placeName } from "./SavesScreen";
 import { useScreen } from "@/store/screen";
 import { useMenuNav } from "@/ui/menu/useMenuNav";
@@ -18,8 +19,8 @@ export function TitleScreen() {
   const newGame = () => {
     const free = firstEmptySlot();
     if (free === null) return go("saves"); // every slot used: pick one to overwrite
-    chooseStart(free, null);
-    go("solo");
+    pickNewGame(free);
+    go("newgame");
   };
   return (
     <div className="safe relative z-10 flex h-full flex-col items-center justify-center gap-10 px-6 short:flex-row short:gap-12">
@@ -35,7 +36,7 @@ export function TitleScreen() {
           <button className="btn-primary flex flex-col items-center" data-autofocus onClick={() => (chooseStart(last, readSave(last)), go("solo"))}>
             <span>{t("menu.continue")}</span>
             <span className="text-xs font-normal opacity-80">
-              {t("hud.level", { level: latest.level })} · {placeName(latest.map)} · {formatPlaytime(latest.playtime)}
+              {t("hud.level", { level: latest.level })} · {rulesLabel(latest.rules)} · {placeName(latest.map)} · {formatPlaytime(latest.playtime)}
             </span>
           </button>
         ) : null}

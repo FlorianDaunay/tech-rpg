@@ -1,0 +1,16 @@
+{
+  "id": "iron-hide",
+  "name": {
+    "en": "Iron Hide",
+    "fr": "Peau de fer"
+  },
+  "description": {
+    "en": "The shades wear the iron of the graves. They take longer to fall, and carry more coin.",
+    "fr": "Les ombres portent le fer des tombes. Elles tombent moins vite et portent plus d’or."
+  },
+  "glyph": "◈",
+  "mods": {
+    "enemyHp": 1.4,
+    "gold": 1.35
+  }
+}

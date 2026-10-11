@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { bridge } from "@/bridge/events";
+import { bridge, type GameMode } from "@/bridge/events";
 import { t } from "@/i18n";
 import { useMenu } from "@/store/menu";
 import { MenuButton, Modal } from "@/ui/menu/components";
 
 /** Esc / Start / ⏸: resume, inventory, settings, back to title. */
-export function PauseMenu({ onQuit }: { onQuit: () => void }) {
+export function PauseMenu({ onQuit, mode }: { onQuit: () => void; mode: GameMode }) {
   const { back, open, closeAll } = useMenu();
   const [confirmQuit, setConfirmQuit] = useState(false);
   return (
@@ -24,6 +24,7 @@ export function PauseMenu({ onQuit }: { onQuit: () => void }) {
             <MenuButton onClick={() => open("talents")}>{t("talents.title")}</MenuButton>
             <MenuButton onClick={() => open("journal")}>{t("journal.title")}</MenuButton>
             <MenuButton onClick={() => open("codex")}>{t("codex.title")}</MenuButton>
+            {mode === "solo" && <MenuButton onClick={() => open("rules")}>{t("rules.title")}</MenuButton>}
             <MenuButton onClick={() => bridge.emit("ui:save")}>{t("pause.save")}</MenuButton>
             <MenuButton onClick={() => open("settings")}>{t("menu.settings")}</MenuButton>
             <MenuButton onClick={() => setConfirmQuit(true)}>{t("pause.quit")}</MenuButton>

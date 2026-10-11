@@ -1,0 +1,22 @@
+{
+  "id": "nightmare",
+  "name": {
+    "en": "Nightmare",
+    "fr": "Cauchemar"
+  },
+  "description": {
+    "en": "The night answers every mistake. Draughts heal less. Only for those who know every telegraph.",
+    "fr": "La nuit punit chaque erreur. Les potions soignent moins. Pour qui connaît chaque signe d’attaque."
+  },
+  "order": 3,
+  "mods": {
+    "enemyHp": 2,
+    "enemyDamage": 1.9,
+    "enemySpeed": 1.1,
+    "enemyAttackRate": 1.3,
+    "xp": 1.5,
+    "gold": 1.5,
+    "lootChance": 1.25,
+    "healing": 0.75
+  }
+}

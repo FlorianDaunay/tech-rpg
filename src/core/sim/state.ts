@@ -11,6 +11,8 @@ import { createRng } from "../math/rng";
 import { awardXp } from "../progression/level";
 import type { GameMap } from "../world/map";
 import { emptyIntent, type Intent } from "./intent";
+import type { Modifiers } from "../combat/modifiers";
+import { combineMods, normalizeRules, scaleEnemy, type WorldRules } from "./rules";
 
 /** Simulation runs at a fixed rate everywhere (solo, host, client prediction, replays). */
 export const SIM_HZ = 60;
@@ -21,11 +23,15 @@ export interface SimState extends CombatWorld {
   mapId: string;
   /** Seeded RNG state: every random roll comes from here, so a sim is reproducible. */
   rngState: number;
+  /** Difficulty, Omens, NG+ cycle, and their combined multipliers (`applyRules` keeps them in sync). */
+  rules: WorldRules;
+  mods: Modifiers;
 }
 
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
-export function createSim(mapId: string, seed: number, time = 0): SimState {
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1 };
+export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>): SimState {
+  const r = normalizeRules(rules);
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r) };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -40,6 +46,7 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
   const def = getEnemy(type);
   const id = `e${state.nextId++}`;
   const a = createActor({ id, team: "enemies", kind: "enemy", type, look: def.look, x, y, stats: def.stats, radius: def.radius });
+  scaleEnemy(a, state.mods);
   state.actors[id] = a;
   return a;
 }
@@ -98,7 +105,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
     const a = state.actors[id]!;
     const intent =
       a.kind === "player" ? (intents[id] ?? emptyIntent()) : a.kind === "npc" ? thinkNpc(state, a, rng, SIM_DT, findNpc(a.type)?.wander ?? 0) : thinkEnemy(state, a, rng, SIM_DT);
-    for (const cmd of intent.commands ?? []) applyCommand(state.events, a, cmd);
+    for (const cmd of intent.commands ?? []) applyCommand(state.events, a, cmd, a.kind === "player" ? state.mods.healing : 1);
     if (a.kind === "player" && intent.pressed.includes("interact") && a.action.kind === "free") {
       const npc = talkTarget(state, a);
       const def = npc && findNpc(npc.type);

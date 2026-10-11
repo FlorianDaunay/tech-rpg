@@ -1,0 +1,16 @@
+{
+  "id": "frail-light",
+  "name": {
+    "en": "Frail Light",
+    "fr": "Lumière fragile"
+  },
+  "description": {
+    "en": "The Lantern flickers. Draughts heal half as much, but every victory teaches more.",
+    "fr": "La Lanterne vacille. Les potions soignent moitié moins, mais chaque victoire enseigne davantage."
+  },
+  "glyph": "✧",
+  "mods": {
+    "healing": 0.5,
+    "xp": 1.25
+  }
+}

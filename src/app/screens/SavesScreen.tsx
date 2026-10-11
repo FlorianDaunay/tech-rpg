@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { content } from "@/content/registry";
 import { getLang, t } from "@/i18n";
-import { chooseStart, deleteSave, exportSave, importSave, readSave, SLOTS, useSaves, type SaveSummary, type Slot } from "@/store/saves";
+import { chooseStart, deleteSave, exportSave, importSave, pickNewGame, readSave, SLOTS, useSaves, type SaveSummary, type Slot } from "@/store/saves";
+import { newGamePlus } from "@/core/save/save";
+import { rulesLabel } from "./RulesPicker";
 import { useScreen } from "@/store/screen";
 import { MenuButton, Modal } from "@/ui/menu/components";
 import { localized } from "../items";
@@ -23,7 +25,7 @@ export function placeName(map: string): string {
 export function SavesScreen() {
   const go = useScreen((s) => s.go);
   const { slots, refresh } = useSaves();
-  const [confirm, setConfirm] = useState<{ slot: Slot; action: "new" | "delete" } | null>(null);
+  const [confirm, setConfirm] = useState<{ slot: Slot; action: "new" | "delete" | "ngplus" } | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const importSlot = useRef<Slot>(1);
   const fileInput = useRef<HTMLInputElement>(null);
@@ -34,7 +36,14 @@ export function SavesScreen() {
     go("solo");
   };
   const fresh = (slot: Slot) => {
-    chooseStart(slot, null);
+    pickNewGame(slot);
+    go("newgame");
+  };
+  const ngPlus = (slot: Slot) => {
+    const s = readSave(slot);
+    const next = s && newGamePlus(s, Date.now());
+    if (!next) return;
+    chooseStart(slot, next);
     go("solo");
   };
 
@@ -65,23 +74,25 @@ export function SavesScreen() {
                   {s ? <SlotLine s={s} /> : <p className="text-sm text-text-muted">{t("saves.empty")}</p>}
                 </div>
                 {asking ? (
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-sm text-warning">{t(asking === "new" ? "saves.overwriteConfirm" : "saves.deleteConfirm")}</span>
+                  <div className="flex basis-full flex-wrap items-center justify-end gap-2">
+                    <span className="mr-auto text-sm text-warning">{t(asking === "new" ? "saves.overwriteConfirm" : asking === "ngplus" ? "saves.ngPlusConfirm" : "saves.deleteConfirm")}</span>
                     <MenuButton autoFocus onClick={() => setConfirm(null)}>{t("common.cancel")}</MenuButton>
                     <MenuButton
                       primary
                       onClick={() => {
                         setConfirm(null);
                         if (asking === "new") fresh(slot);
+                        else if (asking === "ngplus") ngPlus(slot);
                         else deleteSave(slot);
                       }}
                     >
-                      {t(asking === "new" ? "saves.newGame" : "saves.delete")}
+                      {t(asking === "new" ? "saves.newGame" : asking === "ngplus" ? "saves.ngPlus" : "saves.delete")}
                     </MenuButton>
                   </div>
                 ) : (
                   <div className="flex flex-wrap gap-2">
                     {s && <MenuButton primary onClick={() => play(slot)}>{t("saves.load")}</MenuButton>}
+                    {s?.canNgPlus && <MenuButton onClick={() => setConfirm({ slot, action: "ngplus" })}>{t("saves.ngPlus")}</MenuButton>}
                     <MenuButton onClick={() => (s ? setConfirm({ slot, action: "new" }) : fresh(slot))}>{t("saves.newGame")}</MenuButton>
                     {s && <MenuButton onClick={() => void exportSave(slot).then((ok) => ok && setMessage(t("saves.exported")))}>{t("saves.export")}</MenuButton>}
                     <MenuButton
@@ -109,7 +120,7 @@ function SlotLine({ s }: { s: SaveSummary }) {
   const date = s.savedAt ? new Date(s.savedAt).toLocaleString(getLang(), { dateStyle: "medium", timeStyle: "short" }) : "";
   return (
     <p className="text-sm text-text-secondary">
-      {t("hud.level", { level: s.level })} · {placeName(s.map)} · {formatPlaytime(s.playtime)}
+      {t("hud.level", { level: s.level })} · {rulesLabel(s.rules)} · {placeName(s.map)} · {formatPlaytime(s.playtime)}
       {date && <span className="text-text-muted"> · {date}</span>}
     </p>
   );

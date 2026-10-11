@@ -1,0 +1,13 @@
+{
+  "id": "normal",
+  "name": {
+    "en": "Normal",
+    "fr": "Normal"
+  },
+  "description": {
+    "en": "The Hollow as it was meant to be faced.",
+    "fr": "Le Néant tel qu’il doit être affronté."
+  },
+  "order": 1,
+  "mods": {}
+}

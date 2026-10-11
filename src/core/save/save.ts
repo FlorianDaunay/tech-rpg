@@ -7,6 +7,7 @@ import { STAMINA } from "../combat/moves";
 import { findQuest } from "../narrative/defs";
 import { emptyProgress, type Progress } from "../narrative/progress";
 import { setLevel } from "../progression/level";
+import { defaultRules, ngPlusUnlocked, normalizeRules, type WorldRules } from "../sim/rules";
 
 /** Bump when the format changes, and add a step to `MIGRATIONS`. */
 export const SAVE_VERSION = 1;
@@ -41,6 +42,8 @@ export interface SaveData {
   y: number;
   /** World clock (day/night). */
   time: number;
+  /** Difficulty, Omens, NG+ cycle of this run. */
+  rules: WorldRules;
   player: PlayerState;
 }
 
@@ -78,8 +81,31 @@ export function restorePlayer(a: Actor, s: PlayerState): void {
   a.cooldowns = { ...s.cooldowns };
 }
 
-export function captureSave(a: Actor, map: string, time: number, playtime: number, now: number): SaveData {
-  return { version: SAVE_VERSION, savedAt: now, playtime, map, x: a.x, y: a.y, time, player: capturePlayer(a) };
+export function captureSave(a: Actor, map: string, time: number, playtime: number, now: number, rules: WorldRules = defaultRules()): SaveData {
+  return { version: SAVE_VERSION, savedAt: now, playtime, map, x: a.x, y: a.y, time, rules: { ...rules, omens: [...rules.omens] }, player: capturePlayer(a) };
+}
+
+/** Where a new playthrough begins. */
+export const START_MAP = "cinderhold";
+
+/**
+ * New Game+ from a finished save (null if the story isn't finished): the story starts over (quests,
+ * flags, keys) one cycle harder; level, talents, mastery, skills, gear and gold are kept.
+ */
+export function newGamePlus(save: SaveData, now: number): SaveData | null {
+  if (!ngPlusUnlocked(save.player.progress.flags)) return null;
+  const p = save.player;
+  const bag = Object.fromEntries(Object.entries(p.bag).filter(([id]) => findItem(id)?.kind !== "key"));
+  return {
+    ...save,
+    savedAt: now,
+    map: START_MAP,
+    x: -1,
+    y: -1,
+    time: 0,
+    rules: { ...save.rules, omens: [...save.rules.omens], ngPlus: save.rules.ngPlus + 1 },
+    player: { ...p, bag, hp: Number.MAX_SAFE_INTEGER, ultCharge: 0, cooldowns: {}, progress: emptyProgress() },
+  };
 }
 
 // ---- loading -----------------------------------------------------------------------------------
@@ -145,10 +171,12 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
     savedAt: num(raw.savedAt, 0),
     playtime: Math.max(0, num(raw.playtime, 0)),
     // A removed map falls back to the hub; the position is then meaningless.
-    map: mapExists(map) ? map : "cinderhold",
+    map: mapExists(map) ? map : START_MAP,
     x: mapExists(map) ? num(raw.x, -1) : -1,
     y: mapExists(map) ? num(raw.y, -1) : -1,
     time: num(raw.time, 0),
+    // Absent before difficulty existed: Normal, no Omens, first playthrough.
+    rules: normalizeRules({ difficulty: str(obj(raw.rules).difficulty) ?? undefined, omens: strs(obj(raw.rules).omens), ngPlus: num(obj(raw.rules).ngPlus, 0) }),
     player: {
       hp: num(p.hp, 1),
       stamina: num(p.stamina, STAMINA.max),

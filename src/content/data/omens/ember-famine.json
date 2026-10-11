@@ -1,0 +1,16 @@
+{
+  "id": "ember-famine",
+  "name": {
+    "en": "Ember Famine",
+    "fr": "Disette de braises"
+  },
+  "description": {
+    "en": "Coin is scarce in the long night. Gold drops are halved, but enemies falter.",
+    "fr": "L’or se fait rare dans la longue nuit. L’or lâché est réduit de moitié, mais les ennemis faiblissent."
+  },
+  "glyph": "✶",
+  "mods": {
+    "gold": 0.5,
+    "enemyHp": 0.85
+  }
+}
