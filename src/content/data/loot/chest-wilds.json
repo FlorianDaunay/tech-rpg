@@ -1,0 +1,27 @@
+{
+  "id": "chest-wilds",
+  "rolls": 2,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "healing-draught",
+      "weight": 3
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2
+    },
+    {
+      "item": "cinder-edge",
+      "weight": 1
+    },
+    {
+      "item": "duelist-rapier",
+      "weight": 1
+    }
+  ],
+  "gold": {
+    "min": 20,
+    "max": 40
+  }
+}

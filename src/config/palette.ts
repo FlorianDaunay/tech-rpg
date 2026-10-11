@@ -66,6 +66,8 @@ export const LIGHT_COLORS = {
 
 /** Combat feedback colours (damage numbers, flashes, telegraphs). */
 export const COMBAT_COLORS = {
+  /** Tint of an opened (empty) chest. */
+  chestOpened: "#6E6478",
   damage: "#F2EEE3",
   damageTaken: "#FF6B5E",
   crit: "#FFC65C",

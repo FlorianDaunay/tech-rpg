@@ -902,6 +902,7 @@
     },
     {
       "asset": "props/chest",
+      "chest": { "id": "chest-1", "loot": "chest-cinderhold" },
       "cx": 37,
       "cy": 11,
       "footprint": [

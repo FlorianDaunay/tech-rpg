@@ -5890,6 +5890,7 @@
     },
     {
       "asset": "props/chest",
+      "chest": { "id": "chest-1", "loot": "chest-wilds" },
       "cx": 61,
       "cy": 19,
       "footprint": [

@@ -1,0 +1,19 @@
+{
+  "id": "chest-cinderhold",
+  "rolls": 2,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "healing-draught",
+      "weight": 3
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2
+    }
+  ],
+  "gold": {
+    "min": 10,
+    "max": 20
+  }
+}

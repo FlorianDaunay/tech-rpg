@@ -56,6 +56,8 @@ export type SimEvent =
   | { type: "kill-credit"; id: string; enemy: string }
   /** A player started talking to an NPC: the UI opens the dialogue. */
   | { type: "talk"; id: string; npc: string; actor: string; dialogue: string }
+  /** A player opened a chest (its loot drops follow as `drop` events). */
+  | { type: "chest"; id: string; chest: string; x: number; y: number }
   | { type: "quest"; id: string; quest: string; change: "started" | "progress" | "ready" | "done" }
   /** A player stands in a portal: the host moves the party to `to` (arriving at spawn `arrive`). */
   | { type: "portal"; id: string; portal: string; to: string; arrive: string }

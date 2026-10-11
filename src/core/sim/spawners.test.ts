@@ -2,17 +2,17 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { registerContent } from "@/content/boot";
 import type { SimEvent } from "../combat/events";
 import type { GameMap, MapSpawn } from "../world/map";
-import { emptyIntent } from "./intent";
-import { createSim, populateMap, RESPAWN_CLEARANCE, SIM_DT, spawnPlayer, stepSim, type SimState } from "./state";
+import { emptyIntent, type Intent } from "./intent";
+import { chestTarget, createSim, populateMap, RESPAWN_CLEARANCE, SIM_DT, spawnPlayer, stepSim, type SimState } from "./state";
 
 beforeAll(registerContent);
 
 /** A big empty room (32 px cells) with the given spawns. */
-function room(spawns: MapSpawn[]): GameMap {
+function room(spawns: MapSpawn[], objects: GameMap["objects"] = []): GameMap {
   const n = 40;
   const solid = new Uint8Array(n * n);
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (x === 0 || y === 0 || x === n - 1 || y === n - 1) solid[y * n + x] = 1;
-  return { id: "room", zone: "test", width: n, height: n, tileSize: 32, layers: [], objects: [], solid, spawns, portals: [], lights: [] };
+  return { id: "room", zone: "test", width: n, height: n, tileSize: 32, layers: [], objects, solid, spawns, portals: [], lights: [] };
 }
 
 function run(sim: SimState, map: GameMap, seconds: number): SimEvent[] {
@@ -83,5 +83,41 @@ describe("enemy respawn", () => {
     spawnPlayer(sim, "p1", "x", far.x, far.y);
     populateMap(sim, map, new Set(), 30);
     expect(sim.spawners[0]!.every).toBe(30);
+  });
+});
+
+describe("chests", () => {
+  const chest = { asset: "props/chest", frame: 0, flipX: false, x: 208, y: 224, chest: { key: "room:c1", loot: "chest-wilds" } };
+  const interact = (): Intent => ({ ...emptyIntent(), pressed: ["interact"] });
+
+  it("interact opens a nearby chest once: loot spills out and the chest is remembered", () => {
+    const map = room([], [chest]);
+    const sim = createSim("room", 1);
+    const p = spawnPlayer(sim, "p1", "x", 208, 236);
+    populateMap(sim, map);
+    expect(chestTarget(sim, p)?.key).toBe("room:c1");
+    stepSim(sim, map, { p1: interact() });
+    expect(sim.events.some((e) => e.type === "chest")).toBe(true);
+    expect(sim.pickups.length).toBeGreaterThan(0);
+    expect(p.progress!.cleared).toContain("room:c1");
+    expect(chestTarget(sim, p)).toBeNull();
+    const before = sim.pickups.length;
+    run(sim, map, 0.5);
+    stepSim(sim, map, { p1: interact() });
+    expect(sim.events.some((e) => e.type === "chest")).toBe(false);
+    expect(sim.pickups.length).toBeLessThanOrEqual(before);
+  });
+
+  it("chests opened before stay empty on the next visit; out of reach does nothing", () => {
+    const map = room([], [chest]);
+    const sim = createSim("room", 1);
+    spawnPlayer(sim, "p1", "x", 600, 600);
+    populateMap(sim, map, new Set(["room:c1"]));
+    expect(sim.chests[0]!.opened).toBe(true);
+    const fresh = createSim("room", 1);
+    spawnPlayer(fresh, "p1", "x", 600, 600);
+    populateMap(fresh, map);
+    stepSim(fresh, map, { p1: interact() });
+    expect(fresh.chests[0]!.opened).toBe(false);
   });
 });

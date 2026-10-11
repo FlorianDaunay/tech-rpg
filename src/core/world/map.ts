@@ -27,6 +27,8 @@ export interface MapObject {
   x: number;
   y: number;
   flipX: boolean;
+  /** Openable once; `key` = `map:chest` (recorded in progress.cleared). */
+  chest?: { key: string; loot: string };
 }
 
 /** Trigger rectangle in world pixels that sends players to another map. */

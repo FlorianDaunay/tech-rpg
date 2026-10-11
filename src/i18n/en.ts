@@ -190,6 +190,7 @@ export const en = {
   "dialogue.continue": "Continue",
   "dialogue.end": "Farewell",
   "prompt.talk": "Talk",
+  "prompt.open": "Open",
   "quest.started": "New quest",
   "quest.ready": "Ready to turn in",
   "quest.done": "Quest complete",

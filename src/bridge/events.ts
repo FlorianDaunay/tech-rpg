@@ -69,7 +69,7 @@ export interface BridgeEvents {
   /** A new skill became available (level-up). */
   "game:skill-unlocked": { skill: string };
   /** Context action available near the player (null = none). */
-  "game:prompt": { kind: "talk"; npc: string } | null;
+  "game:prompt": { kind: "talk"; npc: string } | { kind: "chest" } | null;
   /** Local player picked something up (toast). */
   "game:loot": { item: string; count: number };
   /** UI → game: inventory command for the local player (sent with the next Intent). */

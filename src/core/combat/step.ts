@@ -400,13 +400,18 @@ function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): v
   const def = target.kind === "enemy" ? getEnemy(target.type) : null;
   w.events.push({ type: "death", id: target.id, killer, xp: Math.round((def?.xp ?? 0) * modOf(w, "xp")) });
   if (def && killer && w.actors[killer]?.kind === "player") w.events.push({ type: "kill-credit", id: killer, enemy: target.type });
-  if (!def?.loot) return;
-  for (const drop of rollLoot(getLootTable(def.loot), rng, w.mods)) {
-    const angle = rng.range(0, Math.PI * 2);
+  if (def?.loot) dropLoot(w, def.loot, target.x, target.y, rng);
+}
+
+/** Rolls a loot table (under the world's modifiers) and scatters the drops as pickups around (x, y). */
+export function dropLoot(w: CombatWorld, table: string, x: number, y: number, rng: Rng, spread: { angle?: [number, number] } = {}): void {
+  const [from, to] = spread.angle ?? [0, Math.PI * 2];
+  for (const drop of rollLoot(getLootTable(table), rng, w.mods)) {
+    const angle = rng.range(from, to);
     const speed = rng.range(40, 90);
     const id = `pk${w.nextId++}`;
-    w.pickups.push({ id, item: drop.item, count: drop.count, x: target.x, y: target.y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, t: 0 });
-    w.events.push({ type: "drop", id, item: drop.item, count: drop.count, x: target.x, y: target.y });
+    w.pickups.push({ id, item: drop.item, count: drop.count, x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, t: 0 });
+    w.events.push({ type: "drop", id, item: drop.item, count: drop.count, x, y });
   }
 }
 

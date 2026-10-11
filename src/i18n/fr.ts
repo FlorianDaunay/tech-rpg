@@ -192,6 +192,7 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "dialogue.continue": "Continuer",
   "dialogue.end": "Au revoir",
   "prompt.talk": "Parler",
+  "prompt.open": "Ouvrir",
   "quest.started": "Nouvelle quête",
   "quest.ready": "Prête à être rendue",
   "quest.done": "Quête accomplie",

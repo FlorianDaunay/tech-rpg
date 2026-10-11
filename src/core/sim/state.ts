@@ -6,8 +6,8 @@ import { applyCommand } from "../combat/commands";
 import { getEnemy } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { refreshLoadout } from "../combat/skills";
-import { resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
-import { createRng } from "../math/rng";
+import { dropLoot, resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
+import { createRng, type Rng } from "../math/rng";
 import { awardXp } from "../progression/level";
 import type { GameMap } from "../world/map";
 import { emptyIntent, type Intent } from "./intent";
@@ -28,6 +28,16 @@ export interface SimState extends CombatWorld {
   mods: Modifiers;
   /** Enemy spawn points of the map (respawn bookkeeping). */
   spawners: Spawner[];
+  /** Chests of the map (interact point = the chest's cell centre). */
+  chests: Chest[];
+}
+
+export interface Chest {
+  key: string;
+  loot: string;
+  x: number;
+  y: number;
+  opened: boolean;
 }
 
 /** An enemy spawn point: who stands there now, and when its enemy comes back. */
@@ -49,7 +59,7 @@ export const RESPAWN_CLEARANCE = 180;
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r), spawners: [] };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r), spawners: [], chests: [] };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -73,6 +83,8 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
  * Places a map's enemies and NPCs. One-time spawns listed in `cleared` (slain for good) are skipped.
  */
 export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<string> = new Set(), defaultRespawn = 180): void {
+  for (const o of map.objects)
+    if (o.chest) state.chests.push({ key: o.chest.key, loot: o.chest.loot, x: o.x, y: o.y - map.tileSize / 2, opened: cleared.has(o.chest.key) });
   for (const s of map.spawns) {
     if (s.kind === "npc" && s.ref) spawnNpc(state, s.ref, s.x, s.y);
     if (s.kind !== "enemy" || !s.ref) continue;
@@ -81,6 +93,30 @@ export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<
     const a = spawnEnemy(state, s.ref, s.x, s.y);
     state.spawners.push({ key, enemy: s.ref, x: s.x, y: s.y, actor: a.id, every: s.respawn ?? defaultRespawn, at: null });
   }
+}
+
+/** Nearest unopened chest within reach, or null (NPCs take priority: see the interact step). */
+export function chestTarget(state: SimState, player: Actor): Chest | null {
+  let best: Chest | null = null;
+  let bestD = TALK_RANGE;
+  for (const c of state.chests) {
+    if (c.opened) continue;
+    const d = Math.hypot(c.x - player.x, c.y - player.y);
+    if (d < bestD) {
+      bestD = d;
+      best = c;
+    }
+  }
+  return best;
+}
+
+/** Opens a chest once for the whole party: loot spills towards the opener, the chest is remembered. */
+function openChest(state: SimState, player: Actor, c: Chest, rng: Rng): void {
+  c.opened = true;
+  for (const p of players(state)) if (p.progress && !p.progress.cleared.includes(c.key)) p.progress.cleared.push(c.key);
+  state.events.push({ type: "chest", id: player.id, chest: c.key, x: c.x, y: c.y });
+  const toward = Math.atan2(player.y - c.y, player.x - c.x);
+  dropLoot(state, c.loot, c.x, c.y + 6, rng, { angle: [toward - 1.1, toward + 1.1] });
 }
 
 /** Starts respawn timers when spawn enemies die; brings them back when due and no player is near. */
@@ -164,7 +200,12 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
       const npc = talkTarget(state, a);
       const def = npc && findNpc(npc.type);
       if (npc && def) state.events.push({ type: "talk", id: a.id, npc: npc.type, actor: npc.id, dialogue: def.dialogue });
+      else {
+        const chest = chestTarget(state, a);
+        if (chest) openChest(state, a, chest, rng);
+      }
     }
+
     stepActor(state, map, rng, a, intent, SIM_DT);
   }
   separate(state, map);

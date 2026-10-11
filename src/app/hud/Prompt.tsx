@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { bridge } from "@/bridge/events";
+import { bridge, type BridgeEvents } from "@/bridge/events";
 import { touchPress, touchRelease } from "@/bridge/touch";
 import { content } from "@/content/registry";
 import { t } from "@/i18n";
@@ -14,14 +14,14 @@ import { localized } from "../items";
  * cluster has no interact button: the action only appears when there is something to do).
  */
 export function Prompt() {
-  const [prompt, setPrompt] = useState<{ kind: "talk"; npc: string } | null>(null);
+  const [prompt, setPrompt] = useState<BridgeEvents["game:prompt"]>(null);
   const device = useInputDevice((s) => s.device);
   const key = useSettings((s) => s.keys.interact[0]);
   const menuOpen = useMenu((s) => s.stack.length > 0);
   useEffect(() => bridge.on("game:prompt", setPrompt), []);
   if (!prompt || menuOpen) return null;
-  const npc = content.npcs.find(prompt.npc);
-  const label = `${t("prompt.talk")}${npc ? ` — ${localized(npc.name)}` : ""}`;
+  const npc = prompt.kind === "talk" ? content.npcs.find(prompt.npc) : undefined;
+  const label = prompt.kind === "chest" ? t("prompt.open") : `${t("prompt.talk")}${npc ? ` — ${localized(npc.name)}` : ""}`;
   const glyph = device === "gamepad" ? "B" : key ? keyLabel(key) : "?";
 
   if (device === "touch") {

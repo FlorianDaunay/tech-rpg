@@ -46,6 +46,10 @@ export const MapObjectSchema = z.object({
   /** Solid cells [w, h], bottom-centred on (cx, cy). Omit for walk-through decoration. */
   footprint: z.tuple([z.number().int().positive(), z.number().int().positive()]).optional(),
   flipX: z.boolean().default(false),
+  chest: z
+    .object({ id: z.string().describe("Unique on this map (remembered once opened)"), loot: ref("loot") })
+    .optional()
+    .describe("Interact to open once: its loot bursts out"),
   /** The object glows (torch, lantern, window): lights the darkness around it. */
   light: z
     .object({

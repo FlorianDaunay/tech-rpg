@@ -73,7 +73,8 @@ export function toGameMap(content: MapContent): GameMap {
     if (o.footprint)
       for (let y = o.cy - h + 1; y <= o.cy; y++)
         for (let x = left; x < left + w; x++) if (x >= 0 && y >= 0 && x < width && y < height) solid[y * width + x] = 1;
-    return { asset: o.asset, frame: o.frame, flipX: o.flipX, x: (left + w / 2) * tileSize, y: (o.cy + 1) * tileSize };
+    const chest = o.chest ? { key: `${content.id}:${o.chest.id}`, loot: o.chest.loot } : undefined;
+    return { asset: o.asset, frame: o.frame, flipX: o.flipX, x: (left + w / 2) * tileSize, y: (o.cy + 1) * tileSize, chest };
   });
 
   const spawns = content.spawns.map((s) => ({

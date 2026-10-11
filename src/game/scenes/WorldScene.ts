@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { COMBAT_COLORS, hex } from "@/config/palette";
 import { bridge, type InventoryView } from "@/bridge/events";
 import { toGameMap } from "@/content/maps";
 import { content } from "@/content/registry";
@@ -6,7 +7,7 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { createSim, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { chestTarget, createSim, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
 import { findSkill, SKILL_SLOTS } from "@/core/combat/defs";
@@ -74,6 +75,7 @@ export class WorldScene extends Phaser.Scene {
   private inventoryKey = "";
   private promptKey = "";
   private disposers: (() => void)[] = [];
+  private objectImages: Phaser.GameObjects.Image[] = [];
   /** Seconds played in this save (counts only unpaused frames). */
   private playtime = 0;
   private lastSave = 0;
@@ -104,7 +106,7 @@ export class WorldScene extends Phaser.Scene {
     this.map = toGameMap(content.maps.get(data.map ?? START_MAP));
     this.zone = content.zones.get(this.map.zone);
     this.tilemap = renderMap(this, this.map);
-    renderObjects(this, this.map);
+    this.objectImages = renderObjects(this, this.map);
 
     this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules);
     const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
@@ -115,6 +117,7 @@ export class WorldScene extends Phaser.Scene {
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
     if (data.carry) restorePlayer(me, data.carry);
     populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.zone.respawn);
+    for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
 
     this.fx = new CombatFx({
       scene: this,
@@ -199,11 +202,22 @@ export class WorldScene extends Phaser.Scene {
     return ok;
   }
 
+  /** An opened chest is drawn dimmed (no open-lid frame in the art yet). */
+  private markChestOpened(key: string): void {
+    const i = this.map.objects.findIndex((o) => o.chest?.key === key);
+    this.objectImages[i]?.setTint(hex(COMBAT_COLORS.chestOpened));
+  }
+
   /** Checkpoint events and the periodic out-of-combat autosave. */
-  private autosave(events: readonly { type: string; id?: string; change?: string }[]): void {
+  private autosave(events: readonly { type: string; id?: string; change?: string; chest?: string }[]): void {
     for (const ev of events) {
+      // Any party member's chest is empty for everyone (and recorded in every player's progress).
+      if (ev.type === "chest" && ev.chest) {
+        this.markChestOpened(ev.chest);
+        this.saveSoon = true;
+      }
       if (ev.id !== LOCAL_ID) continue;
-      if (ev.type === "level-up" || ev.type === "mastery-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
+      if ( ev.type === "level-up" || ev.type === "mastery-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
     }
   }
 
@@ -319,12 +333,16 @@ export class WorldScene extends Phaser.Scene {
 
   /** "Talk" prompt near an NPC (HUD shows the key, or a tappable button on touch). */
   private updatePrompt(me: Actor | undefined): void {
-    const npc = me && me.action.kind !== "dead" ? talkTarget(this.sim, me) : null;
-    const key = npc?.type ?? "";
+    const alive = me && me.action.kind !== "dead";
+    const npc = alive ? talkTarget(this.sim, me) : null;
+    const chest = alive && !npc ? chestTarget(this.sim, me) : null;
+    const prompt = npc ? ({ kind: "talk", npc: npc.type } as const) : chest ? ({ kind: "chest" } as const) : null;
+    const key = prompt ? JSON.stringify(prompt) : "";
     if (key === this.promptKey) return;
     this.promptKey = key;
-    bridge.emit("game:prompt", npc ? { kind: "talk", npc: npc.type } : null);
+    bridge.emit("game:prompt", prompt);
   }
+
 
   private updateInventory(me: Actor | undefined): void {
     if (!me?.progress) return;
