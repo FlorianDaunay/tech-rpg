@@ -42,6 +42,8 @@ interface SettingsValues {
   haptics: boolean;
   showFps: boolean;
   minimap: boolean;
+  /** Name shown to other players. */
+  playerName: string;
 }
 
 interface SettingsState extends SettingsValues {
@@ -63,6 +65,7 @@ export const useSettings = create<SettingsState>()(
       haptics: true,
       showFps: false,
       minimap: true,
+      playerName: "",
       set: (patch) => set(patch),
       rebind: (action, bindings) => set((s) => ({ keys: { ...s.keys, [action]: bindings } })),
       resetKeys: () => set({ keys: DEFAULT_KEYS }),

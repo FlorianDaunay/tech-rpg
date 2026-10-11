@@ -35,8 +35,15 @@ import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
 import { applyRules } from "@/core/sim/rules";
 import { isSolidCell } from "@/core/world/map";
 import { writeSave } from "@/store/saves";
+import { useNet } from "@/store/net";
+import { ClientLink, HostLink, SEAT_LOOKS } from "@/net/links";
+import { actorTuple, applySnapshot } from "@/net/codec";
+import { predictStep, reconcile } from "@/net/predict";
+import type { SimEvent } from "@/core/combat/events";
+import type { PlayerState } from "@/core/save/save";
 
-const LOCAL_ID = "p1";
+/** Solo / host seat. */
+const HOST_ID = "p1";
 const START_MAP = "cinderhold";
 /** Never simulate more than this many steps per frame (tab was in background, slow device). */
 const MAX_STEPS_PER_FRAME = 5;
@@ -63,6 +70,13 @@ export class WorldScene extends Phaser.Scene {
   /** Made with scene.make (not on the display list): must be destroyed by hand on shutdown. */
   private tilemap: Phaser.Tilemaps.Tilemap | null = null;
   private sim!: SimState;
+  /** My actor id: "p1" solo / host, the seat the host gave me as a client. */
+  private localId = HOST_ID;
+  /** Multiplayer: host or client side of the session (null in solo). */
+  private hostLink: HostLink | null = null;
+  private clientLink: ClientLink | null = null;
+  /** Client: visual offset left by a reconciliation, faded out so corrections don't snap. */
+  private correction = { x: 0, y: 0 };
   private input2!: InputRouter;
   private fx!: CombatFx;
   private views = new Map<string, ActorView>();
@@ -115,31 +129,39 @@ export class WorldScene extends Phaser.Scene {
     this.bossKey = "";
     this.playtime = data.playtime ?? 0;
     this.saveSoon = false;
+    this.localId = data.localId ?? HOST_ID;
+    this.correction = { x: 0, y: 0 };
+    const session = useNet.getState().session;
+    this.hostLink = data.mode === "host" && session ? HostLink.of(session) : null;
+    this.clientLink = data.mode === "client" && session ? ClientLink.of(session) : null;
 
     // Authored map, or a generated Rift floor; anything unknown (a stale id) falls back to the hub.
-    const mapContent = findMapContent(data.map ?? START_MAP) ?? content.maps.get(START_MAP);
+    const mapContent = findMapContent(data.init?.map ?? data.map ?? START_MAP) ?? content.maps.get(START_MAP);
     this.map = toGameMap(mapContent);
     this.rift = parseRiftMapId(this.map.id);
     this.zone = content.zones.get(this.map.zone);
     this.tilemap = renderMap(this, this.map);
     this.objectImages = renderObjects(this, this.map);
 
-    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules, this.riftDepthMods());
-    const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
-    let spawn: { x: number; y: number } = playerSpawns.find((s) => s.id === data.arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
-    // A loaded save resumes where the player stood, if that spot is still walkable.
-    const ts = this.map.tileSize;
-    if (data.at && data.at.x >= 0 && !isSolidCell(this.map, Math.floor(data.at.x / ts), Math.floor(data.at.y / ts))) spawn = data.at;
-    const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
-    if (data.carry) restorePlayer(me, data.carry);
-    // Nothing comes back inside a Rift run: a floor is cleared once.
-    populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.rift ? Infinity : this.zone.respawn);
+    if (this.clientLink && data.init) {
+      // Client: the world is the host's; it arrives whole and is kept in sync by snapshots.
+      this.sim = structuredClone(data.init.sim);
+      this.sim.events = [];
+    } else {
+      this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules, this.riftDepthMods());
+      const spawn = this.arrivalPoint(data.arrive, data.at);
+      const me = spawnPlayer(this.sim, this.localId, SEAT_LOOKS[this.localId] ?? SEAT_LOOKS.p1!, spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
+      if (data.carry) restorePlayer(me, data.carry);
+      if (this.hostLink) for (const [seat, player] of Object.entries(data.party ?? {})) this.hostLink.arrivals.set(seat, player);
+      // Nothing comes back inside a Rift run: a floor is cleared once.
+      populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.rift ? Infinity : this.zone.respawn);
+    }
     this.arenaWalls = new ArenaWalls(this);
     for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
 
     this.fx = new CombatFx({
       scene: this,
-      localId: LOCAL_ID,
+      localId: this.localId,
       actor: (id) => this.sim.actors[id],
       flash: (id) => this.views.get(id)?.flash(),
       hitStop: (ms) => (this.freezeMs = Math.max(this.freezeMs, ms)),
@@ -152,7 +174,7 @@ export class WorldScene extends Phaser.Scene {
 
     const cam = this.cameras.main;
     cam.setBounds(0, 0, this.map.width * this.map.tileSize, this.map.height * this.map.tileSize);
-    cam.startFollow(this.views.get(LOCAL_ID)!.sprite, true, 0.12, 0.12);
+    cam.startFollow(this.views.get(this.localId)!.sprite, true, 0.12, 0.12);
     cam.setRoundPixels(true);
     this.disposers.push(bindPixelZoom(this, cam));
 
@@ -166,6 +188,7 @@ export class WorldScene extends Phaser.Scene {
     this.disposers.push(
       bridge.on("ui:quit", () => {
         this.save();
+        if (this.start.mode !== "solo") useNet.getState().leave();
         this.scene.start("title");
       })
     );
@@ -176,7 +199,7 @@ export class WorldScene extends Phaser.Scene {
         if (this.start.mode !== "solo") return;
         applyRules(this.sim, { ...rules, ngPlus: this.sim.rules.ngPlus });
         this.inventoryKey = "";
-        this.updateInventory(this.sim.actors[LOCAL_ID]);
+        this.updateInventory(this.sim.actors[this.localId]);
         this.save();
       })
     );
@@ -191,19 +214,30 @@ export class WorldScene extends Phaser.Scene {
     this.disposers.push(bridge.on("ui:command", (c) => this.commands.push(c)));
     this.disposers.push(
       bridge.on("ui:pause", (paused) => {
-        this.paused = paused;
+        // Online the world keeps going while a menu is open (others are still playing).
+        this.paused = paused && this.start.mode === "solo";
         audio.duck(paused ? 0.55 : 0, 250);
         if (!paused) this.input2.flush();
         // Commands from the menu (equip, drink) apply right away even while paused.
         if (paused) this.applyMenuCommands();
       })
     );
+    if (this.start.mode !== "solo")
+      this.disposers.push(
+        useNet.subscribe((n) => {
+          if (n.session || this.travelling) return;
+          this.save();
+          bridge.emit("game:ended", { reason: n.error ?? null });
+          this.scene.start("title");
+        })
+      );
     this.events.once("shutdown", () => this.cleanup());
     this.cameras.main.fadeIn(400, 7, 6, 11);
     bridge.emit("game:world-ready", { mapId: this.map.id });
     bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id, rift: this.rift ? { rift: this.rift.rift, floor: this.rift.floor, floors: content.rifts.find(this.rift.rift)?.floors ?? 1 } : undefined });
     bridge.emit("game:minimap", minimapLayout(this.map, this.zone.id));
     this.markersAt = 0;
+    this.hostRoster();
     // Arriving somewhere (new game, map change, loaded save) is a checkpoint.
     this.save();
   }
@@ -213,13 +247,45 @@ export class WorldScene extends Phaser.Scene {
    * while dead, or mid-transition. Returns whether a save was written.
    */
   private save(manual = false): boolean {
-    const me = this.sim?.actors[LOCAL_ID];
+    const me = this.sim?.actors[this.localId];
     if (this.start.slot === undefined || !me || me.action.kind === "dead" || this.travelling) return false;
     this.lastSave = this.time.now;
     this.saveSoon = false;
     const ok = writeSave(this.start.slot, captureSave(me, this.map.id, this.sim.time, this.playtime, Date.now(), this.sim.rules));
     bridge.emit("game:saved", { ok, manual });
     return ok;
+  }
+
+  /** Where players appear: the named arrival spawn (or the saved spot when still walkable). */
+  private arrivalPoint(arrive?: string, at?: { x: number; y: number }): { x: number; y: number } {
+    const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
+    const spawn = playerSpawns.find((s) => s.id === arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
+    const ts = this.map.tileSize;
+    if (at && at.x >= 0 && !isSolidCell(this.map, Math.floor(at.x / ts), Math.floor(at.y / ts))) return at;
+    return { x: spawn.x, y: spawn.y };
+  }
+
+  /** Host: players who joined (or crossed a map with the party) enter beside me; leavers go. */
+  private hostRoster(): void {
+    const link = this.hostLink;
+    if (!link) return;
+    for (const seat of link.departures) {
+      for (const a of Object.values(this.sim.actors)) if (a.id === seat || a.owner === seat) delete this.sim.actors[a.id];
+    }
+    link.departures.clear();
+    if (!link.arrivals.size) return;
+    const me = this.sim.actors[this.localId];
+    const at = me ?? this.arrivalPoint(this.start.arrive);
+    let i = 0;
+    for (const [seat, player] of link.arrivals) {
+      const off = [[18, 0], [-18, 0], [0, 18]][i++ % 3]!;
+      const a = spawnPlayer(this.sim, seat, SEAT_LOOKS[seat] ?? SEAT_LOOKS.p2!, at.x + off[0]!, at.y + off[1]!, player);
+      restorePlayer(a, player);
+    }
+    link.arrivals.clear();
+    // Everyone (new or not) gets the world as it is now, with the newcomers in it.
+    for (const p of link.session.room.players) if (p.id !== this.localId && p.connected) link.sendWorld(p.id, { map: this.map.id, arrive: this.start.arrive ?? "", rules: this.sim.rules, sim: { ...this.sim, events: [] } });
+    link.session.markStarted();
   }
 
   /** An opened chest is drawn dimmed (no open-lid frame in the art yet). */
@@ -237,50 +303,46 @@ export class WorldScene extends Phaser.Scene {
         this.markChestOpened(ev.chest);
         this.saveSoon = true;
       }
-      if (ev.id !== LOCAL_ID) continue;
+      if (ev.id !== this.localId) continue;
       if (ev.type === "pet-adopted" || ev.type === "level-up" || ev.type === "mastery-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
     }
   }
 
   override update(_time: number, delta: number): void {
     if (this.travelling) return;
+    if (this.clientLink) return this.updateClient(delta);
     if (this.paused) {
       this.applyMenuCommands();
-      this.updateVitals(this.sim.actors[LOCAL_ID]);
+      this.updateVitals(this.sim.actors[this.localId]);
       return;
     }
     // Hit-stop freezes the sim (the frame holds); slow-mo scales sim time after a perfect parry.
     let simDelta = delta;
+    // Online, hit-stop and slow-mo are presentation only: the shared world never pauses.
+    const solo = this.start.mode === "solo";
     if (this.freezeMs > 0) {
       const frozen = Math.min(this.freezeMs, delta);
       this.freezeMs -= frozen;
-      simDelta -= frozen;
+      if (solo) simDelta -= frozen;
     }
     if (this.slowMo.ms > 0) {
       this.slowMo.ms -= delta;
-      simDelta *= this.slowMo.scale;
+      if (solo) simDelta *= this.slowMo.scale;
     }
+    this.hostRoster();
     this.anims.globalTimeScale = this.freezeMs > 0 ? 0 : this.slowMo.ms > 0 ? this.slowMo.scale : 1;
 
     this.accumulator = Math.min(this.accumulator + simDelta / 1000, SIM_DT * MAX_STEPS_PER_FRAME);
     while (this.accumulator >= SIM_DT) {
       for (const a of Object.values(this.sim.actors)) this.prev.set(a.id, { x: a.x, y: a.y });
-      stepSim(this.sim, this.map, { [LOCAL_ID]: this.localIntent() });
-      this.fx.handle(this.sim.events);
-      this.autosave(this.sim.events);
+      const local = this.localIntent();
+      stepSim(this.sim, this.map, this.hostLink ? this.hostLink.intents(this.localId, local, this.sim) : { [this.localId]: local });
+      this.hostLink?.afterStep(this.sim, this.time.now);
       this.accumulator -= SIM_DT;
-      for (const ev of this.sim.events) {
-        if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
-        if (ev.type === "portal" && ev.id === LOCAL_ID) return this.travel(ev.to, ev.arrive);
-        if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
-        if (ev.type === "skill-unlocked" && ev.id === LOCAL_ID) bridge.emit("game:skill-unlocked", { skill: ev.skill });
-        if (ev.type === "talk" && ev.id === LOCAL_ID) {
-          // The dialogue reads progress for its conditions: publish it first (talk objectives just moved).
-          this.updateInventory(this.sim.actors[LOCAL_ID]);
-          this.turnToward(ev.actor);
-          bridge.emit("game:dialogue", { npc: ev.npc, dialogue: ev.dialogue });
-        }
-      }
+      // The host moves the whole party through whichever portal one of them took.
+      const portal = this.sim.events.find((e) => e.type === "portal" && (e.id === this.localId || (this.hostLink && this.sim.actors[e.id]?.kind === "player")));
+      this.handleEvents(this.sim.events);
+      if (portal?.type === "portal") return this.travel(portal.to, portal.arrive);
     }
     this.syncViews();
 
@@ -290,14 +352,19 @@ export class WorldScene extends Phaser.Scene {
       const prev = this.prev.get(a.id) ?? a;
       this.views.get(a.id)?.update(prev.x + (a.x - prev.x) * alpha, prev.y + (a.y - prev.y) * alpha, a);
     }
+    this.renderCommon(delta);
+  }
+
+  /** Everything drawn or published from the world state each frame (both sides of a session). */
+  private renderCommon(delta: number): void {
     this.fx.syncProjectiles(this.sim.projectiles);
     this.fx.syncPickups(this.sim.pickups);
     this.fx.syncCharges();
     this.arenaWalls.update(this.sim.arenas);
 
-    const me = this.sim.actors[LOCAL_ID];
+    const me = this.sim.actors[this.localId];
     if (me) audio.setListener(me.x, me.y);
-    const meView = this.views.get(LOCAL_ID)?.sprite;
+    const meView = this.views.get(this.localId)?.sprite;
     this.lighting.setAmbient(this.zone.lighting.ambient, darknessAt(this.sim.time, this.zone.lighting.darkness));
     this.lighting.update(meView && me && me.action.kind !== "dead" ? { x: meView.x, y: meView.y + 14 } : null, this.sim.projectiles);
     this.weather.update();
@@ -310,12 +377,117 @@ export class WorldScene extends Phaser.Scene {
     this.updateDebug();
     if (this.time.now >= this.markersAt) {
       this.markersAt = this.time.now + MARKERS_INTERVAL;
-      bridge.emit("game:markers", mapMarkers(this.sim, this.map.tileSize, LOCAL_ID));
+      bridge.emit("game:markers", mapMarkers(this.sim, this.map.tileSize, this.localId));
     }
 
     this.playtime += delta / 1000;
     const calm = this.musicState === "explore";
     if (this.saveSoon || (calm && this.time.now - this.lastSave > AUTOSAVE_MS)) this.save();
+  }
+
+  /** What a step's events mean for this player: fx, saves, HUD toasts, dialogue. */
+  private handleEvents(events: SimEvent[]): void {
+    this.fx.handle(events);
+    this.autosave(events);
+    for (const ev of events) {
+      if (ev.type === "pickup" && ev.actor === this.localId) bridge.emit("game:loot", { item: ev.item, count: ev.count });
+      if (ev.type === "quest" && ev.id === this.localId) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
+      if (ev.type === "skill-unlocked" && ev.id === this.localId) bridge.emit("game:skill-unlocked", { skill: ev.skill });
+      if (ev.type === "talk" && ev.id === this.localId) {
+        // The dialogue reads progress for its conditions: publish it first (talk objectives just moved).
+        this.updateInventory(this.sim.actors[this.localId]);
+        this.turnToward(ev.actor);
+        bridge.emit("game:dialogue", { npc: ev.npc, dialogue: ev.dialogue });
+      }
+    }
+  }
+
+  /**
+   * Client frame: predict my own player from my inputs (sent to the host), apply the host's
+   * snapshots (others are shown ~100 ms in the past, interpolated), reconcile my position, play the
+   * host's events. The host's world package after a map change restarts the scene.
+   */
+  private updateClient(delta: number): void {
+    const link = this.clientLink!;
+    if (link.world) {
+      const init = link.world;
+      link.world = null;
+      this.travelling = true;
+      this.cameras.main.fadeOut(300, 7, 6, 11);
+      this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
+        this.scene.restart({ mode: "client", localId: this.localId, init, map: init.map, slot: this.start.slot, playtime: this.playtime } satisfies WorldStart)
+      );
+      return;
+    }
+    if (link.full) {
+      this.mergeFull(link.full);
+      link.full = null;
+    }
+    if (this.freezeMs > 0) this.freezeMs = Math.max(0, this.freezeMs - delta);
+    this.anims.globalTimeScale = this.freezeMs > 0 ? 0 : 1;
+
+    // 60 Hz: sample, send, predict.
+    this.accumulator = Math.min(this.accumulator + delta / 1000, SIM_DT * MAX_STEPS_PER_FRAME);
+    while (this.accumulator >= SIM_DT) {
+      const me = this.sim.actors[this.localId];
+      if (me) this.prev.set(me.id, { x: me.x, y: me.y });
+      const intent = this.localIntent();
+      link.send(intent);
+      if (me && me.action.kind !== "dead") predictStep(this.sim, this.map, me, intent);
+      this.accumulator -= SIM_DT;
+    }
+
+    // Host state.
+    const now = this.time.now;
+    for (const snap of link.snaps.splice(0)) {
+      const me = this.sim.actors[this.localId];
+      applySnapshot(this.sim, snap, this.localId);
+      for (const a of Object.values(this.sim.actors)) if (a.id !== this.localId) link.interp.push(a.id, now, a.x, a.y);
+      const mine = actorTuple(snap, this.localId);
+      if (me && mine) {
+        const before = { x: me.x, y: me.y };
+        reconcile(this.sim, this.map, me, mine, link.pending.ack(snap.acks[this.localId] ?? 0));
+        // Small corrections are eased in over ~100 ms; big ones (teleport, knockback) snap.
+        const dx = before.x - me.x;
+        const dy = before.y - me.y;
+        if (Math.hypot(dx, dy) < 48) this.correction = { x: this.correction.x + dx, y: this.correction.y + dy };
+        else this.correction = { x: 0, y: 0 };
+      }
+    }
+    link.interp.retain(new Set(Object.keys(this.sim.actors)));
+    for (const events of link.events.splice(0)) this.handleEvents(events);
+    this.syncViews();
+
+    const k = Math.min(1, delta / 100);
+    this.correction = { x: this.correction.x * (1 - k), y: this.correction.y * (1 - k) };
+    const alpha = this.accumulator / SIM_DT;
+    for (const a of Object.values(this.sim.actors)) {
+      if (a.id === this.localId) {
+        const prev = this.prev.get(a.id) ?? a;
+        this.views.get(a.id)?.update(prev.x + (a.x - prev.x) * alpha + this.correction.x, prev.y + (a.y - prev.y) * alpha + this.correction.y, a);
+      } else {
+        const p = link.interp.at(a.id, now) ?? a;
+        this.views.get(a.id)?.update(p.x, p.y, a);
+      }
+    }
+    this.renderCommon(delta);
+  }
+
+  /**
+   * A full world state from the host replaces my mirror, except my own player's moment-to-moment
+   * state, which my prediction owns (the next snapshot reconciles it).
+   */
+  private mergeFull(full: SimState): void {
+    const mine = this.sim.actors[this.localId];
+    const next = full;
+    next.events = [];
+    const theirs = next.actors[this.localId];
+    if (mine && theirs) {
+      const { x, y, vx, vy, action, facing, aim, moving, stamina, iframes, blockSince, buffered } = mine;
+      Object.assign(theirs, { x, y, vx, vy, action, facing, aim, moving, stamina, iframes, blockSince, buffered });
+      theirs.cooldowns.dodge = mine.cooldowns.dodge ?? 0;
+    }
+    this.sim = next;
   }
 
   /** Fade out and restart the scene on the target map, carrying the local player state and the clock. */
@@ -332,12 +504,16 @@ export class WorldScene extends Phaser.Scene {
     // A portal to a Rift starts today's run (host clock decides the day).
     const { map: to, arrive } = resolvePortal(target, arriveAt, dailySeed(Date.now()));
     this.travelling = true;
-    const me = this.sim.actors[LOCAL_ID];
+    const me = this.sim.actors[this.localId];
     const carry = me?.progress ? capturePlayer(me) : undefined;
+    // The other players come along (placed beside me on arrival, then sent the new world).
+    const party = this.hostLink
+      ? Object.fromEntries(Object.values(this.sim.actors).filter((a) => a.kind === "player" && a.id !== this.localId && a.progress).map((a) => [a.id, capturePlayer(a)]))
+      : undefined;
     audio.sfx("portal", { volume: 0.5 });
     this.cameras.main.fadeOut(350, 7, 6, 11);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
-      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time, slot: this.start.slot, playtime: this.playtime, rules: this.sim.rules } satisfies WorldStart)
+      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time, slot: this.start.slot, playtime: this.playtime, rules: this.sim.rules, localId: this.localId, party } satisfies WorldStart)
     );
   }
 
@@ -348,15 +524,15 @@ export class WorldScene extends Phaser.Scene {
   private applyMenuCommands(): void {
     if (!this.commands.length) return;
     const commands = this.commands.splice(0);
-    const me = this.sim.actors[LOCAL_ID];
+    const me = this.sim.actors[this.localId];
     if (!me) return;
-    stepSim(this.sim, this.map, { [LOCAL_ID]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
+    stepSim(this.sim, this.map, { [this.localId]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
     this.fx.handle(this.sim.events);
     this.autosave(this.sim.events);
     if (this.saveSoon) this.save();
     for (const ev of this.sim.events) {
-      if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
-      if (ev.type === "skill-unlocked" && ev.id === LOCAL_ID) bridge.emit("game:skill-unlocked", { skill: ev.skill });
+      if (ev.type === "quest" && ev.id === this.localId) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
+      if (ev.type === "skill-unlocked" && ev.id === this.localId) bridge.emit("game:skill-unlocked", { skill: ev.skill });
     }
     this.updateInventory(me);
   }
@@ -364,7 +540,7 @@ export class WorldScene extends Phaser.Scene {
   /** NPCs face the player who talks to them. */
   private turnToward(npcId: string): void {
     const npc = this.sim.actors[npcId];
-    const me = this.sim.actors[LOCAL_ID];
+    const me = this.sim.actors[this.localId];
     if (npc && me) npc.aim = { x: me.x - npc.x, y: me.y - npc.y };
   }
 
@@ -413,7 +589,7 @@ export class WorldScene extends Phaser.Scene {
     else if (intent.pressed.includes("talents")) bridge.emit("game:menu", "talents");
     else if (intent.pressed.includes("map")) bridge.emit("game:menu", "map");
     if (this.commands.length) intent.commands = this.commands.splice(0);
-    const me = this.sim.actors[LOCAL_ID];
+    const me = this.sim.actors[this.localId];
     const device = useInputDevice.getState().device;
     // Aim assist for touch and stick-less gamepad aiming: snap attacks onto the nearest foe in front.
     if (me && !intent.aim && device !== "keyboard" && useSettings.getState().aimAssist && intent.pressed.some((p) => p === "attack" || p === "heavy")) {
@@ -442,7 +618,7 @@ export class WorldScene extends Phaser.Scene {
   /** Adaptive music: combat while something hunts the player, danger when nearly dead. */
   private updateMusic(me: Actor | undefined): void {
     if (!me) return;
-    const hunted = Object.values(this.sim.actors).some((a) => a.ai?.target === LOCAL_ID);
+    const hunted = Object.values(this.sim.actors).some((a) => a.ai?.target === this.localId);
     const state = this.bossFight() ? "boss" : me.hp > 0 && me.hp < me.stats.maxHp * 0.25 ? "danger-low-hp" : hunted ? "combat" : "explore";
     if (state === this.musicState) return;
     this.musicState = state;
@@ -451,7 +627,7 @@ export class WorldScene extends Phaser.Scene {
 
   /** The living boss engaged with the local player, if any. */
   private bossFight(): Actor | undefined {
-    return Object.values(this.sim.actors).find((a) => a.kind === "enemy" && a.action.kind !== "dead" && a.ai?.target === LOCAL_ID && !!getEnemy(a.type).boss);
+    return Object.values(this.sim.actors).find((a) => a.kind === "enemy" && a.action.kind !== "dead" && a.ai?.target === this.localId && !!getEnemy(a.type).boss);
   }
 
   private updateBoss(): void {
@@ -475,7 +651,7 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private updateAimOrigin(): void {
-    const sprite = this.views.get(LOCAL_ID)?.sprite;
+    const sprite = this.views.get(this.localId)?.sprite;
     if (!sprite) return;
     const cam = this.cameras.main;
     // World → screen (CSS px): Phaser RESIZE mode keeps canvas CSS size = game size.
@@ -486,7 +662,7 @@ export class WorldScene extends Phaser.Scene {
   private updateDebug(): void {
     if (!useSettings.getState().showFps || this.time.now - this.lastDebug < 250) return;
     this.lastDebug = this.time.now;
-    const p = this.sim.actors[LOCAL_ID];
+    const p = this.sim.actors[this.localId];
     if (!p) return;
     bridge.emit(
       "game:debug",

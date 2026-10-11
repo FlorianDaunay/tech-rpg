@@ -25,6 +25,7 @@
            duration-150 ease-out active:scale-[0.97] disabled:opacity-40 disabled:pointer-events-none short:py-2;
   }
   .btn:active { box-shadow: var(--shadow-inset); }
+  .input { @apply rounded-control border border-border bg-canvas px-2.5 py-1.5 text-sm text-text-primary placeholder:text-text-muted; box-shadow: var(--shadow-inset); }
   .btn-primary { @apply btn bg-accent text-accent-foreground hover:bg-accent-hover shadow-control; }
   .btn-ghost { @apply btn surface text-text-primary hover:bg-surface-hover; }
   .title-display { @apply font-display tracking-[0.18em] uppercase; }

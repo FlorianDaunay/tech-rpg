@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { bridge } from "@/bridge/events";
 import type { WorldStart } from "./PreloadScene";
+import { useNet } from "@/store/net";
+import { ClientLink } from "@/net/links";
 import { audio } from "../audio";
 
 /** Ambient backdrop behind the title menu: drifting embers rising from a dim lantern glow. */
@@ -36,13 +38,29 @@ export class TitleScene extends Phaser.Scene {
       embers.updateConfig({ x: { min: 0, max: size.width }, y: size.height + 10 });
     };
     this.scale.on("resize", onResize);
+    let wait: ReturnType<typeof setInterval> | undefined;
     const off = bridge.on("ui:start", ({ mode, slot, save, rules }) => {
+      const session = useNet.getState().session;
+      if (mode === "client" && session) {
+        // A client enters the host's world: wait for its package (sent once the host's world is up).
+        const link = ClientLink.of(session);
+        clearInterval(wait);
+        wait = setInterval(() => {
+          if (!link.world) return;
+          clearInterval(wait);
+          const init = link.world;
+          link.world = null;
+          this.scene.start("preload", { mode, slot, localId: session.me, init, map: init.map } satisfies WorldStart);
+        }, 50);
+        return;
+      }
       const start: WorldStart = save
         ? { mode, slot, map: save.map, at: { x: save.x, y: save.y }, carry: save.player, time: save.time, playtime: save.playtime, rules: save.rules }
         : { mode, slot, rules };
       this.scene.start("preload", start);
     });
     this.events.once("shutdown", () => {
+      clearInterval(wait);
       off();
       this.scale.off("resize", onResize);
     });

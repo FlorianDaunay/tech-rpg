@@ -9,6 +9,8 @@ import { CreditsScreen } from "./screens/CreditsScreen";
 import { PlayScreen } from "./screens/PlayScreen";
 import { SavesScreen } from "./screens/SavesScreen";
 import { NewGameScreen } from "./screens/NewGameScreen";
+import { MultiScreen } from "./screens/MultiScreen";
+import { useNet } from "@/store/net";
 import { SettingsScreen } from "./screens/SettingsScreen";
 import { SoundTest } from "./screens/SoundTest";
 import { TitleScreen } from "./screens/TitleScreen";
@@ -30,7 +32,8 @@ export function App() {
         {screen === "solo" && <PlayScreen mode="solo" />}
         {screen === "saves" && <SavesScreen />}
         {screen === "newgame" && <NewGameScreen />}
-        {screen === "multi" && <ComingSoon title={t("menu.multi")} />}
+        {screen === "multi" && <MultiScreen />}
+        {screen === "online" && <PlayScreen mode={useNet.getState().session?.role ?? "host"} />}
         {screen === "settings" && <SettingsScreen onBack={() => go("title")} />}
         {screen === "soundtest" && <SoundTest />}
         {screen === "credits" && <CreditsScreen onBack={() => go("title")} />}

@@ -39,8 +39,9 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
   useEffect(() => {
     if (engineReady && !inWorld) {
       // Chosen on the title screen (Continue / New game / Load); default: a new game in a free slot.
-      const pending = useSaves.getState().pending ?? (mode === "solo" ? { slot: firstEmptySlot() ?? undefined, save: null, rules: undefined } : null);
-      bridge.emit("ui:start", { mode, slot: pending?.slot, save: pending?.save, rules: pending?.rules });
+      const pending = useSaves.getState().pending ?? (mode !== "client" ? { slot: firstEmptySlot() ?? undefined, save: null, rules: undefined } : null);
+      // A client brings no world: it enters the host's (its slot only receives its character).
+      bridge.emit("ui:start", { mode, slot: pending?.slot, save: mode === "client" ? null : pending?.save, rules: pending?.rules });
       useSaves.setState({ pending: null });
     }
     // Start once, when the engine is up (it may still be downloading when the screen opens).
@@ -48,7 +49,18 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
 
   // Leaving the screen never leaves a menu (and the pause) behind. A language change re-mounts this
   // screen while staying in game: keep the menus then.
-  useEffect(() => () => void (useScreen.getState().screen !== "solo" && useMenu.getState().closeAll()), []);
+  useEffect(() => () => void (!["solo", "online"].includes(useScreen.getState().screen) && useMenu.getState().closeAll()), []);
+
+  // The host left / the connection dropped: back to the multiplayer screen, which shows why.
+  useEffect(
+    () =>
+      bridge.on("game:ended", () => {
+        closeAll();
+        useGameStatus.setState({ inWorld: false, vitals: null, inventory: null, zoneEnter: null });
+        go("multi");
+      }),
+    [] // eslint-disable-line react-hooks/exhaustive-deps
+  );
 
   const quit = () => {
     closeAll();

@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { bridge, type GameMode } from "@/bridge/events";
 import type { PlayerState } from "@/core/save/save";
 import type { WorldRules } from "@/core/sim/rules";
+import type { WorldInit } from "@/net/protocol";
 import { ASSET_INDEX_KEY, ASSET_INDEX_PATH, queueAssets, type AssetEntry } from "../assets";
 
 /** Asset kinds the world needs up front. Others (bosses, rare enemies) load on demand later. */
@@ -26,6 +27,12 @@ export interface WorldStart {
   playtime?: number;
   /** Difficulty / Omens / NG+ (default: Normal). Carried across maps. */
   rules?: WorldRules;
+  /** Multiplayer: my seat / actor id (default "p1"). */
+  localId?: string;
+  /** Client: the world as the host sent it. */
+  init?: WorldInit;
+  /** Host: the other players' characters, carried across a map change. */
+  party?: Record<string, PlayerState>;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */
