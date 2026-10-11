@@ -143,7 +143,12 @@ export class WorldScene extends Phaser.Scene {
     this.tilemap = renderMap(this, this.map);
     this.objectImages = renderObjects(this, this.map);
 
-    if (this.clientLink && data.init) {
+    if (this.hostLink && data.resume) {
+      // I took over as host: the world goes on from my copy; the old host's character leaves with them.
+      this.sim = structuredClone(data.resume);
+      this.sim.events = [];
+      for (const a of Object.values(this.sim.actors)) if (a.id === data.dropSeat || (a.owner && a.owner === data.dropSeat)) delete this.sim.actors[a.id];
+    } else if (this.clientLink && data.init) {
       // Client: the world is the host's; it arrives whole and is kept in sync by snapshots.
       this.sim = structuredClone(data.init.sim);
       this.sim.events = [];
@@ -222,6 +227,23 @@ export class WorldScene extends Phaser.Scene {
         if (paused) this.applyMenuCommands();
       })
     );
+    if (session && this.clientLink) {
+      // Reconnect hellos carry my character as it is now.
+      session.playerProvider = () => {
+        const me = this.sim.actors[this.localId];
+        return me?.progress ? capturePlayer(me) : null;
+      };
+      this.disposers.push(
+        session.on("migrating", () => bridge.emit("game:net", { status: "migrating" })),
+        session.on("reconnected", () => bridge.emit("game:net", { status: "reconnected" })),
+        session.on("promoted", (oldHost) => {
+          // The host left and I take over: resume the world from my copy, as host.
+          bridge.emit("game:net", { status: "promoted" });
+          this.travelling = true;
+          this.scene.restart({ mode: "host", localId: this.localId, map: this.map.id, resume: { ...this.sim, events: [] }, dropSeat: oldHost, slot: this.start.slot, playtime: this.playtime, rules: this.sim.rules } satisfies WorldStart);
+        })
+      );
+    }
     if (this.start.mode !== "solo")
       this.disposers.push(
         useNet.subscribe((n) => {
@@ -278,6 +300,7 @@ export class WorldScene extends Phaser.Scene {
     const at = me ?? this.arrivalPoint(this.start.arrive);
     let i = 0;
     for (const [seat, player] of link.arrivals) {
+      if (this.sim.actors[seat]) continue; // back after a host migration: already in the world
       const off = [[18, 0], [-18, 0], [0, 18]][i++ % 3]!;
       const a = spawnPlayer(this.sim, seat, SEAT_LOOKS[seat] ?? SEAT_LOOKS.p2!, at.x + off[0]!, at.y + off[1]!, player);
       restorePlayer(a, player);
@@ -409,6 +432,11 @@ export class WorldScene extends Phaser.Scene {
    */
   private updateClient(delta: number): void {
     const link = this.clientLink!;
+    if (link.world && link.world.map === this.map.id) {
+      // Same map (e.g. a new host after a migration): just take its world, no fade.
+      this.mergeFull(link.world.sim);
+      link.world = null;
+    }
     if (link.world) {
       const init = link.world;
       link.world = null;

@@ -3,6 +3,7 @@ import { bridge, type GameMode } from "@/bridge/events";
 import type { PlayerState } from "@/core/save/save";
 import type { WorldRules } from "@/core/sim/rules";
 import type { WorldInit } from "@/net/protocol";
+import type { SimState } from "@/core/sim/state";
 import { ASSET_INDEX_KEY, ASSET_INDEX_PATH, queueAssets, type AssetEntry } from "../assets";
 
 /** Asset kinds the world needs up front. Others (bosses, rare enemies) load on demand later. */
@@ -33,6 +34,9 @@ export interface WorldStart {
   init?: WorldInit;
   /** Host: the other players' characters, carried across a map change. */
   party?: Record<string, PlayerState>;
+  /** New host after a migration: the world as I last knew it (resumed), and the seat that left. */
+  resume?: SimState;
+  dropSeat?: string;
 }
 
 /** Loads the asset index, then every world asset, reporting progress to the React loading screen. */

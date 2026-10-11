@@ -7,6 +7,7 @@ import { actorTuple, applySnapshot, encodeSnapshot } from "./codec";
 import { InputQueue, PendingInputs, REDUNDANCY } from "./inputs";
 import { INTERP_DELAY_MS, InterpBuffer } from "./interp";
 import { reconcile } from "./predict";
+import { migrationCandidates } from "./session";
 
 beforeAll(registerContent);
 
@@ -112,3 +113,22 @@ describe("interpolation", () => {
   });
 });
 
+
+describe("host migration", () => {
+  it("every peer picks the same takeover order: connected players other than the host, by seat", () => {
+    const room = {
+      code: "ABCDE",
+      epoch: 2,
+      hostId: "p1",
+      started: true,
+      players: [
+        { id: "p4", name: "D", level: 1, connected: true },
+        { id: "p1", name: "A", level: 1, connected: true },
+        { id: "p3", name: "C", level: 1, connected: false },
+        { id: "p2", name: "B", level: 1, connected: true },
+      ],
+    };
+    expect(migrationCandidates(room)).toEqual(["p2", "p4"]);
+    expect(migrationCandidates({ ...room, hostId: "p2" })).toEqual(["p1", "p4"]);
+  });
+});

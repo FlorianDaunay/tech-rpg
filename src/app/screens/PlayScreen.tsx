@@ -14,6 +14,7 @@ import { ZoneBanner } from "../hud/ZoneBanner";
 import { Prompt } from "../hud/Prompt";
 import { QuestToasts } from "../hud/QuestToasts";
 import { SaveIndicator } from "../hud/SaveIndicator";
+import { NetToast } from "../hud/NetToast";
 import { Minimap } from "../hud/Minimap";
 import { BossBar } from "../hud/BossBar";
 import { MapScreen } from "./MapScreen";
@@ -100,6 +101,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <Minimap />
       <BossBar />
       <SaveIndicator />
+      <NetToast />
       {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} mode={mode} />}
       {menu === "inventory" && <InventoryScreen />}

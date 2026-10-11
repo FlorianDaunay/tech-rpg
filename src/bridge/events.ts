@@ -89,6 +89,8 @@ export interface BridgeEvents {
   "game:menu": "pause" | "inventory" | "talents" | "map";
   /** The current map's layout (on entry) and its markers (~8 Hz). */
   "game:minimap": MinimapLayout;
+  /** Multiplayer connection news (host migration). */
+  "game:net": { status: "migrating" | "reconnected" | "promoted" };
   /** A multiplayer session ended under the player (host left, connection lost): back to the title. */
   "game:ended": { reason: string | null };
   /** The boss fighting the local player (null when none): HUD boss bar. */

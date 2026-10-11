@@ -6,11 +6,18 @@ import { HEARTBEAT_MS, MAX_PLAYERS, PEER_TIMEOUT_MS, PROTOCOL_VERSION, type Lobb
  * One multiplayer room over PeerJS (the public broker only does signalling; game data goes
  * browser ↔ browser). Host-authoritative: the host owns the room info and the world; clients send
  * inputs and receive state. No TURN server: if WebRTC can't connect, joining fails with an error.
+ *
+ * Host migration: the host's peer id is `valaria-<code>-<epoch>`. When a client loses the host, every
+ * client computes the same candidate list (connected players by seat); candidate `a` takes over at
+ * epoch `old + 1 + a`, the others reconnect to it and reclaim their seat.
  */
 
 const PREFIX = "valaria";
 const CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1
 const CONNECT_TIMEOUT_MS = 12_000;
+/** How long the others keep trying one candidate before moving to the next. */
+const MIGRATE_TRY_MS = 15_000;
+const SEATS = ["p1", "p2", "p3", "p4"];
 
 export type SessionError = "unavailable" | "timeout" | "version" | "password" | "full" | "kicked" | "network" | "host-left";
 export type Role = "host" | "client";
@@ -18,13 +25,19 @@ export type Role = "host" | "client";
 export interface SessionEvents {
   /** Room info changed (players, names, levels...). */
   room: (room: RoomInfo) => void;
-  /** Reliable message from a peer (host: from a client seat; client: from the host = "p1"). */
+  /** Reliable message from a peer (host: from a client seat; client: from the host). */
   reliable: (from: string, msg: ReliableMsg) => void;
   unreliable: (from: string, msg: UnreliableMsg) => void;
-  /** A client's character arrived with its hello (host only). */
+  /** A client's character arrived with its hello (host only; also on reconnect after a migration). */
   joined: (seat: string, player: PlayerState) => void;
   left: (seat: string) => void;
-  /** The session is over (error or host gone). */
+  /** The host is gone: looking for the new one (UI shows "reconnecting"). */
+  migrating: () => void;
+  /** I am the new host (the game resumes the world from my copy). `oldHost` = the seat that left. */
+  promoted: (oldHost: string) => void;
+  /** Reconnected to the new host after a migration. */
+  reconnected: () => void;
+  /** The session is over (error or no host left). */
   closed: (reason: SessionError | null) => void;
 }
 
@@ -51,16 +64,43 @@ export async function hashPassword(password: string): Promise<string> {
 export const randomCode = () => Array.from({ length: 5 }, () => CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)]).join("");
 const hostPeerId = (code: string, epoch: number) => `${PREFIX}-${code.toLowerCase()}-${epoch}`;
 
+/** Who takes over when the host is lost: connected players other than the host, by seat (same on every peer). */
+export function migrationCandidates(room: RoomInfo): string[] {
+  return room.players
+    .filter((p) => p.id !== room.hostId && p.connected)
+    .map((p) => p.id)
+    .sort();
+}
+
+function openPeer(id?: string): Promise<Peer> {
+  const peer = id ? new Peer(id) : new Peer();
+  return new Promise<Peer>((resolve, reject) => {
+    const timer = setTimeout(() => (peer.destroy(), reject(new Error("timeout"))), CONNECT_TIMEOUT_MS);
+    peer.on("open", () => (clearTimeout(timer), resolve(peer)));
+    peer.on("error", (e) => {
+      clearTimeout(timer);
+      peer.destroy();
+      reject(new Error((e as { type?: string }).type === "unavailable-id" ? "unavailable" : "network"));
+    });
+  });
+}
+
 export class Session {
-  readonly role: Role;
+  role: Role;
   /** My seat (actor id). */
   me: string;
   room: RoomInfo;
+  /** Name and character sent in hellos (also when reconnecting after a migration). */
+  private name = "";
+  /** Supplies my current character for a reconnect hello (set by the game; falls back to the join one). */
+  playerProvider: () => PlayerState | null = () => null;
+  private joinPlayer: PlayerState | null = null;
   private peer: Peer | null = null;
   private readonly links = new Map<string, Link>();
-  private readonly handlers: { [K in keyof SessionEvents]: SessionEvents[K][] } = { room: [], reliable: [], unreliable: [], joined: [], left: [], closed: [] };
+  private readonly handlers: { [K in keyof SessionEvents]: SessionEvents[K][] } = { room: [], reliable: [], unreliable: [], joined: [], left: [], migrating: [], promoted: [], reconnected: [], closed: [] };
   private heartbeat: ReturnType<typeof setInterval> | undefined;
   private closedFlag = false;
+  private migratingFlag = false;
   private passwordHash = "";
 
   private constructor(role: Role, me: string, room: RoomInfo) {
@@ -73,7 +113,8 @@ export class Session {
     this.handlers[event].push(fn);
     return () => {
       const list = this.handlers[event] as SessionEvents[K][];
-      list.splice(list.indexOf(fn), 1);
+      const i = list.indexOf(fn);
+      if (i >= 0) list.splice(i, 1);
     };
   }
 
@@ -85,24 +126,27 @@ export class Session {
     return this.closedFlag;
   }
 
+  isMigrating(): boolean {
+    return this.migratingFlag;
+  }
+
   // ---- host ----------------------------------------------------------------------------------
 
   /** Opens a room. Resolves once the broker has registered the room code. */
   static async host(opts: { name: string; password: string; level: number }): Promise<Session> {
     const code = randomCode();
     const s = new Session("host", "p1", { code, epoch: 0, hostId: "p1", players: [{ id: "p1", name: opts.name, level: opts.level, connected: true }], started: false });
+    s.name = opts.name;
     s.passwordHash = await hashPassword(opts.password);
-    const peer = new Peer(hostPeerId(code, 0));
-    s.peer = peer;
-    await new Promise<void>((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error("timeout")), CONNECT_TIMEOUT_MS);
-      peer.on("open", () => (clearTimeout(timer), resolve()));
-      peer.on("error", (e) => (clearTimeout(timer), reject(e)));
-    });
-    peer.on("connection", (conn) => s.acceptConnection(conn));
-    peer.on("error", () => {});
+    s.listen(await openPeer(hostPeerId(code, 0)));
     s.startHeartbeat();
     return s;
+  }
+
+  private listen(peer: Peer): void {
+    this.peer = peer;
+    peer.on("connection", (conn) => this.acceptConnection(conn));
+    peer.on("error", () => {});
   }
 
   private acceptConnection(conn: DataConnection): void {
@@ -133,9 +177,10 @@ export class Session {
       };
       if (msg.v !== PROTOCOL_VERSION) return refuse("version");
       if (msg.passwordHash !== this.passwordHash) return refuse("password");
-      // Reclaim a seat by name (reconnect), else the first free one.
-      const back = this.room.players.find((p) => !p.connected && p.name === msg.name && p.id !== "p1");
-      const free = ["p2", "p3", "p4"].find((id) => !this.room.players.some((p) => p.id === id));
+      // Reclaim a seat: the one asked for (reconnect after a migration), else by name, else the first free one.
+      const away = (id: string | undefined) => (id ? this.room.players.find((p) => p.id === id && !p.connected && id !== this.me) : undefined);
+      const back = away(msg.want) ?? this.room.players.find((p) => !p.connected && p.name === msg.name && p.id !== this.me);
+      const free = SEATS.find((id) => id !== this.me && !this.room.players.some((p) => p.id === id));
       const seat = back?.id ?? free;
       if (!seat || this.room.players.filter((p) => p.connected).length >= MAX_PLAYERS) return refuse("full");
       link.seat = seat;
@@ -155,7 +200,7 @@ export class Session {
     this.links.delete(peerId);
     link.r?.close();
     link.u?.close();
-    if (this.role === "client") return this.close("host-left");
+    if (this.role === "client") return void this.migrate();
     if (!link.seat) return;
     this.room.players = this.room.players.map((p) => (p.id === link.seat ? { ...p, connected: false } : p));
     this.emit("left", link.seat);
@@ -178,6 +223,7 @@ export class Session {
   }
 
   markStarted(): void {
+    if (this.room.started) return;
     this.room.started = true;
     this.broadcastRoom();
   }
@@ -188,25 +234,41 @@ export class Session {
   static async join(opts: { code: string; name: string; password: string; player: PlayerState }): Promise<Session> {
     const code = opts.code.trim().toUpperCase();
     const s = new Session("client", "", { code, epoch: 0, hostId: "p1", players: [], started: false });
-    const passwordHash = await hashPassword(opts.password);
-    const peer = new Peer();
-    s.peer = peer;
-    await new Promise<void>((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error("timeout")), CONNECT_TIMEOUT_MS);
-      peer.on("open", () => (clearTimeout(timer), resolve()));
-      peer.on("error", (e) => (clearTimeout(timer), reject(e)));
-    });
-    const target = hostPeerId(code, 0);
-    const link: Link = { seat: "p1", lastSeen: Date.now() };
-    s.links.set(target, link);
-    return new Promise<Session>((resolve, reject) => {
-      const fail = (reason: SessionError) => {
+    s.name = opts.name;
+    s.joinPlayer = opts.player;
+    s.passwordHash = await hashPassword(opts.password);
+    try {
+      s.peer = await openPeer();
+      await s.connectToHost(0, CONNECT_TIMEOUT_MS);
+    } catch (e) {
+      s.close(null);
+      throw e;
+    }
+    s.startHeartbeat();
+    return s;
+  }
+
+  /** Connects (or reconnects) to the host at an epoch: two channels, hello, wait for the welcome. */
+  private connectToHost(epoch: number, timeoutMs: number): Promise<void> {
+    const peer = this.peer!;
+    const target = hostPeerId(this.room.code, epoch);
+    const link: Link = { seat: "host", lastSeen: Date.now() };
+    return new Promise<void>((resolve, reject) => {
+      let done = false;
+      const finish = (err?: SessionError) => {
+        if (done) return;
+        done = true;
         clearTimeout(timer);
-        s.close(null);
-        reject(new Error(reason));
+        peer.off("error", onError);
+        if (err) {
+          link.r?.close();
+          link.u?.close();
+          reject(new Error(err));
+        } else resolve();
       };
-      const timer = setTimeout(() => fail("timeout"), CONNECT_TIMEOUT_MS);
-      peer.on("error", (e) => fail((e as { type?: string }).type === "peer-unavailable" ? "unavailable" : "network"));
+      const timer = setTimeout(() => finish("timeout"), timeoutMs);
+      const onError = (e: unknown) => finish((e as { type?: string }).type === "peer-unavailable" ? "unavailable" : "network");
+      peer.on("error", onError);
       // Binary (MsgPack) on the reliable channel: PeerJS chunks big messages (world packages run ~20 KB+).
       const r = peer.connect(target, { label: "r", reliable: true, serialization: "binary" });
       const u = peer.connect(target, { label: "u", reliable: false, serialization: "json" });
@@ -215,37 +277,102 @@ export class Session {
       let opened = 0;
       const ready = () => {
         if (++opened < 2) return;
-        r.send({ t: "hello", v: PROTOCOL_VERSION, name: opts.name, passwordHash, player: opts.player } satisfies ReliableMsg);
+        const player = this.playerProvider() ?? this.joinPlayer!;
+        r.send({ t: "hello", v: PROTOCOL_VERSION, name: this.name, passwordHash: this.passwordHash, player, want: this.me || undefined } satisfies ReliableMsg);
       };
       r.on("open", ready);
       u.on("open", ready);
       u.on("data", (data) => {
         link.lastSeen = Date.now();
-        s.emit("unreliable", "p1", data as UnreliableMsg);
+        this.emit("unreliable", this.room.hostId, data as UnreliableMsg);
       });
       r.on("data", (data) => {
         link.lastSeen = Date.now();
         const msg = data as ReliableMsg;
         if (msg.t === "welcome") {
-          clearTimeout(timer);
-          s.me = msg.you;
-          s.room = msg.room;
-          s.startHeartbeat();
-          resolve(s);
-          s.emit("room", s.room);
+          this.me = msg.you;
+          this.room = msg.room;
+          // Only now is this the host link (a failed attempt never replaced the previous one).
+          for (const [id, old] of this.links) if (old !== link) this.links.delete(id);
+          this.links.set(target, link);
+          finish();
+          this.emit("room", this.room);
           return;
         }
-        if (msg.t === "reject") return fail(msg.reason);
+        if (msg.t === "reject") return finish(msg.reason);
         if (msg.t === "lobby") {
-          s.room = msg.room;
-          return s.emit("room", s.room);
+          this.room = msg.room;
+          return this.emit("room", this.room);
         }
         if (msg.t === "ping") return r.send({ t: "pong", at: msg.at } satisfies ReliableMsg);
         if (msg.t === "pong") return;
-        s.emit("reliable", "p1", msg);
+        if (msg.t === "bye") return this.dropLink(target);
+        this.emit("reliable", this.room.hostId, msg);
       });
-      r.on("close", () => s.close("host-left"));
+      r.on("close", () => (done ? this.dropLink(target) : finish("network")));
     });
+  }
+
+  // ---- migration -----------------------------------------------------------------------------
+
+  /** Client: the host is gone. Take over if it's my turn, else reconnect to whoever does. */
+  private async migrate(): Promise<void> {
+    if (this.closedFlag || this.migratingFlag) return;
+    if (!this.room.started) return this.close("host-left");
+    this.migratingFlag = true;
+    this.emit("migrating");
+    const oldHost = this.room.hostId;
+    const oldEpoch = this.room.epoch;
+    const candidates = migrationCandidates(this.room);
+    for (let a = 0; a < candidates.length && !this.closedFlag; a++) {
+      const epoch = oldEpoch + 1 + a;
+      try {
+        if (candidates[a] === this.me) await this.takeOver(epoch, oldHost);
+        else await this.reconnect(epoch);
+        this.migratingFlag = false;
+        return;
+      } catch {
+        // That candidate never came up: the next one.
+      }
+    }
+    this.migratingFlag = false;
+    this.close("host-left");
+  }
+
+  /** I am the new host: register the next epoch's id and resume the room from what I know. */
+  private async takeOver(epoch: number, oldHost: string): Promise<void> {
+    this.peer?.destroy();
+    this.peer = null;
+    this.listen(await openPeer(hostPeerId(this.room.code, epoch)));
+    this.role = "host";
+    // Everyone else is "away" until they reconnect (they reclaim their seat by id).
+    this.room = {
+      ...this.room,
+      epoch,
+      hostId: this.me,
+      players: this.room.players.filter((p) => p.id !== oldHost).map((p) => ({ ...p, connected: p.id === this.me })),
+    };
+    this.emit("promoted", oldHost);
+    this.broadcastRoom();
+  }
+
+  /** Someone else took over: keep trying to reach them for a while. */
+  private async reconnect(epoch: number): Promise<void> {
+    const deadline = Date.now() + MIGRATE_TRY_MS;
+    while (Date.now() < deadline && !this.closedFlag) {
+      try {
+        if (!this.peer || this.peer.destroyed || this.peer.disconnected) {
+          this.peer?.destroy();
+          this.peer = await openPeer();
+        }
+        await this.connectToHost(epoch, 4000);
+        this.emit("reconnected");
+        return;
+      } catch {
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+    }
+    throw new Error("timeout");
   }
 
   // ---- both ----------------------------------------------------------------------------------
@@ -280,7 +407,7 @@ export class Session {
     }, HEARTBEAT_MS);
   }
 
-  /** Leaves (tells the others, so they don't wait for the timeout). */
+  /** Leaves (tells the others, so they don't wait for the timeout: clients migrate at once). */
   leave(): void {
     for (const link of this.links.values()) this.sendTo(link, { t: "bye" });
     this.close(null);
