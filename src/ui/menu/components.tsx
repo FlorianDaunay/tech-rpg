@@ -35,18 +35,22 @@ export function Modal({ title, onBack, children, wide = false, footer }: { title
         <span className="corner corner-tr" aria-hidden />
         <span className="corner corner-bl" aria-hidden />
         <span className="corner corner-br" aria-hidden />
-        <header className="flex items-center justify-between gap-3 border-b border-border px-5 py-3 short:py-2">
-          <div className="flex min-w-0 flex-1 items-center gap-3">
-            <span className="title-rule hidden sm:block" aria-hidden />
+        {/* Same room on both sides so the title is centred on the panel, the close button pinned right. */}
+        <header className={`relative flex items-center border-b border-border py-3 short:py-2 ${back ? "px-14 short:px-12" : "px-5"}`}>
+          <div className="flex min-w-0 flex-1 items-center justify-center gap-3">
+            <span className="title-rule" aria-hidden />
             <span className="text-xs text-accent" aria-hidden>✦</span>
             <h2 className="title-display title-glow truncate text-xl short:text-lg">{title}</h2>
             <span className="text-xs text-accent" aria-hidden>✦</span>
             <span className="title-rule flip" aria-hidden />
           </div>
           {back && (
-            <button className="btn-ghost px-3 py-1.5 text-sm short:py-1" onClick={back} aria-label={t("menu.back")}>
-              ✕
-            </button>
+            // Wrapper does the positioning: .btn owns `transform` (hover lift), so no translate on the button.
+            <div className="absolute inset-y-0 right-3 flex items-center">
+              <button className="btn-ghost px-3 py-1.5 text-sm short:py-1" onClick={back} aria-label={t("menu.back")}>
+                ✕
+              </button>
+            </div>
           )}
         </header>
         <div className="min-h-0 flex-1 overflow-y-auto p-5 short:p-3">{children}</div>
