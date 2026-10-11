@@ -26,6 +26,7 @@ import { Lighting } from "../systems/Lighting";
 import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
 import { mapMarkers, minimapLayout } from "../world/minimap";
+import { ArenaWalls } from "../systems/ArenaWalls";
 import type { WorldStart } from "./PreloadScene";
 import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
 import { applyRules } from "@/core/sim/rules";
@@ -80,6 +81,7 @@ export class WorldScene extends Phaser.Scene {
   private disposers: (() => void)[] = [];
   private objectImages: Phaser.GameObjects.Image[] = [];
   private markersAt = 0;
+  private arenaWalls!: ArenaWalls;
   private bossKey = "";
   /** Seconds played in this save (counts only unpaused frames). */
   private playtime = 0;
@@ -123,6 +125,7 @@ export class WorldScene extends Phaser.Scene {
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
     if (data.carry) restorePlayer(me, data.carry);
     populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.zone.respawn);
+    this.arenaWalls = new ArenaWalls(this);
     for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
 
     this.fx = new CombatFx({
@@ -217,8 +220,9 @@ export class WorldScene extends Phaser.Scene {
   }
 
   /** Checkpoint events and the periodic out-of-combat autosave. */
-  private autosave(events: readonly { type: string; id?: string; change?: string; chest?: string }[]): void {
+  private autosave(events: readonly { type: string; id?: string; change?: string; chest?: string; sealed?: boolean }[]): void {
     for (const ev of events) {
+      if (ev.type === "arena" && ev.id) this.arenaWalls.toggle(ev.id, !!ev.sealed);
       // Any party member's chest is empty for everyone (and recorded in every player's progress).
       if (ev.type === "chest" && ev.chest) {
         this.markChestOpened(ev.chest);
@@ -280,6 +284,7 @@ export class WorldScene extends Phaser.Scene {
     this.fx.syncProjectiles(this.sim.projectiles);
     this.fx.syncPickups(this.sim.pickups);
     this.fx.syncCharges();
+    this.arenaWalls.update(this.sim.arenas);
 
     const me = this.sim.actors[LOCAL_ID];
     if (me) audio.setListener(me.x, me.y);

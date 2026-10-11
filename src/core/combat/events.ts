@@ -65,6 +65,8 @@ export type SimEvent =
   | { type: "despawn"; id: string }
   /** A boss entered a new phase (phase index ≥ 1). */
   | { type: "boss-phase"; id: string; phase: number }
+  /** A boss arena's wall rose (fight started) or fell (boss slain, or everyone inside fell). */
+  | { type: "arena"; id: string; sealed: boolean; x: number; y: number; radius: number }
   /** A boss calls adds; the sim spawns them around it. */
   | { type: "summon"; id: string; enemy: string; count: number }
   /** An enemy came back to its spawn point. */

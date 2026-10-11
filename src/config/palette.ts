@@ -56,6 +56,15 @@ export const WORLD_RAMPS = {
 } as const;
 export type WorldRamp = keyof typeof WORLD_RAMPS;
 
+/** Boss arena wall: ember pillars with a hollow glow. */
+export const ARENA_COLORS = {
+  outline: WORLD_RAMPS.flame[0],
+  pillar: WORLD_RAMPS.flame[2],
+  core: WORLD_RAMPS.flame[4],
+  tip: WORLD_RAMPS.flame[4],
+  glow: WORLD_RAMPS.flame[3],
+} as const;
+
 /** Minimap / map screen: terrain by tile family, then markers. */
 export const MINIMAP_COLORS = {
   tiles: {

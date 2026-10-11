@@ -30,6 +30,23 @@ export interface SimState extends CombatWorld {
   spawners: Spawner[];
   /** Chests of the map (interact point = the chest's cell centre). */
   chests: Chest[];
+  /** Boss arenas: a ring that seals while the boss fights. */
+  arenas: Arena[];
+}
+
+/**
+ * A boss arena: a circle around the boss's spawn. While sealed, whoever was inside when the fight
+ * started (and the adds it calls) can't leave, and nobody else can enter. It opens when the boss
+ * falls, or when nobody inside is left standing (the boss then heals back and can be retried).
+ */
+export interface Arena {
+  boss: string;
+  x: number;
+  y: number;
+  radius: number;
+  sealed: boolean;
+  /** Actor ids held inside while sealed. */
+  inside: string[];
 }
 
 export interface Chest {
@@ -59,7 +76,7 @@ export const RESPAWN_CLEARANCE = 180;
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r), spawners: [], chests: [] };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r), spawners: [], chests: [], arenas: [] };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -76,6 +93,7 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
   const a = createActor({ id, team: "enemies", kind: "enemy", type, look: def.look, x, y, stats: def.stats, radius: def.radius });
   scaleEnemy(a, state.mods);
   state.actors[id] = a;
+  if (def.boss) state.arenas.push({ boss: id, x, y, radius: def.boss.arena, sealed: false, inside: [] });
   return a;
 }
 
@@ -141,9 +159,60 @@ function stepSpawners(state: SimState): void {
   }
 }
 
-/** A boss is fighting someone: its arena is sealed. */
-export const arenaLocked = (state: SimState): boolean =>
-  Object.values(state.actors).some((a) => a.kind === "enemy" && a.ai?.target && a.action.kind !== "dead" && !!getEnemy(a.type).boss);
+/** A boss arena is sealed (exits shut). */
+export const arenaLocked = (state: SimState): boolean => state.arenas.some((r) => r.sealed);
+
+const alive = (a: Actor | undefined): a is Actor => !!a && a.action.kind !== "dead";
+
+/**
+ * Seals arenas when their boss engages, opens them when it falls or when nobody inside is left
+ * standing, and keeps everyone on their side of the wall (position clamped, outward speed dropped).
+ */
+function stepArenas(state: SimState): void {
+  for (const r of state.arenas) {
+    const boss = state.actors[r.boss];
+    if (!r.sealed) {
+      if (!alive(boss) || !boss.ai?.target) continue;
+      r.sealed = true;
+      r.inside = Object.values(state.actors)
+        .filter((a) => alive(a) && a.kind !== "npc" && Math.hypot(a.x - r.x, a.y - r.y) < r.radius)
+        .map((a) => a.id);
+      if (!r.inside.includes(r.boss)) r.inside.push(r.boss);
+      state.events.push({ type: "arena", id: r.boss, sealed: true, x: r.x, y: r.y, radius: r.radius });
+    }
+    // Fallen players leave the fight (they respawn at the map entrance, outside).
+    r.inside = r.inside.filter((id) => alive(state.actors[id]) || (id === r.boss && !!state.actors[id]));
+    const playersIn = r.inside.some((id) => state.actors[id]?.kind === "player");
+    if (!alive(boss) || !playersIn) {
+      r.sealed = false;
+      r.inside = [];
+      state.events.push({ type: "arena", id: r.boss, sealed: false, x: r.x, y: r.y, radius: r.radius });
+      continue;
+    }
+    for (const a of Object.values(state.actors)) {
+      if (!alive(a) || a.kind === "npc") continue;
+      const dx = a.x - r.x;
+      const dy = a.y - r.y;
+      const d = Math.hypot(dx, dy) || 0.0001;
+      const nx = dx / d;
+      const ny = dy / d;
+      const out = a.vx * nx + a.vy * ny;
+      if (r.inside.includes(a.id)) {
+        const max = r.radius - a.radius;
+        if (d <= max) continue;
+        Object.assign(a, { x: r.x + nx * max, y: r.y + ny * max });
+        if (out > 0) Object.assign(a, { vx: a.vx - out * nx, vy: a.vy - out * ny });
+      } else {
+        const min = r.radius + a.radius;
+        if (d >= min) continue;
+        Object.assign(a, { x: r.x + nx * min, y: r.y + ny * min });
+        if (out < 0) Object.assign(a, { vx: a.vx - out * nx, vy: a.vy - out * ny });
+      }
+    }
+  }
+  // A boss gone for good leaves no arena behind.
+  state.arenas = state.arenas.filter((r) => r.sealed || !!state.actors[r.boss]);
+}
 
 /** Spawns the adds bosses called this step, in a ring around them, keeping at most `count` of that type alive. */
 function spawnSummons(state: SimState, map: GameMap, rng: Rng): void {
@@ -162,6 +231,7 @@ function spawnSummons(state: SimState, map: GameMap, rng: Rng): void {
       if (isSolidCell(map, Math.floor(x / map.tileSize), Math.floor(y / map.tileSize))) continue;
       const add = spawnEnemy(state, ev.enemy, x, y);
       add.ai!.target = boss.ai?.target ?? null;
+      for (const r of state.arenas) if (r.boss === boss.id && r.sealed) r.inside.push(add.id);
       state.events.push({ type: "spawn", id: add.id });
     }
   }
@@ -236,6 +306,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   }
   spawnSummons(state, map, rng);
   separate(state, map);
+  stepArenas(state);
   resolveMelee(state, rng);
   stepProjectiles(state, map, rng, SIM_DT);
   stepPickups(state, map, SIM_DT);

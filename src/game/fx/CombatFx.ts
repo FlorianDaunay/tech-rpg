@@ -223,6 +223,13 @@ export class CombatFx {
         this.pickups.delete(ev.id);
         break;
       }
+      case "arena": {
+        audio.sfx("door", { x: ev.x, y: ev.y, volume: 0.9 });
+        audio.sfx(ev.sealed ? "ember-burst" : "portal", { x: ev.x, y: ev.y, volume: 0.6 });
+        this.shake(ev.sealed ? 0.006 : 0.003);
+        h.light?.(ev.x, ev.y, ev.radius * 1.2, ev.sealed ? "torch" : "lantern");
+        break;
+      }
       case "boss-phase": {
         const a = h.actor(ev.id);
         if (!a) break;

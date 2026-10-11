@@ -93,21 +93,42 @@ describe("bosses", () => {
     expect(events.some((e) => e.type === "portal")).toBe(true);
   });
 
-  it("forgets a player who leaves the arena, heals back and resets to the first phase", () => {
+  it("the wall keeps the fighter in and everyone else out", () => {
     const map = room();
     const sim = createSim("room", 1);
     const p = spawnPlayer(sim, "p1", "x", 300, 300);
+    const late = spawnPlayer(sim, "p2", "x", 600, 300);
+    const boss = spawnEnemy(sim, "test-boss", 360, 300);
+    boss.ai!.cooldown = 99;
+    const events = run(sim, map, 0.2);
+    expect(events.some((e) => e.type === "arena" && e.sealed)).toBe(true);
+    const walk = (dx: number): Intent => ({ ...emptyIntent(), move: { x: dx, y: 0 } });
+    // p1 runs away from the boss (west), p2 runs at it (west): neither crosses the wall.
+    for (let i = 0; i < 240; i++) stepSim(sim, map, { p1: walk(-1), p2: walk(-1) });
+    expect(Math.hypot(p.x - boss.home.x, p.y - boss.home.y)).toBeLessThanOrEqual(BOSS.arena);
+    expect(Math.hypot(late.x - boss.home.x, late.y - boss.home.y)).toBeGreaterThanOrEqual(BOSS.arena);
+  });
+
+  it("if the fighter falls, the wall opens and the boss heals back to its first phase", () => {
+    const map = room();
+    const sim = createSim("room", 1);
+    const p = spawnPlayer(sim, "p1", "x", 300, 300);
+    p.home = { x: 1000, y: 1000 }; // respawn point outside the arena
     const boss = spawnEnemy(sim, "test-boss", 360, 300);
     run(sim, map, 0.2);
     boss.hp = Math.floor(boss.stats.maxHp * 0.4);
     run(sim, map, 0.1);
     expect(boss.ai!.phase).toBe(1);
-    Object.assign(p, { x: 1000, y: 1000 });
-    run(sim, map, 6);
+    p.hp = 0;
+    p.action = { kind: "dead", t: 0 };
+    const events = run(sim, map, 8);
+    expect(events.some((e) => e.type === "arena" && !e.sealed)).toBe(true);
+    expect(arenaLocked(sim)).toBe(false);
     expect(boss.ai!.target).toBeNull();
     expect(boss.hp).toBe(boss.stats.maxHp);
     expect(boss.ai!.phase).toBe(0);
-    expect(Math.hypot(boss.x - boss.home.x, boss.y - boss.home.y)).toBeLessThan(BOSS.arena);
+    // Respawned at the entrance: not pulled back into the ring, free to come back.
+    expect(Math.hypot(p.x - 1000, p.y - 1000)).toBeLessThan(40);
   });
 
   it("its fall gives every player the story flag", () => {
