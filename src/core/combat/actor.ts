@@ -55,6 +55,10 @@ export interface AiState {
   think: number;
   /** Fractional hp healed while walking home (hp stays an integer). */
   regen: number;
+  /** Bosses: current phase index, the attack it is setting up, seconds until the next summon. */
+  phase: number;
+  move: string | null;
+  summon: number;
 }
 
 /** A status effect running on an actor. */
@@ -167,7 +171,7 @@ export function createActor(init: {
     home: { x: init.x, y: init.y },
     sinceHit: 99,
     buffered: null,
-    ai: init.kind === "player" ? null : { target: null, cooldown: 0.5, strafe: 1, think: 0, regen: 0 },
+    ai: init.kind === "player" ? null : { target: null, cooldown: 0.5, strafe: 1, think: 0, regen: 0, phase: 0, move: null, summon: 0 },
     progress: init.kind === "player" ? emptyProgress() : null,
     level: 1,
     xp: 0,

@@ -3,7 +3,7 @@ import { modOf } from "./modifiers";
 import { normalize, type Vec2 } from "../math/vec";
 import { emptyIntent, type Intent } from "../sim/intent";
 import { isAlive, type Actor } from "./actor";
-import { getEnemy } from "./defs";
+import { getEnemy, type BossDef, type BossPhase } from "./defs";
 import type { CombatWorld } from "./step";
 
 /** Enemies give up and walk home beyond this distance from their spawn. */
@@ -38,6 +38,53 @@ export function thinkNpc(w: CombatWorld, a: Actor, rng: Rng, dt: number, wander:
   return intent;
 }
 
+/** Phase for an hp ratio: the last one whose threshold has been crossed. */
+export function bossPhaseAt(boss: BossDef, hpRatio: number): number {
+  let phase = 0;
+  boss.phases.forEach((p, i) => {
+    if (hpRatio <= p.below) phase = i;
+  });
+  return phase;
+}
+
+/** Enters a phase: brief invulnerable roar, speed change, summons. */
+function enterPhase(w: CombatWorld, a: Actor, phase: number, p: BossPhase): void {
+  const ai = a.ai!;
+  ai.phase = phase;
+  ai.move = null;
+  ai.cooldown = Math.max(ai.cooldown, 1.2);
+  a.iframes = Math.max(a.iframes, 1);
+  a.poise = a.stats.maxPoise;
+  a.stats.speed = a.baseStats.speed * p.speed;
+  if (phase > 0) w.events.push({ type: "boss-phase", id: a.id, phase });
+  if (p.summon) {
+    ai.summon = p.summon.every ?? Infinity;
+    w.events.push({ type: "summon", id: a.id, enemy: p.summon.enemy, count: p.summon.count });
+  }
+}
+
+/** Boss brain on top of the common one: phases, weighted attack choice, periodic summons. */
+function thinkBoss(w: CombatWorld, a: Actor, boss: BossDef, rng: Rng, dt: number, engaged: boolean): BossPhase {
+  const ai = a.ai!;
+  const want = engaged ? bossPhaseAt(boss, a.hp / a.stats.maxHp) : 0;
+  if (want > ai.phase) for (let i = ai.phase + 1; i <= want; i++) enterPhase(w, a, i, boss.phases[i]!);
+  else if (!engaged && a.hp >= a.stats.maxHp && ai.phase !== 0) {
+    // Reset after the party wiped or fled: back to the first phase.
+    ai.phase = 0;
+    a.stats.speed = a.baseStats.speed * boss.phases[0]!.speed;
+  }
+  const phase = boss.phases[ai.phase]!;
+  if (engaged && phase.summon?.every) {
+    ai.summon -= dt;
+    if (ai.summon <= 0) {
+      ai.summon = phase.summon.every;
+      w.events.push({ type: "summon", id: a.id, enemy: phase.summon.enemy, count: phase.summon.count });
+    }
+  }
+  if (!ai.move && phase.attacks.length) ai.move = rng.weighted(phase.attacks.map((x) => [x.move, x.weight] as const));
+  return phase;
+}
+
 /**
  * Enemy brain: turns the world into an Intent, exactly like a player's input. The same action
  * state machine then runs for both, so enemies obey the same rules (windups, stagger, knockback).
@@ -55,13 +102,16 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   }
 
   const homeDist = dist(a, a.home);
+  const leash = def.boss?.arena ?? LEASH;
   let target = ai.target ? w.actors[ai.target] : undefined;
-  if (target && (!isAlive(target) || dist(a, target) > def.aggroRange * 1.6 || homeDist > LEASH)) target = undefined;
-  if (!target && homeDist < LEASH) {
+  // Bosses forget whoever leaves the arena; others give up when pulled too far or the target outruns them.
+  const lost = (t: Actor) => !isAlive(t) || (def.boss ? dist(t, a.home) > leash : dist(a, t) > def.aggroRange * 1.6 || homeDist > LEASH);
+  if (target && lost(target)) target = undefined;
+  if (!target && homeDist < leash) {
     let best = def.aggroRange;
     for (const id of Object.keys(w.actors).sort()) {
       const p = w.actors[id]!;
-      if (p.kind !== "player" || !isAlive(p)) continue;
+      if (p.kind !== "player" || !isAlive(p) || (def.boss && dist(p, a.home) > leash)) continue;
       const d = dist(a, p);
       if (d < best) {
         best = d;
@@ -70,6 +120,7 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
     }
   }
   ai.target = target?.id ?? null;
+  const phase = def.boss ? thinkBoss(w, a, def.boss, rng, dt, !!target) : null;
 
   if (!target) {
     // Walk home and heal up (no cheesing by pulling enemies away and back).
@@ -87,22 +138,27 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   const side = { x: -dir.y * ai.strafe, y: dir.x * ai.strafe };
   intent.aim = dir;
   const canAttack = ai.cooldown <= 0 && a.action.kind === "free";
+  // Bosses close to the range of the attack they chose; others use their single attack's range.
+  const range = phase ? (phase.attacks.find((x) => x.move === ai.move)?.range ?? def.attackRange) : def.attackRange;
+  const cooldown = phase ? phase.attackCooldown : def.attackCooldown;
 
   if (def.ai === "ranged") {
-    if (d > def.attackRange * 0.9) intent.move = dir;
+    if (d > range * 0.9) intent.move = dir;
     else if (d < 70) intent.move = { x: -dir.x, y: -dir.y };
     else intent.move = { x: side.x * 0.6, y: side.y * 0.6 };
-  } else if (d > def.attackRange * 0.85) {
+  } else if (d > range * 0.85) {
     intent.move = dir;
   } else {
     // In range, waiting for the cooldown: circle the target, back off a little if hugging it.
-    const back = d < def.attackRange * 0.5 ? -0.5 : 0;
+    const back = d < range * 0.5 ? -0.5 : 0;
     intent.move = { x: side.x * 0.5 + dir.x * back, y: side.y * 0.5 + dir.y * back };
   }
+  // A boss never steps out of its arena.
+  if (def.boss && dist({ x: a.x + intent.move.x * 8, y: a.y + intent.move.y * 8 }, a.home) > leash) intent.move = normalize({ x: a.home.x - a.x, y: a.home.y - a.y });
 
-  if (canAttack && d <= def.attackRange) {
+  if (canAttack && d <= range) {
     intent.pressed.push("attack");
-    ai.cooldown = (def.attackCooldown * rng.range(0.8, 1.25)) / modOf(w, "enemyAttackRate");
+    ai.cooldown = (cooldown * rng.range(0.8, 1.25)) / modOf(w, "enemyAttackRate");
   }
   return intent;
 }

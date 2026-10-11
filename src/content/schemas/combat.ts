@@ -65,6 +65,27 @@ export const EnemySchema = z
     xp: z.number().int().nonnegative(),
     loot: ref("loot").optional(),
     resist: Resist,
+    boss: z
+      .object({
+        arena: z.number().positive().default(220).describe("Arena radius around its spawn (px): it never leaves it, forgets players outside, exits lock while it fights"),
+        flag: z.string().optional().describe("Story flag every player gets when it falls"),
+        phases: z
+          .array(
+            z.object({
+              below: z.number().min(0).max(1).describe("Starts when hp drops to this fraction (first phase: 1)"),
+              attacks: z.array(z.object({ move: ref("move"), weight: z.number().positive().default(1), range: z.number().positive().describe("Distance it closes to before using it (px)") })).min(1),
+              attackCooldown: seconds.describe("Seconds between attacks"),
+              speed: z.number().positive().default(1).describe("Movement speed multiplier"),
+              summon: z
+                .object({ enemy: ref("enemy"), count: z.number().int().min(1), every: z.number().positive().optional().describe("Seconds between calls (absent = only on entering the phase)") })
+                .optional(),
+            })
+          )
+          .min(1),
+      })
+      .refine((b) => b.phases.every((p, i) => (i === 0 ? p.below === 1 : p.below < b.phases[i - 1]!.below)), "phases: the first starts at 1, then strictly lower thresholds")
+      .optional()
+      .describe("Herald: multi-phase fight"),
   })
   .describe("Enemy");
 

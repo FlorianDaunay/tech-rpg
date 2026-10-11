@@ -9,7 +9,7 @@ import { refreshLoadout } from "../combat/skills";
 import { dropLoot, resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
 import { createRng, type Rng } from "../math/rng";
 import { awardXp } from "../progression/level";
-import type { GameMap } from "../world/map";
+import { isSolidCell, type GameMap } from "../world/map";
 import { emptyIntent, type Intent } from "./intent";
 import type { Modifiers } from "../combat/modifiers";
 import { combineMods, normalizeRules, scaleEnemy, type WorldRules } from "./rules";
@@ -141,9 +141,33 @@ function stepSpawners(state: SimState): void {
   }
 }
 
-/** Living players standing inside a portal rectangle (feet position). */
+/** A boss is fighting someone: its arena is sealed. */
+export const arenaLocked = (state: SimState): boolean =>
+  Object.values(state.actors).some((a) => a.kind === "enemy" && a.ai?.target && a.action.kind !== "dead" && !!getEnemy(a.type).boss);
+
+/** Spawns the adds bosses called this step, in a ring around them, keeping at most `count` of that type alive. */
+function spawnSummons(state: SimState, map: GameMap, rng: Rng): void {
+  for (const ev of [...state.events]) {
+    if (ev.type !== "summon") continue;
+    const boss = state.actors[ev.id];
+    if (!boss) continue;
+    const alive = Object.values(state.actors).filter((a) => a.type === ev.enemy && a.action.kind !== "dead").length;
+    for (let i = 0; i < ev.count - alive; i++) {
+      const ang = rng.range(0, Math.PI * 2);
+      const r = rng.range(40, 70);
+      const x = boss.x + Math.cos(ang) * r;
+      const y = boss.y + Math.sin(ang) * r;
+      if (isSolidCell(map, Math.floor(x / map.tileSize), Math.floor(y / map.tileSize))) continue;
+      const add = spawnEnemy(state, ev.enemy, x, y);
+      add.ai!.target = boss.ai?.target ?? null;
+      state.events.push({ type: "spawn", id: add.id });
+    }
+  }
+}
+
+/** Living players standing inside a portal rectangle (feet position). Sealed while a boss fights. */
 function detectPortals(state: SimState, map: GameMap): void {
-  if (!map.portals.length) return;
+  if (!map.portals.length || arenaLocked(state)) return;
   for (const a of players(state)) {
     if (a.action.kind === "dead") continue;
     const p = map.portals.find((r) => a.x >= r.x && a.x < r.x + r.w && a.y >= r.y && a.y < r.y + r.h);
@@ -208,6 +232,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
 
     stepActor(state, map, rng, a, intent, SIM_DT);
   }
+  spawnSummons(state, map, rng);
   separate(state, map);
   resolveMelee(state, rng);
   stepProjectiles(state, map, rng, SIM_DT);

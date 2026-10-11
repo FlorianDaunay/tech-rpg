@@ -63,6 +63,10 @@ export type SimEvent =
   | { type: "portal"; id: string; portal: string; to: string; arrive: string }
   /** The actor was removed from the sim (corpse faded). */
   | { type: "despawn"; id: string }
+  /** A boss entered a new phase (phase index ≥ 1). */
+  | { type: "boss-phase"; id: string; phase: number }
+  /** A boss calls adds; the sim spawns them around it. */
+  | { type: "summon"; id: string; enemy: string; count: number }
   /** An enemy came back to its spawn point. */
   | { type: "spawn"; id: string }
   | { type: "projectile"; id: string; owner: string; x: number; y: number }

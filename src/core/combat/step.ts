@@ -93,6 +93,8 @@ function startAttack(w: CombatWorld, a: Actor, moveId: string, charge = 0): bool
   a.blockSince = null;
   a.facing = facingOf(dir, a.facing);
   w.events.push({ type: "attack", id: a.id, move: moveId, windup: move.windup });
+  // A boss picks its next attack only once this one is under way.
+  if (a.ai?.move === moveId) a.ai.move = null;
   return true;
 }
 
@@ -112,7 +114,8 @@ const BUFFERED = ["attack", "heavy", "dodge", ...SKILL_SLOTS] as const;
 const useSkill = (w: CombatWorld, a: Actor, pressed: (k: BufferedAction) => boolean) =>
   a.kind === "player" && SKILL_SLOTS.some((s) => pressed(s) && castSkill(w.events, a, s, (m) => startAttack(w, a, m)));
 
-const primaryMove = (a: Actor) => (a.kind === "player" ? kitOf(a).light : getEnemy(a.type).attack);
+/** Players: the weapon's light combo. Enemies: the attack their AI chose (bosses), else their only one. */
+const primaryMove = (a: Actor) => (a.kind === "player" ? kitOf(a).light : (a.ai?.move ?? getEnemy(a.type).attack));
 
 /** Advances one actor's action state machine and moves it. Hits are resolved afterwards for everyone. */
 export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, intent: Intent, dt: number): void {
@@ -400,6 +403,8 @@ function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): v
   const def = target.kind === "enemy" ? getEnemy(target.type) : null;
   w.events.push({ type: "death", id: target.id, killer, xp: Math.round((def?.xp ?? 0) * modOf(w, "xp")) });
   if (def && killer && w.actors[killer]?.kind === "player") w.events.push({ type: "kill-credit", id: killer, enemy: target.type });
+  if (def?.boss?.flag)
+    for (const p of Object.values(w.actors)) if (p.kind === "player" && p.progress && !p.progress.flags.includes(def.boss.flag)) p.progress.flags.push(def.boss.flag);
   if (def?.loot) dropLoot(w, def.loot, target.x, target.y, rng);
 }
 

@@ -10,6 +10,28 @@ import type { Move } from "./moves";
 export const ELEMENTS = ["ember", "frost", "storm", "hollow"] as const;
 export type Element = (typeof ELEMENTS)[number];
 
+/** One stage of a boss fight, active once hp drops to `below` (fraction of max; the first is 1). */
+export interface BossPhase {
+  below: number;
+  /** Weighted attacks; `range` = distance it closes to before starting that move. */
+  attacks: { move: string; weight: number; range: number }[];
+  /** Seconds between attacks in this phase. */
+  attackCooldown: number;
+  /** Movement speed multiplier in this phase. */
+  speed: number;
+  /** Adds called on entering the phase (and every `every` seconds if set), at most `count` alive. */
+  summon?: { enemy: string; count: number; every?: number };
+}
+
+/** A Herald: multi-phase fight in an arena (exits lock while it is engaged). */
+export interface BossDef {
+  /** Arena radius around its spawn: it never leaves it and forgets players outside. */
+  arena: number;
+  phases: BossPhase[];
+  /** Story flag every player gets when it falls. */
+  flag?: string;
+}
+
 export interface EnemyDef {
   id: string;
   look: string;
@@ -26,6 +48,7 @@ export interface EnemyDef {
   loot?: string;
   /** Damage taken multiplier per element (missing = 1). */
   resist: Partial<Record<Element, number>>;
+  boss?: BossDef;
 }
 
 export interface StatusDef {

@@ -77,6 +77,9 @@ export function scaleEnemy(a: Actor, mods: Modifiers): void {
   s.speed *= mods.enemySpeed;
   a.baseStats = s;
   a.stats = { ...s };
+  // A boss keeps its current phase's pace.
+  const phase = def.boss?.phases[a.ai?.phase ?? 0];
+  if (phase) a.stats.speed = s.speed * phase.speed;
   if (a.action.kind !== "dead") a.hp = Math.max(1, Math.round(s.maxHp * ratio));
 }
 
