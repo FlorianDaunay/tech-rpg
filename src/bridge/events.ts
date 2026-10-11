@@ -18,6 +18,26 @@ export interface SkillView {
   ready: boolean;
 }
 
+/** A map drawn as one palette colour per cell (minimap, map screen). Sent once per map entry. */
+export interface MinimapLayout {
+  map: string;
+  zone: string;
+  width: number;
+  height: number;
+  palette: string[];
+  /** Palette index per cell, row-major. */
+  cells: Uint8Array;
+  /** Exits, in cells; `to` = destination map. */
+  portals: { x: number; y: number; w: number; h: number; to: string }[];
+}
+
+/** Something to dot on the map, in cell units. */
+export interface MapMarker {
+  kind: "me" | "ally" | "enemy" | "npc" | "chest";
+  x: number;
+  y: number;
+}
+
 /** What the inventory screen shows: the local player's bag and gear. */
 export interface InventoryView {
   bag: Record<string, number>;
@@ -55,7 +75,10 @@ export interface BridgeEvents {
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
   /** Game → UI: a menu key was pressed in game (Esc/Start, Tab/I/D-pad up). */
-  "game:menu": "pause" | "inventory" | "talents";
+  "game:menu": "pause" | "inventory" | "talents" | "map";
+  /** The current map's layout (on entry) and its markers (~8 Hz). */
+  "game:minimap": MinimapLayout;
+  "game:markers": MapMarker[];
   /** Local player's bag/gear changed (and once when the world starts). */
   "game:inventory": InventoryView;
   /** Entered a map: the HUD shows the zone banner. */

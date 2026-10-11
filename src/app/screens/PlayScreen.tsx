@@ -14,6 +14,8 @@ import { ZoneBanner } from "../hud/ZoneBanner";
 import { Prompt } from "../hud/Prompt";
 import { QuestToasts } from "../hud/QuestToasts";
 import { SaveIndicator } from "../hud/SaveIndicator";
+import { Minimap } from "../hud/Minimap";
+import { MapScreen } from "./MapScreen";
 import { SkillBar } from "../hud/SkillBar";
 import { CodexScreen } from "./CodexScreen";
 import { RulesScreen } from "./RulesScreen";
@@ -82,6 +84,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <ZoneBanner />
       <QuestToasts />
       <Prompt />
+      <Minimap />
       <SaveIndicator />
       {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} mode={mode} />}
@@ -92,6 +95,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       {menu === "codex" && <CodexScreen />}
       {menu === "talents" && <TalentsScreen />}
       {menu === "rules" && <RulesScreen />}
+      {menu === "map" && <MapScreen />}
     </div>
   );
 }

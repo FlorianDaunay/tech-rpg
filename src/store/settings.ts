@@ -41,6 +41,7 @@ interface SettingsValues {
   screenShake: number;
   haptics: boolean;
   showFps: boolean;
+  minimap: boolean;
 }
 
 interface SettingsState extends SettingsValues {
@@ -61,6 +62,7 @@ export const useSettings = create<SettingsState>()(
       screenShake: 1,
       haptics: true,
       showFps: false,
+      minimap: true,
       set: (patch) => set(patch),
       rebind: (action, bindings) => set((s) => ({ keys: { ...s.keys, [action]: bindings } })),
       resetKeys: () => set({ keys: DEFAULT_KEYS }),

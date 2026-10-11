@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { bridge } from "@/bridge/events";
 import { t } from "@/i18n";
+import { useGameStatus } from "@/store/game";
+import { useSettings } from "@/store/settings";
 
 /** Small "Saved" flash under the top-right buttons after each save; a longer warning if storage refused it. */
 export function SaveIndicator() {
@@ -18,9 +20,12 @@ export function SaveIndicator() {
       clearTimeout(timer);
     };
   }, []);
+  const minimapOn = useSettings((s) => s.minimap);
+  const hasMap = useGameStatus((s) => !!s.minimap);
+  const below = minimapOn && hasMap;
   if (!state) return null;
   return (
-    <div key={state.key} className="safe pointer-events-none absolute right-3 top-16 animate-[fadeUp_150ms_ease-out_both]" role="status">
+    <div key={state.key} className={`safe pointer-events-none absolute right-3 animate-[fadeUp_150ms_ease-out_both] ${below ? "top-[11rem] short:top-[10.5rem]" : "top-16"}`} role="status">
       <span className={`surface rounded-pill px-3 py-1 font-pixel text-[9px] ${state.ok ? "text-success" : "text-danger"}`}>
         {state.ok ? `✓ ${t("hud.saved")}` : `⚠ ${t("hud.saveFailed")}`}
       </span>

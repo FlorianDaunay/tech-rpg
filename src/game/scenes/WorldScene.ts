@@ -25,6 +25,7 @@ import { InputRouter } from "../input/InputRouter";
 import { Lighting } from "../systems/Lighting";
 import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
+import { mapMarkers, minimapLayout } from "../world/minimap";
 import type { WorldStart } from "./PreloadScene";
 import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
 import { applyRules } from "@/core/sim/rules";
@@ -36,6 +37,8 @@ const START_MAP = "cinderhold";
 /** Never simulate more than this many steps per frame (tab was in background, slow device). */
 const MAX_STEPS_PER_FRAME = 5;
 const VITALS_INTERVAL = 66;
+/** Minimap markers refresh (ms). */
+const MARKERS_INTERVAL = 120;
 /** Autosave every this many ms of play while out of combat. */
 const AUTOSAVE_MS = 60_000;
 /** Until the inventory exists (M7): what a new initiate carries. */
@@ -76,6 +79,7 @@ export class WorldScene extends Phaser.Scene {
   private promptKey = "";
   private disposers: (() => void)[] = [];
   private objectImages: Phaser.GameObjects.Image[] = [];
+  private markersAt = 0;
   /** Seconds played in this save (counts only unpaused frames). */
   private playtime = 0;
   private lastSave = 0;
@@ -184,6 +188,8 @@ export class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeIn(400, 7, 6, 11);
     bridge.emit("game:world-ready", { mapId: this.map.id });
     bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id });
+    bridge.emit("game:minimap", minimapLayout(this.map, this.zone.id));
+    this.markersAt = 0;
     // Arriving somewhere (new game, map change, loaded save) is a checkpoint.
     this.save();
   }
@@ -285,6 +291,10 @@ export class WorldScene extends Phaser.Scene {
     this.updateInventory(me);
     this.updatePrompt(me);
     this.updateDebug();
+    if (this.time.now >= this.markersAt) {
+      this.markersAt = this.time.now + MARKERS_INTERVAL;
+      bridge.emit("game:markers", mapMarkers(this.sim, this.map.tileSize, LOCAL_ID));
+    }
 
     this.playtime += delta / 1000;
     const calm = this.musicState === "explore";
@@ -374,6 +384,7 @@ export class WorldScene extends Phaser.Scene {
     if (intent.pressed.includes("pause")) bridge.emit("game:menu", "pause");
     else if (intent.pressed.includes("inventory")) bridge.emit("game:menu", "inventory");
     else if (intent.pressed.includes("talents")) bridge.emit("game:menu", "talents");
+    else if (intent.pressed.includes("map")) bridge.emit("game:menu", "map");
     if (this.commands.length) intent.commands = this.commands.splice(0);
     const me = this.sim.actors[LOCAL_ID];
     const device = useInputDevice.getState().device;

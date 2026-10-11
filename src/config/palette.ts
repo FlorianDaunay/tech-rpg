@@ -56,6 +56,37 @@ export const WORLD_RAMPS = {
 } as const;
 export type WorldRamp = keyof typeof WORLD_RAMPS;
 
+/** Minimap / map screen: terrain by tile family, then markers. */
+export const MINIMAP_COLORS = {
+  tiles: {
+    grass: WORLD_RAMPS.grass[2],
+    "tall-grass": WORLD_RAMPS.grass[1],
+    flowers: WORLD_RAMPS.grass[3],
+    "dirt-path": WORLD_RAMPS.dirt[3],
+    water: WORLD_RAMPS.water[1],
+    "water-shore": WORLD_RAMPS.water[2],
+    "cave-floor": WORLD_RAMPS.stone[1],
+    "cave-wall": WORLD_RAMPS.stone[0],
+    "ash-ground": WORLD_RAMPS.ash[2],
+    flagstone: WORLD_RAMPS.stone[3],
+    "stone-ground": WORLD_RAMPS.stone[2],
+    "rift-ground": WORLD_RAMPS.rift[3],
+    void: WORLD_RAMPS.rift[0],
+    wall: WORLD_RAMPS.stone[0],
+    "wood-floor": WORLD_RAMPS.wood[3],
+  },
+  unknown: WORLD_RAMPS.stone[2],
+  /** Cells made solid by objects (trees, houses, rocks). */
+  blocked: WORLD_RAMPS.pine[0],
+  empty: WORLD_RAMPS.shadow[0],
+  me: "#FFF1B8",
+  ally: "#7FB6E0",
+  enemy: "#FF6B5E",
+  npc: "#9EE6A0",
+  chest: "#FFC65C",
+  portal: "#C09BFF",
+} as const;
+
 /** Light colours (ADD-blended radial lights are tinted with these). */
 export const LIGHT_COLORS = {
   lantern: "#FFC46B",

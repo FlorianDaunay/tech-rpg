@@ -180,6 +180,7 @@ function DisplayTab() {
       <Row label={t("settings.screenShake")} hint={t("settings.screenShakeHint")}>
         <Slider label={t("settings.screenShake")} value={s.screenShake} onChange={(v) => s.set({ screenShake: v })} />
       </Row>
+      <Row label={t("settings.minimap")}><Toggle label={t("settings.minimap")} value={s.minimap} onChange={(v) => s.set({ minimap: v })} /></Row>
       <Row label={t("settings.showFps")}><Toggle label={t("settings.showFps")} value={s.showFps} onChange={(v) => s.set({ showFps: v })} /></Row>
     </div>
   );
