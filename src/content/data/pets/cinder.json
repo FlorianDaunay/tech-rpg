@@ -1,0 +1,33 @@
+{
+  "id": "cinder",
+  "name": {
+    "en": "Cinder",
+    "fr": "Escarbille"
+  },
+  "description": {
+    "en": "Cinderhold's dog chose you. He bites what bites you, and he never stays down for long.",
+    "fr": "Le chien de Cendrebourg t’a choisi. Il mord ce qui te mord, et ne reste jamais à terre bien longtemps."
+  },
+  "look": "characters/dog-01-1",
+  "npc": "cinder",
+  "stats": {
+    "maxHp": 60,
+    "power": 6,
+    "defense": 6,
+    "critChance": 0.05,
+    "critMultiplier": 1.5,
+    "maxPoise": 30,
+    "speed": 100
+  },
+  "perLevel": {
+    "maxHp": 6,
+    "power": 0.6,
+    "defense": 0.5
+  },
+  "attack": "bite",
+  "attackRange": 22,
+  "attackCooldown": 1.1,
+  "aggroRange": 130,
+  "radius": 5,
+  "revive": 8
+}

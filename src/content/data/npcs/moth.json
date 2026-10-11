@@ -1,0 +1,18 @@
+{
+  "id": "moth",
+  "name": {
+    "en": "Moth",
+    "fr": "Phalène"
+  },
+  "title": {
+    "en": "The Lantern's cat",
+    "fr": "La chatte de la Lanterne"
+  },
+  "description": {
+    "en": "Sleeps by the Lantern, judges everyone who walks past.",
+    "fr": "Dort près de la Lanterne, juge tous ceux qui passent."
+  },
+  "look": "characters/cat-01-1",
+  "dialogue": "moth",
+  "wander": 20
+}

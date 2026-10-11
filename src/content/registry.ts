@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import { AffixSchema, EnemySchema, GearSetSchema, ItemSchema, LootTableSchema, MoveSchema, ReactionSchema, ShieldSchema, SkillSchema, StatusSchema, SwordSchema, TalentSchema } from "./schemas/combat";
+import { AffixSchema, EnemySchema, GearSetSchema, ItemSchema, PetSchema, LootTableSchema, MoveSchema, ReactionSchema, ShieldSchema, SkillSchema, StatusSchema, SwordSchema, TalentSchema } from "./schemas/combat";
 import { LoreSchema } from "./schemas/lore";
 import { MapSchema } from "./schemas/map";
 import { DialogueSchema, NpcSchema, QuestSchema } from "./schemas/narrative";
@@ -33,6 +33,7 @@ const sources = {
   set: { schema: GearSetSchema, folder: "sets", files: import.meta.glob("./data/sets/*.json", { eager: true, import: "default" }) },
   difficulty: { schema: DifficultySchema, folder: "difficulties", files: import.meta.glob("./data/difficulties/*.json", { eager: true, import: "default" }) },
   omen: { schema: OmenSchema, folder: "omens", files: import.meta.glob("./data/omens/*.json", { eager: true, import: "default" }) },
+  pet: { schema: PetSchema, folder: "pets", files: import.meta.glob("./data/pets/*.json", { eager: true, import: "default" }) },
   rift: { schema: RiftSchema, folder: "rifts", files: import.meta.glob("./data/rifts/*.json", { eager: true, import: "default" }) },
   progression: { schema: ProgressionSchema, folder: "progression", files: import.meta.glob("./data/progression/*.json", { eager: true, import: "default" }) },
 } as const;
@@ -108,6 +109,7 @@ export const content = {
   difficulties: collection("difficulty"),
   omens: collection("omen"),
   rifts: collection("rift"),
+  pets: collection("pet"),
 };
 
 /** Ids of every entry of a type (reference checks). */

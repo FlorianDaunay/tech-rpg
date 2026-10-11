@@ -111,8 +111,8 @@ export function awardXp(events: SimEvent[], actors: Record<string, Actor>): void
   for (const ev of [...events]) {
     if (ev.type === "death" && ev.xp > 0 && ev.killer && actors[ev.killer]?.kind === "player") {
       for (const p of players) grantXp(events, p, ev.xp);
-      // Mastery is personal: only the killer's sword learns from the kill.
-      grantMastery(events, actors[ev.killer]!, ev.xp);
+      // Mastery is personal: only the killer's own sword learns (not a pet's kill).
+      if (!ev.via) grantMastery(events, actors[ev.killer]!, ev.xp);
     } else if (ev.type === "quest" && ev.change === "done") {
       const xp = findQuest(ev.quest)?.rewards.xp ?? 0;
       const p = actors[ev.id];

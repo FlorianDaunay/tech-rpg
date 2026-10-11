@@ -26,6 +26,7 @@ export const EffectSchema = z
     z.object({ clearFlag: z.string() }).strict(),
     z.object({ give: ItemRef, count: z.number().int().min(1) }).strict(),
     z.object({ take: ItemRef, count: z.number().int().min(1) }).strict(),
+    z.object({ adoptPet: ref("pet") }).strict().describe("Becomes the player's companion (replaces the current one)"),
   ])
   .describe("Effect");
 

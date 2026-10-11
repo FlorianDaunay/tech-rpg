@@ -40,7 +40,12 @@ export type SimEvent =
   | { type: "guard-break"; id: string }
   | { type: "stagger"; id: string }
   | { type: "dodge"; id: string }
-  | { type: "death"; id: string; killer: string | null; xp: number }
+  /** `killer` is credited (a pet's kill goes to its owner, `via` = the pet). */
+  | { type: "death"; id: string; killer: string | null; xp: number; via?: string }
+  /** A player took a companion (dialogue). */
+  | { type: "pet-adopted"; id: string; pet: string }
+  /** A downed pet got back up at its owner's side. */
+  | { type: "pet-revive"; id: string }
   | { type: "respawn"; id: string }
   /** A player earned XP (kills are shared by the party, quests go to whoever turned in). */
   | { type: "xp"; id: string; amount: number }

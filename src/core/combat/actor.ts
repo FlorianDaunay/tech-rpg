@@ -77,7 +77,7 @@ export interface StatusInstance {
 export interface Actor extends Body {
   id: string;
   team: Team;
-  kind: "player" | "enemy" | "npc";
+  kind: "player" | "enemy" | "npc" | "pet";
   /** Enemy definition id (enemies) or class id (players). */
   type: string;
   /** Character sheet asset key. */
@@ -124,6 +124,10 @@ export interface Actor extends Body {
   talents: Record<string, number>;
   /** Total weapon-mastery XP by sword family (players, see core/progression/mastery). */
   mastery: Record<string, number>;
+  /** Players: the adopted companion's id (content `pet`). */
+  pet: string | null;
+  /** Pets: the player they follow. */
+  owner: string | null;
 }
 
 /** Actions remembered while busy (input buffering). */
@@ -179,6 +183,8 @@ export function createActor(init: {
     ultCharge: 0,
     talents: {},
     mastery: {},
+    pet: null,
+    owner: null,
   };
 }
 

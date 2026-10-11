@@ -3,7 +3,7 @@ import { modOf } from "./modifiers";
 import { normalize, type Vec2 } from "../math/vec";
 import { emptyIntent, type Intent } from "../sim/intent";
 import { isAlive, type Actor } from "./actor";
-import { getEnemy, type BossDef, type BossPhase } from "./defs";
+import { getEnemy, type BossDef, type BossPhase, type PetDef } from "./defs";
 import type { CombatWorld } from "./step";
 
 /** Enemies give up and walk home beyond this distance from their spawn. */
@@ -162,3 +162,54 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   }
   return intent;
 }
+
+/** Beyond this distance from its owner a pet stops fighting and runs back (and teleports if very far). */
+const PET_LEASH = 170;
+export const PET_TELEPORT = 320;
+
+/**
+ * Pet brain: stay at heel, bite whatever is near the owner, come back when it strays. Like enemies,
+ * it only produces an Intent; the shared action rules do the rest.
+ */
+export function thinkPet(w: CombatWorld, a: Actor, def: PetDef, rng: Rng, dt: number): Intent {
+  const intent = emptyIntent();
+  const ai = a.ai;
+  const owner = a.owner ? w.actors[a.owner] : undefined;
+  if (!ai || !isAlive(a) || !owner) return intent;
+  ai.cooldown -= dt;
+  const fromOwner = dist(a, owner);
+  let target = ai.target ? w.actors[ai.target] : undefined;
+  if (target && (!isAlive(target) || dist(target, owner) > def.aggroRange * 1.4 || fromOwner > PET_LEASH)) target = undefined;
+  if (!target && fromOwner < PET_LEASH) {
+    let best = def.aggroRange;
+    for (const id of Object.keys(w.actors).sort()) {
+      const e = w.actors[id]!;
+      if (e.kind !== "enemy" || !isAlive(e)) continue;
+      const d = dist(e, owner);
+      if (d < best) {
+        best = d;
+        target = e;
+      }
+    }
+  }
+  ai.target = target?.id ?? null;
+  if (!target) {
+    // Heel: trot to a spot just behind the owner, idle when there.
+    if (fromOwner > 34) intent.move = normalize({ x: owner.x - a.x, y: owner.y - a.y });
+    else if (fromOwner > 22) intent.move = scaleTo(normalize({ x: owner.x - a.x, y: owner.y - a.y }), 0.5);
+    return intent;
+  }
+  const to = { x: target.x - a.x, y: target.y - a.y };
+  const d = Math.hypot(to.x, to.y);
+  const dir = normalize(to);
+  intent.aim = dir;
+  if (d > def.attackRange * 0.85) intent.move = dir;
+  else if (d < def.attackRange * 0.4) intent.move = { x: -dir.x * 0.5, y: -dir.y * 0.5 };
+  if (ai.cooldown <= 0 && a.action.kind === "free" && d <= def.attackRange) {
+    intent.pressed.push("attack");
+    ai.cooldown = def.attackCooldown * rng.range(0.85, 1.2);
+  }
+  return intent;
+}
+
+const scaleTo = (v: Vec2, k: number) => ({ x: v.x * k, y: v.y * k });

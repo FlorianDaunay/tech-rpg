@@ -35,7 +35,8 @@ export type Effect =
   | { setFlag: string }
   | { clearFlag: string }
   | { give: string; count: number }
-  | { take: string; count: number };
+  | { take: string; count: number }
+  | { adoptPet: string };
 
 export interface DialogueChoice {
   if: Condition[];

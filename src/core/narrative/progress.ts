@@ -22,6 +22,8 @@ export interface StoryActor {
   id: string;
   bag: Record<string, number>;
   progress: Progress;
+  /** Adopted companion (players). */
+  pet?: string | null;
 }
 
 export const emptyProgress = (): Progress => ({ flags: [], quests: {}, kills: {}, met: [], visited: [], cleared: [] });
@@ -117,6 +119,10 @@ export function applyEffect(events: SimEvent[], a: StoryActor, e: Effect): void 
   } else if ("clearFlag" in e) a.progress.flags = a.progress.flags.filter((f) => f !== e.clearFlag);
   else if ("give" in e) addItem(a, e.give, e.count);
   else if ("take" in e && owned(a, e.take) >= e.count) removeItem(a, e.take, e.count);
+  else if ("adoptPet" in e) {
+    a.pet = e.adoptPet;
+    events.push({ type: "pet-adopted", id: a.id, pet: e.adoptPet });
+  }
 }
 
 /**

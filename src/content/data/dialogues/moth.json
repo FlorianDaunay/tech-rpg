@@ -1,0 +1,54 @@
+{
+  "id": "moth",
+  "start": "mrrp",
+  "nodes": {
+    "mrrp": {
+      "speaker": "npc",
+      "text": {
+        "en": "Mrrp.",
+        "fr": "Mrrp."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Scratch behind her ears.",
+            "fr": "Lui gratter derrière les oreilles."
+          },
+          "next": "purr"
+        },
+        {
+          "text": {
+            "en": "Fancy a walk in the dark?",
+            "fr": "Une promenade dans le noir, ça te dit ?"
+          },
+          "do": [
+            {
+              "adoptPet": "moth"
+            }
+          ],
+          "next": "adopted"
+        },
+        {
+          "text": {
+            "en": "Leave her be.",
+            "fr": "La laisser tranquille."
+          }
+        }
+      ]
+    },
+    "purr": {
+      "speaker": "npc",
+      "text": {
+        "en": "She allows it. Barely.",
+        "fr": "Elle tolère. À peine."
+      }
+    },
+    "adopted": {
+      "speaker": "npc",
+      "text": {
+        "en": "Moth stretches, yawns, and trots after you as if it had been her idea all along.",
+        "fr": "Phalène s’étire, bâille, et trotte derrière toi comme si c’était son idée depuis le début."
+      }
+    }
+  }
+}

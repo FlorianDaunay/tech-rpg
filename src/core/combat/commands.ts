@@ -25,7 +25,12 @@ const give = (a: Actor, item: string) => (a.bag[item] = (a.bag[item] ?? 0) + 1);
 export function applyCommand(events: SimEvent[], a: Actor, cmd: Command, healing = 1): void {
   if (!isAlive(a)) return;
   if (cmd.type === "dialogue") {
-    if (a.progress) chooseDialogue(events, { id: a.id, bag: a.bag, progress: a.progress }, cmd.dialogue, cmd.node, cmd.choice);
+    if (a.progress) {
+      const progress = a.progress;
+      // The actor's own fields, so effects can also adopt a pet.
+      const story = { id: a.id, bag: a.bag, progress, get pet() { return a.pet; }, set pet(v: string | null | undefined) { a.pet = v ?? null; } };
+      chooseDialogue(events, story, cmd.dialogue, cmd.node, cmd.choice);
+    }
     return;
   }
   if (cmd.type === "talent") return void learnTalent(events, a, cmd.talent);

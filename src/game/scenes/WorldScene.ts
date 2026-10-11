@@ -238,7 +238,7 @@ export class WorldScene extends Phaser.Scene {
         this.saveSoon = true;
       }
       if (ev.id !== LOCAL_ID) continue;
-      if ( ev.type === "level-up" || ev.type === "mastery-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
+      if (ev.type === "pet-adopted" || ev.type === "level-up" || ev.type === "mastery-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
     }
   }
 
@@ -428,7 +428,7 @@ export class WorldScene extends Phaser.Scene {
     for (const a of Object.values(this.sim.actors)) {
       if (this.views.has(a.id)) continue;
       const big = a.look.startsWith("bosses/");
-      this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, a.kind === "enemy" && !big, big));
+      this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, (a.kind === "enemy" || a.kind === "pet") && !big, big));
       this.prev.set(a.id, { x: a.x, y: a.y });
     }
     for (const [id, view] of this.views) {

@@ -200,6 +200,25 @@ export interface GearSetDef {
   bonuses: { pieces: number; stats: Partial<Record<AffixStat, number>> }[];
 }
 
+/** A companion: follows its owner, fights what threatens them, never lost for good. */
+export interface PetDef {
+  id: string;
+  look: string;
+  /** The hub NPC it is while nobody has adopted it (hidden once adopted). */
+  npc?: string;
+  /** At owner level 1; `perLevel` added per owner level above 1. */
+  stats: CombatStats;
+  perLevel: Partial<Record<"maxHp" | "power" | "defense", number>>;
+  attack: string;
+  attackRange: number;
+  attackCooldown: number;
+  /** Enemies within this distance of the owner are fair game. */
+  aggroRange: number;
+  radius: number;
+  /** Seconds before a downed pet gets back up at its owner's side. */
+  revive: number;
+}
+
 export interface CombatData {
   moves: Record<string, Move>;
   enemies: Record<string, EnemyDef>;
@@ -212,6 +231,7 @@ export interface CombatData {
   skills: Record<string, SkillDef>;
   talents: Record<string, TalentDef>;
   affixes: Record<string, AffixDef>;
+  pets: Record<string, PetDef>;
   sets: Record<string, GearSetDef>;
   /** Affixes a dropped sword/shield rolls, by its rarity (missing = none). */
   affixCount: Record<string, number>;
@@ -252,6 +272,8 @@ const weaponGetter = getter("weapons", "weapon");
 const shieldGetter = getter("shields", "shield");
 export const getWeapon = (key: string): WeaponDef => weaponGetter(baseOf(key));
 export const getShield = (key: string): ShieldDef => shieldGetter(baseOf(key));
+export const findPet = (id: string): PetDef | undefined => db().pets?.[id];
+export const allPets = (): PetDef[] => Object.values(db().pets ?? {});
 export const findAffix = (id: string): AffixDef | undefined => db().affixes?.[id];
 export const allAffixes = (): AffixDef[] => Object.values(db().affixes ?? {});
 export const allSets = (): GearSetDef[] => Object.values(db().sets ?? {});

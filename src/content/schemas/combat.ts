@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AFFIX_STATS, TALENT_STATS, TALENT_TREES, type AffixDef, type GearSetDef, type EnemyDef, type ItemDef, type LootTableDef, type ReactionDef, type ShieldDef, type SkillDef, type StatusDef, type TalentDef, type WeaponDef } from "@/core/combat/defs";
+import { AFFIX_STATS, TALENT_STATS, TALENT_TREES, type AffixDef, type GearSetDef, type PetDef, type EnemyDef, type ItemDef, type LootTableDef, type ReactionDef, type ShieldDef, type SkillDef, type StatusDef, type TalentDef, type WeaponDef } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny, SwordFamilySchema } from "./common";
 
@@ -239,6 +239,25 @@ export const GearSetSchema = z
   .refine((s) => s.bonuses.every((b) => b.pieces <= s.pieces.length), "a bonus needs more pieces than the set has")
   .describe("Gear set");
 
+export const PetSchema = z
+  .object({
+    id: Id,
+    name: LocalizedText,
+    description: LocalizedText,
+    look: AssetKey.describe("Character sheet (3×4 Pipoya layout)"),
+    npc: ref("npc").optional().describe("Hub NPC it is until adopted (hidden while it follows someone)"),
+    stats: Stats.describe("At owner level 1"),
+    perLevel: z.object({ maxHp: z.number().nonnegative().optional(), power: z.number().nonnegative().optional(), defense: z.number().nonnegative().optional() }).default({}).describe("Added per owner level above 1"),
+    attack: ref("move"),
+    attackRange: z.number().positive(),
+    attackCooldown: seconds,
+    aggroRange: z.number().positive().default(130).describe("Fights enemies this close to its owner (px)"),
+    radius: z.number().positive().default(5),
+    revive: z.number().positive().default(8).describe("Seconds before a downed pet gets back up at its owner's side"),
+  })
+  .describe("Pet");
+
+export type PetContent = z.infer<typeof PetSchema>;
 export type AffixContent = z.infer<typeof AffixSchema>;
 export type GearSetContent = z.infer<typeof GearSetSchema>;
 export type MoveContent = z.infer<typeof MoveSchema>;
@@ -268,4 +287,5 @@ export type _Contracts = [
   Assert<Fits<TalentContent, TalentDef>>,
   Assert<Fits<AffixContent, AffixDef>>,
   Assert<Fits<GearSetContent, GearSetDef>>,
+  Assert<Fits<PetContent, PetDef>>,
 ];

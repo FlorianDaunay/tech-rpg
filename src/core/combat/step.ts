@@ -5,8 +5,8 @@ import { moveAndCollide, steer, type MoveTuning } from "../sim/movement";
 import { isSolidCell, type GameMap } from "../world/map";
 import { isAlive, type Actor, type BufferedAction, type CombatStats, type Team } from "./actor";
 import { hitboxTouches, rollDamage } from "./damage";
-import { findReaction, getEnemy, getLootTable, getMove, SKILL_SLOTS, type Element } from "./defs";
-import { blockOf, hitTraits, kitOf } from "./equipment";
+import { findReaction, getEnemy, getLootTable, getMove, SKILL_SLOTS, type Element, findPet } from "./defs";
+import { blockOf, hitTraits, kitOf, UNARMED } from "./equipment";
 import type { SimEvent } from "./events";
 import { rollLoot } from "./loot";
 import { modOf, type Modifiers } from "./modifiers";
@@ -114,8 +114,8 @@ const BUFFERED = ["attack", "heavy", "dodge", ...SKILL_SLOTS] as const;
 const useSkill = (w: CombatWorld, a: Actor, pressed: (k: BufferedAction) => boolean) =>
   a.kind === "player" && SKILL_SLOTS.some((s) => pressed(s) && castSkill(w.events, a, s, (m) => startAttack(w, a, m)));
 
-/** Players: the weapon's light combo. Enemies: the attack their AI chose (bosses), else their only one. */
-const primaryMove = (a: Actor) => (a.kind === "player" ? kitOf(a).light : (a.ai?.move ?? getEnemy(a.type).attack));
+/** Players: the weapon's light combo. Pets: their bite. Enemies: the attack their AI chose (bosses), else their only one. */
+const primaryMove = (a: Actor) => (a.kind === "player" ? kitOf(a).light : a.kind === "pet" ? (findPet(a.type)?.attack ?? UNARMED.light) : (a.ai?.move ?? getEnemy(a.type).attack));
 
 /** Advances one actor's action state machine and moves it. Hits are resolved afterwards for everyone. */
 export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, intent: Intent, dt: number): void {
@@ -394,6 +394,10 @@ function elementalEffects(w: CombatWorld, rng: Rng, src: HitSource, target: Acto
 }
 
 function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): void {
+  // A pet's kill counts for its owner (XP, quests), not for the owner's sword.
+  const pet = killer ? w.actors[killer] : undefined;
+  const via = pet?.kind === "pet" && pet.owner ? pet.id : undefined;
+  if (via) killer = pet!.owner;
   // A hit and its reaction burst can both be lethal: die (and drop loot) once.
   if (target.action.kind === "dead") return;
   target.hp = 0;
@@ -401,7 +405,7 @@ function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): v
   target.blockSince = null;
   target.statuses = [];
   const def = target.kind === "enemy" ? getEnemy(target.type) : null;
-  w.events.push({ type: "death", id: target.id, killer, xp: Math.round((def?.xp ?? 0) * modOf(w, "xp")) });
+  w.events.push({ type: "death", id: target.id, killer, xp: Math.round((def?.xp ?? 0) * modOf(w, "xp")), ...(via ? { via } : {}) });
   if (def && killer && w.actors[killer]?.kind === "player") w.events.push({ type: "kill-credit", id: killer, enemy: target.type });
   if (def?.boss?.flag)
     for (const p of Object.values(w.actors)) if (p.kind === "player" && p.progress && !p.progress.flags.includes(def.boss.flag)) p.progress.flags.push(def.boss.flag);
@@ -503,6 +507,14 @@ export function stepLifecycle(w: CombatWorld): void {
     if (a.kind === "enemy" && a.action.t >= CORPSE_TIME) {
       delete w.actors[id];
       w.events.push({ type: "despawn", id });
+    } else if (a.kind === "pet") {
+      const owner = a.owner ? w.actors[a.owner] : undefined;
+      const def = findPet(a.type);
+      if (!owner || owner.action.kind === "dead" || !def || a.action.t < def.revive) continue;
+      Object.assign(a, { x: owner.x + 10, y: owner.y + 6, vx: 0, vy: 0, hp: Math.ceil(a.stats.maxHp / 2), poise: a.stats.maxPoise });
+      a.action = { kind: "free" };
+      a.iframes = RESPAWN_IFRAMES;
+      w.events.push({ type: "pet-revive", id });
     } else if (a.kind === "player" && a.action.t >= PLAYER_RESPAWN_TIME) {
       Object.assign(a, { x: a.home.x, y: a.home.y, vx: 0, vy: 0, hp: a.stats.maxHp, stamina: STAMINA.max, poise: a.stats.maxPoise });
       a.action = { kind: "free" };

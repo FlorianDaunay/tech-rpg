@@ -1,0 +1,33 @@
+{
+  "id": "moth",
+  "name": {
+    "en": "Moth",
+    "fr": "Phalène"
+  },
+  "description": {
+    "en": "A white cat who sleeps by the Lantern and spits sparks at the dark. Fragile, quick, and very sure of herself.",
+    "fr": "Une chatte blanche qui dort près de la Lanterne et crache des étincelles sur l’ombre. Fragile, vive, et très sûre d’elle."
+  },
+  "look": "characters/cat-01-1",
+  "npc": "moth",
+  "stats": {
+    "maxHp": 40,
+    "power": 5,
+    "defense": 3,
+    "critChance": 0.1,
+    "critMultiplier": 1.6,
+    "maxPoise": 20,
+    "speed": 110
+  },
+  "perLevel": {
+    "maxHp": 4,
+    "power": 0.6,
+    "defense": 0.3
+  },
+  "attack": "moth-spark",
+  "attackRange": 120,
+  "attackCooldown": 1.6,
+  "aggroRange": 150,
+  "radius": 4,
+  "revive": 10
+}

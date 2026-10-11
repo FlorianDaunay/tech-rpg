@@ -23,6 +23,18 @@
         },
         {
           "text": {
+            "en": "Want to come with me, boy?",
+            "fr": "Tu veux venir avec moi, mon grand ?"
+          },
+          "do": [
+            {
+              "adoptPet": "cinder"
+            }
+          ],
+          "next": "adopted"
+        },
+        {
+          "text": {
             "en": "Good dog.",
             "fr": "Bon chien."
           }
@@ -34,6 +46,13 @@
       "text": {
         "en": "Cinder wags so hard his whole back half wags too.",
         "fr": "Escarbille remue la queue si fort que tout son arrière-train remue aussi."
+      }
+    },
+    "adopted": {
+      "speaker": "npc",
+      "text": {
+        "en": "Cinder barks once, spins twice, and plants himself at your heel. That settles it.",
+        "fr": "Escarbille aboie une fois, tourne deux fois sur lui-même et se plante à tes pieds. C’est décidé."
       }
     }
   }

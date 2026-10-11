@@ -18,6 +18,7 @@ export function combatData(): CombatData {
     skills: byId(content.skills.all()),
     talents: byId(content.talents.all()),
     affixes: byId(content.affixes.all()),
+    pets: byId(content.pets.all()),
     sets: byId(content.sets.all()),
     affixCount: playerProgression().affixesByRarity,
   };

@@ -62,7 +62,7 @@ export function mapMarkers(sim: SimState, ts: number, localId: string): MapMarke
   for (const c of sim.chests) if (!c.opened) out.push({ kind: "chest", x: c.x / ts, y: c.y / ts });
   for (const a of Object.values(sim.actors)) {
     if (!ALIVE(a)) continue;
-    const kind = a.id === localId ? "me" : a.kind === "player" ? "ally" : a.kind === "enemy" ? "enemy" : "npc";
+    const kind = a.id === localId ? "me" : a.kind === "player" || a.kind === "pet" ? "ally" : a.kind === "enemy" ? "enemy" : "npc";
     out.push({ kind, x: a.x / ts, y: a.y / ts });
   }
   // The local player last, drawn on top.

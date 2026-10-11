@@ -1,9 +1,9 @@
 import { createActor, PLAYER_STATS, type Actor } from "../combat/actor";
-import { thinkEnemy, thinkNpc } from "../combat/ai";
+import { PET_TELEPORT, thinkEnemy, thinkNpc, thinkPet } from "../combat/ai";
 import { findNpc } from "../narrative/defs";
 import { trackProgress } from "../narrative/progress";
 import { applyCommand } from "../combat/commands";
-import { getEnemy } from "../combat/defs";
+import { findPet, getEnemy, type PetDef } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { refreshLoadout } from "../combat/skills";
 import { dropLoot, resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
@@ -107,10 +107,12 @@ export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<
   // Chests opened and guardians slain inside a Rift run only matter during that run.
   if (!map.id.startsWith(RIFT_PREFIX))
     for (const p of players(state)) if (p.progress) p.progress.cleared = p.progress.cleared.filter((k) => !k.startsWith(RIFT_PREFIX));
+  // A companion someone adopted walks with them, not around the hub.
+  const adoptedNpcs = new Set(players(state).flatMap((p) => (p.pet ? [findPet(p.pet)?.npc ?? ""] : [])));
   for (const o of map.objects)
     if (o.chest) state.chests.push({ key: o.chest.key, loot: o.chest.loot, x: o.x, y: o.y - map.tileSize / 2, opened: cleared.has(o.chest.key) });
   for (const s of map.spawns) {
-    if (s.kind === "npc" && s.ref) spawnNpc(state, s.ref, s.x, s.y);
+    if (s.kind === "npc" && s.ref && !adoptedNpcs.has(s.ref)) spawnNpc(state, s.ref, s.x, s.y);
     if (s.kind !== "enemy" || !s.ref) continue;
     const key = `${map.id}:${s.id}`;
     if (s.respawn === "never" && cleared.has(key)) continue;
@@ -203,7 +205,8 @@ function stepArenas(state: SimState): void {
       const nx = dx / d;
       const ny = dy / d;
       const out = a.vx * nx + a.vy * ny;
-      if (r.inside.includes(a.id)) {
+      const side = a.kind === "pet" && a.owner ? a.owner : a.id;
+      if (r.inside.includes(side)) {
         const max = r.radius - a.radius;
         if (d <= max) continue;
         Object.assign(a, { x: r.x + nx * max, y: r.y + ny * max });
@@ -239,6 +242,53 @@ function spawnSummons(state: SimState, map: GameMap, rng: Rng): void {
       add.ai!.target = boss.ai?.target ?? null;
       for (const r of state.arenas) if (r.boss === boss.id && r.sealed) r.inside.push(add.id);
       state.events.push({ type: "spawn", id: add.id });
+    }
+  }
+}
+
+/** A pet's stats at its owner's level. */
+function petStats(def: PetDef, level: number) {
+  const s = { ...def.stats };
+  for (const [k, v] of Object.entries(def.perLevel) as [keyof PetDef["perLevel"], number][]) s[k] += v * (level - 1);
+  return s;
+}
+
+/**
+ * Keeps each player's companion in the world: spawned beside its owner (on every map, after any
+ * change of pet), levelled with its owner, brought back to heel when left far behind.
+ */
+export function syncPets(state: SimState): void {
+  // The hub NPC of an adopted pet leaves at once (it walks with its owner now).
+  const adopted = new Set(players(state).flatMap((p) => (p.pet ? [findPet(p.pet)?.npc ?? ""] : [])));
+  for (const a of Object.values(state.actors))
+    if (a.kind === "npc" && adopted.has(a.type)) {
+      delete state.actors[a.id];
+      state.events.push({ type: "despawn", id: a.id });
+    }
+  for (const p of players(state)) {
+    const def = p.pet ? findPet(p.pet) : undefined;
+    const current = Object.values(state.actors).find((a) => a.kind === "pet" && a.owner === p.id);
+    if (current && current.type !== def?.id) delete state.actors[current.id];
+    if (!def) continue;
+    let pet = current && current.type === def.id ? current : undefined;
+    if (!pet) {
+      pet = createActor({ id: `pet-${p.id}`, team: "players", kind: "pet", type: def.id, look: def.look, x: p.x + 10, y: p.y + 6, stats: petStats(def, p.level), radius: def.radius });
+      pet.owner = p.id;
+      pet.level = p.level;
+      state.actors[pet.id] = pet;
+      state.events.push({ type: "spawn", id: pet.id });
+    }
+    if (pet.level !== p.level) {
+      const ratio = pet.hp / pet.stats.maxHp;
+      pet.level = p.level;
+      pet.baseStats = petStats(def, p.level);
+      pet.stats = { ...pet.baseStats };
+      if (pet.action.kind !== "dead") pet.hp = Math.max(1, Math.round(pet.stats.maxHp * ratio));
+    }
+    if (pet.action.kind !== "dead" && p.action.kind !== "dead" && Math.hypot(pet.x - p.x, pet.y - p.y) > PET_TELEPORT) {
+      Object.assign(pet, { x: p.x + 10, y: p.y + 6, vx: 0, vy: 0 });
+      pet.ai!.target = null;
+      state.events.push({ type: "spawn", id: pet.id });
     }
   }
 }
@@ -292,11 +342,18 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   state.tick++;
   state.time += SIM_DT;
   state.events = [];
+  syncPets(state);
   const rng = createRng(state.rngState);
   for (const id of Object.keys(state.actors).sort()) {
     const a = state.actors[id]!;
     const intent =
-      a.kind === "player" ? (intents[id] ?? emptyIntent()) : a.kind === "npc" ? thinkNpc(state, a, rng, SIM_DT, findNpc(a.type)?.wander ?? 0) : thinkEnemy(state, a, rng, SIM_DT);
+      a.kind === "player"
+        ? (intents[id] ?? emptyIntent())
+        : a.kind === "npc"
+          ? thinkNpc(state, a, rng, SIM_DT, findNpc(a.type)?.wander ?? 0)
+          : a.kind === "pet"
+            ? thinkPet(state, a, findPet(a.type)!, rng, SIM_DT)
+            : thinkEnemy(state, a, rng, SIM_DT);
     for (const cmd of intent.commands ?? []) applyCommand(state.events, a, cmd, a.kind === "player" ? state.mods.healing : 1);
     if (a.kind === "player" && intent.pressed.includes("interact") && a.action.kind === "free") {
       const npc = talkTarget(state, a);

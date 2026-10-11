@@ -1,5 +1,5 @@
 import type { Actor } from "../combat/actor";
-import { findItem, findSkill, findTalent, isShield, isWeapon, SKILL_SLOTS } from "../combat/defs";
+import { findItem, findPet, findSkill, findTalent, isShield, isWeapon, SKILL_SLOTS } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { normalizeGear } from "../combat/gear";
 import { refreshLoadout } from "../combat/skills";
@@ -28,6 +28,8 @@ export interface PlayerState {
   talents: Record<string, number>;
   /** Weapon-mastery XP by sword family. */
   mastery: Record<string, number>;
+  /** Adopted companion. */
+  pet: string | null;
 }
 
 export interface SaveData {
@@ -62,6 +64,7 @@ export function capturePlayer(a: Actor): PlayerState {
     cooldowns: { ...a.cooldowns },
     talents: { ...a.talents },
     mastery: { ...a.mastery },
+    pet: a.pet,
   };
 }
 
@@ -69,6 +72,7 @@ export function capturePlayer(a: Actor): PlayerState {
 export function restorePlayer(a: Actor, s: PlayerState): void {
   a.talents = { ...s.talents };
   a.mastery = { ...s.mastery };
+  a.pet = s.pet;
   equip(a, s.weapon, s.shield);
   setLevel(a, s.level, s.xp);
   a.hp = Math.max(1, Math.min(a.stats.maxHp, s.hp));
@@ -193,6 +197,10 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
       talents: Object.fromEntries(Object.entries(counts(p.talents, (id) => !!findTalent(id))).map(([id, r]) => [id, Math.min(r, findTalent(id)!.ranks)])),
       // Absent before mastery existed: starts untrained. Families are kept as-is (a renamed family just stops counting).
       mastery: counts(p.mastery, undefined, false),
+      pet: (() => {
+        const id = str(p.pet);
+        return id && findPet(id) ? id : null;
+      })(),
     },
   };
 }
