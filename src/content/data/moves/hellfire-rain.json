@@ -1,0 +1,28 @@
+{
+  "id": "hellfire-rain",
+  "windup": 0.8,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "damage": 1.4,
+  "knockback": 170,
+  "weight": "heavy",
+  "poise": 30,
+  "element": "ember",
+  "hazard": {
+    "radius": 30,
+    "delay": 1.05,
+    "at": "target",
+    "distance": 100,
+    "count": 6,
+    "scatter": 115
+  },
+  "onHit": {
+    "status": "burning",
+    "chance": 0.6
+  }
+}

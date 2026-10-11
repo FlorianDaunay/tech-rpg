@@ -9,6 +9,35 @@ export type Hitbox =
   /** A circle at `offset` px along the aim direction (0 = around the attacker). */
   | { kind: "circle"; radius: number; offset: number };
 
+export type ProjectileLook = "bolt" | "shard" | "spark" | "orb" | "arrow" | "web";
+
+export interface ProjectileSpec {
+  speed: number;
+  radius: number;
+  range: number;
+  /** How many fly at once (default 1). */
+  count?: number;
+  /** Fan width in degrees between the outer ones; 360 = a ring all around (default 0). */
+  spread?: number;
+  /** Turn rate towards the nearest foe (rad/s, default 0 = straight). */
+  homing?: number;
+  /** Art (default: from the element). */
+  look?: ProjectileLook;
+}
+
+export interface HazardSpec {
+  radius: number;
+  /** Seconds between the telegraph and the blast. */
+  delay: number;
+  /** Centre: the attacker's target (or `distance` ahead), or the attacker itself. */
+  at: "target" | "self";
+  /** Ahead of the attacker when it has no target (px). */
+  distance: number;
+  /** Blasts (default 1): the first at the centre, the others scattered within `scatter` px. */
+  count?: number;
+  scatter?: number;
+}
+
 export interface Move {
   id: string;
   /** Before the hit lands (telegraphed for enemies). */
@@ -31,8 +60,10 @@ export interface Move {
   next?: string;
   /** Poise damage: staggers targets whose poise drops to 0. */
   poise: number;
-  /** Ranged: fires a projectile when the move becomes active instead of using the hitbox. */
-  projectile?: { speed: number; radius: number; range: number };
+  /** Ranged: fires projectiles when the move becomes active instead of using the hitbox. */
+  projectile?: ProjectileSpec;
+  /** Ground blasts: telegraphed circles that burst after `delay` (placed when the move becomes active). */
+  hazard?: HazardSpec;
   /** Element of the hit (weapon element overrides when the move has none). */
   element?: Element;
   /** Status a hit may apply. */

@@ -1,0 +1,16 @@
+{
+  "id": "claw-flurry-2",
+  "windup": 0.16,
+  "active": 0.08,
+  "recovery": 0.55,
+  "damage": 0.9,
+  "knockback": 150,
+  "weight": "medium",
+  "poise": 20,
+  "hitbox": {
+    "kind": "arc",
+    "range": 28,
+    "angle": 120
+  },
+  "lunge": 220
+}

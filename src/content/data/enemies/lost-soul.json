@@ -26,12 +26,24 @@
   "attack": "wail",
   "aggroRange": 200,
   "attackRange": 150,
-  "attackCooldown": 2.0,
+  "attackCooldown": 2,
   "radius": 6,
   "xp": 15,
   "loot": "rift-loot",
   "resist": {
     "hollow": 0.3,
     "ember": 1.5
-  }
+  },
+  "moves": [
+    {
+      "move": "wail",
+      "weight": 2,
+      "range": 150
+    },
+    {
+      "move": "wail-fan",
+      "weight": 1,
+      "range": 140
+    }
+  ]
 }

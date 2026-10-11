@@ -33,5 +33,17 @@
   "resist": {
     "hollow": 0.25,
     "ember": 1.5
-  }
+  },
+  "moves": [
+    {
+      "move": "wail",
+      "weight": 2,
+      "range": 150
+    },
+    {
+      "move": "wail-fan",
+      "weight": 1,
+      "range": 140
+    }
+  ]
 }

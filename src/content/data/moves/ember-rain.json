@@ -1,0 +1,28 @@
+{
+  "id": "ember-rain",
+  "windup": 0.7,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "damage": 1,
+  "knockback": 170,
+  "weight": "heavy",
+  "poise": 30,
+  "element": "ember",
+  "hazard": {
+    "radius": 22,
+    "delay": 0.95,
+    "at": "target",
+    "distance": 90,
+    "count": 2,
+    "scatter": 34
+  },
+  "onHit": {
+    "status": "burning",
+    "chance": 0.5
+  }
+}

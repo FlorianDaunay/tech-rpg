@@ -35,5 +35,17 @@
     "storm": 0.5,
     "ember": 1.25,
     "hollow": 0.5
-  }
+  },
+  "moves": [
+    {
+      "move": "bolt",
+      "weight": 2,
+      "range": 140
+    },
+    {
+      "move": "hollow-ring",
+      "weight": 1,
+      "range": 70
+    }
+  ]
 }

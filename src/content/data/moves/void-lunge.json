@@ -1,0 +1,17 @@
+{
+  "id": "void-lunge",
+  "windup": 0.6,
+  "active": 0.12,
+  "recovery": 0.6,
+  "damage": 1.3,
+  "knockback": 150,
+  "weight": "medium",
+  "poise": 26,
+  "hitbox": {
+    "kind": "arc",
+    "range": 30,
+    "angle": 90
+  },
+  "lunge": 330,
+  "element": "hollow"
+}

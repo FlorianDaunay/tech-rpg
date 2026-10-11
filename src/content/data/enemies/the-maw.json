@@ -51,6 +51,11 @@
             "move": "maw-spit",
             "weight": 2,
             "range": 200
+          },
+          {
+            "move": "maw-spew",
+            "weight": 1,
+            "range": 150
           }
         ],
         "attackCooldown": 1.5,
@@ -72,6 +77,11 @@
           {
             "move": "frost-bolt",
             "weight": 1,
+            "range": 190
+          },
+          {
+            "move": "maw-rain",
+            "weight": 2,
             "range": 190
           }
         ],
@@ -95,6 +105,16 @@
             "move": "maw-spit",
             "weight": 2,
             "range": 200
+          },
+          {
+            "move": "maw-rain",
+            "weight": 2,
+            "range": 190
+          },
+          {
+            "move": "maw-spew",
+            "weight": 2,
+            "range": 150
           }
         ],
         "attackCooldown": 0.85,

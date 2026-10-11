@@ -26,11 +26,23 @@
   "attack": "claw",
   "aggroRange": 160,
   "attackRange": 30,
-  "attackCooldown": 1.0,
+  "attackCooldown": 1,
   "radius": 6,
   "xp": 12,
   "loot": "goblin-loot",
   "resist": {
     "storm": 1.25
-  }
+  },
+  "moves": [
+    {
+      "move": "claw",
+      "weight": 2,
+      "range": 30
+    },
+    {
+      "move": "claw-flurry-1",
+      "weight": 1,
+      "range": 28
+    }
+  ]
 }

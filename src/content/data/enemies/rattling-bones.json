@@ -33,5 +33,17 @@
   "resist": {
     "frost": 0.75,
     "ember": 1.25
-  }
+  },
+  "moves": [
+    {
+      "move": "claw",
+      "weight": 2,
+      "range": 28
+    },
+    {
+      "move": "claw-flurry-1",
+      "weight": 1,
+      "range": 28
+    }
+  ]
 }

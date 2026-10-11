@@ -1,5 +1,7 @@
 import Phaser from "phaser";
-import { COMBAT_COLORS, ELEMENT_COLORS, hex, RARITY_COLORS, type Rarity } from "@/config/palette";
+import { DEPTH_LIGHT } from "../systems/Lighting";
+import { ensureProjectileTexture, MOTE, projectileStyle, trailTints } from "./projectileArt";
+import { COMBAT_COLORS, ELEMENT_COLORS, hex, RARITY_COLORS, type PROJECTILE_RAMPS, type Rarity } from "@/config/palette";
 import type { Actor } from "@/core/combat/actor";
 import type { SimEvent } from "@/core/combat/events";
 import { content } from "@/content/registry";
@@ -47,7 +49,9 @@ export interface FxHost {
 export class CombatFx {
   private readonly scene: Phaser.Scene;
   private charges = new Map<string, SfxHandle>();
-  private projectiles = new Map<string, Phaser.GameObjects.Arc>();
+  private projectiles = new Map<string, { img: Phaser.GameObjects.Image; look: string; palette: keyof typeof PROJECTILE_RAMPS }>();
+  /** One trail emitter per projectile palette (motes emitted along each flight). */
+  private trails = new Map<string, Phaser.GameObjects.Particles.ParticleEmitter>();
   private pickups = new Map<string, Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Transform & Phaser.GameObjects.Components.Depth>();
 
   constructor(private readonly host: FxHost) {
@@ -84,7 +88,7 @@ export class CombatFx {
         this.charges.get(ev.id)?.stop(0.05);
         this.charges.delete(ev.id);
         const move = getMove(ev.move);
-        if (move.projectile) break;
+        if (move.projectile || move.hazard) break;
         audio.sfx(ev.weight === "heavy" ? "swing-heavy" : "swing-light", { x: ev.x, y: ev.y });
         // Area moves centred on the attacker (Frost Nova, Dawnbreak): a burst instead of a slash.
         const area = move.hitbox.kind === "circle" && move.hitbox.offset === 0 ? move.hitbox.radius : 0;
@@ -185,8 +189,24 @@ export class CombatFx {
       case "projectile":
         audio.sfx("projectile", { x: ev.x, y: ev.y, volume: 0.7 });
         break;
+      case "hazard": {
+        this.hazard(ev.x, ev.y, ev.radius, ev.delay, getMove(ev.move));
+        break;
+      }
+      case "hazard-blast": {
+        this.blast(ev.x, ev.y, ev.radius, getMove(ev.move));
+        audio.sfx("explosion", { x: ev.x, y: ev.y, volume: 0.7 });
+        this.shake(0.003);
+        h.light?.(ev.x, ev.y, ev.radius * 2.2, "torch");
+        break;
+      }
       case "projectile-end": {
-        this.projectiles.get(ev.id)?.destroy();
+        const end = this.projectiles.get(ev.id);
+        if (end && end.look !== "arrow") {
+          const motes = this.trail(end.palette);
+          for (let i = 0; i < 6; i++) motes.emitParticleAt(ev.x, ev.y, 1);
+        }
+        end?.img.destroy();
         this.projectiles.delete(ev.id);
         this.spark(ev.x, ev.y, COMBAT_COLORS.enemyBolt, 0.8);
         break;
@@ -301,21 +321,76 @@ export class CombatFx {
 
   /** Projectile visuals follow the sim's list (created lazily, removed on projectile-end). */
   syncProjectiles(list: Projectile[]): void {
+    const now = this.scene.time.now;
     for (const p of list) {
       let view = this.projectiles.get(p.id);
       if (!view) {
-        view = this.scene.add.circle(p.x, p.y, p.radius, hex(COMBAT_COLORS.enemyBolt)).setStrokeStyle(1, hex(COMBAT_COLORS.enemyBoltRim));
-        this.scene.tweens.add({ targets: view, scale: 1.35, yoyo: true, repeat: -1, duration: 120 });
+        const { look, palette } = projectileStyle(getMove(p.move));
+        const img = this.scene.add.image(p.x, p.y, ensureProjectileTexture(this.scene, look, palette)).setBlendMode(look === "arrow" ? Phaser.BlendModes.NORMAL : Phaser.BlendModes.ADD);
+        view = { img, look, palette };
         this.projectiles.set(p.id, view);
       }
-      view.setPosition(p.x, p.y).setDepth(p.y + 6);
+      const { img, look } = view;
+      const angle = Math.atan2(p.vy, p.vx);
+      // Magic glows through the darkness (drawn above the lighting); arrows sort with the world.
+      img.setPosition(p.x, p.y).setDepth(look === "arrow" ? p.y + 6 : DEPTH_LIGHT + 3);
+      if (look === "orb" || look === "web") img.setRotation(now / (look === "web" ? 160 : 90));
+      else img.setRotation(angle);
+      if (look === "spark") img.setFlipY(Math.floor(now / 50) % 2 === 0);
+      if (look === "orb" || look === "bolt") img.setScale(1 + 0.12 * Math.sin(now / 45 + p.x));
+      if (look !== "arrow") this.trail(view.palette).emitParticleAt(p.x - Math.cos(angle) * 5, p.y - Math.sin(angle) * 5, 1);
+    }
+  }
+
+  private trail(palette: keyof typeof PROJECTILE_RAMPS): Phaser.GameObjects.Particles.ParticleEmitter {
+    let e = this.trails.get(palette);
+    if (!e) {
+      ensureProjectileTexture(this.scene, "orb", palette);
+      e = this.scene.add.particles(0, 0, MOTE, {
+        lifespan: { min: 180, max: 320 },
+        speed: { min: 2, max: 14 },
+        scale: { start: 1.2, end: 0 },
+        alpha: { start: 0.9, end: 0 },
+        tint: trailTints(palette),
+        blendMode: Phaser.BlendModes.ADD,
+        emitting: false,
+      });
+      e.setDepth(DEPTH_LIGHT + 2);
+      this.trails.set(palette, e);
+    }
+    return e;
+  }
+
+  /** Ground blast telegraph: a ring whose fill grows to the edge exactly when it bursts. */
+  private hazard(x: number, y: number, radius: number, delay: number, move: Move): void {
+    const color = hex(move.element ? ELEMENT_COLORS[move.element] : COMBAT_COLORS.telegraph);
+    const ring = this.scene.add.circle(x, y, radius).setStrokeStyle(1.5, color, 0.9).setFillStyle(color, 0.08).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD);
+    const fill = this.scene.add.circle(x, y, radius, color, 0.32).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD).setScale(0.05);
+    this.scene.tweens.add({ targets: fill, scale: 1, duration: delay * 1000, ease: "Quad.easeIn" });
+    this.scene.tweens.add({ targets: ring, alpha: { from: 0.5, to: 1 }, duration: 160, yoyo: true, repeat: Math.max(0, Math.floor((delay * 1000) / 320) - 1) });
+    this.scene.time.delayedCall(delay * 1000 + 40, () => {
+      ring.destroy();
+      fill.destroy();
+    });
+  }
+
+  private blast(x: number, y: number, radius: number, move: Move): void {
+    const color = hex(move.element ? ELEMENT_COLORS[move.element] : COMBAT_COLORS.telegraph);
+    const wave = this.scene.add.circle(x, y, radius * 0.4).setStrokeStyle(3, color, 1).setDepth(DEPTH_LIGHT + 2).setBlendMode(Phaser.BlendModes.ADD);
+    this.scene.tweens.add({ targets: wave, scale: 2.6, alpha: 0, duration: 320, ease: "Cubic.easeOut", onComplete: () => wave.destroy() });
+    const core = this.scene.add.circle(x, y, radius, color, 0.55).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD);
+    this.scene.tweens.add({ targets: core, alpha: 0, scale: 1.2, duration: 260, onComplete: () => core.destroy() });
+    const motes = this.trail(move.element ?? "none");
+    for (let i = 0; i < 14; i++) {
+      const a = (i / 14) * Math.PI * 2;
+      motes.emitParticleAt(x + Math.cos(a) * radius * 0.6, y + Math.sin(a) * radius * 0.6, 1);
     }
   }
 
   private telegraph(a: Actor, move: Move, windup: number): void {
     const color = hex(COMBAT_COLORS.telegraph);
     let img: Phaser.GameObjects.Image;
-    if (move.projectile) return; // ranged: the glowing windup tint is the tell
+    if (move.projectile || move.hazard) return; // ranged: the glowing windup tint is the tell; blasts: their ground circle
     if (move.hitbox.kind === "circle") {
       const r = move.hitbox.radius;
       img = this.scene.add.image(a.x + a.aim.x * move.hitbox.offset, a.y + a.aim.y * move.hitbox.offset, "vfx/telegraph-circle-fill");
@@ -327,7 +402,7 @@ export class CombatFx {
       img.setScale(range / 63, Math.max(0.6, move.hitbox.angle / 60) * (range / 63));
       img.setRotation(Math.atan2(a.aim.y, a.aim.x));
     }
-    img.setTint(color).setAlpha(0.15).setDepth(1).setBlendMode(Phaser.BlendModes.ADD);
+    img.setTint(color).setAlpha(0.15).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD);
     this.scene.tweens.add({
       targets: img,
       alpha: 0.55,
@@ -429,8 +504,10 @@ export class CombatFx {
   destroy(): void {
     this.charges.forEach((c) => c.stop(0.05));
     this.charges.clear();
-    this.projectiles.forEach((p) => p.destroy());
+    this.projectiles.forEach((p) => p.img.destroy());
     this.projectiles.clear();
+    this.trails.forEach((e) => e.destroy());
+    this.trails.clear();
     this.pickups.forEach((p) => p.destroy());
     this.pickups.clear();
   }

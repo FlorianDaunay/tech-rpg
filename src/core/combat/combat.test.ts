@@ -127,6 +127,7 @@ describe("combat", () => {
   it("ranged enemies fire projectiles that hit", () => {
     const { map, sim, p, e } = setup("wisp-caster", 110);
     e.ai!.cooldown = 0;
+    e.ai!.move = "bolt"; // its main attack (the moveset also has a close-range ring)
     const events = run(sim, map, 120);
     expect(events.some((ev) => ev.type === "projectile")).toBe(true);
     expect(p.hp).toBeLessThan(p.stats.maxHp);

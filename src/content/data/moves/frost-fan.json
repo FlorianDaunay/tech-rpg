@@ -1,0 +1,27 @@
+{
+  "id": "frost-fan",
+  "windup": 0.75,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 0.75,
+  "knockback": 80,
+  "weight": "light",
+  "poise": 10,
+  "element": "frost",
+  "projectile": {
+    "speed": 150,
+    "radius": 4,
+    "range": 220,
+    "count": 3,
+    "spread": 34
+  },
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.4
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "maw-rain",
+  "windup": 0.8,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "damage": 1.2,
+  "knockback": 170,
+  "weight": "heavy",
+  "poise": 30,
+  "element": "hollow",
+  "hazard": {
+    "radius": 28,
+    "delay": 1.1,
+    "at": "target",
+    "distance": 90,
+    "count": 5,
+    "scatter": 95
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "id": "shroud-ring",
+  "windup": 1,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 0.9,
+  "knockback": 80,
+  "weight": "light",
+  "poise": 10,
+  "element": "hollow",
+  "projectile": {
+    "speed": 100,
+    "radius": 4,
+    "range": 260,
+    "count": 12,
+    "spread": 360
+  }
+}

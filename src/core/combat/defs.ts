@@ -39,6 +39,8 @@ export interface EnemyDef {
   /** Behaviour: melee chaser, heavy slow brute, ranged kiter. */
   ai: "melee" | "brute" | "ranged";
   attack: string;
+  /** Moveset: picked by weight before each attack (absent = always `attack`). Range = distance it closes to. */
+  moves?: { move: string; weight: number; range: number }[];
   aggroRange: number;
   attackRange: number;
   /** Seconds between attacks. */

@@ -13,6 +13,15 @@ export const ELEMENT_COLORS = {
 } as const;
 export type Element = keyof typeof ELEMENT_COLORS;
 
+/** Projectile art ramps (dark → white-hot), per element; `none` = physical (arrows, stones). */
+export const PROJECTILE_RAMPS = {
+  ember: ["#5a1a05", "#c4400f", "#ff8a3d", "#ffd27a", "#fff4d6"],
+  frost: ["#0d3550", "#2f7fb0", "#7fd8ff", "#d4f4ff", "#ffffff"],
+  storm: ["#2c1650", "#6a3fc0", "#c9a5ff", "#efe3ff", "#ffffff"],
+  hollow: ["#12051f", "#3a1470", "#8e4dff", "#d0a8ff", "#f4ecff"],
+  none: ["#2b2018", "#6b5236", "#b89a6e", "#e8d8b4", "#fffaf0"],
+} as const;
+
 export const RARITY_COLORS = {
   common: "#B9B5A8",
   uncommon: "#7CC45A",

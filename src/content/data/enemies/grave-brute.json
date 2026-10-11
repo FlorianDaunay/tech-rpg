@@ -33,5 +33,17 @@
   "resist": {
     "frost": 0.75,
     "ember": 1.25
-  }
+  },
+  "moves": [
+    {
+      "move": "slam",
+      "weight": 2,
+      "range": 34
+    },
+    {
+      "move": "brute-stomp",
+      "weight": 1,
+      "range": 40
+    }
+  ]
 }

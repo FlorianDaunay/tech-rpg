@@ -6,7 +6,7 @@ import { applyCommand } from "../combat/commands";
 import { findPet, getEnemy, type PetDef } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { refreshLoadout } from "../combat/skills";
-import { dropLoot, resolveMelee, separate, stepActor, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
+import { dropLoot, resolveMelee, separate, stepActor, stepHazards, stepLifecycle, stepPickups, stepProjectiles, type CombatWorld } from "../combat/step";
 import { createRng, type Rng } from "../math/rng";
 import { awardXp } from "../progression/level";
 import { isSolidCell, type GameMap } from "../world/map";
@@ -94,7 +94,7 @@ export const RESPAWN_CLEARANCE = 180;
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>, extra: Partial<Modifiers> = {}): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null, sealed: [] };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null, sealed: [], hazards: [] };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -463,6 +463,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepArenas(state, map);
   resolveMelee(state, rng, state.pvp && opts.lagMs ? rewinder(state, opts.lagMs) : undefined);
   stepProjectiles(state, map, rng, SIM_DT);
+  stepHazards(state, rng, SIM_DT);
   stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
   stepSpawners(state);

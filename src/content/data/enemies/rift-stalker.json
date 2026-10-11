@@ -33,5 +33,17 @@
   "resist": {
     "hollow": 0.2,
     "ember": 1.5
-  }
+  },
+  "moves": [
+    {
+      "move": "void-touch",
+      "weight": 2,
+      "range": 32
+    },
+    {
+      "move": "void-lunge",
+      "weight": 1,
+      "range": 70
+    }
+  ]
 }

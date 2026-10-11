@@ -15,6 +15,7 @@
   "projectile": {
     "speed": 220,
     "radius": 3,
-    "range": 280
+    "range": 280,
+    "look": "arrow"
   }
 }

@@ -50,6 +50,11 @@
             "move": "vaelgor-hellfire",
             "weight": 2,
             "range": 200
+          },
+          {
+            "move": "hellfire-rain",
+            "weight": 1,
+            "range": 200
           }
         ],
         "attackCooldown": 1.4,
@@ -72,6 +77,16 @@
             "move": "vaelgor-quake",
             "weight": 2,
             "range": 64
+          },
+          {
+            "move": "hellfire-rain",
+            "weight": 2,
+            "range": 200
+          },
+          {
+            "move": "hellfire-ring",
+            "weight": 1,
+            "range": 120
           }
         ],
         "attackCooldown": 1.2,
@@ -99,6 +114,16 @@
             "move": "vaelgor-hellfire",
             "weight": 1,
             "range": 200
+          },
+          {
+            "move": "hellfire-rain",
+            "weight": 2,
+            "range": 200
+          },
+          {
+            "move": "hellfire-ring",
+            "weight": 2,
+            "range": 120
           }
         ],
         "attackCooldown": 0.8,

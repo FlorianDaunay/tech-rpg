@@ -26,12 +26,24 @@
   "attack": "storm-bolt",
   "aggroRange": 210,
   "attackRange": 170,
-  "attackCooldown": 2.0,
+  "attackCooldown": 2,
   "radius": 6,
   "xp": 16,
   "loot": "imp-loot",
   "resist": {
     "storm": 0.25,
     "hollow": 1.25
-  }
+  },
+  "moves": [
+    {
+      "move": "storm-bolt",
+      "weight": 2,
+      "range": 170
+    },
+    {
+      "move": "storm-orb",
+      "weight": 1,
+      "range": 200
+    }
+  ]
 }

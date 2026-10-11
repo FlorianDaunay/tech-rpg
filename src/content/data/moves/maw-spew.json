@@ -1,0 +1,23 @@
+{
+  "id": "maw-spew",
+  "windup": 0.85,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 1,
+  "knockback": 80,
+  "weight": "light",
+  "poise": 10,
+  "element": "hollow",
+  "projectile": {
+    "speed": 150,
+    "radius": 5,
+    "range": 220,
+    "count": 7,
+    "spread": 90
+  }
+}

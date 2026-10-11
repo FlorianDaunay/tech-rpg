@@ -1,0 +1,16 @@
+{
+  "id": "knight-thrust-2",
+  "windup": 0.25,
+  "active": 0.1,
+  "recovery": 0.7,
+  "damage": 1.6,
+  "knockback": 220,
+  "weight": "heavy",
+  "poise": 40,
+  "hitbox": {
+    "kind": "arc",
+    "range": 46,
+    "angle": 40
+  },
+  "lunge": 300
+}

@@ -50,6 +50,11 @@
             "move": "bolt",
             "weight": 1,
             "range": 170
+          },
+          {
+            "move": "shroud-orbs",
+            "weight": 1,
+            "range": 180
           }
         ],
         "attackCooldown": 1.5,
@@ -72,6 +77,16 @@
             "move": "bolt",
             "weight": 1,
             "range": 170
+          },
+          {
+            "move": "shroud-orbs",
+            "weight": 1,
+            "range": 180
+          },
+          {
+            "move": "shroud-ring",
+            "weight": 1,
+            "range": 110
           }
         ],
         "attackCooldown": 1.3,
@@ -94,6 +109,16 @@
             "move": "shroud-wail",
             "weight": 2,
             "range": 56
+          },
+          {
+            "move": "shroud-ring",
+            "weight": 2,
+            "range": 110
+          },
+          {
+            "move": "shroud-orbs",
+            "weight": 2,
+            "range": 180
           }
         ],
         "attackCooldown": 0.9,

@@ -1,0 +1,23 @@
+{
+  "id": "wail-fan",
+  "windup": 0.8,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 0.8,
+  "knockback": 80,
+  "weight": "light",
+  "poise": 10,
+  "element": "hollow",
+  "projectile": {
+    "speed": 110,
+    "radius": 4,
+    "range": 200,
+    "count": 3,
+    "spread": 40
+  }
+}

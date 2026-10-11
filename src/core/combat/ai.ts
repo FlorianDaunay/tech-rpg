@@ -3,7 +3,7 @@ import { modOf } from "./modifiers";
 import { normalize, type Vec2 } from "../math/vec";
 import { emptyIntent, type Intent } from "../sim/intent";
 import { isAlive, type Actor } from "./actor";
-import { getEnemy, type BossDef, type BossPhase, type PetDef } from "./defs";
+import { getEnemy, getMove, type BossDef, type BossPhase, type PetDef } from "./defs";
 import type { CombatWorld } from "./step";
 
 /** Enemies give up and walk home beyond this distance from their spawn. */
@@ -127,6 +127,8 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   }
   ai.target = target?.id ?? null;
   const phase = def.boss ? thinkBoss(w, a, def.boss, rng, dt, !!target) : null;
+  // Mobs with a moveset choose their next attack ahead (bosses choose per phase).
+  if (!phase && def.moves?.length && !ai.move) ai.move = rng.weighted(def.moves.map((x) => [x.move, x.weight] as const));
 
   if (!target) {
     // Walk home and heal up (no cheesing by pulling enemies away and back).
@@ -145,7 +147,7 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   intent.aim = dir;
   const canAttack = ai.cooldown <= 0 && a.action.kind === "free";
   // Bosses close to the range of the attack they chose; others use their single attack's range.
-  const range = phase ? (phase.attacks.find((x) => x.move === ai.move)?.range ?? def.attackRange) : def.attackRange;
+  const range = (phase?.attacks ?? def.moves)?.find((x) => x.move === ai.move)?.range ?? def.attackRange;
   const cooldown = phase ? phase.attackCooldown : def.attackCooldown;
 
   if (def.ai === "ranged") {
@@ -162,6 +164,8 @@ export function thinkEnemy(w: CombatWorld, a: Actor, rng: Rng, dt: number): Inte
   // A boss never steps out of its arena.
   if (def.boss && dist({ x: a.x + intent.move.x * 8, y: a.y + intent.move.y * 8 }, a.home) > leash) intent.move = normalize({ x: a.home.x - a.x, y: a.home.y - a.y });
 
+  // Combo strings: keep pressing while the current move chains into a next one.
+  if (a.action.kind === "attack" && getMove(a.action.move).next) intent.pressed.push("attack");
   if (canAttack && d <= range) {
     intent.pressed.push("attack");
     ai.cooldown = (cooldown * rng.range(0.8, 1.25)) / modOf(w, "enemyAttackRate");

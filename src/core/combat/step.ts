@@ -46,6 +46,8 @@ export interface CombatWorld {
   mods?: Modifiers;
   /** PvP arena rules (absent/null = players are allies). */
   pvp?: PvpState | null;
+  /** Ground blasts counting down (moves with a `hazard`). */
+  hazards?: Hazard[];
 }
 
 /**
@@ -53,6 +55,21 @@ export interface CombatWorld {
  * Only player-vs-player melee is rewound.
  */
 export type Rewind = (attacker: Actor, target: Actor) => Vec2 | null;
+
+/** A telegraphed ground blast waiting to go off. */
+export interface Hazard {
+  id: string;
+  owner: string;
+  side: string;
+  move: string;
+  stats: CombatStats;
+  x: number;
+  y: number;
+  radius: number;
+  /** Seconds since placed / until it bursts. */
+  t: number;
+  delay: number;
+}
 
 /** Loot lying on the ground. */
 export interface Pickup {
@@ -202,6 +219,7 @@ export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, inte
         a.vy = act.dir.y * m.lunge;
         w.events.push({ type: "swing", id: a.id, move: m.id, weight: m.weight, x: a.x, y: a.y, dir: act.dir });
         if (m.projectile) fireProjectile(w, a, m, act.dir);
+        if (m.hazard) placeHazards(w, rng, a, m, act.dir);
       }
       const activeEnd = m.windup + m.active;
       if (act.t >= activeEnd + m.recovery * COMBO_CANCEL) {
@@ -248,13 +266,61 @@ export function stepActor(w: CombatWorld, map: GameMap, rng: Rng, a: Actor, inte
   else if (isAlive(a) && a.action.kind !== "dodge") a.facing = facingOf(intent.aim ?? move, a.facing);
 }
 
+/** Fires a move's projectiles: one, a fan (`spread`°) or a ring (360°), centred on `dir`. */
 function fireProjectile(w: CombatWorld, a: Actor, m: Move, dir: Vec2): void {
   const p = m.projectile!;
-  const id = `pr${w.nextId++}`;
-  const x = a.x + dir.x * (a.radius + p.radius + 1);
-  const y = a.y + dir.y * (a.radius + p.radius + 1) - 6;
-  w.projectiles.push({ id, owner: a.id, team: a.team, side: sideOf(w.pvp, a), move: m.id, stats: a.stats, x, y, vx: dir.x * p.speed, vy: dir.y * p.speed, radius: p.radius, travelled: 0, range: p.range });
-  w.events.push({ type: "projectile", id, owner: a.id, x, y });
+  const count = p.count ?? 1;
+  const spread = ((p.spread ?? 0) * Math.PI) / 180;
+  const ring = (p.spread ?? 0) >= 360;
+  const base = Math.atan2(dir.y, dir.x);
+  for (let i = 0; i < count; i++) {
+    const off = count === 1 ? 0 : ring ? (i / count) * Math.PI * 2 : -spread / 2 + (spread * i) / (count - 1);
+    const d = { x: Math.cos(base + off), y: Math.sin(base + off) };
+    const id = `pr${w.nextId++}`;
+    const x = a.x + d.x * (a.radius + p.radius + 1);
+    const y = a.y + d.y * (a.radius + p.radius + 1) - 6;
+    w.projectiles.push({ id, owner: a.id, team: a.team, side: sideOf(w.pvp, a), move: m.id, stats: a.stats, x, y, vx: d.x * p.speed, vy: d.y * p.speed, radius: p.radius, travelled: 0, range: p.range });
+    // One sound per volley.
+    if (i === 0) w.events.push({ type: "projectile", id, owner: a.id, x, y });
+  }
+}
+
+/** Places a move's ground blasts on its target (or ahead / under the attacker), scattered if several. */
+function placeHazards(w: CombatWorld, rng: Rng, a: Actor, m: Move, dir: Vec2): void {
+  const h = m.hazard!;
+  const target = a.ai?.target ? w.actors[a.ai.target] : undefined;
+  const centre = h.at === "self" ? { x: a.x, y: a.y } : target && isAlive(target) ? { x: target.x, y: target.y } : { x: a.x + dir.x * h.distance, y: a.y + dir.y * h.distance };
+  const side = sideOf(w.pvp, a);
+  for (let i = 0; i < (h.count ?? 1); i++) {
+    const ang = rng.range(0, Math.PI * 2);
+    const r = i === 0 ? 0 : rng.range(h.radius * 0.6, Math.max(h.radius, h.scatter ?? 0));
+    const id = `hz${w.nextId++}`;
+    const x = centre.x + Math.cos(ang) * r;
+    const y = centre.y + Math.sin(ang) * r;
+    // Staggered a little so a volley reads as a rain, not one flash.
+    const delay = h.delay + i * 0.12;
+    (w.hazards ??= []).push({ id, owner: a.id, side, move: m.id, stats: a.stats, x, y, radius: h.radius, t: 0, delay });
+    w.events.push({ type: "hazard", id, x, y, radius: h.radius, delay, move: m.id });
+  }
+}
+
+/** Ground blasts tick down and hit every foe inside when they burst. */
+export function stepHazards(w: CombatWorld, rng: Rng, dt: number): void {
+  if (!w.hazards?.length) return;
+  const ids = sortedIds(w);
+  w.hazards = w.hazards.filter((h) => {
+    h.t += dt;
+    if (h.t < h.delay) return true;
+    w.events.push({ type: "hazard-blast", id: h.id, x: h.x, y: h.y, radius: h.radius, move: h.move });
+    const m = getMove(h.move);
+    for (const tid of ids) {
+      const t = w.actors[tid]!;
+      if (t.kind === "npc" || sideOf(w.pvp, t) === h.side || !isAlive(t)) continue;
+      if (Math.hypot(t.x - h.x, t.y - h.y) > h.radius + t.radius) continue;
+      applyHit(w, rng, { id: h.owner, stats: h.stats, x: h.x, y: h.y }, t, m, 0, normalize({ x: t.x - h.x, y: t.y - h.y }));
+    }
+    return false;
+  });
 }
 
 /** Live melee hitboxes touch opposing actors (each target once per swing). */
@@ -279,6 +345,8 @@ export function resolveMelee(w: CombatWorld, rng: Rng, rewind?: Rewind): void {
 export function stepProjectiles(w: CombatWorld, map: GameMap, rng: Rng, dt: number): void {
   const ids = sortedIds(w);
   w.projectiles = w.projectiles.filter((p) => {
+    const homing = getMove(p.move).projectile?.homing ?? 0;
+    if (homing > 0) steerProjectile(w, ids, p, homing * dt);
     p.x += p.vx * dt;
     p.y += p.vy * dt;
     p.travelled += Math.hypot(p.vx, p.vy) * dt;
@@ -298,6 +366,29 @@ export function stepProjectiles(w: CombatWorld, map: GameMap, rng: Rng, dt: numb
     }
     return true;
   });
+}
+
+/** Homing: turn towards the nearest foe in front (at most `turn` radians this step). */
+function steerProjectile(w: CombatWorld, ids: string[], p: Projectile, turn: number): void {
+  const speed = Math.hypot(p.vx, p.vy);
+  const heading = Math.atan2(p.vy, p.vx);
+  let best: Actor | null = null;
+  let bestD = 220;
+  for (const tid of ids) {
+    const t = w.actors[tid]!;
+    if (t.kind === "npc" || sideOf(w.pvp, t) === (p.side ?? p.team) || !isAlive(t)) continue;
+    const d = Math.hypot(t.x - p.x, t.y - 6 - p.y);
+    if (d < bestD) {
+      bestD = d;
+      best = t;
+    }
+  }
+  if (!best) return;
+  let delta = Math.atan2(best.y - 6 - p.y, best.x - p.x) - heading;
+  delta = Math.atan2(Math.sin(delta), Math.cos(delta));
+  const next = heading + Math.max(-turn, Math.min(turn, delta));
+  p.vx = Math.cos(next) * speed;
+  p.vy = Math.sin(next) * speed;
 }
 
 interface HitSource {

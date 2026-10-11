@@ -1,0 +1,23 @@
+{
+  "id": "brute-stomp",
+  "windup": 0.75,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "damage": 1.5,
+  "knockback": 170,
+  "weight": "heavy",
+  "poise": 30,
+  "hazard": {
+    "radius": 48,
+    "delay": 0.55,
+    "at": "self",
+    "distance": 0,
+    "count": 1,
+    "scatter": 0
+  }
+}

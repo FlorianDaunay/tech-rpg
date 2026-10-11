@@ -29,7 +29,28 @@ export const MoveSchema = z
     weight: z.enum(["light", "medium", "heavy"]).describe("Feel: hit-stop, shake, VFX size"),
     next: ref("move").optional().describe("Next combo step when attack is pressed again"),
     poise: z.number().nonnegative().default(0).describe("Poise damage (staggers at 0)"),
-    projectile: z.object({ speed: z.number().positive(), radius: z.number().positive(), range: z.number().positive() }).optional(),
+    projectile: z
+      .object({
+        speed: z.number().positive(),
+        radius: z.number().positive(),
+        range: z.number().positive(),
+        count: z.number().int().min(1).max(24).default(1).describe("Projectiles per cast"),
+        spread: z.number().min(0).max(360).default(0).describe("Fan width (degrees); 360 = ring all around"),
+        homing: z.number().min(0).default(0).describe("Turn rate towards the nearest foe (rad/s)"),
+        look: z.enum(["bolt", "shard", "spark", "orb", "arrow", "web"]).optional().describe("Art (default: from the element)"),
+      })
+      .optional(),
+    hazard: z
+      .object({
+        radius: z.number().positive(),
+        delay: z.number().positive().describe("Telegraph time before the blast (s)"),
+        at: z.enum(["target", "self"]).default("target"),
+        distance: z.number().nonnegative().default(60).describe("Ahead of the attacker when it has no target (px)"),
+        count: z.number().int().min(1).max(16).default(1),
+        scatter: z.number().nonnegative().default(0).describe("Extra blasts land within this radius of the centre (px)"),
+      })
+      .optional()
+      .describe("Telegraphed ground blasts (circle hits after the delay)"),
     element: ElementSchema.optional(),
     onHit: OnHit.optional(),
   })
@@ -58,6 +79,10 @@ export const EnemySchema = z
     stats: Stats,
     ai: z.enum(["melee", "brute", "ranged"]),
     attack: ref("move"),
+    moves: z
+      .array(z.object({ move: ref("move"), weight: z.number().positive().default(1), range: z.number().positive().describe("Distance it closes to before using it (px)") }))
+      .optional()
+      .describe("Moveset picked by weight before each attack (absent = always the main attack)"),
     aggroRange: z.number().positive(),
     attackRange: z.number().positive(),
     attackCooldown: seconds,

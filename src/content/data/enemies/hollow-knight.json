@@ -26,12 +26,24 @@
   "attack": "cleave",
   "aggroRange": 150,
   "attackRange": 40,
-  "attackCooldown": 2.0,
+  "attackCooldown": 2,
   "radius": 8,
   "xp": 70,
   "loot": "knight-loot",
   "resist": {
     "hollow": 0.5,
     "ember": 1.25
-  }
+  },
+  "moves": [
+    {
+      "move": "cleave",
+      "weight": 1,
+      "range": 40
+    },
+    {
+      "move": "knight-thrust-1",
+      "weight": 1,
+      "range": 40
+    }
+  ]
 }

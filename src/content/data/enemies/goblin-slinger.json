@@ -30,5 +30,17 @@
   "radius": 6,
   "xp": 12,
   "loot": "goblin-loot",
-  "resist": {}
+  "resist": {},
+  "moves": [
+    {
+      "move": "arrow",
+      "weight": 2,
+      "range": 165
+    },
+    {
+      "move": "arrow-volley",
+      "weight": 1,
+      "range": 140
+    }
+  ]
 }

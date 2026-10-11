@@ -15,7 +15,8 @@
   "projectile": {
     "speed": 170,
     "radius": 6,
-    "range": 260
+    "range": 260,
+    "look": "web"
   },
   "onHit": {
     "status": "chilled",

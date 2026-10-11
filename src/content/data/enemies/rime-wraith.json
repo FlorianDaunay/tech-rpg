@@ -33,5 +33,17 @@
   "resist": {
     "frost": 0.25,
     "ember": 1.5
-  }
+  },
+  "moves": [
+    {
+      "move": "frost-bolt",
+      "weight": 2,
+      "range": 150
+    },
+    {
+      "move": "frost-fan",
+      "weight": 1,
+      "range": 140
+    }
+  ]
 }

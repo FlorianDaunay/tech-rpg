@@ -33,5 +33,17 @@
   "resist": {
     "ember": 0.2,
     "frost": 1.5
-  }
+  },
+  "moves": [
+    {
+      "move": "ember-bolt",
+      "weight": 2,
+      "range": 150
+    },
+    {
+      "move": "ember-rain",
+      "weight": 1,
+      "range": 170
+    }
+  ]
 }

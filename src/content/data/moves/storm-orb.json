@@ -1,0 +1,22 @@
+{
+  "id": "storm-orb",
+  "windup": 0.7,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 1.1,
+  "knockback": 80,
+  "weight": "light",
+  "poise": 10,
+  "element": "storm",
+  "projectile": {
+    "speed": 85,
+    "radius": 5,
+    "range": 320,
+    "homing": 2.4
+  }
+}
