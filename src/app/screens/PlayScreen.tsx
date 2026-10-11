@@ -6,12 +6,14 @@ import { useInputDevice } from "@/store/input";
 import { useMenu } from "@/store/menu";
 import { useScreen } from "@/store/screen";
 import { useSettings } from "@/store/settings";
+import { firstEmptySlot, useSaves } from "@/store/saves";
 import { TouchControls } from "@/ui/touch/TouchControls";
 import { LootToasts } from "../hud/LootToasts";
 import { Vitals } from "../hud/Vitals";
 import { ZoneBanner } from "../hud/ZoneBanner";
 import { Prompt } from "../hud/Prompt";
 import { QuestToasts } from "../hud/QuestToasts";
+import { SaveIndicator } from "../hud/SaveIndicator";
 import { SkillBar } from "../hud/SkillBar";
 import { CodexScreen } from "./CodexScreen";
 import { DialogueBox } from "./DialogueBox";
@@ -31,7 +33,12 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
   const { open, back, closeAll } = useMenu();
 
   useEffect(() => {
-    if (engineReady && !inWorld) bridge.emit("ui:start", { mode });
+    if (engineReady && !inWorld) {
+      // Chosen on the title screen (Continue / New game / Load); default: a new game in a free slot.
+      const pending = useSaves.getState().pending ?? (mode === "solo" ? { slot: firstEmptySlot() ?? undefined, save: null } : null);
+      bridge.emit("ui:start", { mode, slot: pending?.slot, save: pending?.save });
+      useSaves.setState({ pending: null });
+    }
     // Start once, when the engine is up (it may still be downloading when the screen opens).
   }, [engineReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -74,6 +81,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <ZoneBanner />
       <QuestToasts />
       <Prompt />
+      <SaveIndicator />
       {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} />}
       {menu === "inventory" && <InventoryScreen />}

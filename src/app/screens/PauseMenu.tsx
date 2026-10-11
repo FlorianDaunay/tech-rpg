@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { bridge } from "@/bridge/events";
 import { t } from "@/i18n";
 import { useMenu } from "@/store/menu";
 import { MenuButton, Modal } from "@/ui/menu/components";
@@ -23,6 +24,7 @@ export function PauseMenu({ onQuit }: { onQuit: () => void }) {
             <MenuButton onClick={() => open("talents")}>{t("talents.title")}</MenuButton>
             <MenuButton onClick={() => open("journal")}>{t("journal.title")}</MenuButton>
             <MenuButton onClick={() => open("codex")}>{t("codex.title")}</MenuButton>
+            <MenuButton onClick={() => bridge.emit("ui:save")}>{t("pause.save")}</MenuButton>
             <MenuButton onClick={() => open("settings")}>{t("menu.settings")}</MenuButton>
             <MenuButton onClick={() => setConfirmQuit(true)}>{t("pause.quit")}</MenuButton>
           </>

@@ -4,6 +4,7 @@
  */
 import type { Progress } from "@/core/narrative/progress";
 import type { Command } from "@/core/sim/intent";
+import type { SaveData } from "@/core/save/save";
 
 type Listener<T> = (payload: T) => void;
 
@@ -56,6 +57,8 @@ export interface BridgeEvents {
   "game:zone": { zone: string; map: string };
   /** The local player started talking to an NPC. */
   "game:dialogue": { npc: string; dialogue: string };
+  /** A save was written (or refused by storage). Manual = from the pause menu. */
+  "game:saved": { ok: boolean; manual: boolean };
   /** Quest started / progressed / ready to turn in / done (toasts). */
   "game:quest": { quest: string; change: "started" | "progress" | "ready" | "done" };
   /** A new skill became available (level-up). */
@@ -66,10 +69,12 @@ export interface BridgeEvents {
   "game:loot": { item: string; count: number };
   /** UI → game: inventory command for the local player (sent with the next Intent). */
   "ui:command": Command;
-  /** UI → game: leave the title and start playing. */
-  "ui:start": { mode: GameMode };
+  /** UI → game: enter the world: a new game in `slot`, or the loaded `save` (no slot = nothing is saved). */
+  "ui:start": { mode: GameMode; slot?: number; save?: SaveData | null };
   /** UI → game: back to the title backdrop. */
   "ui:quit": void;
+  /** Save now (pause menu). */
+  "ui:save": void;
   "ui:pause": boolean;
 }
 

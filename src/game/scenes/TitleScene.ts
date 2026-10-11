@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { bridge } from "@/bridge/events";
+import type { WorldStart } from "./PreloadScene";
 import { audio } from "../audio";
 
 /** Ambient backdrop behind the title menu: drifting embers rising from a dim lantern glow. */
@@ -35,7 +36,12 @@ export class TitleScene extends Phaser.Scene {
       embers.updateConfig({ x: { min: 0, max: size.width }, y: size.height + 10 });
     };
     this.scale.on("resize", onResize);
-    const off = bridge.on("ui:start", (start) => this.scene.start("preload", start));
+    const off = bridge.on("ui:start", ({ mode, slot, save }) => {
+      const start: WorldStart = save
+        ? { mode, slot, map: save.map, at: { x: save.x, y: save.y }, carry: save.player, time: save.time, playtime: save.playtime }
+        : { mode, slot };
+      this.scene.start("preload", start);
+    });
     this.events.once("shutdown", () => {
       off();
       this.scale.off("resize", onResize);

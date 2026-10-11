@@ -7,6 +7,7 @@ import { GameCanvas } from "./GameCanvas";
 import { ComingSoon } from "./screens/ComingSoon";
 import { CreditsScreen } from "./screens/CreditsScreen";
 import { PlayScreen } from "./screens/PlayScreen";
+import { SavesScreen } from "./screens/SavesScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
 import { SoundTest } from "./screens/SoundTest";
 import { TitleScreen } from "./screens/TitleScreen";
@@ -26,6 +27,7 @@ export function App() {
       <Fragment key={lang}>
         {screen === "title" && <TitleScreen />}
         {screen === "solo" && <PlayScreen mode="solo" />}
+        {screen === "saves" && <SavesScreen />}
         {screen === "multi" && <ComingSoon title={t("menu.multi")} />}
         {screen === "settings" && <SettingsScreen onBack={() => go("title")} />}
         {screen === "soundtest" && <SoundTest />}

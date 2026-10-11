@@ -8,8 +8,7 @@ import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
 import { createSim, SIM_DT, spawnEnemy, spawnNpc, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
-import { equip } from "@/core/combat/equipment";
-import { setLevel, xpToNext } from "@/core/progression/level";
+import { xpToNext } from "@/core/progression/level";
 import { findSkill, SKILL_SLOTS } from "@/core/combat/defs";
 import { skillBlocker, skillCooldown, ultimateFill, unlockedSkills } from "@/core/combat/skills";
 import { talentPointsLeft } from "@/core/progression/talents";
@@ -25,13 +24,18 @@ import { InputRouter } from "../input/InputRouter";
 import { Lighting } from "../systems/Lighting";
 import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
-import type { PlayerCarry, WorldStart } from "./PreloadScene";
+import type { WorldStart } from "./PreloadScene";
+import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
+import { isSolidCell } from "@/core/world/map";
+import { writeSave } from "@/store/saves";
 
 const LOCAL_ID = "p1";
 const START_MAP = "cinderhold";
 /** Never simulate more than this many steps per frame (tab was in background, slow device). */
 const MAX_STEPS_PER_FRAME = 5;
 const VITALS_INTERVAL = 66;
+/** Autosave every this many ms of play while out of combat. */
+const AUTOSAVE_MS = 60_000;
 /** Until the inventory exists (M7): what a new initiate carries. */
 const STARTER_GEAR = { weapon: "initiate-blade", shield: "initiate-buckler" };
 
@@ -69,6 +73,11 @@ export class WorldScene extends Phaser.Scene {
   private inventoryKey = "";
   private promptKey = "";
   private disposers: (() => void)[] = [];
+  /** Seconds played in this save (counts only unpaused frames). */
+  private playtime = 0;
+  private lastSave = 0;
+  /** Something worth keeping happened (level-up, talent, quest): save at the end of this frame. */
+  private saveSoon = false;
 
   constructor() {
     super("world");
@@ -88,6 +97,8 @@ export class WorldScene extends Phaser.Scene {
     this.commands = [];
     this.inventoryKey = "";
     this.promptKey = "";
+    this.playtime = data.playtime ?? 0;
+    this.saveSoon = false;
 
     this.map = toGameMap(content.maps.get(data.map ?? START_MAP));
     this.zone = content.zones.get(this.map.zone);
@@ -96,15 +107,12 @@ export class WorldScene extends Phaser.Scene {
 
     this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME);
     const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
-    const spawn = playerSpawns.find((s) => s.id === data.arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
+    let spawn: { x: number; y: number } = playerSpawns.find((s) => s.id === data.arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
+    // A loaded save resumes where the player stood, if that spot is still walkable.
+    const ts = this.map.tileSize;
+    if (data.at && data.at.x >= 0 && !isSolidCell(this.map, Math.floor(data.at.x / ts), Math.floor(data.at.y / ts))) spawn = data.at;
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
-    if (data.carry) {
-      equip(me, data.carry.weapon, data.carry.shield);
-      me.talents = { ...data.carry.talents };
-      setLevel(me, data.carry.level, data.carry.xp);
-      Object.assign(me, { loadout: { ...data.carry.loadout }, ultCharge: data.carry.ultCharge, cooldowns: { ...data.carry.cooldowns } });
-      Object.assign(me, { hp: Math.max(1, Math.min(me.stats.maxHp, data.carry.hp)), stamina: data.carry.stamina, bag: { ...data.carry.bag }, progress: structuredClone(data.carry.progress) });
-    }
+    if (data.carry) restorePlayer(me, data.carry);
     for (const s of this.map.spawns) {
       if (s.kind === "enemy" && s.ref) spawnEnemy(this.sim, s.ref, s.x, s.y);
       else if (s.kind === "npc" && s.ref) spawnNpc(this.sim, s.ref, s.x, s.y);
@@ -136,7 +144,21 @@ export class WorldScene extends Phaser.Scene {
     audio.music.setState("explore");
     audio.ambience.set(this.zone.ambience ?? this.zone.id);
 
-    this.disposers.push(bridge.on("ui:quit", () => this.scene.start("title")));
+    this.disposers.push(
+      bridge.on("ui:quit", () => {
+        this.save();
+        this.scene.start("title");
+      })
+    );
+    this.disposers.push(bridge.on("ui:save", () => this.save(true)));
+    // Leaving the tab / backgrounding the Android app may be the last chance to save.
+    const onHide = () => document.visibilityState === "hidden" && this.save();
+    document.addEventListener("visibilitychange", onHide);
+    window.addEventListener("pagehide", onHide);
+    this.disposers.push(() => {
+      document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener("pagehide", onHide);
+    });
     this.disposers.push(bridge.on("ui:command", (c) => this.commands.push(c)));
     this.disposers.push(
       bridge.on("ui:pause", (paused) => {
@@ -151,6 +173,30 @@ export class WorldScene extends Phaser.Scene {
     this.cameras.main.fadeIn(400, 7, 6, 11);
     bridge.emit("game:world-ready", { mapId: this.map.id });
     bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id });
+    // Arriving somewhere (new game, map change, loaded save) is a checkpoint.
+    this.save();
+  }
+
+  /**
+   * Writes the local player to the run's save slot. Skipped without a slot (multiplayer client),
+   * while dead, or mid-transition. Returns whether a save was written.
+   */
+  private save(manual = false): boolean {
+    const me = this.sim?.actors[LOCAL_ID];
+    if (this.start.slot === undefined || !me || me.action.kind === "dead" || this.travelling) return false;
+    this.lastSave = this.time.now;
+    this.saveSoon = false;
+    const ok = writeSave(this.start.slot, captureSave(me, this.map.id, this.sim.time, this.playtime, Date.now()));
+    bridge.emit("game:saved", { ok, manual });
+    return ok;
+  }
+
+  /** Checkpoint events and the periodic out-of-combat autosave. */
+  private autosave(events: readonly { type: string; id?: string; change?: string }[]): void {
+    for (const ev of events) {
+      if (ev.id !== LOCAL_ID) continue;
+      if (ev.type === "level-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
+    }
   }
 
   override update(_time: number, delta: number): void {
@@ -178,6 +224,7 @@ export class WorldScene extends Phaser.Scene {
       for (const a of Object.values(this.sim.actors)) this.prev.set(a.id, { x: a.x, y: a.y });
       stepSim(this.sim, this.map, { [LOCAL_ID]: this.localIntent() });
       this.fx.handle(this.sim.events);
+      this.autosave(this.sim.events);
       this.accumulator -= SIM_DT;
       for (const ev of this.sim.events) {
         if (ev.type === "pickup" && ev.actor === LOCAL_ID) bridge.emit("game:loot", { item: ev.item, count: ev.count });
@@ -216,6 +263,10 @@ export class WorldScene extends Phaser.Scene {
     this.updateInventory(me);
     this.updatePrompt(me);
     this.updateDebug();
+
+    this.playtime += delta / 1000;
+    const calm = this.musicState === "explore";
+    if (this.saveSoon || (calm && this.time.now - this.lastSave > AUTOSAVE_MS)) this.save();
   }
 
   /** Fade out and restart the scene on the target map, carrying the local player state and the clock. */
@@ -223,11 +274,11 @@ export class WorldScene extends Phaser.Scene {
     if (this.travelling) return;
     this.travelling = true;
     const me = this.sim.actors[LOCAL_ID];
-    const carry: PlayerCarry | undefined = me?.progress ? { hp: me.hp, stamina: me.stamina, bag: { ...me.bag }, weapon: me.weapon, shield: me.shield, progress: structuredClone(me.progress), level: me.level, xp: me.xp, loadout: { ...me.loadout }, ultCharge: me.ultCharge, cooldowns: { ...me.cooldowns }, talents: { ...me.talents } } : undefined;
+    const carry = me?.progress ? capturePlayer(me) : undefined;
     audio.sfx("portal", { volume: 0.5 });
     this.cameras.main.fadeOut(350, 7, 6, 11);
     this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () =>
-      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time } satisfies WorldStart)
+      this.scene.restart({ mode: this.start.mode, map: to, arrive, carry, time: this.sim.time, slot: this.start.slot, playtime: this.playtime } satisfies WorldStart)
     );
   }
 
@@ -242,6 +293,8 @@ export class WorldScene extends Phaser.Scene {
     if (!me) return;
     stepSim(this.sim, this.map, { [LOCAL_ID]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
     this.fx.handle(this.sim.events);
+    this.autosave(this.sim.events);
+    if (this.saveSoon) this.save();
     for (const ev of this.sim.events) {
       if (ev.type === "quest" && ev.id === LOCAL_ID) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
       if (ev.type === "skill-unlocked" && ev.id === LOCAL_ID) bridge.emit("game:skill-unlocked", { skill: ev.skill });
