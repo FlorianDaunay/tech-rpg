@@ -71,6 +71,7 @@ export const MapPortalSchema = z.object({
   h: z.number().int().positive().default(1),
   to: refAny(["map", "rift"]).describe("Target map, or a Rift (starts floor 1 of today's run)"),
   arrive: z.string().describe("Player spawn id in the target map (ignored for a Rift)"),
+  requires: z.array(z.string()).default([]).describe("Enemy spawn ids that must fall before it opens (sealed until then; shown on the map)"),
 });
 
 export const MapSchema = z
@@ -103,6 +104,9 @@ export const MapSchema = z
     map.objects.forEach((o, i) => inside(o.cx, o.cy) || ctx.addIssue({ code: "custom", message: `object ${i} (${o.asset}) outside the map` }));
     map.spawns.forEach((s) => inside(s.cx, s.cy) || ctx.addIssue({ code: "custom", message: `spawn ${s.id} outside the map` }));
     map.portals.forEach((p) => inside(p.cx + p.w - 1, p.cy + p.h - 1) || ctx.addIssue({ code: "custom", message: `portal ${p.id} outside the map` }));
+    const enemySpawns = new Set(map.spawns.filter((s) => s.kind === "enemy").map((s) => s.id));
+    for (const p of map.portals)
+      for (const id of p.requires) if (!enemySpawns.has(id)) ctx.addIssue({ code: "custom", message: `portal ${p.id} requires unknown enemy spawn ${id}` });
   })
   .describe("Map");
 

@@ -15,6 +15,8 @@ export interface Rng {
   pick<T>(items: readonly T[]): T;
   /** Picks a key by weight (weights need not sum to 1). */
   weighted<T>(entries: readonly (readonly [T, number])[]): T;
+  /** A shuffled copy (Fisher-Yates). */
+  shuffle<T>(items: readonly T[]): T[];
 }
 
 export function createRng(seed: number): Rng {
@@ -44,6 +46,14 @@ export function createRng(seed: number): Rng {
       let roll = next() * total;
       for (const [value, w] of entries) if ((roll -= Math.max(0, w)) < 0) return value;
       return entries[entries.length - 1]![0];
+    },
+    shuffle: (items) => {
+      const out = [...items];
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(next() * (i + 1));
+        [out[i], out[j]] = [out[j]!, out[i]!];
+      }
+      return out;
     },
   };
   return rng;

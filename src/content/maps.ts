@@ -85,7 +85,7 @@ export function toGameMap(content: MapContent): GameMap {
     x: (s.cx + 0.5) * tileSize,
     y: (s.cy + 0.5) * tileSize,
   }));
-  const portals = content.portals.map((p) => ({ id: p.id, x: p.cx * tileSize, y: p.cy * tileSize, w: p.w * tileSize, h: p.h * tileSize, to: p.to, arrive: p.arrive }));
+  const portals = content.portals.map((p) => ({ id: p.id, x: p.cx * tileSize, y: p.cy * tileSize, w: p.w * tileSize, h: p.h * tileSize, to: p.to, arrive: p.arrive, requires: p.requires }));
   const lights: MapLight[] = content.objects.flatMap((o, i) =>
     o.light ? [{ x: objects[i]!.x, y: objects[i]!.y + o.light.offsetY, radius: o.light.radius, color: o.light.color, intensity: o.light.intensity, flicker: o.light.flicker }] : []
   );

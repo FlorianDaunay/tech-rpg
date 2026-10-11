@@ -230,6 +230,13 @@ export class CombatFx {
         h.light?.(ev.x, ev.y, ev.radius * 1.2, ev.sealed ? "torch" : "lantern");
         break;
       }
+      case "portal-open": {
+        audio.sfx("portal", { x: ev.x, y: ev.y, volume: 1 });
+        audio.sfx("quest-complete", { volume: 0.5 });
+        this.shake(0.003);
+        h.light?.(ev.x, ev.y, 120, "rift");
+        break;
+      }
       case "boss-phase": {
         const a = h.actor(ev.id);
         if (!a) break;

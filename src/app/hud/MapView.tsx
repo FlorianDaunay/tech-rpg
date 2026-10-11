@@ -7,7 +7,7 @@ import { t } from "@/i18n";
 import { parseRiftMapId } from "@/core/world/riftgen";
 
 /** Marker radius in screen px (stays readable at any map scale). */
-const RADIUS: Record<MapMarker["kind"], number> = { me: 3.2, ally: 2.6, enemy: 2, npc: 2.4, chest: 2.4 };
+const RADIUS: Record<MapMarker["kind"], number> = { me: 3.2, ally: 2.6, enemy: 2, npc: 2.4, chest: 2.4, warden: 3, sealed: 3.2 };
 
 /** Zone name of the map a portal leads to. */
 export function destinationName(map: string): string {
@@ -52,7 +52,14 @@ export function MapView({ layout, markers, scale, labels = false }: { layout: Mi
           <rect key={i} x={p.x * scale} y={p.y * scale} width={Math.max(p.w * scale, 3)} height={Math.max(p.h * scale, 3)} fill={MINIMAP_COLORS.portal} fillOpacity={0.55} stroke={MINIMAP_COLORS.portal} strokeWidth={1} />
         ))}
         {markers.map((m, i) =>
-          m.kind === "chest" ? (
+          m.kind === "sealed" ? (
+            <g key={i} stroke={MINIMAP_COLORS.sealed} strokeWidth={1.4} strokeLinecap="round">
+              <line x1={m.x * scale - 2.6} y1={m.y * scale - 2.6} x2={m.x * scale + 2.6} y2={m.y * scale + 2.6} />
+              <line x1={m.x * scale + 2.6} y1={m.y * scale - 2.6} x2={m.x * scale - 2.6} y2={m.y * scale + 2.6} />
+            </g>
+          ) : m.kind === "warden" ? (
+            <circle key={i} cx={m.x * scale} cy={m.y * scale} r={RADIUS.warden} fill={MINIMAP_COLORS.warden} stroke={MINIMAP_COLORS.me} strokeWidth={1} className="animate-pulse" />
+          ) : m.kind === "chest" ? (
             <rect key={i} x={m.x * scale - RADIUS.chest} y={m.y * scale - RADIUS.chest} width={RADIUS.chest * 2} height={RADIUS.chest * 2} fill={MINIMAP_COLORS.chest} stroke={MINIMAP_COLORS.empty} strokeWidth={0.75} />
           ) : (
             <circle key={i} cx={m.x * scale} cy={m.y * scale} r={RADIUS[m.kind]} fill={MINIMAP_COLORS[m.kind]} stroke={MINIMAP_COLORS.empty} strokeWidth={m.kind === "me" ? 1.25 : 0.75} />

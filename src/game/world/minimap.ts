@@ -1,7 +1,7 @@
 import type { MapMarker, MinimapLayout } from "@/bridge/events";
 import { MINIMAP_COLORS } from "@/config/palette";
 import type { Actor } from "@/core/combat/actor";
-import type { SimState } from "@/core/sim/state";
+import { portalWardens, type SimState } from "@/core/sim/state";
 import type { GameMap } from "@/core/world/map";
 
 /** Tile family of a resolved tile key (`tiles/grass#3` → `grass`). */
@@ -57,12 +57,20 @@ export function minimapLayout(map: GameMap, zone: string): MinimapLayout {
 const ALIVE = (a: Actor) => a.action.kind !== "dead";
 
 /** Moving things and points of interest, in cell units. */
-export function mapMarkers(sim: SimState, ts: number, localId: string): MapMarker[] {
+export function mapMarkers(sim: SimState, map: GameMap, localId: string): MapMarker[] {
+  const ts = map.tileSize;
   const out: MapMarker[] = [];
   for (const c of sim.chests) if (!c.opened) out.push({ kind: "chest", x: c.x / ts, y: c.y / ts });
+  // Sealed portals and the wardens keeping them shut.
+  const wardens = new Set<string>();
+  for (const p of map.portals) {
+    if (!sim.sealed?.includes(p.id)) continue;
+    out.push({ kind: "sealed", x: (p.x + p.w / 2) / ts, y: (p.y + p.h / 2) / ts });
+    for (const a of portalWardens(sim, map, p)) wardens.add(a.id);
+  }
   for (const a of Object.values(sim.actors)) {
     if (!ALIVE(a)) continue;
-    const kind = a.id === localId ? "me" : a.kind === "player" || a.kind === "pet" ? "ally" : a.kind === "enemy" ? "enemy" : "npc";
+    const kind = a.id === localId ? "me" : a.kind === "player" || a.kind === "pet" ? "ally" : wardens.has(a.id) ? "warden" : a.kind === "enemy" ? "enemy" : "npc";
     out.push({ kind, x: a.x / ts, y: a.y / ts });
   }
   // The local player last, drawn on top.

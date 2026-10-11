@@ -71,6 +71,8 @@ export type SimEvent =
   | { type: "quest"; id: string; quest: string; change: "started" | "progress" | "ready" | "done" }
   /** A player stands in a portal: the host moves the party to `to` (arriving at spawn `arrive`). */
   | { type: "portal"; id: string; portal: string; to: string; arrive: string }
+  /** A sealed portal's wardens all fell: it opens (x, y = its centre, px). */
+  | { type: "portal-open"; portal: string; x: number; y: number }
   /** The actor was removed from the sim (corpse faded). */
   | { type: "despawn"; id: string }
   /** A boss entered a new phase (phase index ≥ 1). */

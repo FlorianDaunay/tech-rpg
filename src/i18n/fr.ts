@@ -132,6 +132,8 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "pvp.killed": "{killer} ⚔ {victim}",
   "pvp.fell": "{victim} est tombé·e",
   "pvp.streak": "{n} d’affilée !",
+  "seal.left": "Sortie scellée — {left} gardien(s) sur {total} restant(s)",
+  "seal.open": "Le passage s’ouvre",
   "hud.party": "Groupe",
   "hud.hosting": "Hôte",
   "hud.ping": "{ms} ms",

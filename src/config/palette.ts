@@ -63,6 +63,9 @@ export const ARENA_COLORS = {
   core: WORLD_RAMPS.flame[4],
   tip: WORLD_RAMPS.flame[4],
   glow: WORLD_RAMPS.flame[3],
+  /** Sealed portal veil (Rift exits waiting for their wardens). */
+  seal: "#9A6BFF",
+  sealEdge: "#D9C2FF",
 } as const;
 
 /** Minimap / map screen: terrain by tile family, then markers. */
@@ -94,6 +97,9 @@ export const MINIMAP_COLORS = {
   npc: "#9EE6A0",
   chest: "#FFC65C",
   portal: "#C09BFF",
+  /** Enemies that keep a portal sealed, and the sealed portal itself. */
+  warden: "#FF9F1C",
+  sealed: "#FF4A3D",
 } as const;
 
 /** Light colours (ADD-blended radial lights are tinted with these). */

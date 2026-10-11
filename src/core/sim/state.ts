@@ -40,6 +40,8 @@ export interface SimState extends CombatWorld {
   arenas: Arena[];
   /** Trades between players in progress (see core/trade). */
   trades: Trade[];
+  /** Portals still sealed (their required enemies stand). Updated each step; opening emits `portal-open`. */
+  sealed: string[];
 }
 
 /** Host-side inputs of a step that aren't player intents. */
@@ -92,7 +94,7 @@ export const RESPAWN_CLEARANCE = 180;
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>, extra: Partial<Modifiers> = {}): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null, sealed: [] };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -356,12 +358,34 @@ export function syncPets(state: SimState): void {
   }
 }
 
-/** Living players standing inside a portal rectangle (feet position). Sealed while a boss fights. */
+/** Living actors of the enemy spawns a portal requires (empty = open). */
+export function portalWardens(state: SimState, map: GameMap, portal: GameMap["portals"][number]): Actor[] {
+  const out: Actor[] = [];
+  for (const id of portal.requires) {
+    const sp = state.spawners.find((s) => s.key === `${map.id}:${id}`);
+    const a = sp?.actor ? state.actors[sp.actor] : undefined;
+    if (a && a.action.kind !== "dead") out.push(a);
+  }
+  return out;
+}
+
+/** Re-checks sealed portals; a portal whose wardens all fell opens (once, with an event). */
+function stepSeals(state: SimState, map: GameMap): void {
+  const now = map.portals.filter((p) => p.requires.length && portalWardens(state, map, p).length > 0).map((p) => p.id);
+  for (const id of state.sealed ?? []) {
+    if (now.includes(id)) continue;
+    const p = map.portals.find((x) => x.id === id);
+    if (p) state.events.push({ type: "portal-open", portal: id, x: p.x + p.w / 2, y: p.y + p.h / 2 });
+  }
+  state.sealed = now;
+}
+
+/** Living players standing inside a portal rectangle (feet position). Shut while a boss fights or while sealed. */
 function detectPortals(state: SimState, map: GameMap): void {
   if (!map.portals.length || arenaLocked(state)) return;
   for (const a of players(state)) {
     if (a.action.kind === "dead") continue;
-    const p = map.portals.find((r) => a.x >= r.x && a.x < r.x + r.w && a.y >= r.y && a.y < r.y + r.h);
+    const p = map.portals.find((r) => !state.sealed.includes(r.id) && a.x >= r.x && a.x < r.x + r.w && a.y >= r.y && a.y < r.y + r.h);
     if (p) state.events.push({ type: "portal", id: a.id, portal: p.id, to: p.to, arrive: p.arrive });
   }
 }
@@ -442,6 +466,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
   stepSpawners(state);
+  stepSeals(state, map);
   detectPortals(state, map);
   for (const a of players(state)) if (a.progress) trackProgress(state.events, { id: a.id, bag: a.bag, progress: a.progress }, state.mapId);
   awardXp(state.events, state.actors);

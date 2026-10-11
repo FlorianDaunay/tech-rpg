@@ -29,7 +29,7 @@ function room(portal = false): GameMap {
   const n = 40;
   const solid = new Uint8Array(n * n);
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (x === 0 || y === 0 || x === n - 1 || y === n - 1) solid[y * n + x] = 1;
-  const portals = portal ? [{ id: "out", x: 280, y: 380, w: 40, h: 40, to: "elsewhere", arrive: "in" }] : [];
+  const portals = portal ? [{ id: "out", x: 280, y: 380, w: 40, h: 40, to: "elsewhere", arrive: "in", requires: [] }] : [];
   return { id: "room", zone: "test", width: n, height: n, tileSize: 32, layers: [], objects: [], solid, spawns: [], portals, lights: [] };
 }
 

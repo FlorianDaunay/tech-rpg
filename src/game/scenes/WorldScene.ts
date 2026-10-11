@@ -7,7 +7,7 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { arenaLocked, chestTarget, createSim, enablePvp, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { arenaLocked, chestTarget, createSim, enablePvp, populateMap, portalWardens, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
 import { findSkill, getEnemy, SKILL_SLOTS } from "@/core/combat/defs";
@@ -27,6 +27,7 @@ import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
 import { mapMarkers, minimapLayout } from "../world/minimap";
 import { ArenaWalls } from "../systems/ArenaWalls";
+import { SealBarriers } from "../systems/SealBarriers";
 import { findMapContent, resolvePortal } from "@/content/rift";
 import { dailySeed, parseRiftMapId } from "@/core/world/riftgen";
 import type { Modifiers } from "@/core/combat/modifiers";
@@ -110,6 +111,8 @@ export class WorldScene extends Phaser.Scene {
   private rift: ReturnType<typeof parseRiftMapId> = null;
   private markersAt = 0;
   private arenaWalls!: ArenaWalls;
+  private seals!: SealBarriers;
+  private sealKey = "";
   private bossKey = "";
   /** Seconds played in this save (counts only unpaused frames). */
   private playtime = 0;
@@ -175,6 +178,8 @@ export class WorldScene extends Phaser.Scene {
       if (this.zone.pvp) enablePvp(this.sim, this.map);
     }
     this.arenaWalls = new ArenaWalls(this);
+    this.seals = new SealBarriers(this, this.map);
+    this.sealKey = "";
     for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
 
     this.fx = new CombatFx({
@@ -331,9 +336,10 @@ export class WorldScene extends Phaser.Scene {
   }
 
   /** Checkpoint events and the periodic out-of-combat autosave. */
-  private autosave(events: readonly { type: string; id?: string; change?: string; chest?: string; sealed?: boolean }[]): void {
+  private autosave(events: readonly { type: string; id?: string; change?: string; chest?: string; sealed?: boolean; portal?: string }[]): void {
     for (const ev of events) {
       if (ev.type === "arena" && ev.id) this.arenaWalls.toggle(ev.id, !!ev.sealed);
+      if (ev.type === "portal-open" && ev.portal) this.seals.open(ev.portal);
       // Any party member's chest is empty for everyone (and recorded in every player's progress).
       if (ev.type === "chest" && ev.chest) {
         this.markChestOpened(ev.chest);
@@ -398,6 +404,7 @@ export class WorldScene extends Phaser.Scene {
     this.fx.syncPickups(this.sim.pickups);
     this.fx.syncCharges();
     this.arenaWalls.update(this.sim.arenas);
+    this.seals.update(this.sim.sealed ?? []);
 
     const me = this.sim.actors[this.localId];
     if (me) audio.setListener(me.x, me.y);
@@ -415,7 +422,8 @@ export class WorldScene extends Phaser.Scene {
     this.updateDebug();
     if (this.time.now >= this.markersAt) {
       this.markersAt = this.time.now + MARKERS_INTERVAL;
-      bridge.emit("game:markers", mapMarkers(this.sim, this.map.tileSize, this.localId));
+      bridge.emit("game:markers", mapMarkers(this.sim, this.map, this.localId));
+      this.updateSeal();
     }
 
     this.playtime += delta / 1000;
@@ -719,6 +727,16 @@ export class WorldScene extends Phaser.Scene {
     bridge.emit("game:party", party);
   }
 
+  /** HUD counter of the wardens keeping this map's exit sealed (left 0 once it opens). */
+  private updateSeal(): void {
+    const p = this.map.portals.find((x) => x.requires.length);
+    const view = p ? { left: this.sim.sealed?.includes(p.id) ? portalWardens(this.sim, this.map, p).length : 0, total: p.requires.length } : null;
+    const key = JSON.stringify(view);
+    if (key === this.sealKey) return;
+    this.sealKey = key;
+    bridge.emit("game:seal", view);
+  }
+
   /** A player's display name (lobby name online, else "you" / the seat). */
   private nameOf(id: string): string {
     return useNet.getState().room?.players.find((p) => p.id === id)?.name ?? (id === this.localId ? t("pvp.you") : id);
@@ -776,6 +794,7 @@ net ${session.role} ${this.localId} · rtt ${session.pingOf(this.localId) ?? "?"
     this.tilemap = null;
     this.views.forEach((v) => v.destroy());
     this.views.clear();
+    this.seals.destroy();
     this.anims.globalTimeScale = 1;
     audio.music.setState("explore");
     audio.ambience.set(null);

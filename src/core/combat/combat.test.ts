@@ -279,7 +279,7 @@ describe("combat", () => {
 
   it("players standing in a portal emit a portal event; enemies don't", () => {
     const { map, sim, p, e } = setup();
-    map.portals = [{ id: "east", x: 300, y: 180, w: 32, h: 40, to: "elsewhere", arrive: "west" }];
+    map.portals = [{ id: "east", x: 300, y: 180, w: 32, h: 40, to: "elsewhere", arrive: "west", requires: [] }];
     e.ai!.cooldown = 99;
     expect(run(sim, map, 1).some((ev) => ev.type === "portal")).toBe(false);
     p.x = 310;

@@ -80,7 +80,7 @@ export interface BossView {
 
 /** Something to dot on the map, in cell units. */
 export interface MapMarker {
-  kind: "me" | "ally" | "enemy" | "npc" | "chest";
+  kind: "me" | "ally" | "enemy" | "npc" | "chest" | "warden" | "sealed";
   x: number;
   y: number;
 }
@@ -134,6 +134,8 @@ export interface BridgeEvents {
   /** The boss fighting the local player (null when none): HUD boss bar. */
   "game:boss": BossView | null;
   "game:markers": MapMarker[];
+  /** A sealed portal on this map: wardens left / required (left 0 = it just opened). Null = none. */
+  "game:seal": { left: number; total: number } | null;
   /** Local player's bag/gear changed (and once when the world starts). */
   "game:inventory": InventoryView;
   /** Entered a map: the HUD shows the zone banner. */

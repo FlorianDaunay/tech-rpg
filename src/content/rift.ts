@@ -25,7 +25,14 @@ export function riftFloorContent(rift: RiftContent, seed: number, floor: number)
   const spawns: MapContent["spawns"] = [{ id: "start", kind: "player", cx: f.start.x, cy: f.start.y }];
   // Chests are solid: nothing may spawn under one.
   const blocked = new Set([...f.chests.map((c) => `${c.x},${c.y}`), ...(last ? [`${f.exit.x},${f.exit.y - 2}`] : [])]);
-  f.enemies.filter((e) => !blocked.has(`${e.x},${e.y}`)).forEach((e, i) => spawns.push({ id: `e${i}`, kind: "enemy", cx: e.x, cy: e.y, ref: pick(e.elite ? rift.elites : rift.enemies) }));
+  const placed = f.enemies.filter((e) => !blocked.has(`${e.x},${e.y}`));
+  placed.forEach((e, i) => spawns.push({ id: `e${i}`, kind: "enemy", cx: e.x, cy: e.y, ref: pick(e.elite ? rift.elites : rift.enemies) }));
+  // What seals the exit: every enemy, or the guardian + a few wardens (own stream: picks don't shift spawns).
+  const wardenRng = createRng(hashSeed(`${id}:wardens`));
+  const ids = placed.map((_, i) => `e${i}`);
+  const elites = ids.filter((_, i) => placed[i]!.elite);
+  const others = wardenRng.shuffle(ids.filter((_, i) => !placed[i]!.elite));
+  const requires = rift.seal === "all" ? ids : [...elites, ...others.slice(0, rift.seal)];
   const objects: MapContent["objects"] = [];
   f.chests.forEach((c, i) => objects.push({ asset: "props/chest", frame: 0, cx: c.x, cy: c.y, footprint: [1, 1], flipX: false, chest: { id: `chest-${i}`, loot: rift.chestLoot } }));
   if (last) objects.push({ asset: "props/chest", frame: 0, cx: f.exit.x, cy: f.exit.y - 2, footprint: [1, 1], flipX: false, chest: { id: "final", loot: rift.finalLoot } });
@@ -54,6 +61,7 @@ export function riftFloorContent(rift: RiftContent, seed: number, floor: number)
         h: 2,
         to: last ? rift.exitTo : riftMapId(rift.id, seed, floor + 1),
         arrive: last ? rift.exitArrive : "start",
+        requires,
       },
     ],
   };

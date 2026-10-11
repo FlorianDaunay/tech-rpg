@@ -19,6 +19,10 @@ export const RiftSchema = z
     tiles: z.object({ floor: LegendEntry, wall: LegendEntry }).describe("Floor tile and (solid, autotiled) wall tile"),
     enemies: Pool.describe("Room enemies"),
     elites: Pool.describe("Guardian of each floor's exit"),
+    seal: z
+      .union([z.literal("all"), z.number().int().min(0)])
+      .default(3)
+      .describe("The exit stays sealed until these fall: \"all\" enemies of the floor, or the exit guardian + N wardens (marked on the map)"),
     chestLoot: ref("loot").describe("Chests found in rooms"),
     finalLoot: ref("loot").describe("Chest waiting by the last floor's exit"),
     perFloor: z.partialRecord(z.enum(MODIFIERS), z.number().nonnegative()).default({}).describe("Added to each multiplier per floor below the first (0.15 → ×1.15, ×1.3…)"),

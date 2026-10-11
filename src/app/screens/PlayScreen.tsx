@@ -17,6 +17,7 @@ import { SaveIndicator } from "../hud/SaveIndicator";
 import { NetToast } from "../hud/NetToast";
 import { PartyPanel } from "../hud/PartyPanel";
 import { PvpHud } from "../hud/PvpHud";
+import { SealBadge } from "../hud/SealBadge";
 import { TradeScreen, TradeToast } from "./TradeScreen";
 import "@/store/trade";
 import { Minimap } from "../hud/Minimap";
@@ -108,6 +109,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <SaveIndicator />
       <NetToast />
       <PvpHud />
+      <SealBadge />
       <TradeToast />
       {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} mode={mode} />}

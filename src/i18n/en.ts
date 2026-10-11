@@ -130,6 +130,8 @@ export const en = {
   "pvp.killed": "{killer} ⚔ {victim}",
   "pvp.fell": "{victim} fell",
   "pvp.streak": "{n} in a row!",
+  "seal.left": "Exit sealed — {left} of {total} wardens remain",
+  "seal.open": "The way forward opens",
   "hud.party": "Party",
   "hud.hosting": "Hosting",
   "hud.ping": "{ms} ms",

@@ -40,6 +40,8 @@ export interface MapPortal {
   h: number;
   to: string;
   arrive: string;
+  /** Enemy spawn ids that must fall before it opens. */
+  requires: string[];
 }
 
 /** A light source in world pixels (rendering only, but data lives with the map). */
