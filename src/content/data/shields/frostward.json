@@ -1,0 +1,19 @@
+{
+  "id": "frostward",
+  "name": {
+    "en": "Frostward",
+    "fr": "Garde-givre"
+  },
+  "description": {
+    "en": "Cold to the touch. Blows that land on it slow down, as if tired.",
+    "fr": "Froid au toucher. Les coups qui s'y abattent ralentissent, comme fatigués."
+  },
+  "rarity": "rare",
+  "icon": "shields/pack1-21",
+  "value": 170,
+  "level": 5,
+  "reduction": 0.8,
+  "parryWindow": 0.18,
+  "staminaPerDamage": 0.65,
+  "defense": 5
+}

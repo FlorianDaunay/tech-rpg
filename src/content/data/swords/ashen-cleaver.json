@@ -1,0 +1,26 @@
+{
+  "id": "ashen-cleaver",
+  "name": {
+    "en": "Ashen Cleaver",
+    "fr": "Fendoir de cendre"
+  },
+  "description": {
+    "en": "Forged in the last fires of the Citadel. Every swing sheds embers.",
+    "fr": "Forgé dans les derniers feux de la Citadelle. Chaque coup sème des braises."
+  },
+  "rarity": "rare",
+  "icon": "weapons/sword-076",
+  "value": 160,
+  "family": "greatblade",
+  "level": 6,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.45
+  },
+  "bonus": {
+    "power": 4
+  }
+}

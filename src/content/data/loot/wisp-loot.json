@@ -20,6 +20,10 @@
     {
       "item": "cinder-edge",
       "weight": 0.3
+    },
+    {
+      "item": "stormcaller",
+      "weight": 0.12
     }
   ],
   "gold": {

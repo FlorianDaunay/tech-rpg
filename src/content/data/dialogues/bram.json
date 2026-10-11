@@ -4,6 +4,24 @@
     {
       "if": [
         {
+          "quest": "stranger-metal",
+          "is": "ready"
+        }
+      ],
+      "node": "stranger-metal-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "stranger-metal",
+          "is": "active"
+        }
+      ],
+      "node": "stranger-metal-remind"
+    },
+    {
+      "if": [
+        {
           "quest": "grave-iron",
           "is": "ready"
         }
@@ -105,6 +123,90 @@
       "text": {
         "en": "The anvil sings again. Come back when you find stranger metal.",
         "fr": "L'enclume chante à nouveau. Reviens quand tu trouveras un métal plus étrange."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Stranger metal, you said?",
+            "fr": "Un métal plus étrange, tu disais ?"
+          },
+          "if": [
+            {
+              "quest": "stranger-metal",
+              "is": "none"
+            }
+          ],
+          "next": "stranger-metal-offer"
+        }
+      ]
+    },
+    "stranger-metal-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "Got an idea that won't leave me alone. Deep ore from the mines, folded with a shard of the Rift. Nobody's tried. Want to find out what happens?",
+        "fr": "J'ai une idée qui me trotte dans la tête. Du minerai profond des mines, replié avec un éclat de la Faille. Personne n'a essayé. Tu veux voir ce que ça donne ?"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "stranger-metal"
+            }
+          ],
+          "next": "stranger-metal-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "stranger-metal-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five lumps of deep ore and two rift shards. The goblins in the mines hoard the ore; the shards you'll find past the Rift gate.",
+        "fr": "Cinq morceaux de minerai profond et deux éclats de Faille. Les gobelins des mines entassent le minerai ; les éclats, tu les trouveras derrière la porte de la Faille."
+      }
+    },
+    "stranger-metal-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five deep ore, two rift shards. Then we make history. Or a very expensive mess.",
+        "fr": "Cinq minerais profonds, deux éclats de Faille. Ensuite on écrit l'histoire. Ou on fait un désastre très coûteux."
+      }
+    },
+    "stranger-metal-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "You found it all? Stand back, this might hum.",
+        "fr": "Tu as tout trouvé ? Recule, ça risque de vibrer."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Here.",
+            "fr": "Voilà."
+          },
+          "do": [
+            {
+              "completeQuest": "stranger-metal"
+            }
+          ],
+          "next": "stranger-metal-reward"
+        }
+      ]
+    },
+    "stranger-metal-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Ha! It held! The Deepforge Cleaver. Swing it like you mean it, it's heavier than it looks.",
+        "fr": "Ha ! Ça a tenu ! Le Fendoir de la forge profonde. Manie-le avec conviction, il est plus lourd qu'il n'y paraît."
       }
     }
   }

@@ -4,6 +4,24 @@
     {
       "if": [
         {
+          "quest": "frozen-whispers",
+          "is": "ready"
+        }
+      ],
+      "node": "frozen-whispers-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "frozen-whispers",
+          "is": "active"
+        }
+      ],
+      "node": "frozen-whispers-remind"
+    },
+    {
+      "if": [
+        {
           "quest": "shade-culling",
           "is": "ready"
         }
@@ -120,6 +138,90 @@
       "text": {
         "en": "Folk are sleeping again. Bad for the rumour trade, good for everything else.",
         "fr": "Les gens dorment à nouveau. Mauvais pour le commerce des rumeurs, bon pour tout le reste."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Anything else troubling trade?",
+            "fr": "Autre chose qui gêne le commerce ?"
+          },
+          "if": [
+            {
+              "quest": "frozen-whispers",
+              "is": "none"
+            }
+          ],
+          "next": "frozen-whispers-offer"
+        }
+      ]
+    },
+    "frozen-whispers-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "Business is frozen, friend. Literally. Rime wraiths sing on the mine road and my suppliers turn back. Would you... shush them?",
+        "fr": "Les affaires sont gelées, l'ami. Littéralement. Des spectres de givre chantent sur la route des mines et mes fournisseurs rebroussent chemin. Tu pourrais... les faire taire ?"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "frozen-whispers"
+            }
+          ],
+          "next": "frozen-whispers-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "frozen-whispers-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Four should do it. They hate fire, if that helps. Everything hates fire, really.",
+        "fr": "Quatre devraient suffire. Ils détestent le feu, si ça peut aider. Tout le monde déteste le feu, en fait."
+      }
+    },
+    "frozen-whispers-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Still singing out there. Four wraiths, and I'll make it worth your while.",
+        "fr": "Ça chante toujours là-bas. Quatre spectres, et je saurai te remercier."
+      }
+    },
+    "frozen-whispers-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "Silence on the mine road! My carts are already rolling.",
+        "fr": "Le silence sur la route des mines ! Mes charrettes roulent déjà."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Here.",
+            "fr": "Voilà."
+          },
+          "do": [
+            {
+              "completeQuest": "frozen-whispers"
+            }
+          ],
+          "next": "frozen-whispers-reward"
+        }
+      ]
+    },
+    "frozen-whispers-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Take this, the Frostward. Fair trade: you stopped the cold, now it stops blows for you.",
+        "fr": "Prends ceci, le Garde-givre. Échange équitable : tu as arrêté le froid, maintenant il arrête les coups pour toi."
       }
     }
   }

@@ -1,0 +1,17 @@
+{
+  "id": "hollow-tide",
+  "name": {
+    "en": "Hollow Tide",
+    "fr": "Marée du Néant"
+  },
+  "description": {
+    "en": "Turn the Hollow against itself: a ring of void bursts out in every direction.",
+    "fr": "Retournez le Néant contre lui-même : un anneau de vide éclate dans toutes les directions."
+  },
+  "kind": "ultimate",
+  "move": "hollow-tide",
+  "cooldown": 1,
+  "unlockLevel": 7,
+  "element": "hollow",
+  "charge": 300
+}

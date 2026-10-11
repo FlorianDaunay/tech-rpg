@@ -1,0 +1,45 @@
+{
+  "id": "stranger-metal",
+  "type": "side",
+  "giver": "bram",
+  "title": {
+    "en": "Stranger Metal",
+    "fr": "Un métal plus étrange"
+  },
+  "summary": {
+    "en": "Bram wants to fold deep ore with a shard of the Rift. Nobody has tried. That's the point.",
+    "fr": "Bram veut replier du minerai profond avec un éclat de la Faille. Personne n'a jamais essayé. C'est tout l'intérêt."
+  },
+  "objectives": [
+    {
+      "id": "ore",
+      "kind": "collect",
+      "item": "deep-ore",
+      "count": 5,
+      "text": {
+        "en": "Bring 5 deep ore to Bram",
+        "fr": "Rapporter 5 minerais profonds à Bram"
+      }
+    },
+    {
+      "id": "shard",
+      "kind": "collect",
+      "item": "rift-shard",
+      "count": 2,
+      "text": {
+        "en": "Bring 2 rift shards to Bram",
+        "fr": "Rapporter 2 éclats de Faille à Bram"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 140,
+    "gold": 30,
+    "items": [
+      {
+        "item": "deepforge-cleaver",
+        "count": 1
+      }
+    ]
+  }
+}

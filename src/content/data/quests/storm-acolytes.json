@@ -1,0 +1,35 @@
+{
+  "id": "storm-acolytes",
+  "type": "bounty",
+  "giver": "harl",
+  "title": {
+    "en": "Bounty: Storm Over the East Road",
+    "fr": "Prime : l'orage sur la route de l'est"
+  },
+  "summary": {
+    "en": "Hooded acolytes call lightning down on anything that moves on the east road. Harl wants the road back.",
+    "fr": "Des acolytes encapuchonnés font tomber la foudre sur tout ce qui bouge sur la route de l'est. Harl veut récupérer sa route."
+  },
+  "objectives": [
+    {
+      "id": "acolytes",
+      "kind": "kill",
+      "enemy": "storm-acolyte",
+      "count": 5,
+      "text": {
+        "en": "Defeat 5 Storm Acolytes",
+        "fr": "Vaincre 5 Acolytes de l'orage"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 130,
+    "gold": 70,
+    "items": [
+      {
+        "item": "healing-draught",
+        "count": 2
+      }
+    ]
+  }
+}

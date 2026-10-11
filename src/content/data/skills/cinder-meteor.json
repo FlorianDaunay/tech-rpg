@@ -1,0 +1,16 @@
+{
+  "id": "cinder-meteor",
+  "name": {
+    "en": "Cinder Meteor",
+    "fr": "Météore de cendre"
+  },
+  "description": {
+    "en": "Call down three burning stones just ahead of you.",
+    "fr": "Faites tomber trois pierres ardentes juste devant vous."
+  },
+  "kind": "skill",
+  "move": "cinder-meteor",
+  "cooldown": 11,
+  "unlockLevel": 6,
+  "element": "ember"
+}

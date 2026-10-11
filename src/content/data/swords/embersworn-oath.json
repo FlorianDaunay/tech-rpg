@@ -1,0 +1,27 @@
+{
+  "id": "embersworn-oath",
+  "name": {
+    "en": "Embersworn Oath",
+    "fr": "Serment des Braises"
+  },
+  "description": {
+    "en": "The blade initiates swear upon. It answers those who keep the Lantern lit.",
+    "fr": "La lame sur laquelle jurent les initiés. Elle répond à ceux qui gardent la Lanterne allumée."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-062",
+  "value": 320,
+  "family": "blade",
+  "level": 7,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.55
+  },
+  "bonus": {
+    "power": 5,
+    "maxHp": 15
+  }
+}

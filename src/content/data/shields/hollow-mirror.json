@@ -1,0 +1,19 @@
+{
+  "id": "hollow-mirror",
+  "name": {
+    "en": "Hollow Mirror",
+    "fr": "Miroir du Néant"
+  },
+  "description": {
+    "en": "It shows nothing. Strikes vanish into it; perfect parries come almost on their own.",
+    "fr": "Il ne reflète rien. Les coups y disparaissent ; les parades parfaites viennent presque seules."
+  },
+  "rarity": "legendary",
+  "icon": "shields/pack1-19",
+  "value": 600,
+  "level": 10,
+  "reduction": 0.85,
+  "parryWindow": 0.3,
+  "staminaPerDamage": 0.6,
+  "defense": 7
+}

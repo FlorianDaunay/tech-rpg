@@ -1,0 +1,26 @@
+{
+  "id": "stormcaller",
+  "name": {
+    "en": "Stormcaller",
+    "fr": "Appel-tempête"
+  },
+  "description": {
+    "en": "A needle that hums before the lightning comes.",
+    "fr": "Une aiguille qui bourdonne avant que la foudre ne tombe."
+  },
+  "rarity": "rare",
+  "icon": "weapons/sword-013",
+  "value": 170,
+  "family": "rapier",
+  "level": 6,
+  "light": "rapier-light-1",
+  "heavy": "rapier-heavy",
+  "element": "storm",
+  "onHit": {
+    "status": "shocked",
+    "chance": 0.4
+  },
+  "bonus": {
+    "critChance": 0.05
+  }
+}

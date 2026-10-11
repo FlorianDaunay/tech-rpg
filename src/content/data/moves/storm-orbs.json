@@ -1,0 +1,29 @@
+{
+  "id": "storm-orbs",
+  "active": 0.05,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "weight": "medium",
+  "poise": 15,
+  "windup": 0.2,
+  "recovery": 0.35,
+  "damage": 1,
+  "staminaCost": 22,
+  "knockback": 70,
+  "element": "storm",
+  "projectile": {
+    "speed": 150,
+    "radius": 5,
+    "range": 340,
+    "count": 3,
+    "spread": 70,
+    "homing": 4
+  },
+  "onHit": {
+    "status": "shocked",
+    "chance": 0.5
+  }
+}

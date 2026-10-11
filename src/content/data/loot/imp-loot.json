@@ -18,6 +18,10 @@
     {
       "item": "gale-needle",
       "weight": 0.3
+    },
+    {
+      "item": "ashen-cleaver",
+      "weight": 0.15
     }
   ],
   "gold": {

@@ -24,6 +24,14 @@
     {
       "item": "warden-kite",
       "weight": 0.5
+    },
+    {
+      "item": "gravewarden-blade",
+      "weight": 0.35
+    },
+    {
+      "item": "ironbark-buckler",
+      "weight": 0.5
     }
   ],
   "gold": {

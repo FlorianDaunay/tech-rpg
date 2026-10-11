@@ -1,0 +1,27 @@
+{
+  "id": "voidpiercer",
+  "name": {
+    "en": "Voidpiercer",
+    "fr": "Perce-néant"
+  },
+  "description": {
+    "en": "It drinks light. The Hollow know its name and fear it, a little.",
+    "fr": "Elle boit la lumière. Les Creux connaissent son nom et le craignent, un peu."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-016",
+  "value": 380,
+  "family": "rapier",
+  "level": 9,
+  "light": "rapier-light-1",
+  "heavy": "rapier-heavy",
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.35
+  },
+  "bonus": {
+    "critChance": 0.08,
+    "critMultiplier": 0.25
+  }
+}

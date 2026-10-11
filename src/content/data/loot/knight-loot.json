@@ -24,6 +24,14 @@
     {
       "item": "warden-kite",
       "weight": 0.6
+    },
+    {
+      "item": "gravewarden-blade",
+      "weight": 0.5
+    },
+    {
+      "item": "stormwall",
+      "weight": 0.12
     }
   ],
   "gold": {

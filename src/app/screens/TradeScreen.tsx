@@ -95,9 +95,9 @@ export function TradeScreen() {
         {offerable.length === 0 ? (
           <p className="text-sm text-text-muted">{t("trade.nothing")}</p>
         ) : (
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(3.25rem,1fr))] gap-2">
+          <div className="stagger grid grid-cols-[repeat(auto-fill,minmax(3.25rem,1fr))] gap-2">
             {offerable.map(([item, n]) => (
-              <button key={item} aria-label={localized(itemInfo(item)!.def.name)} title={localized(itemInfo(item)!.def.name)} className="flex items-center justify-center rounded-tile border border-transparent p-1 transition hover:bg-surface-hover" onClick={() => add(item, 1)}>
+              <button key={item} aria-label={localized(itemInfo(item)!.def.name)} title={localized(itemInfo(item)!.def.name)} className="tile-hover flex items-center justify-center rounded-tile border border-transparent p-1 hover:bg-surface-hover" onClick={() => add(item, 1)}>
                 <ItemIcon id={item} size={44} count={n - (draft[item] ?? 0)} />
               </button>
             ))}

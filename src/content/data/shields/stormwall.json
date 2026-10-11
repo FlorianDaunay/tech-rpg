@@ -1,0 +1,19 @@
+{
+  "id": "stormwall",
+  "name": {
+    "en": "Stormwall",
+    "fr": "Mur-tempête"
+  },
+  "description": {
+    "en": "A tower shield wound with copper. Holding it feels like holding a held breath.",
+    "fr": "Un pavois cerclé de cuivre. Le tenir, c'est comme retenir son souffle."
+  },
+  "rarity": "epic",
+  "icon": "shields/pack3-11",
+  "value": 300,
+  "level": 8,
+  "reduction": 0.9,
+  "parryWindow": 0.14,
+  "staminaPerDamage": 0.55,
+  "defense": 8
+}

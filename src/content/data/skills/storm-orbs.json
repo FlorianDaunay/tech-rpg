@@ -1,0 +1,16 @@
+{
+  "id": "storm-orbs",
+  "name": {
+    "en": "Storm Orbs",
+    "fr": "Orbes d'orage"
+  },
+  "description": {
+    "en": "Three sparks that hunt the nearest foe.",
+    "fr": "Trois étincelles qui traquent l'ennemi le plus proche."
+  },
+  "kind": "skill",
+  "move": "storm-orbs",
+  "cooldown": 9,
+  "unlockLevel": 8,
+  "element": "storm"
+}

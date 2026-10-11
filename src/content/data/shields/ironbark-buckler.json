@@ -1,0 +1,19 @@
+{
+  "id": "ironbark-buckler",
+  "name": {
+    "en": "Ironbark Buckler",
+    "fr": "Bouclier d'écorce de fer"
+  },
+  "description": {
+    "en": "Wood from the Wilds that turned hard as iron in the long night.",
+    "fr": "Du bois des Landes devenu dur comme le fer dans la longue nuit."
+  },
+  "rarity": "common",
+  "icon": "shields/pack2-07",
+  "value": 25,
+  "level": 2,
+  "reduction": 0.6,
+  "parryWindow": 0.18,
+  "staminaPerDamage": 0.95,
+  "defense": 2
+}

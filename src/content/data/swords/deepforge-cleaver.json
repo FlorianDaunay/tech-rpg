@@ -1,0 +1,22 @@
+{
+  "id": "deepforge-cleaver",
+  "name": {
+    "en": "Deepforge Cleaver",
+    "fr": "Fendoir de la forge profonde"
+  },
+  "description": {
+    "en": "Bram's masterwork: deep ore folded with a sliver of the Rift. Heavier than it looks.",
+    "fr": "Le chef-d'œuvre de Bram : du minerai profond replié avec un éclat de la Faille. Plus lourd qu'il n'y paraît."
+  },
+  "rarity": "rare",
+  "icon": "weapons/sword-114",
+  "value": 200,
+  "family": "greatblade",
+  "level": 7,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "bonus": {
+    "power": 6,
+    "maxPoise": 15
+  }
+}

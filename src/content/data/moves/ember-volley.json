@@ -1,0 +1,28 @@
+{
+  "id": "ember-volley",
+  "active": 0.05,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "weight": "medium",
+  "poise": 15,
+  "windup": 0.18,
+  "recovery": 0.32,
+  "damage": 0.9,
+  "staminaCost": 20,
+  "knockback": 90,
+  "element": "ember",
+  "projectile": {
+    "speed": 230,
+    "radius": 4,
+    "range": 220,
+    "count": 5,
+    "spread": 50
+  },
+  "onHit": {
+    "status": "burning",
+    "chance": 0.35
+  }
+}

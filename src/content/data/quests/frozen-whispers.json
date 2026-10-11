@@ -1,0 +1,35 @@
+{
+  "id": "frozen-whispers",
+  "type": "side",
+  "giver": "oskar",
+  "title": {
+    "en": "Whispers in the Frost",
+    "fr": "Murmures dans le givre"
+  },
+  "summary": {
+    "en": "Oskar's suppliers won't take the mine road any more: rime wraiths sing there at night. He'd like them to stop singing.",
+    "fr": "Les fournisseurs d'Oskar ne prennent plus la route des mines : des spectres de givre y chantent la nuit. Il aimerait qu'ils se taisent."
+  },
+  "objectives": [
+    {
+      "id": "wraiths",
+      "kind": "kill",
+      "enemy": "rime-wraith",
+      "count": 4,
+      "text": {
+        "en": "Silence 4 Rime Wraiths",
+        "fr": "Faire taire 4 Spectres de givre"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 120,
+    "gold": 45,
+    "items": [
+      {
+        "item": "frostward",
+        "count": 1
+      }
+    ]
+  }
+}

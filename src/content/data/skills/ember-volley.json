@@ -1,0 +1,16 @@
+{
+  "id": "ember-volley",
+  "name": {
+    "en": "Ember Volley",
+    "fr": "Volée de braises"
+  },
+  "description": {
+    "en": "Five embers fly out in a fan, setting foes alight.",
+    "fr": "Cinq braises jaillissent en éventail et embrasent l'ennemi."
+  },
+  "kind": "skill",
+  "move": "ember-volley",
+  "cooldown": 7,
+  "unlockLevel": 4,
+  "element": "ember"
+}

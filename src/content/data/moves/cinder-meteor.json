@@ -1,0 +1,29 @@
+{
+  "id": "cinder-meteor",
+  "active": 0.05,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "weight": "heavy",
+  "poise": 40,
+  "windup": 0.25,
+  "recovery": 0.4,
+  "damage": 1.6,
+  "staminaCost": 26,
+  "knockback": 180,
+  "element": "ember",
+  "hazard": {
+    "radius": 30,
+    "delay": 0.45,
+    "at": "target",
+    "distance": 95,
+    "count": 3,
+    "scatter": 36
+  },
+  "onHit": {
+    "status": "burning",
+    "chance": 0.6
+  }
+}

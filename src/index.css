@@ -26,9 +26,62 @@
   }
   .btn:active { box-shadow: var(--shadow-inset); }
   .input { @apply rounded-control border border-border bg-canvas px-2.5 py-1.5 text-sm text-text-primary placeholder:text-text-muted; box-shadow: var(--shadow-inset); }
-  .btn-primary { @apply btn bg-accent text-accent-foreground hover:bg-accent-hover shadow-control; }
+  .btn-primary {
+    @apply btn text-accent-foreground shadow-control;
+    background-image: linear-gradient(180deg, rgb(var(--color-accent-hover)), rgb(var(--color-accent)));
+  }
   .btn-ghost { @apply btn surface text-text-primary hover:bg-surface-hover; }
+  /* Alive buttons: lift + glow on hover, a light sweep across, a pulsing ring on keyboard/gamepad focus. */
+  .btn { position: relative; overflow: hidden; isolation: isolate; }
+  .btn::after {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.22) 50%, transparent 65%);
+    transform: translateX(-120%); transition: transform 0s;
+  }
+  .btn:hover::after, .btn:focus-visible::after { transform: translateX(120%); transition: transform 600ms ease-out; }
+  .btn:hover:not(:active), .btn:focus-visible { transform: translateY(-1px); box-shadow: 0 0 0 1px rgb(var(--color-accent) / 0.45), 0 4px 18px -4px rgb(var(--color-accent) / 0.55); }
+  .btn:focus-visible { animation: focusPulse 1.4s ease-in-out infinite; }
+  .tab-active { box-shadow: 0 0 14px -2px rgb(var(--color-accent) / 0.7); }
+  /* Item tiles and list rows react to the pointer and to focus. */
+  .tile-hover { transition: transform 120ms ease-out, box-shadow 120ms ease-out, background-color 120ms; }
+  .tile-hover:hover, .tile-hover:focus-visible { transform: translateY(-2px) scale(1.04); box-shadow: 0 6px 16px -6px rgb(var(--color-accent) / 0.6); }
+  /* Children appear one after another. */
+  .stagger > * { animation: fadeUp 260ms ease-out both; }
+  .stagger > *:nth-child(2) { animation-delay: 40ms; } .stagger > *:nth-child(3) { animation-delay: 80ms; }
+  .stagger > *:nth-child(4) { animation-delay: 120ms; } .stagger > *:nth-child(5) { animation-delay: 160ms; }
+  .stagger > *:nth-child(6) { animation-delay: 200ms; } .stagger > *:nth-child(n + 7) { animation-delay: 240ms; }
+  /* Ornate menu panel: glowing accent line on top, bracketed corners, a soft inner light. */
+  .panel-ornate {
+    @apply panel relative;
+    background-image: radial-gradient(120% 60% at 50% 0%, rgb(var(--color-accent) / 0.10), transparent 60%);
+    box-shadow: var(--shadow-overlay, 0 20px 60px -10px rgb(0 0 0 / 0.6)), 0 0 40px -12px rgb(var(--color-accent) / 0.45);
+    animation: menuIn 260ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  }
+  .panel-ornate::before {
+    content: ""; position: absolute; left: 12%; right: 12%; top: -1px; height: 2px; border-radius: 2px; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgb(var(--color-accent)), transparent);
+    box-shadow: 0 0 12px rgb(var(--color-accent) / 0.8);
+  }
+  .corner { position: absolute; width: 14px; height: 14px; pointer-events: none; border-color: rgb(var(--color-accent) / 0.85); }
+  .corner-tl { top: 5px; left: 5px; border-top-width: 2px; border-left-width: 2px; }
+  .corner-tr { top: 5px; right: 5px; border-top-width: 2px; border-right-width: 2px; }
+  .corner-bl { bottom: 5px; left: 5px; border-bottom-width: 2px; border-left-width: 2px; }
+  .corner-br { bottom: 5px; right: 5px; border-bottom-width: 2px; border-right-width: 2px; }
+  .title-rule { height: 1px; flex: 1; background: linear-gradient(90deg, transparent, rgb(var(--color-accent) / 0.8)); }
+  .title-rule.flip { background: linear-gradient(270deg, transparent, rgb(var(--color-accent) / 0.8)); }
+  .title-glow { text-shadow: 0 0 14px rgb(var(--color-accent) / 0.55); }
+  .menu-backdrop { background: radial-gradient(ellipse at center, rgb(var(--color-canvas) / 0.55), rgb(var(--color-canvas) / 0.88)); }
+  .ember-mote { position: absolute; bottom: -8px; width: 3px; height: 3px; border-radius: 9999px; background: rgb(var(--color-accent)); box-shadow: 0 0 6px rgb(var(--color-accent)); animation: emberRise linear infinite; opacity: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .btn:focus-visible, .ember-mote, .panel-ornate, .stagger > * { animation: none; }
+    .btn:hover:not(:active), .tile-hover:hover { transform: none; }
+  }
   .title-display { @apply font-display tracking-[0.18em] uppercase; }
   /* Respect phone notches/home bars in landscape. */
   .safe { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
 }
+
+@keyframes menuIn { from { opacity: 0; transform: translateY(14px) scale(0.96); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes focusPulse { 0%, 100% { box-shadow: 0 0 0 1px rgb(var(--color-accent) / 0.5), 0 0 10px -2px rgb(var(--color-accent) / 0.5); } 50% { box-shadow: 0 0 0 2px rgb(var(--color-accent) / 0.9), 0 0 22px 0 rgb(var(--color-accent) / 0.7); } }
+@keyframes emberRise { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 0.9; } 100% { transform: translate(var(--drift, 20px), -105vh); opacity: 0; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }

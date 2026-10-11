@@ -33,6 +33,19 @@
             "en": "Goodbye.",
             "fr": "Au revoir."
           }
+        },
+        {
+          "text": {
+            "en": "Stories in the dust?",
+            "fr": "Des histoires dans la poussière ?"
+          },
+          "if": [
+            {
+              "quest": "hollow-dust",
+              "is": "none"
+            }
+          ],
+          "next": "hollow-dust-offer"
         }
       ]
     },
@@ -51,6 +64,95 @@
         "fr": "Je n'étais pas né, ni la grand-mère de ma grand-mère. Mais l'histoire est la même dans toutes les bouches : le soleil s'est brisé, et la Gardienne a attrapé la dernière étincelle."
       },
       "next": "intro"
+    },
+    "hollow-dust-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "Did you know the Hollow leave stories behind? In the dust, when they fall. Bring me enough and I'll read you one. Maybe yours.",
+        "fr": "Tu savais que les Creux laissent des histoires derrière eux ? Dans la poussière, quand ils tombent. Rapporte-m'en assez et je t'en lirai une. Peut-être la tienne."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "hollow-dust"
+            }
+          ],
+          "next": "hollow-dust-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "hollow-dust-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Eight pinches of hollow dust. Shades, souls, motes: they all shed it.",
+        "fr": "Huit pincées de poussière du Néant. Ombres, âmes, feux follets : ils en laissent tous."
+      }
+    },
+    "hollow-dust-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Eight pinches of dust. Stories don't read themselves.",
+        "fr": "Huit pincées de poussière. Les histoires ne se lisent pas toutes seules."
+      }
+    },
+    "hollow-dust-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "Ah, it's still warm. Let me see... yes. Yes. This is an old one.",
+        "fr": "Ah, elle est encore tiède. Voyons... oui. Oui. Celle-ci est ancienne."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Here.",
+            "fr": "Voilà."
+          },
+          "do": [
+            {
+              "completeQuest": "hollow-dust"
+            }
+          ],
+          "next": "hollow-dust-reward"
+        }
+      ]
+    },
+    "hollow-dust-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "It speaks of an oath, and the blade it was sworn on. I kept that blade for someone worthy. Here.",
+        "fr": "Elle parle d'un serment, et de la lame sur laquelle il fut prononcé. J'ai gardé cette lame pour quelqu'un de digne. Tiens."
+      }
     }
-  }
+  },
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "hollow-dust",
+          "is": "ready"
+        }
+      ],
+      "node": "hollow-dust-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "hollow-dust",
+          "is": "active"
+        }
+      ],
+      "node": "hollow-dust-remind"
+    }
+  ]
 }

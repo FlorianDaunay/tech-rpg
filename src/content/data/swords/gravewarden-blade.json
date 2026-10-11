@@ -1,0 +1,22 @@
+{
+  "id": "gravewarden-blade",
+  "name": {
+    "en": "Gravewarden Blade",
+    "fr": "Lame du gardien des tombes"
+  },
+  "description": {
+    "en": "Issued to those who keep the dead in their graves. Plain, honest, sharp.",
+    "fr": "Remise à ceux qui gardent les morts dans leurs tombes. Simple, honnête, tranchante."
+  },
+  "rarity": "uncommon",
+  "icon": "weapons/sword-042",
+  "value": 70,
+  "family": "blade",
+  "level": 4,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "bonus": {
+    "power": 2,
+    "defense": 2
+  }
+}

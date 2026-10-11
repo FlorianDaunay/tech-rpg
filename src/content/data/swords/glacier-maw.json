@@ -1,0 +1,27 @@
+{
+  "id": "glacier-maw",
+  "name": {
+    "en": "Glacier Maw",
+    "fr": "Gueule de glacier"
+  },
+  "description": {
+    "en": "A wave of black ice that never finished breaking.",
+    "fr": "Une vague de glace noire qui n'a jamais fini de se briser."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-066",
+  "value": 360,
+  "family": "greatblade",
+  "level": 8,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.6
+  },
+  "bonus": {
+    "power": 6,
+    "defense": 3
+  }
+}

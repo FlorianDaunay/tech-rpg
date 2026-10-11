@@ -24,6 +24,10 @@
     {
       "item": "duelist-rapier",
       "weight": 0.4
+    },
+    {
+      "item": "ironbark-buckler",
+      "weight": 0.4
     }
   ],
   "gold": {

@@ -10,7 +10,7 @@ export function PauseMenu({ onQuit, mode }: { onQuit: () => void; mode: GameMode
   const [confirmQuit, setConfirmQuit] = useState(false);
   return (
     <Modal title={t("pause.title")} onBack={back}>
-      <nav className="flex flex-col gap-2.5">
+      <nav className="stagger flex flex-col gap-2.5">
         {confirmQuit ? (
           <>
             <p className="mb-1 text-sm text-text-secondary">{t("pause.quitConfirm")}</p>

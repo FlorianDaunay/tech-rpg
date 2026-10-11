@@ -80,12 +80,12 @@ export function InventoryScreen() {
           {items.length === 0 ? (
             <p className="text-sm text-text-muted">{t("inventory.empty")}</p>
           ) : (
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(3.25rem,1fr))] gap-2">
+            <div className="stagger grid grid-cols-[repeat(auto-fill,minmax(3.25rem,1fr))] gap-2">
               {items.map((x) => (
                 <button
                   key={x.id}
                   aria-label={localized(x.info.def.name)}
-                  className={`flex items-center justify-center rounded-tile border p-1 transition hover:bg-surface-hover ${current === x.id ? "border-accent bg-accent/10" : "border-transparent"}`}
+                  className={`tile-hover flex items-center justify-center rounded-tile border p-1 hover:bg-surface-hover ${current === x.id ? "border-accent bg-accent/10" : "border-transparent"}`}
                   onClick={() => (uiSound.click(), setSelected(x.id))}
                   onFocus={() => setSelected(x.id)}
                 >

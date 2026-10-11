@@ -156,4 +156,21 @@ describe("content", () => {
   it("enemies attack with telegraphed moves (windup ≥ 0.3 s)", () => {
     for (const e of content.enemies.all()) expect(content.moves.get(e.attack).windup, e.id).toBeGreaterThanOrEqual(0.3);
   });
+
+  it("enemy movesets are telegraphed too (windup ≥ 0.3 s, combo follow-ups excepted)", () => {
+    const followUps = new Set(content.moves.all().flatMap((m) => (m.next ? [m.next] : [])));
+    for (const e of content.enemies.all())
+      for (const m of [...(e.moves ?? []), ...(e.boss?.phases.flatMap((p) => p.attacks) ?? [])])
+        if (!followUps.has(m.move)) expect(content.moves.get(m.move).windup, `${e.id}: ${m.move}`).toBeGreaterThanOrEqual(0.3);
+  });
+
+  it("every quest can be started from a dialogue, and its giver's dialogue handles turn-in", () => {
+    const choices = content.dialogues.all().flatMap((d) => Object.values(d.nodes).flatMap((n) => n.choices));
+    const started = new Set(choices.flatMap((c) => c.do.flatMap((e) => ("startQuest" in e ? [e.startQuest] : []))));
+    const completed = new Set(choices.flatMap((c) => c.do.flatMap((e) => ("completeQuest" in e ? [e.completeQuest] : []))));
+    for (const q of content.quests.all()) {
+      expect(started.has(q.id), `${q.id} is never started`).toBe(true);
+      expect(completed.has(q.id), `${q.id} is never completed`).toBe(true);
+    }
+  });
 });

@@ -22,6 +22,19 @@
             "fr": "Un conseil ?"
           },
           "next": "advice"
+        },
+        {
+          "text": {
+            "en": "Any work for a blade?",
+            "fr": "Du travail pour une lame ?"
+          },
+          "if": [
+            {
+              "quest": "storm-acolytes",
+              "is": "none"
+            }
+          ],
+          "next": "storm-acolytes-offer"
         }
       ]
     },
@@ -38,6 +51,95 @@
         "en": "Then carry a light. You're the Keeper's foundling, aren't you? Go on, then.",
         "fr": "Alors emporte de la lumière. T'es l'enfant trouvé de la Gardienne, non ? Vas-y, alors."
       }
+    },
+    "storm-acolytes-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "See the flashes past the treeline? Acolytes. They call storms down on anyone using the east road. There's a bounty, if you're brave.",
+        "fr": "Tu vois les éclairs derrière les arbres ? Des acolytes. Ils font tomber l'orage sur quiconque emprunte la route de l'est. Il y a une prime, si t'es courageux."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "storm-acolytes"
+            }
+          ],
+          "next": "storm-acolytes-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "storm-acolytes-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five of them. Keep moving, their bolts curve now. Nasty trick.",
+        "fr": "Cinq d'entre eux. Reste en mouvement, leurs éclairs tournent maintenant. Sale tour."
+      }
+    },
+    "storm-acolytes-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five acolytes. The road won't clear itself.",
+        "fr": "Cinq acolytes. La route ne va pas se dégager toute seule."
+      }
+    },
+    "storm-acolytes-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "The storms stopped an hour ago. That was you, wasn't it?",
+        "fr": "Les orages se sont arrêtés il y a une heure. C'était toi, hein ?"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Here.",
+            "fr": "Voilà."
+          },
+          "do": [
+            {
+              "completeQuest": "storm-acolytes"
+            }
+          ],
+          "next": "storm-acolytes-reward"
+        }
+      ]
+    },
+    "storm-acolytes-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Bounty's yours, and two draughts from my own kit. The road thanks you.",
+        "fr": "La prime est à toi, et deux potions de mon propre paquetage. La route te remercie."
+      }
     }
-  }
+  },
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "storm-acolytes",
+          "is": "ready"
+        }
+      ],
+      "node": "storm-acolytes-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "storm-acolytes",
+          "is": "active"
+        }
+      ],
+      "node": "storm-acolytes-remind"
+    }
+  ]
 }

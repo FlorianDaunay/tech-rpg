@@ -20,6 +20,14 @@
     {
       "item": "dawnshard",
       "weight": 0.05
+    },
+    {
+      "item": "voidpiercer",
+      "weight": 0.06
+    },
+    {
+      "item": "glacier-maw",
+      "weight": 0.06
     }
   ],
   "gold": {

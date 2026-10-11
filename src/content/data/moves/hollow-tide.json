@@ -1,0 +1,24 @@
+{
+  "id": "hollow-tide",
+  "active": 0.05,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "weight": "heavy",
+  "poise": 60,
+  "windup": 0.35,
+  "recovery": 0.5,
+  "damage": 2.2,
+  "staminaCost": 0,
+  "knockback": 200,
+  "element": "hollow",
+  "projectile": {
+    "speed": 170,
+    "radius": 6,
+    "range": 260,
+    "count": 16,
+    "spread": 360
+  }
+}

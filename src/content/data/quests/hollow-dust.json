@@ -1,0 +1,35 @@
+{
+  "id": "hollow-dust",
+  "type": "side",
+  "giver": "tomas",
+  "title": {
+    "en": "Dust of the Hollow",
+    "fr": "Poussière du Néant"
+  },
+  "summary": {
+    "en": "Tomas swears the old stories are written in hollow dust, if you know how to read it. He needs a lot of it.",
+    "fr": "Tomas jure que les vieilles histoires sont écrites dans la poussière du Néant, pour qui sait la lire. Il lui en faut beaucoup."
+  },
+  "objectives": [
+    {
+      "id": "dust",
+      "kind": "collect",
+      "item": "hollow-dust",
+      "count": 8,
+      "text": {
+        "en": "Bring 8 hollow dust to Tomas",
+        "fr": "Rapporter 8 poussières du Néant à Tomas"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 110,
+    "gold": 25,
+    "items": [
+      {
+        "item": "embersworn-oath",
+        "count": 1
+      }
+    ]
+  }
+}

@@ -24,6 +24,18 @@
     {
       "item": "dawnshard",
       "weight": 0.2
+    },
+    {
+      "item": "hollow-mirror",
+      "weight": 0.15
+    },
+    {
+      "item": "voidpiercer",
+      "weight": 0.3
+    },
+    {
+      "item": "glacier-maw",
+      "weight": 0.3
     }
   ],
   "gold": {
