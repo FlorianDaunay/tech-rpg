@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { bridge } from "@/bridge/events";
 
-export type Menu = "pause" | "inventory" | "settings" | "dialogue" | "journal" | "codex" | "talents" | "rules" | "map";
+export type Menu = "pause" | "inventory" | "settings" | "dialogue" | "journal" | "codex" | "talents" | "rules" | "map" | "trade";
 
 interface MenuState {
   /** Stack of open in-game menus (settings can open over pause). Empty = playing. */

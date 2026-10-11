@@ -1,0 +1,26 @@
+{
+  "id": "proving-grounds",
+  "name": {
+    "en": "The Proving Grounds",
+    "fr": "L’Arène des Épreuves"
+  },
+  "subtitle": {
+    "en": "Embersworn test their blades on each other",
+    "fr": "Les initiés de la Flamme y croisent le fer"
+  },
+  "music": "fallen-citadel",
+  "ambience": "fallen-citadel",
+  "pvp": true,
+  "respawn": 180,
+  "lighting": {
+    "ambient": "#120a08",
+    "darkness": [
+      0.45,
+      0.7
+    ],
+    "playerLight": 80
+  },
+  "weather": [
+    "embers"
+  ]
+}

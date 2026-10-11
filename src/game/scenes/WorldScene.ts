@@ -7,7 +7,7 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { arenaLocked, chestTarget, createSim, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { arenaLocked, chestTarget, createSim, enablePvp, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
 import { findSkill, getEnemy, SKILL_SLOTS } from "@/core/combat/defs";
@@ -40,6 +40,9 @@ import { ClientLink, HostLink, SEAT_LOOKS } from "@/net/links";
 import { actorTuple, applySnapshot } from "@/net/codec";
 import { predictStep, reconcile } from "@/net/predict";
 import { netSim, netSimActive } from "@/net/debug/latency";
+import { hostile } from "@/core/combat/pvp";
+import { tradePartner, tradeTarget } from "@/core/trade/trade";
+import { t } from "@/i18n";
 import type { SimEvent } from "@/core/combat/events";
 import type { PlayerState } from "@/core/save/save";
 
@@ -93,6 +96,7 @@ export class WorldScene extends Phaser.Scene {
   private vitalsKey = "";
   private partyAt = 0;
   private partyKey = "";
+  private pvpKey = "";
   private musicState = "";
   /** Solo: a menu is open, the simulation is frozen. */
   private paused = false;
@@ -128,6 +132,7 @@ export class WorldScene extends Phaser.Scene {
     this.musicState = "";
     this.vitalsKey = "";
     this.partyKey = "";
+    this.pvpKey = "";
     this.partyAt = 0;
     this.paused = false;
     this.commands = [];
@@ -167,6 +172,7 @@ export class WorldScene extends Phaser.Scene {
       if (this.hostLink) for (const [seat, player] of Object.entries(data.party ?? {})) this.hostLink.arrivals.set(seat, player);
       // Nothing comes back inside a Rift run: a floor is cleared once.
       populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.rift ? Infinity : this.zone.respawn);
+      if (this.zone.pvp) enablePvp(this.sim, this.map);
     }
     this.arenaWalls = new ArenaWalls(this);
     for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
@@ -366,7 +372,8 @@ export class WorldScene extends Phaser.Scene {
     while (this.accumulator >= SIM_DT) {
       for (const a of Object.values(this.sim.actors)) this.prev.set(a.id, { x: a.x, y: a.y });
       const local = this.localIntent();
-      stepSim(this.sim, this.map, this.hostLink ? this.hostLink.intents(this.localId, local, this.sim) : { [this.localId]: local });
+      const lagMs = this.hostLink && this.sim.pvp ? this.hostLink.lagMs() : undefined;
+      stepSim(this.sim, this.map, this.hostLink ? this.hostLink.intents(this.localId, local, this.sim) : { [this.localId]: local }, { lagMs });
       this.hostLink?.afterStep(this.sim, this.time.now);
       this.accumulator -= SIM_DT;
       // The host moves the whole party through whichever portal one of them took.
@@ -424,6 +431,9 @@ export class WorldScene extends Phaser.Scene {
       if (ev.type === "pickup" && ev.actor === this.localId) bridge.emit("game:loot", { item: ev.item, count: ev.count });
       if (ev.type === "quest" && ev.id === this.localId) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
       if (ev.type === "skill-unlocked" && ev.id === this.localId) bridge.emit("game:skill-unlocked", { skill: ev.skill });
+      if (ev.type === "trade" && (ev.trade.from === this.localId || ev.trade.to === this.localId))
+        bridge.emit("game:trade", { change: ev.change, trade: ev.trade, me: this.localId, partnerName: this.nameOf(tradePartner(ev.trade, this.localId)), by: ev.by });
+      if (ev.type === "pvp-kill") bridge.emit("game:pvp-kill", { killer: ev.killer && this.nameOf(ev.killer), victim: this.nameOf(ev.victim), streak: ev.streak, mine: ev.killer === this.localId, me: ev.victim === this.localId });
       if (ev.type === "talk" && ev.id === this.localId) {
         // The dialogue reads progress for its conditions: publish it first (talk objectives just moved).
         this.updateInventory(this.sim.actors[this.localId]);
@@ -585,7 +595,8 @@ export class WorldScene extends Phaser.Scene {
     const alive = me && me.action.kind !== "dead";
     const npc = alive ? talkTarget(this.sim, me) : null;
     const chest = alive && !npc ? chestTarget(this.sim, me) : null;
-    const prompt = npc ? ({ kind: "talk", npc: npc.type } as const) : chest ? ({ kind: "chest" } as const) : null;
+    const mate = alive && !npc && !chest && !this.sim.pvp && !this.sim.trades?.length ? tradeTarget(this.sim, me) : null;
+    const prompt = npc ? ({ kind: "talk", npc: npc.type } as const) : chest ? ({ kind: "chest" } as const) : mate ? ({ kind: "trade", name: this.nameOf(mate.id) } as const) : null;
     const key = prompt ? JSON.stringify(prompt) : "";
     if (key === this.promptKey) return;
     this.promptKey = key;
@@ -629,7 +640,7 @@ export class WorldScene extends Phaser.Scene {
     const device = useInputDevice.getState().device;
     // Aim assist for touch and stick-less gamepad aiming: snap attacks onto the nearest foe in front.
     if (me && !intent.aim && device !== "keyboard" && useSettings.getState().aimAssist && intent.pressed.some((p) => p === "attack" || p === "heavy")) {
-      const aim = assistAim({ ...me, aim: intent.move.x || intent.move.y ? intent.move : me.aim }, Object.values(this.sim.actors));
+      const aim = assistAim({ ...me, aim: intent.move.x || intent.move.y ? intent.move : me.aim }, Object.values(this.sim.actors), (o) => hostile(this.sim.pvp, me, o));
       if (aim) intent.aim = aim;
     }
     return intent;
@@ -700,11 +711,34 @@ export class WorldScene extends Phaser.Scene {
         return { id: p.id, name: p.name, level: a?.level ?? p.level, hp: a?.hp ?? 0, maxHp: a?.stats.maxHp ?? 1, dead: a?.action.kind === "dead", here: !!a && p.connected, connected: p.connected, ping: session?.pingOf(p.id) ?? null };
       });
     for (const p of others) this.views.get(p.id)?.setName(p.name);
+    this.updatePvp();
     const party = { role, ping: session ? session.pingOf(this.localId) : null, others } as const;
     const key = JSON.stringify(party);
     if (key === this.partyKey) return;
     this.partyKey = key;
     bridge.emit("game:party", party);
+  }
+
+  /** A player's display name (lobby name online, else "you" / the seat). */
+  private nameOf(id: string): string {
+    return useNet.getState().room?.players.find((p) => p.id === id)?.name ?? (id === this.localId ? t("pvp.you") : id);
+  }
+
+  /** PvP arena scoreboard (sent on change). */
+  private updatePvp(): void {
+    const pvp = this.sim.pvp;
+    const view = pvp
+      ? {
+          rows: Object.values(this.sim.actors)
+            .filter((a) => a.kind === "player")
+            .map((a) => ({ id: a.id, name: this.nameOf(a.id), kills: pvp.score[a.id]?.kills ?? 0, deaths: pvp.score[a.id]?.deaths ?? 0, me: a.id === this.localId }))
+            .sort((a, b) => b.kills - a.kills || a.deaths - b.deaths || a.id.localeCompare(b.id)),
+        }
+      : null;
+    const key = JSON.stringify(view);
+    if (key === this.pvpKey) return;
+    this.pvpKey = key;
+    bridge.emit("game:pvp", view);
   }
 
   private updateAimOrigin(): void {

@@ -4,7 +4,7 @@ import type { Intent } from "@/core/sim/intent";
 import type { SimState } from "@/core/sim/state";
 import { encodeSnapshot } from "./codec";
 import { InputQueue, PendingInputs } from "./inputs";
-import { InterpBuffer } from "./interp";
+import { INTERP_DELAY_MS, InterpBuffer } from "./interp";
 import { FULL_SYNC_MS, SNAPSHOT_HZ, type Snapshot, type WorldInit } from "./protocol";
 import type { Session } from "./session";
 
@@ -54,6 +54,19 @@ export class HostLink {
   intents(localId: string, local: Intent, sim: SimState): Record<string, Intent> {
     const out: Record<string, Intent> = { [localId]: local };
     for (const [seat, q] of this.queues) if (sim.actors[seat]) out[seat] = q.next();
+    return out;
+  }
+
+  /**
+   * PvP lag compensation: how far in the past each remote player sees the others (their round trip
+   * + the interpolation delay). Unknown pings count as none.
+   */
+  lagMs(): Record<string, number> {
+    const out: Record<string, number> = {};
+    for (const seat of this.queues.keys()) {
+      const rtt = this.session.pingOf(seat);
+      if (rtt !== null) out[seat] = rtt + INTERP_DELAY_MS;
+    }
     return out;
   }
 

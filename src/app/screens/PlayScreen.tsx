@@ -16,6 +16,9 @@ import { QuestToasts } from "../hud/QuestToasts";
 import { SaveIndicator } from "../hud/SaveIndicator";
 import { NetToast } from "../hud/NetToast";
 import { PartyPanel } from "../hud/PartyPanel";
+import { PvpHud } from "../hud/PvpHud";
+import { TradeScreen, TradeToast } from "./TradeScreen";
+import "@/store/trade";
 import { Minimap } from "../hud/Minimap";
 import { BossBar } from "../hud/BossBar";
 import { MapScreen } from "./MapScreen";
@@ -104,6 +107,8 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <BossBar />
       <SaveIndicator />
       <NetToast />
+      <PvpHud />
+      <TradeToast />
       {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} mode={mode} />}
       {menu === "inventory" && <InventoryScreen />}
@@ -114,6 +119,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       {menu === "talents" && <TalentsScreen />}
       {menu === "rules" && <RulesScreen />}
       {menu === "map" && <MapScreen />}
+      {menu === "trade" && <TradeScreen />}
     </div>
   );
 }

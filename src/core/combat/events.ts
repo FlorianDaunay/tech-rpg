@@ -1,6 +1,7 @@
 import type { Vec2 } from "../math/vec";
 import type { Element } from "./defs";
 import type { Move } from "./moves";
+import type { Trade, TradeChange } from "../trade/trade";
 
 /**
  * What happened during one sim step. The sim never plays sounds or spawns particles: it reports
@@ -57,6 +58,10 @@ export type SimEvent =
   /** A talent rank was learned (talent null = every talent refunded). */
   | { type: "talent"; id: string; talent: string | null; rank: number }
   | { type: "loadout"; id: string; slot: "skill1" | "skill2" | "ultimate"; skill: string }
+  /** PvP arena: a player fell (killer null = no player got the kill). `streak` = the killer's kills in a row. */
+  | { type: "pvp-kill"; killer: string | null; victim: string; streak: number }
+  /** A trade between two players changed (the whole trade travels so the UI needs nothing else). */
+  | { type: "trade"; change: TradeChange; trade: Trade; by?: string }
   /** A player killed an enemy (quests, bestiary). */
   | { type: "kill-credit"; id: string; enemy: string }
   /** A player started talking to an NPC: the UI opens the dialogue. */

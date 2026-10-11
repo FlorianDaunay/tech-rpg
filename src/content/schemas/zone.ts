@@ -17,6 +17,7 @@ export const ZoneSchema = z
     music: z.string().optional().describe("Song id (defaults to the zone id)"),
     ambience: z.string().optional().describe("Ambience bed id (defaults to the zone id)"),
     safe: z.boolean().default(false).describe("Hub/sanctuary: no hostile spawns expected"),
+    pvp: z.boolean().default(false).describe("Arena: players can fight each other (scoreboard, respawn at the farthest player spawn)"),
     respawn: z.number().positive().default(180).describe("Seconds before a slain enemy returns to its spawn (when no player is near)"),
     lighting: z
       .object({

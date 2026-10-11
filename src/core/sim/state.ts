@@ -14,6 +14,9 @@ import { RIFT_PREFIX } from "../world/riftgen";
 import { emptyIntent, type Intent } from "./intent";
 import type { Modifiers } from "../combat/modifiers";
 import { combineMods, normalizeRules, scaleEnemy, type WorldRules } from "./rules";
+import { createPvp } from "../combat/pvp";
+import { applyTradeCommand, stepTrades, tradeTarget, type Trade } from "../trade/trade";
+import { recordPositions, rewinder } from "./lagcomp";
 
 /** Simulation runs at a fixed rate everywhere (solo, host, client prediction, replays). */
 export const SIM_HZ = 60;
@@ -35,6 +38,14 @@ export interface SimState extends CombatWorld {
   chests: Chest[];
   /** Boss arenas: a ring that seals while the boss fights. */
   arenas: Arena[];
+  /** Trades between players in progress (see core/trade). */
+  trades: Trade[];
+}
+
+/** Host-side inputs of a step that aren't player intents. */
+export interface StepOptions {
+  /** PvP lag compensation: each remote attacker's delay (ms) between the world and what they see. */
+  lagMs?: Record<string, number>;
 }
 
 /**
@@ -79,7 +90,7 @@ export const RESPAWN_CLEARANCE = 180;
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>, extra: Partial<Modifiers> = {}): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [] };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -119,6 +130,11 @@ export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<
     const a = spawnEnemy(state, s.ref, s.x, s.y);
     state.spawners.push({ key, enemy: s.ref, x: s.x, y: s.y, actor: a.id, every: s.respawn ?? defaultRespawn, at: null });
   }
+}
+
+/** Makes the map a PvP arena: players fight each other, fallen ones return at the map's player spawns. */
+export function enablePvp(state: SimState, map: GameMap): void {
+  state.pvp = createPvp(map.spawns.filter((s) => s.kind === "player").map((s) => ({ x: s.x, y: s.y })));
 }
 
 /** Nearest unopened chest within reach, or null (NPCs take priority: see the interact step). */
@@ -338,7 +354,7 @@ export const players = (state: SimState) => Object.values(state.actors).filter((
  * snapshots for the network/saves are copies taken outside). `state.events` holds what happened
  * during this step only.
  */
-export function stepSim(state: SimState, map: GameMap, intents: Record<string, Intent>): void {
+export function stepSim(state: SimState, map: GameMap, intents: Record<string, Intent>, opts: StepOptions = {}): void {
   state.tick++;
   state.time += SIM_DT;
   state.events = [];
@@ -354,14 +370,18 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
           : a.kind === "pet"
             ? thinkPet(state, a, findPet(a.type)!, rng, SIM_DT)
             : thinkEnemy(state, a, rng, SIM_DT);
-    for (const cmd of intent.commands ?? []) applyCommand(state.events, a, cmd, a.kind === "player" ? state.mods.healing : 1);
+    for (const cmd of intent.commands ?? [])
+      if (cmd.type === "trade") applyTradeCommand(state, a, cmd);
+      else applyCommand(state.events, a, cmd, a.kind === "player" ? state.mods.healing : 1);
     if (a.kind === "player" && intent.pressed.includes("interact") && a.action.kind === "free") {
       const npc = talkTarget(state, a);
       const def = npc && findNpc(npc.type);
       if (npc && def) state.events.push({ type: "talk", id: a.id, npc: npc.type, actor: npc.id, dialogue: def.dialogue });
       else {
         const chest = chestTarget(state, a);
+        const mate = !chest && !state.pvp ? tradeTarget(state, a) : null;
         if (chest) openChest(state, a, chest, rng);
+        else if (mate) applyTradeCommand(state, a, { type: "trade", op: "ask", to: mate.id });
       }
     }
 
@@ -370,7 +390,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   spawnSummons(state, map, rng);
   separate(state, map);
   stepArenas(state);
-  resolveMelee(state, rng);
+  resolveMelee(state, rng, state.pvp && opts.lagMs ? rewinder(state, opts.lagMs) : undefined);
   stepProjectiles(state, map, rng, SIM_DT);
   stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
@@ -378,5 +398,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   detectPortals(state, map);
   for (const a of players(state)) if (a.progress) trackProgress(state.events, { id: a.id, bag: a.bag, progress: a.progress }, state.mapId);
   awardXp(state.events, state.actors);
+  stepTrades(state);
+  if (state.pvp) recordPositions(state);
   state.rngState = rng.state;
 }

@@ -13,11 +13,14 @@ import { modOf, type Modifiers } from "./modifiers";
 import { castSkill, chargeUltimate } from "./skills";
 import { BLOCK, CHARGE, DODGE, HURT_TIME, PARRY_STAGGER_TIME, STAGGER_TIME, STAMINA, type Move } from "./moves";
 import { applyStatus, damageTakenMultOf, elementalStatus, speedMultOf, stepStatuses } from "./status";
+import { hostile, pickRespawn, scoreKill, sideOf, type PvpState } from "./pvp";
 
 export interface Projectile {
   id: string;
   owner: string;
   team: Team;
+  /** Side of the shooter (its team, or the player in PvP): who it can't hurt. Absent = team. */
+  side?: string;
   move: string;
   /** Attacker stats at fire time (the owner may die before it lands). */
   stats: CombatStats;
@@ -41,7 +44,15 @@ export interface CombatWorld {
   nextId: number;
   /** Difficulty / Omens / NG+ multipliers (absent = neutral). */
   mods?: Modifiers;
+  /** PvP arena rules (absent/null = players are allies). */
+  pvp?: PvpState | null;
 }
+
+/**
+ * Lag compensation (host, PvP): where a target stood when the attacker saw it, or null for "now".
+ * Only player-vs-player melee is rewound.
+ */
+export type Rewind = (attacker: Actor, target: Actor) => Vec2 | null;
 
 /** Loot lying on the ground. */
 export interface Pickup {
@@ -242,12 +253,12 @@ function fireProjectile(w: CombatWorld, a: Actor, m: Move, dir: Vec2): void {
   const id = `pr${w.nextId++}`;
   const x = a.x + dir.x * (a.radius + p.radius + 1);
   const y = a.y + dir.y * (a.radius + p.radius + 1) - 6;
-  w.projectiles.push({ id, owner: a.id, team: a.team, move: m.id, stats: a.stats, x, y, vx: dir.x * p.speed, vy: dir.y * p.speed, radius: p.radius, travelled: 0, range: p.range });
+  w.projectiles.push({ id, owner: a.id, team: a.team, side: sideOf(w.pvp, a), move: m.id, stats: a.stats, x, y, vx: dir.x * p.speed, vy: dir.y * p.speed, radius: p.radius, travelled: 0, range: p.range });
   w.events.push({ type: "projectile", id, owner: a.id, x, y });
 }
 
 /** Live melee hitboxes touch opposing actors (each target once per swing). */
-export function resolveMelee(w: CombatWorld, rng: Rng): void {
+export function resolveMelee(w: CombatWorld, rng: Rng, rewind?: Rewind): void {
   const ids = sortedIds(w);
   for (const id of ids) {
     const a = w.actors[id]!;
@@ -256,8 +267,9 @@ export function resolveMelee(w: CombatWorld, rng: Rng): void {
     if (act.kind !== "attack" || !m || m.projectile || !act.started || act.t > m.windup + m.active) continue;
     for (const tid of ids) {
       const target = w.actors[tid]!;
-      if (target.team === a.team || target.kind === "npc" || !isAlive(target) || act.hit.includes(tid)) continue;
-      if (!hitboxTouches(m.hitbox, a, act.dir, target, target.radius)) continue;
+      if (!hostile(w.pvp, a, target) || !isAlive(target) || act.hit.includes(tid)) continue;
+      const seen = (rewind && w.pvp && a.kind === "player" && target.kind === "player" && rewind(a, target)) || target;
+      if (!hitboxTouches(m.hitbox, a, act.dir, seen, target.radius)) continue;
       act.hit.push(tid);
       applyHit(w, rng, { id: a.id, stats: a.stats, x: a.x, y: a.y }, target, m, act.charge, act.dir);
     }
@@ -277,7 +289,7 @@ export function stepProjectiles(w: CombatWorld, map: GameMap, rng: Rng, dt: numb
     }
     for (const tid of ids) {
       const t = w.actors[tid]!;
-      if (t.team === p.team || t.kind === "npc" || !isAlive(t)) continue;
+      if (t.kind === "npc" || sideOf(w.pvp, t) === (p.side ?? p.team) || !isAlive(t)) continue;
       if (Math.hypot(t.x - p.x, t.y - 6 - p.y) > p.radius + t.radius + 2) continue;
       const dir = normalize({ x: p.vx, y: p.vy });
       applyHit(w, rng, { id: p.owner, stats: p.stats, x: p.x - dir.x * 8, y: p.y + 6 - dir.y * 8 }, t, getMove(p.move), 0, dir);
@@ -379,7 +391,7 @@ function elementalEffects(w: CombatWorld, rng: Rng, src: HitSource, target: Acto
     const power = src.stats.power * m.damage * (1 + CHARGE.damageBonus * charge);
     for (const id of sortedIds(w)) {
       const o = w.actors[id]!;
-      if (o.team !== target.team || !isAlive(o)) continue;
+      if (sideOf(w.pvp, o) !== sideOf(w.pvp, target) || !isAlive(o)) continue;
       if (o !== target && Math.hypot(o.x - target.x, o.y - target.y) > reaction.radius + o.radius) continue;
       const amount = Math.max(1, Math.round(power * reaction.damage * resistOf(o, element)));
       o.hp = Math.max(0, o.hp - amount);
@@ -407,6 +419,11 @@ function kill(w: CombatWorld, target: Actor, killer: string | null, rng: Rng): v
   const def = target.kind === "enemy" ? getEnemy(target.type) : null;
   w.events.push({ type: "death", id: target.id, killer, xp: Math.round((def?.xp ?? 0) * modOf(w, "xp")), ...(via ? { via } : {}) });
   if (def && killer && w.actors[killer]?.kind === "player") w.events.push({ type: "kill-credit", id: killer, enemy: target.type });
+  if (w.pvp && target.kind === "player") {
+    const by = killer && w.actors[killer]?.kind === "player" && killer !== target.id ? killer : null;
+    scoreKill(w.pvp, target.id, by);
+    w.events.push({ type: "pvp-kill", killer: by, victim: target.id, streak: by ? w.pvp.score[by]!.streak : 0 });
+  }
   if (def?.boss?.flag)
     for (const p of Object.values(w.actors)) if (p.kind === "player" && p.progress && !p.progress.flags.includes(def.boss.flag)) p.progress.flags.push(def.boss.flag);
   if (def?.loot) dropLoot(w, def.loot, target.x, target.y, rng);
@@ -516,7 +533,8 @@ export function stepLifecycle(w: CombatWorld): void {
       a.iframes = RESPAWN_IFRAMES;
       w.events.push({ type: "pet-revive", id });
     } else if (a.kind === "player" && a.action.t >= PLAYER_RESPAWN_TIME) {
-      Object.assign(a, { x: a.home.x, y: a.home.y, vx: 0, vy: 0, hp: a.stats.maxHp, stamina: STAMINA.max, poise: a.stats.maxPoise });
+      const at = w.pvp ? pickRespawn(w.pvp, a, Object.values(w.actors), a.home) : a.home;
+      Object.assign(a, { x: at.x, y: at.y, vx: 0, vy: 0, hp: a.stats.maxHp, stamina: STAMINA.max, poise: a.stats.maxPoise });
       a.action = { kind: "free" };
       a.iframes = RESPAWN_IFRAMES;
       w.events.push({ type: "respawn", id });

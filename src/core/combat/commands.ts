@@ -24,6 +24,8 @@ const give = (a: Actor, item: string) => (a.bag[item] = (a.bag[item] ?? 0) + 1);
  */
 export function applyCommand(events: SimEvent[], a: Actor, cmd: Command, healing = 1): void {
   if (!isAlive(a)) return;
+  // Trades involve two players: the sim routes them to core/trade.
+  if (cmd.type === "trade") return;
   if (cmd.type === "dialogue") {
     if (a.progress) {
       const progress = a.progress;

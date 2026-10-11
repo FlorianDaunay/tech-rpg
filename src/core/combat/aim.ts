@@ -5,12 +5,12 @@ import { isAlive, type Actor } from "./actor";
  * Aim assist (touch, or gamepad without the right stick): the nearest living foe within `range`
  * and within `coneDeg` of the current aim, or null to keep the current aim.
  */
-export function assistAim(self: Actor, actors: Iterable<Actor>, range = 70, coneDeg = 110): Vec2 | null {
+export function assistAim(self: Actor, actors: Iterable<Actor>, foe: (o: Actor) => boolean = (o) => o.team !== self.team && o.kind !== "npc", range = 70, coneDeg = 110): Vec2 | null {
   const cos = Math.cos(((coneDeg / 2) * Math.PI) / 180);
   let best: Vec2 | null = null;
   let bestScore = Infinity;
   for (const o of actors) {
-    if (o.team === self.team || o.kind === "npc" || !isAlive(o)) continue;
+    if (!foe(o) || !isAlive(o)) continue;
     const dx = o.x - self.x;
     const dy = o.y - self.y;
     const d = Math.hypot(dx, dy);

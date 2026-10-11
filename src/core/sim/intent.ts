@@ -1,4 +1,5 @@
 import type { Vec2 } from "../math/vec";
+import type { TradeCommand } from "../trade/trade";
 
 /** Every action a player can trigger. Input devices map to these; gameplay never sees keys. */
 export const ACTIONS = [
@@ -26,7 +27,9 @@ export type Command =
   /** Learn one rank of a talent / refund every talent / put an unlocked skill in a slot. */
   | { type: "talent"; talent: string }
   | { type: "respec" }
-  | { type: "loadout"; slot: "skill1" | "skill2" | "ultimate"; skill: string };
+  | { type: "loadout"; slot: "skill1" | "skill2" | "ultimate"; skill: string }
+  /** Player-to-player trading (see core/trade). */
+  | TradeCommand;
 
 /** What one player wants this tick. Serializable: it's also the network input message. */
 export interface Intent {

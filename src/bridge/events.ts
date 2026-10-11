@@ -3,6 +3,7 @@
  * Phaser emits state the HUD needs; React emits commands (start, pause, menu actions).
  */
 import type { Progress } from "@/core/narrative/progress";
+import type { Trade, TradeChange } from "@/core/trade/trade";
 import type { Command } from "@/core/sim/intent";
 import type { SaveData } from "@/core/save/save";
 import type { WorldRules } from "@/core/sim/rules";
@@ -10,6 +11,20 @@ import type { WorldRules } from "@/core/sim/rules";
 type Listener<T> = (payload: T) => void;
 
 /** A skill slot on the HUD (cooldown in seconds, ready = usable right now). */
+export interface TradeView {
+  change: TradeChange;
+  trade: Trade;
+  /** My seat and the other player's name. */
+  me: string;
+  partnerName: string;
+  /** Who caused the change. */
+  by?: string;
+}
+
+export interface PvpView {
+  rows: { id: string; name: string; kills: number; deaths: number; me: boolean }[];
+}
+
 export interface PartyMember {
   id: string;
   name: string;
@@ -133,7 +148,13 @@ export interface BridgeEvents {
   /** A new skill became available (level-up). */
   "game:skill-unlocked": { skill: string };
   /** Context action available near the player (null = none). */
-  "game:prompt": { kind: "talk"; npc: string } | { kind: "chest" } | null;
+  "game:prompt": { kind: "talk"; npc: string } | { kind: "chest" } | { kind: "trade"; name: string } | null;
+  /** A trade the local player is part of changed (`change` says how, including when it ended). */
+  "game:trade": TradeView;
+  /** In a PvP arena: the scoreboard (null elsewhere). */
+  "game:pvp": PvpView | null;
+  /** In a PvP arena: someone fell (kill feed). */
+  "game:pvp-kill": { killer: string | null; victim: string; streak: number; mine: boolean; me: boolean };
   /** Local player picked something up (toast). */
   "game:loot": { item: string; count: number };
   /** UI → game: inventory command for the local player (sent with the next Intent). */
