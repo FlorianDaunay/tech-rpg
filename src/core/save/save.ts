@@ -183,7 +183,7 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
       bag: cleanBag(p.bag),
       weapon: weapon && isWeapon(weapon) ? normalizeGear(weapon) : null,
       shield: shield && isShield(shield) ? normalizeGear(shield) : null,
-      progress: { flags: strs(progress.flags), quests, kills: counts(progress.kills), met: strs(progress.met), visited: strs(progress.visited) },
+      progress: { flags: strs(progress.flags), quests, kills: counts(progress.kills), met: strs(progress.met), visited: strs(progress.visited), cleared: strs(progress.cleared) },
       level: Math.max(1, Math.floor(num(p.level, 1))),
       xp: Math.max(0, num(p.xp, 0)),
       loadout: Object.fromEntries(SKILL_SLOTS.map((s) => [s, skill(loadout[s])])) as Actor["loadout"],

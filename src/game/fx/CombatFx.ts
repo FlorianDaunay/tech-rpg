@@ -223,6 +223,13 @@ export class CombatFx {
         this.pickups.delete(ev.id);
         break;
       }
+      case "spawn": {
+        const a = h.actor(ev.id);
+        if (!a) break;
+        this.burst(a.x, a.y - 10);
+        audio.sfx("portal", { x: a.x, y: a.y, volume: 0.35 });
+        break;
+      }
       case "despawn":
         break;
     }

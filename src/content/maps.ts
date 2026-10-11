@@ -80,6 +80,7 @@ export function toGameMap(content: MapContent): GameMap {
     id: s.id,
     kind: s.kind,
     ref: s.ref,
+    respawn: s.kind === "enemy" ? s.respawn : undefined,
     x: (s.cx + 0.5) * tileSize,
     y: (s.cy + 0.5) * tileSize,
   }));

@@ -5983,7 +5983,8 @@
       "kind": "enemy",
       "cx": 62,
       "cy": 23,
-      "ref": "hollowed-warden"
+      "ref": "hollowed-warden",
+      "respawn": "never"
     },
     {
       "id": "c1",

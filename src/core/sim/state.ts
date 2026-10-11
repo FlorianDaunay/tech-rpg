@@ -26,12 +26,30 @@ export interface SimState extends CombatWorld {
   /** Difficulty, Omens, NG+ cycle, and their combined multipliers (`applyRules` keeps them in sync). */
   rules: WorldRules;
   mods: Modifiers;
+  /** Enemy spawn points of the map (respawn bookkeeping). */
+  spawners: Spawner[];
 }
+
+/** An enemy spawn point: who stands there now, and when its enemy comes back. */
+export interface Spawner {
+  /** `map:spawn`, the id recorded in progress for one-time spawns. */
+  key: string;
+  enemy: string;
+  x: number;
+  y: number;
+  actor: string | null;
+  every: number | "never";
+  /** Sim time when it may respawn (null = occupied, or never). */
+  at: number | null;
+}
+
+/** Players this close to a spawn point keep it from respawning (no popping in under their nose). */
+export const RESPAWN_CLEARANCE = 180;
 
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r) };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r), spawners: [] };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -49,6 +67,42 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
   scaleEnemy(a, state.mods);
   state.actors[id] = a;
   return a;
+}
+
+/**
+ * Places a map's enemies and NPCs. One-time spawns listed in `cleared` (slain for good) are skipped.
+ */
+export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<string> = new Set(), defaultRespawn = 180): void {
+  for (const s of map.spawns) {
+    if (s.kind === "npc" && s.ref) spawnNpc(state, s.ref, s.x, s.y);
+    if (s.kind !== "enemy" || !s.ref) continue;
+    const key = `${map.id}:${s.id}`;
+    if (s.respawn === "never" && cleared.has(key)) continue;
+    const a = spawnEnemy(state, s.ref, s.x, s.y);
+    state.spawners.push({ key, enemy: s.ref, x: s.x, y: s.y, actor: a.id, every: s.respawn ?? defaultRespawn, at: null });
+  }
+}
+
+/** Starts respawn timers when spawn enemies die; brings them back when due and no player is near. */
+function stepSpawners(state: SimState): void {
+  for (const sp of state.spawners) {
+    if (sp.actor) {
+      const a = state.actors[sp.actor];
+      if (a && a.action.kind !== "dead") continue;
+      sp.actor = null;
+      if (sp.every === "never") {
+        // The whole party has cleared it (co-op partners share the guardian).
+        for (const p of players(state)) if (p.progress && !p.progress.cleared.includes(sp.key)) p.progress.cleared.push(sp.key);
+      } else sp.at = state.time + sp.every;
+      continue;
+    }
+    if (sp.at === null || state.time < sp.at) continue;
+    if (players(state).some((p) => p.action.kind !== "dead" && Math.hypot(p.x - sp.x, p.y - sp.y) < RESPAWN_CLEARANCE)) continue;
+    const a = spawnEnemy(state, sp.enemy, sp.x, sp.y);
+    sp.actor = a.id;
+    sp.at = null;
+    state.events.push({ type: "spawn", id: a.id });
+  }
 }
 
 /** Living players standing inside a portal rectangle (feet position). */
@@ -118,6 +172,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepProjectiles(state, map, rng, SIM_DT);
   stepPickups(state, map, SIM_DT);
   stepLifecycle(state);
+  stepSpawners(state);
   detectPortals(state, map);
   for (const a of players(state)) if (a.progress) trackProgress(state.events, { id: a.id, bag: a.bag, progress: a.progress }, state.mapId);
   awardXp(state.events, state.actors);

@@ -30,6 +30,10 @@ export const MapSpawnSchema = z.object({
   cx: z.number().int().nonnegative(),
   cy: z.number().int().nonnegative(),
   ref: z.string().optional().describe("Content id (enemy, npc, target map…)"),
+  respawn: z
+    .union([z.number().positive(), z.literal("never")])
+    .optional()
+    .describe("Enemies: seconds before it returns after dying, or never (guardians: stay dead for good). Default: the zone's"),
 });
 
 /** A placed sprite (tree, house, rock…), y-sorted with characters. */

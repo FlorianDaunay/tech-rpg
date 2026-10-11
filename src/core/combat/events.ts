@@ -61,5 +61,7 @@ export type SimEvent =
   | { type: "portal"; id: string; portal: string; to: string; arrive: string }
   /** The actor was removed from the sim (corpse faded). */
   | { type: "despawn"; id: string }
+  /** An enemy came back to its spawn point. */
+  | { type: "spawn"; id: string }
   | { type: "projectile"; id: string; owner: string; x: number; y: number }
   | { type: "projectile-end"; id: string; x: number; y: number };

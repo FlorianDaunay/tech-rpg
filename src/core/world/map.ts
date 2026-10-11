@@ -16,6 +16,8 @@ export interface MapSpawn {
   x: number;
   y: number;
   ref?: string;
+  /** Enemies: seconds before returning after death, or never (absent = the zone's default). */
+  respawn?: number | "never";
 }
 
 /** A placed sprite; `x, y` = bottom-centre of its footprint in world pixels (its sort point). */

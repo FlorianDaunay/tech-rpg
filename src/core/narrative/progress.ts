@@ -13,6 +13,8 @@ export interface Progress {
   met: string[];
   /** Maps visited (reach objectives). */
   visited: string[];
+  /** One-time spawns slain for good (`map:spawn`), e.g. guardians. */
+  cleared: string[];
 }
 
 /** The parts of a player the narrative rules read and write. */
@@ -22,7 +24,7 @@ export interface StoryActor {
   progress: Progress;
 }
 
-export const emptyProgress = (): Progress => ({ flags: [], quests: {}, kills: {}, met: [], visited: [] });
+export const emptyProgress = (): Progress => ({ flags: [], quests: {}, kills: {}, met: [], visited: [], cleared: [] });
 
 const owned = (a: StoryActor, item: string) => a.bag[item] ?? 0;
 

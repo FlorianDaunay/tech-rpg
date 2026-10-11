@@ -6,7 +6,7 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { createSim, SIM_DT, spawnEnemy, spawnNpc, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { createSim, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
 import { findSkill, SKILL_SLOTS } from "@/core/combat/defs";
@@ -114,10 +114,7 @@ export class WorldScene extends Phaser.Scene {
     if (data.at && data.at.x >= 0 && !isSolidCell(this.map, Math.floor(data.at.x / ts), Math.floor(data.at.y / ts))) spawn = data.at;
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
     if (data.carry) restorePlayer(me, data.carry);
-    for (const s of this.map.spawns) {
-      if (s.kind === "enemy" && s.ref) spawnEnemy(this.sim, s.ref, s.x, s.y);
-      else if (s.kind === "npc" && s.ref) spawnNpc(this.sim, s.ref, s.x, s.y);
-    }
+    populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.zone.respawn);
 
     this.fx = new CombatFx({
       scene: this,

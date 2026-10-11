@@ -3750,7 +3750,8 @@
       "kind": "enemy",
       "cx": 30,
       "cy": 10,
-      "ref": "hollow-knight"
+      "ref": "hollow-knight",
+      "respawn": "never"
     },
     {
       "id": "hall1",
