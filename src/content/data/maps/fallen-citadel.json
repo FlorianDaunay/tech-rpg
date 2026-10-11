@@ -3766,6 +3766,14 @@
       "cx": 27,
       "cy": 6,
       "ref": "ember-imp"
+    },
+    {
+      "id": "herald",
+      "kind": "enemy",
+      "cx": 48,
+      "cy": 35,
+      "ref": "vaelgor",
+      "respawn": "never"
     }
   ],
   "portals": [

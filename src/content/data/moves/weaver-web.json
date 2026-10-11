@@ -1,0 +1,24 @@
+{
+  "id": "weaver-web",
+  "windup": 0.55,
+  "active": 0.05,
+  "recovery": 0.5,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 6,
+    "offset": 0
+  },
+  "damage": 0.9,
+  "knockback": 80,
+  "weight": "medium",
+  "poise": 20,
+  "projectile": {
+    "speed": 170,
+    "radius": 6,
+    "range": 260
+  },
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.8
+  }
+}

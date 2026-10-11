@@ -151,7 +151,9 @@ function spawnSummons(state: SimState, map: GameMap, rng: Rng): void {
     if (ev.type !== "summon") continue;
     const boss = state.actors[ev.id];
     if (!boss) continue;
-    const alive = Object.values(state.actors).filter((a) => a.type === ev.enemy && a.action.kind !== "dead").length;
+    // Only adds already inside its arena count against the cap (the zone's own enemies of that type don't).
+    const arena = getEnemy(boss.type).boss?.arena ?? 0;
+    const alive = Object.values(state.actors).filter((a) => a.type === ev.enemy && a.action.kind !== "dead" && Math.hypot(a.x - boss.home.x, a.y - boss.home.y) <= arena).length;
     for (let i = 0; i < ev.count - alive; i++) {
       const ang = rng.range(0, Math.PI * 2);
       const r = rng.range(40, 70);

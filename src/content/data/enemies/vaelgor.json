@@ -1,0 +1,114 @@
+{
+  "id": "vaelgor",
+  "name": {
+    "en": "Archfiend Vaelgor",
+    "fr": "Archidémon Vaelgor"
+  },
+  "description": {
+    "en": "Vaelgor the Radiant, brightest knight of Solmere, who opened the gates believing the dark would spare the city. It did, in its own way. It kept them both.",
+    "fr": "Vaelgor le Radieux, plus brillant chevalier de Solmere, qui ouvrit les portes en croyant que l’ombre épargnerait la cité. Elle l’a fait, à sa manière. Elle les a gardés tous deux."
+  },
+  "look": "bosses/vaelgor",
+  "family": "hollow",
+  "zones": [
+    "fallen-citadel"
+  ],
+  "stats": {
+    "maxHp": 2400,
+    "power": 24,
+    "defense": 22,
+    "critChance": 0.05,
+    "critMultiplier": 1.5,
+    "maxPoise": 320,
+    "speed": 52
+  },
+  "ai": "melee",
+  "attack": "vaelgor-cleave",
+  "aggroRange": 180,
+  "attackRange": 56,
+  "attackCooldown": 1.4,
+  "radius": 20,
+  "xp": 900,
+  "loot": "herald-vaelgor-loot",
+  "resist": {
+    "ember": 0.5,
+    "frost": 1.3
+  },
+  "boss": {
+    "arena": 220,
+    "flag": "herald-vaelgor-defeated",
+    "phases": [
+      {
+        "below": 1,
+        "attacks": [
+          {
+            "move": "vaelgor-cleave",
+            "weight": 3,
+            "range": 54
+          },
+          {
+            "move": "vaelgor-hellfire",
+            "weight": 2,
+            "range": 200
+          }
+        ],
+        "attackCooldown": 1.4,
+        "speed": 1
+      },
+      {
+        "below": 0.6,
+        "attacks": [
+          {
+            "move": "vaelgor-cleave",
+            "weight": 3,
+            "range": 54
+          },
+          {
+            "move": "vaelgor-hellfire",
+            "weight": 2,
+            "range": 200
+          },
+          {
+            "move": "vaelgor-quake",
+            "weight": 2,
+            "range": 64
+          }
+        ],
+        "attackCooldown": 1.2,
+        "speed": 1.15,
+        "summon": {
+          "enemy": "ember-imp",
+          "count": 2,
+          "every": 16
+        }
+      },
+      {
+        "below": 0.3,
+        "attacks": [
+          {
+            "move": "vaelgor-cleave",
+            "weight": 3,
+            "range": 54
+          },
+          {
+            "move": "vaelgor-quake",
+            "weight": 3,
+            "range": 64
+          },
+          {
+            "move": "vaelgor-hellfire",
+            "weight": 1,
+            "range": 200
+          }
+        ],
+        "attackCooldown": 0.8,
+        "speed": 1.35,
+        "summon": {
+          "enemy": "storm-acolyte",
+          "count": 2,
+          "every": 18
+        }
+      }
+    ]
+  }
+}

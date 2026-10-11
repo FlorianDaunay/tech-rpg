@@ -1,0 +1,16 @@
+{
+  "id": "shroud-wail",
+  "windup": 1.0,
+  "active": 0.16,
+  "recovery": 0.9,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 72,
+    "offset": 0
+  },
+  "damage": 1.2,
+  "knockback": 300,
+  "weight": "heavy",
+  "poise": 70,
+  "element": "hollow"
+}

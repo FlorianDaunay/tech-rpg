@@ -1,0 +1,25 @@
+{
+  "id": "maw-spit",
+  "windup": 0.6,
+  "active": 0.05,
+  "recovery": 0.55,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 8,
+    "offset": 0
+  },
+  "damage": 1.1,
+  "knockback": 120,
+  "weight": "medium",
+  "poise": 24,
+  "projectile": {
+    "speed": 120,
+    "radius": 8,
+    "range": 280
+  },
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.6
+  }
+}

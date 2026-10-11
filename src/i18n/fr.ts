@@ -30,6 +30,8 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "map.chest": "Coffre",
   "map.exit": "Sortie",
   "settings.minimap": "Mini-carte",
+  "boss.sealed": "Les issues sont scellées",
+  "fx.bossPhase": "Le Héraut se déchaîne !",
   "saves.title": "Parties sauvegardées",
   "saves.slot": "Emplacement {n}",
   "saves.empty": "Vide",

@@ -5,7 +5,7 @@ import type { WorldRules } from "@/core/sim/rules";
 import { ASSET_INDEX_KEY, ASSET_INDEX_PATH, queueAssets, type AssetEntry } from "../assets";
 
 /** Asset kinds the world needs up front. Others (bosses, rare enemies) load on demand later. */
-const WORLD_KINDS = ["character", "enemy", "tileset", "tile", "prop", "vfx", "light", "item", "weapon", "shield", "ui"];
+const WORLD_KINDS = ["character", "enemy", "boss", "tileset", "tile", "prop", "vfx", "light", "item", "weapon", "shield", "ui"];
 
 /** What the world scene starts with: from the title (new game / loaded save) or from a map transition. */
 export interface WorldStart {

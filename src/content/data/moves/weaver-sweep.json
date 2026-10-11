@@ -1,0 +1,15 @@
+{
+  "id": "weaver-sweep",
+  "windup": 0.7,
+  "active": 0.14,
+  "recovery": 0.7,
+  "hitbox": {
+    "kind": "arc",
+    "range": 50,
+    "angle": 160
+  },
+  "damage": 1.4,
+  "knockback": 220,
+  "weight": "heavy",
+  "poise": 50
+}

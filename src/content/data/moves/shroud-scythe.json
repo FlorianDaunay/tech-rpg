@@ -1,0 +1,20 @@
+{
+  "id": "shroud-scythe",
+  "windup": 0.75,
+  "active": 0.14,
+  "recovery": 0.75,
+  "hitbox": {
+    "kind": "arc",
+    "range": 56,
+    "angle": 200
+  },
+  "damage": 1.6,
+  "knockback": 240,
+  "weight": "heavy",
+  "poise": 60,
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.5
+  }
+}

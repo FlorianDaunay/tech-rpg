@@ -1,0 +1,61 @@
+{
+  "id": "the-four-heralds",
+  "type": "main",
+  "giver": "maelis",
+  "title": {
+    "en": "The Four Heralds",
+    "fr": "Les Quatre Hérauts"
+  },
+  "summary": {
+    "en": "Four Heralds of the Hollow hold the shards of the Dawnblade closest to Cinderhold. Bring them down, one by one.",
+    "fr": "Quatre Hérauts du Néant gardent les éclats de la Lame de l’Aube les plus proches de Cinderhold. Abats-les, un par un."
+  },
+  "objectives": [
+    {
+      "id": "weaver",
+      "kind": "flag",
+      "flag": "herald-weaver-defeated",
+      "text": {
+        "en": "Unravel the Pale Weaver (Whispering Wilds)",
+        "fr": "Défaire la Tisseuse pâle (Bois Murmurants)"
+      }
+    },
+    {
+      "id": "shroud",
+      "kind": "flag",
+      "flag": "herald-shroud-defeated",
+      "text": {
+        "en": "Lay the Shroud to rest (Ashen Graveyard)",
+        "fr": "Apaiser le Linceul (Cimetière de cendres)"
+      }
+    },
+    {
+      "id": "maw",
+      "kind": "flag",
+      "flag": "herald-maw-defeated",
+      "text": {
+        "en": "Close the Maw (Deep Mines)",
+        "fr": "Refermer la Gueule (Mines profondes)"
+      }
+    },
+    {
+      "id": "vaelgor",
+      "kind": "flag",
+      "flag": "herald-vaelgor-defeated",
+      "text": {
+        "en": "Defeat Archfiend Vaelgor (Fallen Citadel)",
+        "fr": "Vaincre l’Archidémon Vaelgor (Citadelle déchue)"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 1500,
+    "gold": 500,
+    "items": [
+      {
+        "item": "healing-draught",
+        "count": 3
+      }
+    ]
+  }
+}

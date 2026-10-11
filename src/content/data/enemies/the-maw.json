@@ -1,0 +1,105 @@
+{
+  "id": "the-maw",
+  "name": {
+    "en": "The Maw",
+    "fr": "La Gueule"
+  },
+  "description": {
+    "en": "The place where the Hollow touches the world, a spiral of dark that breathes in, and in, and in. It was never a person.",
+    "fr": "L’endroit où le Néant touche le monde, une spirale d’ombre qui inspire, encore et encore. Elle n’a jamais été quelqu’un."
+  },
+  "look": "bosses/maw",
+  "family": "spirit",
+  "zones": [
+    "deep-mines"
+  ],
+  "stats": {
+    "maxHp": 1700,
+    "power": 21,
+    "defense": 18,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 400,
+    "speed": 30
+  },
+  "ai": "brute",
+  "attack": "maw-devour",
+  "aggroRange": 180,
+  "attackRange": 48,
+  "attackCooldown": 1.5,
+  "radius": 22,
+  "xp": 600,
+  "loot": "herald-maw-loot",
+  "resist": {
+    "hollow": 0.4,
+    "frost": 0.8,
+    "ember": 1.4
+  },
+  "boss": {
+    "arena": 200,
+    "flag": "herald-maw-defeated",
+    "phases": [
+      {
+        "below": 1,
+        "attacks": [
+          {
+            "move": "maw-devour",
+            "weight": 2,
+            "range": 46
+          },
+          {
+            "move": "maw-spit",
+            "weight": 2,
+            "range": 200
+          }
+        ],
+        "attackCooldown": 1.5,
+        "speed": 1
+      },
+      {
+        "below": 0.6,
+        "attacks": [
+          {
+            "move": "maw-devour",
+            "weight": 2,
+            "range": 46
+          },
+          {
+            "move": "maw-spit",
+            "weight": 2,
+            "range": 200
+          },
+          {
+            "move": "frost-bolt",
+            "weight": 1,
+            "range": 190
+          }
+        ],
+        "attackCooldown": 1.2,
+        "speed": 1.1,
+        "summon": {
+          "enemy": "frost-mote",
+          "count": 3,
+          "every": 12
+        }
+      },
+      {
+        "below": 0.3,
+        "attacks": [
+          {
+            "move": "maw-devour",
+            "weight": 3,
+            "range": 46
+          },
+          {
+            "move": "maw-spit",
+            "weight": 2,
+            "range": 200
+          }
+        ],
+        "attackCooldown": 0.85,
+        "speed": 1.4
+      }
+    ]
+  }
+}

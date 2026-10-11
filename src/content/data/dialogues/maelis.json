@@ -4,6 +4,33 @@
     {
       "if": [
         {
+          "quest": "the-four-heralds",
+          "is": "done"
+        }
+      ],
+      "node": "dawn"
+    },
+    {
+      "if": [
+        {
+          "quest": "the-four-heralds",
+          "is": "ready"
+        }
+      ],
+      "node": "heralds-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "the-four-heralds",
+          "is": "active"
+        }
+      ],
+      "node": "heralds-remind"
+    },
+    {
+      "if": [
+        {
           "quest": "first-ember",
           "is": "ready"
         }
@@ -131,6 +158,93 @@
       "text": {
         "en": "The flame burns a hair taller tonight. Rest, then go further. There are twenty-nine more shards out there.",
         "fr": "La flamme brûle un cheveu plus haut ce soir. Repose-toi, puis va plus loin. Il reste vingt-neuf éclats là-dehors."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Where is the next shard?",
+            "fr": "Où est le prochain éclat ?"
+          },
+          "next": "heralds-ask"
+        },
+        {
+          "text": {
+            "en": "I'll rest a while.",
+            "fr": "Je vais me reposer un peu."
+          }
+        }
+      ]
+    },
+    "heralds-ask": {
+      "speaker": "npc",
+      "text": {
+        "en": "Further than you'd like. Four Heralds of the Hollow sit on the shards nearest to us: the Weaver in the Wilds, the Shroud among the graves, the Maw in the deep, and Vaelgor on his broken throne.",
+        "fr": "Plus loin que tu ne le voudrais. Quatre Hérauts du Néant couvent les éclats les plus proches : la Tisseuse dans les Bois, le Linceul parmi les tombes, la Gueule dans les profondeurs, et Vaelgor sur son trône brisé."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Then I'll face them.",
+            "fr": "Alors je les affronterai."
+          },
+          "do": [
+            {
+              "startQuest": "the-four-heralds"
+            }
+          ],
+          "next": "heralds-brief"
+        },
+        {
+          "text": {
+            "en": "Not yet.",
+            "fr": "Pas encore."
+          }
+        }
+      ]
+    },
+    "heralds-brief": {
+      "speaker": "npc",
+      "text": {
+        "en": "They were people once, most of them. Remember that when they beg. And when one falls, the way out of its lair opens again: they seal their dens while they fight.",
+        "fr": "C’étaient des gens, autrefois, pour la plupart. Souviens-t’en quand ils supplieront. Et quand l’un tombe, la sortie de son antre se rouvre : ils scellent leur repaire tant qu’ils combattent."
+      }
+    },
+    "heralds-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "The Weaver, the Shroud, the Maw, Vaelgor. Your journal keeps count better than my old head. Come back to me when the four are gone.",
+        "fr": "La Tisseuse, le Linceul, la Gueule, Vaelgor. Ton journal tient le compte mieux que ma vieille tête. Reviens me voir quand les quatre auront disparu."
+      }
+    },
+    "heralds-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "Four Heralds... The Lantern hasn't burned this bright since Seraphine carried it up the hill. Give me the shards, little spark.",
+        "fr": "Quatre Hérauts... La Lanterne n’a pas brûlé si fort depuis que Séraphine l’a montée sur la colline. Donne-moi les éclats, petite étincelle."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Light it.",
+            "fr": "Allume-la."
+          },
+          "do": [
+            {
+              "completeQuest": "the-four-heralds"
+            },
+            {
+              "setFlag": "dawnblade-reforged"
+            }
+          ],
+          "next": "dawn"
+        }
+      ]
+    },
+    "dawn": {
+      "speaker": "npc",
+      "text": {
+        "en": "Look east. For one breath there was a line of gold on the hills. Not noon, not yet, but the first dawn in a lifetime. The rest of the Blades are out there. So is the choice of what to do with them.",
+        "fr": "Regarde à l’est. L’espace d’un souffle, il y a eu une ligne d’or sur les collines. Pas midi, pas encore, mais la première aube d’une vie. Le reste des Lames est là-dehors. Et le choix de ce qu’on en fera aussi."
       }
     }
   }

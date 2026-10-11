@@ -39,6 +39,8 @@ function objectiveMet(a: StoryActor, questId: string, o: NonNullable<ReturnType<
       return (q?.counts[o.id] ?? 0) >= 1;
     case "reach":
       return a.progress.visited.includes(o.map);
+    case "flag":
+      return a.progress.flags.includes(o.flag);
   }
 }
 
@@ -161,6 +163,9 @@ export function trackProgress(events: SimEvent[], a: StoryActor, mapId: string):
       for (const d of active()) if (d.objectives.some((o) => o.kind === "collect" && o.item === item)) changed.add(d.id);
     }
   }
+  // Flags can be set anywhere (a boss falling, a dialogue): announce each flag objective once when met.
+  for (const d of active())
+    for (const o of d.objectives) if (o.kind === "flag" && a.progress.flags.includes(o.flag) && !a.progress.quests[d.id]!.counts[o.id]) bump(d.id, o.id);
   for (const id of changed) {
     const q = a.progress.quests[id]!;
     const ready = readyNow(a, id);

@@ -1,0 +1,25 @@
+{
+  "id": "vaelgor-hellfire",
+  "windup": 0.5,
+  "active": 0.05,
+  "recovery": 0.5,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 7,
+    "offset": 0
+  },
+  "damage": 1.2,
+  "knockback": 140,
+  "weight": "medium",
+  "poise": 26,
+  "projectile": {
+    "speed": 200,
+    "radius": 7,
+    "range": 300
+  },
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.7
+  }
+}

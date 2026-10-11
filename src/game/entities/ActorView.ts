@@ -6,6 +6,15 @@ import type { Facing } from "@/core/math/vec";
 /** Pipoya sheets: 3 columns × 4 rows, rows ordered down, left, right, up. Walk cycle 0-1-2-1. */
 const ROWS: Record<Facing, number> = { down: 0, left: 1, right: 2, up: 3 };
 const FEET_OFFSET = 14; // sprite origin above the feet (frame is 32px tall, feet near the bottom)
+/** Boss sheets (96×96, 3 idle frames, no facings): origin above the feet, shadow scale. */
+const BIG = { feet: 38, shadow: 3.2 };
+
+/** Boss sheets: one row, idle loop 0-1-2-1. */
+export function ensureBossAnim(scene: Phaser.Scene, sheet: string): void {
+  const key = `${sheet}:idle`;
+  if (scene.anims.exists(key)) return;
+  scene.anims.create({ key, frames: [0, 1, 2, 1].map((frame) => ({ key: sheet, frame })), frameRate: 5, repeat: -1 });
+}
 const FLASH_MS = 70;
 
 function lerpColor(a: number, b: number, k: number): number {
@@ -43,11 +52,14 @@ export class ActorView {
     private readonly sheet: string,
     x: number,
     y: number,
-    private readonly showBar: boolean
+    private readonly showBar: boolean,
+    /** Boss sheet: idle loop, big shadow, no overhead bar (the HUD shows a boss bar). */
+    private readonly big = false
   ) {
-    ensureCharacterAnims(scene, sheet);
-    this.shadow = scene.add.image(x, y, "shadow").setAlpha(0.35);
-    this.sprite = scene.add.sprite(x, y - FEET_OFFSET, sheet, ROWS.down * 3 + 1);
+    if (big) ensureBossAnim(scene, sheet);
+    else ensureCharacterAnims(scene, sheet);
+    this.shadow = scene.add.image(x, y, "shadow").setAlpha(0.35).setScale(big ? BIG.shadow : 1);
+    this.sprite = big ? scene.add.sprite(x, y - BIG.feet, sheet, 0).play(`${sheet}:idle`) : scene.add.sprite(x, y - FEET_OFFSET, sheet, ROWS.down * 3 + 1);
     this.bar = scene.add.graphics().setVisible(false);
     this.guard = scene.add.graphics().setVisible(false);
   }
@@ -68,6 +80,7 @@ export class ActorView {
     if (act.kind === "dodge") oy = -Math.sin((act.t / 0.34) * Math.PI) * 3;
 
     this.shadow.setPosition(x, y + 1).setDepth(y - 1);
+    if (this.big) return this.updateBig(x + ox * 2, y, a, now);
     this.sprite.setPosition(Math.round(x + ox), Math.round(y - FEET_OFFSET + oy)).setDepth(y);
 
     if (act.kind === "dead") {
@@ -108,6 +121,29 @@ export class ActorView {
 
     this.drawGuard(x, y, a);
     this.drawBar(x, y, a);
+  }
+
+  /** Bosses: idle loop always, bob when moving, glow while winding up, slow dissolve on death. */
+  private updateBig(x: number, y: number, a: Actor, now: number): void {
+    const act = a.action;
+    const bob = a.moving ? Math.sin(now / 90) * 1.5 : Math.sin(now / 400);
+    this.sprite.setPosition(Math.round(x), Math.round(y - BIG.feet + bob)).setDepth(y);
+    if (a.aim.x) this.sprite.setFlipX(a.aim.x < 0);
+    if (act.kind === "dead") {
+      if (!this.dying) {
+        this.dying = true;
+        this.sprite.stop();
+        this.scene.tweens.add({ targets: this.sprite, alpha: 0, scaleY: 0.6, duration: 1800, ease: "Quad.easeIn" });
+        this.scene.tweens.add({ targets: this.shadow, alpha: 0, duration: 1800 });
+      }
+      return;
+    }
+    if (now < this.flashUntil) this.sprite.setTint(hex(COMBAT_COLORS.hitFlash)).setTintMode(Phaser.TintModes.FILL);
+    else if (act.kind === "attack" && !act.started) {
+      const k = Math.min(1, act.t / 0.6);
+      this.sprite.setTint(lerpColor(0xffffff, hex(COMBAT_COLORS.telegraph), k * 0.8)).setTintMode(Phaser.TintModes.MULTIPLY);
+    } else this.sprite.clearTint().setTintMode(Phaser.TintModes.MULTIPLY);
+    this.sprite.setAlpha(a.iframes > 0 ? 0.7 + 0.3 * Math.round((now / 80) % 1) : 1);
   }
 
   private drawGuard(x: number, y: number, a: Actor): void {

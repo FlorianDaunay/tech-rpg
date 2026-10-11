@@ -15,6 +15,7 @@ import { Prompt } from "../hud/Prompt";
 import { QuestToasts } from "../hud/QuestToasts";
 import { SaveIndicator } from "../hud/SaveIndicator";
 import { Minimap } from "../hud/Minimap";
+import { BossBar } from "../hud/BossBar";
 import { MapScreen } from "./MapScreen";
 import { SkillBar } from "../hud/SkillBar";
 import { CodexScreen } from "./CodexScreen";
@@ -85,6 +86,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <QuestToasts />
       <Prompt />
       <Minimap />
+      <BossBar />
       <SaveIndicator />
       {!menu && <SkillBar />}
       {menu === "pause" && <PauseMenu onQuit={quit} mode={mode} />}

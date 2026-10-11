@@ -7,10 +7,10 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { chestTarget, createSim, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { arenaLocked, chestTarget, createSim, populateMap, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
-import { findSkill, SKILL_SLOTS } from "@/core/combat/defs";
+import { findSkill, getEnemy, SKILL_SLOTS } from "@/core/combat/defs";
 import { skillBlocker, skillCooldown, ultimateFill, unlockedSkills } from "@/core/combat/skills";
 import { talentPointsLeft } from "@/core/progression/talents";
 import { darknessAt, START_TIME } from "@/core/world/daynight";
@@ -80,6 +80,7 @@ export class WorldScene extends Phaser.Scene {
   private disposers: (() => void)[] = [];
   private objectImages: Phaser.GameObjects.Image[] = [];
   private markersAt = 0;
+  private bossKey = "";
   /** Seconds played in this save (counts only unpaused frames). */
   private playtime = 0;
   private lastSave = 0;
@@ -104,6 +105,7 @@ export class WorldScene extends Phaser.Scene {
     this.commands = [];
     this.inventoryKey = "";
     this.promptKey = "";
+    this.bossKey = "";
     this.playtime = data.playtime ?? 0;
     this.saveSoon = false;
 
@@ -290,6 +292,7 @@ export class WorldScene extends Phaser.Scene {
     this.updateVitals(me);
     this.updateInventory(me);
     this.updatePrompt(me);
+    this.updateBoss();
     this.updateDebug();
     if (this.time.now >= this.markersAt) {
       this.markersAt = this.time.now + MARKERS_INTERVAL;
@@ -400,7 +403,8 @@ export class WorldScene extends Phaser.Scene {
   private syncViews(): void {
     for (const a of Object.values(this.sim.actors)) {
       if (this.views.has(a.id)) continue;
-      this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, a.kind === "enemy"));
+      const big = a.look.startsWith("bosses/");
+      this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, a.kind === "enemy" && !big, big));
       this.prev.set(a.id, { x: a.x, y: a.y });
     }
     for (const [id, view] of this.views) {
@@ -415,10 +419,25 @@ export class WorldScene extends Phaser.Scene {
   private updateMusic(me: Actor | undefined): void {
     if (!me) return;
     const hunted = Object.values(this.sim.actors).some((a) => a.ai?.target === LOCAL_ID);
-    const state = me.hp > 0 && me.hp < me.stats.maxHp * 0.25 ? "danger-low-hp" : hunted ? "combat" : "explore";
+    const state = this.bossFight() ? "boss" : me.hp > 0 && me.hp < me.stats.maxHp * 0.25 ? "danger-low-hp" : hunted ? "combat" : "explore";
     if (state === this.musicState) return;
     this.musicState = state;
     audio.music.setState(state);
+  }
+
+  /** The living boss engaged with the local player, if any. */
+  private bossFight(): Actor | undefined {
+    return Object.values(this.sim.actors).find((a) => a.kind === "enemy" && a.action.kind !== "dead" && a.ai?.target === LOCAL_ID && !!getEnemy(a.type).boss);
+  }
+
+  private updateBoss(): void {
+    const b = this.bossFight();
+    const def = b && getEnemy(b.type).boss;
+    const view = b && def ? { enemy: b.type, hp: b.hp, maxHp: b.stats.maxHp, phase: b.ai!.phase, thresholds: def.phases.slice(1).map((p) => p.below), sealed: arenaLocked(this.sim) } : null;
+    const key = view ? `${view.enemy}|${view.hp}|${view.phase}|${view.sealed}` : "";
+    if (key === this.bossKey) return;
+    this.bossKey = key;
+    bridge.emit("game:boss", view);
   }
 
   private updateVitals(me: Actor | undefined): void {

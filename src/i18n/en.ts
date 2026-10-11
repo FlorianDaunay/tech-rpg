@@ -29,6 +29,8 @@ export const en = {
   "map.chest": "Chest",
   "map.exit": "Exit",
   "settings.minimap": "Minimap",
+  "boss.sealed": "The way out is sealed",
+  "fx.bossPhase": "The Herald rages!",
   "saves.title": "Saved games",
   "saves.slot": "Slot {n}",
   "saves.empty": "Empty",

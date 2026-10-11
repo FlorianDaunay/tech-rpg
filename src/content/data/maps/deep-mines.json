@@ -684,25 +684,12 @@
       "ref": "deep-goblin"
     },
     {
-      "id": "se0",
+      "id": "herald",
       "kind": "enemy",
-      "cx": 45,
+      "cx": 44,
       "cy": 33,
-      "ref": "rime-wraith"
-    },
-    {
-      "id": "se1",
-      "kind": "enemy",
-      "cx": 39,
-      "cy": 34,
-      "ref": "frost-mote"
-    },
-    {
-      "id": "se2",
-      "kind": "enemy",
-      "cx": 42,
-      "cy": 29,
-      "ref": "deep-goblin"
+      "ref": "the-maw",
+      "respawn": "never"
     }
   ],
   "portals": [

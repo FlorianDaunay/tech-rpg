@@ -3102,6 +3102,14 @@
       "cx": 10,
       "cy": 18,
       "ref": "grave-wail"
+    },
+    {
+      "id": "herald",
+      "kind": "enemy",
+      "cx": 10,
+      "cy": 7,
+      "ref": "the-shroud",
+      "respawn": "never"
     }
   ],
   "portals": [

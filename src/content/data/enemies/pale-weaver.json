@@ -1,0 +1,99 @@
+{
+  "id": "pale-weaver",
+  "name": {
+    "en": "The Pale Weaver",
+    "fr": "La Tisseuse pâle"
+  },
+  "description": {
+    "en": "Ilyth, who wove the fates of Solmere. She crowns herself with thread and stitches whoever enters the Wilds into a tapestry that never ends.",
+    "fr": "Ilyth, qui tissait les destins de Solmere. Couronnée de fil, elle coud quiconque entre dans les Bois à une tapisserie sans fin."
+  },
+  "look": "bosses/pale-weaver",
+  "family": "spirit",
+  "zones": [
+    "whispering-wilds"
+  ],
+  "stats": {
+    "maxHp": 900,
+    "power": 16,
+    "defense": 14,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 220,
+    "speed": 40
+  },
+  "ai": "melee",
+  "attack": "weaver-sweep",
+  "aggroRange": 170,
+  "attackRange": 46,
+  "attackCooldown": 1.6,
+  "radius": 18,
+  "xp": 300,
+  "loot": "herald-weaver-loot",
+  "resist": {
+    "ember": 1.25,
+    "frost": 0.8
+  },
+  "boss": {
+    "arena": 210,
+    "flag": "herald-weaver-defeated",
+    "phases": [
+      {
+        "below": 1,
+        "attacks": [
+          {
+            "move": "weaver-sweep",
+            "weight": 2,
+            "range": 44
+          },
+          {
+            "move": "weaver-web",
+            "weight": 2,
+            "range": 170
+          }
+        ],
+        "attackCooldown": 1.6,
+        "speed": 1
+      },
+      {
+        "below": 0.6,
+        "attacks": [
+          {
+            "move": "weaver-sweep",
+            "weight": 2,
+            "range": 44
+          },
+          {
+            "move": "weaver-web",
+            "weight": 3,
+            "range": 170
+          }
+        ],
+        "attackCooldown": 1.3,
+        "speed": 1.1,
+        "summon": {
+          "enemy": "hollow-shade",
+          "count": 2,
+          "every": 14
+        }
+      },
+      {
+        "below": 0.25,
+        "attacks": [
+          {
+            "move": "weaver-sweep",
+            "weight": 3,
+            "range": 44
+          },
+          {
+            "move": "weaver-web",
+            "weight": 2,
+            "range": 150
+          }
+        ],
+        "attackCooldown": 0.95,
+        "speed": 1.25
+      }
+    ]
+  }
+}

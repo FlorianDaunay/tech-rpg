@@ -7,6 +7,7 @@ import { arenaLocked, createSim, SIM_DT, spawnEnemy, spawnPlayer, stepSim, type 
 import { bossPhaseAt } from "./ai";
 import { registerCombatData, type BossDef } from "./defs";
 import type { SimEvent } from "./events";
+import { questState, trackProgress } from "../narrative/progress";
 
 const BOSS: BossDef = {
   arena: 150,
@@ -63,6 +64,20 @@ describe("bosses", () => {
     expect(Object.values(sim.actors).filter((a) => a.type === "hollow-shade")).toHaveLength(2);
   });
 
+  it("shades elsewhere on the map don't use up the summon cap", () => {
+    const map = room();
+    const sim = createSim("room", 1);
+    spawnPlayer(sim, "p1", "x", 300, 300);
+    spawnEnemy(sim, "hollow-shade", 1100, 1100);
+    spawnEnemy(sim, "hollow-shade", 1150, 1100);
+    const boss = spawnEnemy(sim, "test-boss", 360, 300);
+    run(sim, map, 0.2);
+    boss.hp = Math.floor(boss.stats.maxHp * 0.4);
+    run(sim, map, 0.1);
+    const near = Object.values(sim.actors).filter((a) => a.type === "hollow-shade" && Math.hypot(a.x - boss.home.x, a.y - boss.home.y) <= BOSS.arena);
+    expect(near).toHaveLength(2);
+  });
+
   it("the arena seals while the boss fights, and opens again once it falls", () => {
     const map = room(true);
     const sim = createSim("room", 1);
@@ -106,5 +121,25 @@ describe("bosses", () => {
     run(sim, map, 1, () => ({ ...emptyIntent(), aim: { x: 1, y: 0 }, pressed: ["attack"] }));
     expect(boss.action.kind).toBe("dead");
     expect(p.progress!.flags).toContain("test-boss-defeated");
+  });
+
+  it("Heralds slain before the quest was taken still count (flag objectives)", () => {
+    const sim = createSim("room", 1);
+    const p = spawnPlayer(sim, "p1", "x", 0, 0);
+    const story = { id: p.id, bag: p.bag, progress: p.progress! };
+    p.progress!.flags.push("herald-weaver-defeated", "herald-shroud-defeated", "herald-maw-defeated");
+    p.progress!.quests["the-four-heralds"] = { done: false, counts: {} };
+    const events: SimEvent[] = [];
+    trackProgress(events, story, "room");
+    expect(questState(story, "the-four-heralds")).toBe("active");
+    expect(events.filter((e) => e.type === "quest")).toHaveLength(1);
+    p.progress!.flags.push("herald-vaelgor-defeated");
+    const more: SimEvent[] = [];
+    trackProgress(more, story, "room");
+    expect(questState(story, "the-four-heralds")).toBe("ready");
+    expect(more.some((e) => e.type === "quest" && e.change === "ready")).toBe(true);
+    const again: SimEvent[] = [];
+    trackProgress(again, story, "room");
+    expect(again).toEqual([]);
   });
 });

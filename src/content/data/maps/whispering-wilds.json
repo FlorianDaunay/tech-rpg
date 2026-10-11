@@ -5890,7 +5890,10 @@
     },
     {
       "asset": "props/chest",
-      "chest": { "id": "chest-1", "loot": "chest-wilds" },
+      "chest": {
+        "id": "chest-1",
+        "loot": "chest-wilds"
+      },
       "cx": 61,
       "cy": 19,
       "footprint": [
@@ -6042,6 +6045,14 @@
       "cx": 40,
       "cy": 35,
       "ref": "grave-brute"
+    },
+    {
+      "id": "herald",
+      "kind": "enemy",
+      "cx": 56,
+      "cy": 33,
+      "ref": "pale-weaver",
+      "respawn": "never"
     }
   ],
   "portals": [

@@ -1,0 +1,20 @@
+{
+  "id": "vaelgor-cleave",
+  "windup": 0.6,
+  "active": 0.14,
+  "recovery": 0.65,
+  "hitbox": {
+    "kind": "arc",
+    "range": 60,
+    "angle": 180
+  },
+  "damage": 1.7,
+  "knockback": 260,
+  "weight": "heavy",
+  "poise": 70,
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.5
+  }
+}

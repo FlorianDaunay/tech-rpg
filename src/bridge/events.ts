@@ -31,6 +31,17 @@ export interface MinimapLayout {
   portals: { x: number; y: number; w: number; h: number; to: string }[];
 }
 
+/** Boss bar: who, how hurt, which phase (thresholds = where the next phases start, as hp fractions). */
+export interface BossView {
+  enemy: string;
+  hp: number;
+  maxHp: number;
+  phase: number;
+  thresholds: number[];
+  /** Exits are sealed until it falls. */
+  sealed: boolean;
+}
+
 /** Something to dot on the map, in cell units. */
 export interface MapMarker {
   kind: "me" | "ally" | "enemy" | "npc" | "chest";
@@ -78,6 +89,8 @@ export interface BridgeEvents {
   "game:menu": "pause" | "inventory" | "talents" | "map";
   /** The current map's layout (on entry) and its markers (~8 Hz). */
   "game:minimap": MinimapLayout;
+  /** The boss fighting the local player (null when none): HUD boss bar. */
+  "game:boss": BossView | null;
   "game:markers": MapMarker[];
   /** Local player's bag/gear changed (and once when the world starts). */
   "game:inventory": InventoryView;

@@ -1,0 +1,20 @@
+{
+  "id": "vaelgor-quake",
+  "windup": 1.1,
+  "active": 0.18,
+  "recovery": 1.0,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 86,
+    "offset": 0
+  },
+  "damage": 2.2,
+  "knockback": 340,
+  "weight": "heavy",
+  "poise": 100,
+  "element": "storm",
+  "onHit": {
+    "status": "shocked",
+    "chance": 0.6
+  }
+}

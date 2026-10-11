@@ -1,0 +1,31 @@
+{
+  "id": "herald-shroud-loot",
+  "rolls": 3,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "ember-aegis",
+      "weight": 1
+    },
+    {
+      "item": "rimefang",
+      "weight": 1
+    },
+    {
+      "item": "grave-iron",
+      "weight": 2,
+      "min": 2,
+      "max": 3
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2,
+      "min": 2,
+      "max": 4
+    }
+  ],
+  "gold": {
+    "min": 120,
+    "max": 180
+  }
+}

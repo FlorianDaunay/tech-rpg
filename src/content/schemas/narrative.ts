@@ -78,6 +78,7 @@ const ObjectiveSchema = z.discriminatedUnion("kind", [
   z.object({ id: z.string(), kind: z.literal("collect"), item: ItemRef, count: z.number().int().min(1), text: LocalizedText }),
   z.object({ id: z.string(), kind: z.literal("talk"), npc: ref("npc"), text: LocalizedText }),
   z.object({ id: z.string(), kind: z.literal("reach"), map: ref("map"), text: LocalizedText }),
+  z.object({ id: z.string(), kind: z.literal("flag"), flag: z.string().describe("Met once this story flag is set (counts even if set before the quest started)"), text: LocalizedText }),
 ]);
 
 export const QuestSchema = z

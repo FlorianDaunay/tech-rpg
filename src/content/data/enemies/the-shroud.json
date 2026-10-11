@@ -1,0 +1,109 @@
+{
+  "id": "the-shroud",
+  "name": {
+    "en": "The Shroud",
+    "fr": "Le Linceul"
+  },
+  "description": {
+    "en": "Oren the gravekeeper. Every name he takes, his daughter keeps. He has taken thousands; she still does not remember her own.",
+    "fr": "Oren le fossoyeur. Chaque nom qu’il prend, sa fille le garde. Il en a pris des milliers ; elle ne se souvient toujours pas du sien."
+  },
+  "look": "bosses/shroud",
+  "family": "undead",
+  "zones": [
+    "ashen-graveyard"
+  ],
+  "stats": {
+    "maxHp": 1300,
+    "power": 19,
+    "defense": 16,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 260,
+    "speed": 46
+  },
+  "ai": "melee",
+  "attack": "shroud-scythe",
+  "aggroRange": 170,
+  "attackRange": 50,
+  "attackCooldown": 1.5,
+  "radius": 18,
+  "xp": 450,
+  "loot": "herald-shroud-loot",
+  "resist": {
+    "hollow": 0.5,
+    "ember": 1.3
+  },
+  "boss": {
+    "arena": 210,
+    "flag": "herald-shroud-defeated",
+    "phases": [
+      {
+        "below": 1,
+        "attacks": [
+          {
+            "move": "shroud-scythe",
+            "weight": 3,
+            "range": 48
+          },
+          {
+            "move": "bolt",
+            "weight": 1,
+            "range": 170
+          }
+        ],
+        "attackCooldown": 1.5,
+        "speed": 1
+      },
+      {
+        "below": 0.66,
+        "attacks": [
+          {
+            "move": "shroud-scythe",
+            "weight": 3,
+            "range": 48
+          },
+          {
+            "move": "shroud-wail",
+            "weight": 2,
+            "range": 56
+          },
+          {
+            "move": "bolt",
+            "weight": 1,
+            "range": 170
+          }
+        ],
+        "attackCooldown": 1.3,
+        "speed": 1.1,
+        "summon": {
+          "enemy": "rattling-bones",
+          "count": 3,
+          "every": 18
+        }
+      },
+      {
+        "below": 0.3,
+        "attacks": [
+          {
+            "move": "shroud-scythe",
+            "weight": 3,
+            "range": 48
+          },
+          {
+            "move": "shroud-wail",
+            "weight": 2,
+            "range": 56
+          }
+        ],
+        "attackCooldown": 0.9,
+        "speed": 1.3,
+        "summon": {
+          "enemy": "grave-wail",
+          "count": 2,
+          "every": 20
+        }
+      }
+    ]
+  }
+}

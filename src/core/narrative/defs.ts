@@ -9,7 +9,9 @@ export type Objective =
   | { id: string; kind: "kill"; enemy: string; count: number }
   | { id: string; kind: "collect"; item: string; count: number }
   | { id: string; kind: "talk"; npc: string }
-  | { id: string; kind: "reach"; map: string };
+  | { id: string; kind: "reach"; map: string }
+  /** Met once a story flag is set, even before the quest started (e.g. a Herald already slain). */
+  | { id: string; kind: "flag"; flag: string };
 
 export interface QuestDef {
   id: string;

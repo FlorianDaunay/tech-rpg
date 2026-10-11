@@ -1,0 +1,29 @@
+{
+  "id": "herald-vaelgor-loot",
+  "rolls": 3,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "dawnshard",
+      "weight": 1
+    },
+    {
+      "item": "hollowed-greatblade",
+      "weight": 1
+    },
+    {
+      "item": "sunlit-ember",
+      "weight": 1
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2,
+      "min": 4,
+      "max": 6
+    }
+  ],
+  "gold": {
+    "min": 240,
+    "max": 360
+  }
+}

@@ -223,6 +223,17 @@ export class CombatFx {
         this.pickups.delete(ev.id);
         break;
       }
+      case "boss-phase": {
+        const a = h.actor(ev.id);
+        if (!a) break;
+        audio.sfx("explosion", { x: a.x, y: a.y, volume: 0.9 });
+        audio.sfx("hollow-pulse", { x: a.x, y: a.y });
+        this.shake(0.014);
+        h.light?.(a.x, a.y - 30, 160, "rift");
+        this.ring(a.x, a.y - 30, COMBAT_COLORS.telegraph, 14);
+        this.label(a.x, a.y - 80, t("fx.bossPhase"), COMBAT_COLORS.telegraph);
+        break;
+      }
       case "spawn": {
         const a = h.actor(ev.id);
         if (!a) break;

@@ -1,0 +1,20 @@
+{
+  "id": "maw-devour",
+  "windup": 0.9,
+  "active": 0.16,
+  "recovery": 0.9,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 54,
+    "offset": 0
+  },
+  "damage": 2.0,
+  "knockback": 260,
+  "weight": "heavy",
+  "poise": 80,
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.6
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "herald-maw-loot",
+  "rolls": 3,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "hollowed-greatblade",
+      "weight": 1
+    },
+    {
+      "item": "ember-aegis",
+      "weight": 1
+    },
+    {
+      "item": "deep-ore",
+      "weight": 2,
+      "min": 2,
+      "max": 4
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2,
+      "min": 3,
+      "max": 5
+    }
+  ],
+  "gold": {
+    "min": 160,
+    "max": 240
+  }
+}
