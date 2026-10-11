@@ -1,0 +1,83 @@
+{
+  "id": "endless-night",
+  "name": {
+    "en": "The Endless Night",
+    "fr": "La Nuit sans fin"
+  },
+  "description": {
+    "en": "Below the Hollow Rift the dark keeps folding into new halls, different every day. The deeper you go, the more it fights back, and the more it gives.",
+    "fr": "Sous la Faille du Néant, l’ombre se replie sans cesse en nouvelles salles, différentes chaque jour. Plus on descend, plus elle résiste, et plus elle donne."
+  },
+  "zone": "hollow-rift",
+  "floors": 5,
+  "tiles": {
+    "floor": {
+      "tile": "tiles/rift-ground#0-3"
+    },
+    "wall": {
+      "tile": "tiles/void",
+      "autotile": true,
+      "solid": true
+    }
+  },
+  "enemies": [
+    {
+      "enemy": "void-mote",
+      "weight": 3
+    },
+    {
+      "enemy": "lost-soul",
+      "weight": 2
+    },
+    {
+      "enemy": "rift-stalker",
+      "weight": 2
+    },
+    {
+      "enemy": "wisp-caster",
+      "weight": 1
+    },
+    {
+      "enemy": "rime-wraith",
+      "weight": 1,
+      "fromFloor": 2
+    },
+    {
+      "enemy": "storm-acolyte",
+      "weight": 1,
+      "fromFloor": 3
+    },
+    {
+      "enemy": "ember-imp",
+      "weight": 1,
+      "fromFloor": 3
+    }
+  ],
+  "elites": [
+    {
+      "enemy": "grave-brute",
+      "weight": 2
+    },
+    {
+      "enemy": "hollowed-warden",
+      "weight": 1,
+      "fromFloor": 2
+    },
+    {
+      "enemy": "hollow-knight",
+      "weight": 1,
+      "fromFloor": 4
+    }
+  ],
+  "chestLoot": "rift-cache",
+  "finalLoot": "rift-hoard",
+  "perFloor": {
+    "enemyHp": 0.15,
+    "enemyDamage": 0.1,
+    "xp": 0.15,
+    "gold": 0.15,
+    "lootChance": 0.05
+  },
+  "exitTo": "hollow-rift",
+  "exitArrive": "from-depths"
+}

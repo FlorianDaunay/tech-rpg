@@ -32,6 +32,8 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "settings.minimap": "Mini-carte",
   "boss.sealed": "Les issues sont scellées",
   "fx.bossPhase": "Le Héraut se déchaîne !",
+  "rift.floor": "Étage {floor} sur {floors}",
+  "rift.floorShort": "étage {floor}",
   "saves.title": "Parties sauvegardées",
   "saves.slot": "Emplacement {n}",
   "saves.empty": "Vide",

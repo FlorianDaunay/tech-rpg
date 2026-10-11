@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { LIGHT_COLORS } from "@/config/palette";
-import { Id, LocalizedText, ref } from "./common";
+import { Id, LocalizedText, ref, refAny } from "./common";
 
 /**
  * Maps are authored as character grids (one char per tile) plus a legend. Readable in a diff,
@@ -69,8 +69,8 @@ export const MapPortalSchema = z.object({
   cy: z.number().int().nonnegative(),
   w: z.number().int().positive().default(1),
   h: z.number().int().positive().default(1),
-  to: ref("map"),
-  arrive: z.string().describe("Player spawn id in the target map"),
+  to: refAny(["map", "rift"]).describe("Target map, or a Rift (starts floor 1 of today's run)"),
+  arrive: z.string().describe("Player spawn id in the target map (ignored for a Rift)"),
 });
 
 export const MapSchema = z

@@ -686,6 +686,32 @@
         "flicker": true,
         "offsetY": -14
       }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 22,
+      "cy": 3,
+      "flipX": false,
+      "light": {
+        "radius": 80,
+        "color": "rift",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -16
+      }
+    },
+    {
+      "asset": "props/rift-spire",
+      "cx": 28,
+      "cy": 3,
+      "flipX": true,
+      "light": {
+        "radius": 80,
+        "color": "rift",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -16
+      }
     }
   ],
   "spawns": [
@@ -813,6 +839,12 @@
       "cx": 25,
       "cy": 4,
       "ref": "lost-soul"
+    },
+    {
+      "id": "from-depths",
+      "kind": "player",
+      "cx": 25,
+      "cy": 6
     }
   ],
   "portals": [
@@ -824,6 +856,15 @@
       "h": 1,
       "to": "fallen-citadel",
       "arrive": "from-rift"
+    },
+    {
+      "id": "to-depths",
+      "cx": 24,
+      "cy": 2,
+      "w": 3,
+      "h": 1,
+      "to": "endless-night",
+      "arrive": "start"
     }
   ]
 }

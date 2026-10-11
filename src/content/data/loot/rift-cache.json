@@ -1,0 +1,37 @@
+{
+  "id": "rift-cache",
+  "rolls": 2,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "rift-shard",
+      "weight": 4,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "healing-draught",
+      "weight": 3
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2
+    },
+    {
+      "item": "gale-needle",
+      "weight": 0.5
+    },
+    {
+      "item": "rimefang",
+      "weight": 0.3
+    },
+    {
+      "item": "ember-aegis",
+      "weight": 0.3
+    }
+  ],
+  "gold": {
+    "min": 20,
+    "max": 40
+  }
+}

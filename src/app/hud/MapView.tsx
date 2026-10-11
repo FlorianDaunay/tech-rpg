@@ -3,12 +3,19 @@ import type { MapMarker, MinimapLayout } from "@/bridge/events";
 import { MINIMAP_COLORS } from "@/config/palette";
 import { content } from "@/content/registry";
 import { localized } from "../items";
+import { t } from "@/i18n";
+import { parseRiftMapId } from "@/core/world/riftgen";
 
 /** Marker radius in screen px (stays readable at any map scale). */
 const RADIUS: Record<MapMarker["kind"], number> = { me: 3.2, ally: 2.6, enemy: 2, npc: 2.4, chest: 2.4 };
 
 /** Zone name of the map a portal leads to. */
 export function destinationName(map: string): string {
+  const rift = content.rifts.find(map) ?? (parseRiftMapId(map) && content.rifts.find(parseRiftMapId(map)!.rift));
+  if (rift) {
+    const floor = parseRiftMapId(map)?.floor;
+    return floor ? `${localized(rift.name)} · ${t("rift.floorShort", { floor })}` : localized(rift.name);
+  }
   const m = content.maps.find(map);
   const z = m && content.zones.find(m.zone);
   return z ? localized(z.name) : map;

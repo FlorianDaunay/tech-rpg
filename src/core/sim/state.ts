@@ -10,6 +10,7 @@ import { dropLoot, resolveMelee, separate, stepActor, stepLifecycle, stepPickups
 import { createRng, type Rng } from "../math/rng";
 import { awardXp } from "../progression/level";
 import { isSolidCell, type GameMap } from "../world/map";
+import { RIFT_PREFIX } from "../world/riftgen";
 import { emptyIntent, type Intent } from "./intent";
 import type { Modifiers } from "../combat/modifiers";
 import { combineMods, normalizeRules, scaleEnemy, type WorldRules } from "./rules";
@@ -26,6 +27,8 @@ export interface SimState extends CombatWorld {
   /** Difficulty, Omens, NG+ cycle, and their combined multipliers (`applyRules` keeps them in sync). */
   rules: WorldRules;
   mods: Modifiers;
+  /** Extra multipliers of this map on top of the rules (Rift depth), kept when the rules change. */
+  extra: Partial<Modifiers>;
   /** Enemy spawn points of the map (respawn bookkeeping). */
   spawners: Spawner[];
   /** Chests of the map (interact point = the chest's cell centre). */
@@ -74,9 +77,9 @@ export interface Spawner {
 export const RESPAWN_CLEARANCE = 180;
 
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
-export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>): SimState {
+export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>, extra: Partial<Modifiers> = {}): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r), spawners: [], chests: [], arenas: [] };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [] };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -101,6 +104,9 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
  * Places a map's enemies and NPCs. One-time spawns listed in `cleared` (slain for good) are skipped.
  */
 export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<string> = new Set(), defaultRespawn = 180): void {
+  // Chests opened and guardians slain inside a Rift run only matter during that run.
+  if (!map.id.startsWith(RIFT_PREFIX))
+    for (const p of players(state)) if (p.progress) p.progress.cleared = p.progress.cleared.filter((k) => !k.startsWith(RIFT_PREFIX));
   for (const o of map.objects)
     if (o.chest) state.chests.push({ key: o.chest.key, loot: o.chest.loot, x: o.x, y: o.y - map.tileSize / 2, opened: cleared.has(o.chest.key) });
   for (const s of map.spawns) {

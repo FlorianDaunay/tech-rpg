@@ -1,0 +1,33 @@
+{
+  "id": "rift-hoard",
+  "rolls": 3,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "rift-shard",
+      "weight": 4,
+      "min": 3,
+      "max": 5
+    },
+    {
+      "item": "rimefang",
+      "weight": 1
+    },
+    {
+      "item": "hollowed-greatblade",
+      "weight": 1
+    },
+    {
+      "item": "ember-aegis",
+      "weight": 1
+    },
+    {
+      "item": "dawnshard",
+      "weight": 0.2
+    }
+  ],
+  "gold": {
+    "min": 120,
+    "max": 200
+  }
+}

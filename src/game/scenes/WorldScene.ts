@@ -27,6 +27,9 @@ import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
 import { mapMarkers, minimapLayout } from "../world/minimap";
 import { ArenaWalls } from "../systems/ArenaWalls";
+import { findMapContent, resolvePortal } from "@/content/rift";
+import { dailySeed, parseRiftMapId } from "@/core/world/riftgen";
+import type { Modifiers } from "@/core/combat/modifiers";
 import type { WorldStart } from "./PreloadScene";
 import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
 import { applyRules } from "@/core/sim/rules";
@@ -80,6 +83,8 @@ export class WorldScene extends Phaser.Scene {
   private promptKey = "";
   private disposers: (() => void)[] = [];
   private objectImages: Phaser.GameObjects.Image[] = [];
+  /** Set on a generated Rift floor. */
+  private rift: ReturnType<typeof parseRiftMapId> = null;
   private markersAt = 0;
   private arenaWalls!: ArenaWalls;
   private bossKey = "";
@@ -111,12 +116,15 @@ export class WorldScene extends Phaser.Scene {
     this.playtime = data.playtime ?? 0;
     this.saveSoon = false;
 
-    this.map = toGameMap(content.maps.get(data.map ?? START_MAP));
+    // Authored map, or a generated Rift floor; anything unknown (a stale id) falls back to the hub.
+    const mapContent = findMapContent(data.map ?? START_MAP) ?? content.maps.get(START_MAP);
+    this.map = toGameMap(mapContent);
+    this.rift = parseRiftMapId(this.map.id);
     this.zone = content.zones.get(this.map.zone);
     this.tilemap = renderMap(this, this.map);
     this.objectImages = renderObjects(this, this.map);
 
-    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules);
+    this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules, this.riftDepthMods());
     const playerSpawns = this.map.spawns.filter((s) => s.kind === "player");
     let spawn: { x: number; y: number } = playerSpawns.find((s) => s.id === data.arrive) ?? playerSpawns[0] ?? { x: 64, y: 64 };
     // A loaded save resumes where the player stood, if that spot is still walkable.
@@ -124,7 +132,8 @@ export class WorldScene extends Phaser.Scene {
     if (data.at && data.at.x >= 0 && !isSolidCell(this.map, Math.floor(data.at.x / ts), Math.floor(data.at.y / ts))) spawn = data.at;
     const me = spawnPlayer(this.sim, LOCAL_ID, "characters/male-01-1", spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
     if (data.carry) restorePlayer(me, data.carry);
-    populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.zone.respawn);
+    // Nothing comes back inside a Rift run: a floor is cleared once.
+    populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.rift ? Infinity : this.zone.respawn);
     this.arenaWalls = new ArenaWalls(this);
     for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
 
@@ -192,7 +201,7 @@ export class WorldScene extends Phaser.Scene {
     this.events.once("shutdown", () => this.cleanup());
     this.cameras.main.fadeIn(400, 7, 6, 11);
     bridge.emit("game:world-ready", { mapId: this.map.id });
-    bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id });
+    bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id, rift: this.rift ? { rift: this.rift.rift, floor: this.rift.floor, floors: content.rifts.find(this.rift.rift)?.floors ?? 1 } : undefined });
     bridge.emit("game:minimap", minimapLayout(this.map, this.zone.id));
     this.markersAt = 0;
     // Arriving somewhere (new game, map change, loaded save) is a checkpoint.
@@ -310,8 +319,18 @@ export class WorldScene extends Phaser.Scene {
   }
 
   /** Fade out and restart the scene on the target map, carrying the local player state and the clock. */
-  private travel(to: string, arrive: string): void {
+  /** A Rift floor's extra multipliers: `perFloor` × floors below the first. */
+  private riftDepthMods(): Partial<Modifiers> {
+    const r = this.rift && content.rifts.find(this.rift.rift);
+    if (!r || !this.rift) return {};
+    const depth = this.rift.floor - 1;
+    return Object.fromEntries(Object.entries(r.perFloor).map(([k, v]) => [k, 1 + (v ?? 0) * depth]));
+  }
+
+  private travel(target: string, arriveAt: string): void {
     if (this.travelling) return;
+    // A portal to a Rift starts today's run (host clock decides the day).
+    const { map: to, arrive } = resolvePortal(target, arriveAt, dailySeed(Date.now()));
     this.travelling = true;
     const me = this.sim.actors[LOCAL_ID];
     const carry = me?.progress ? capturePlayer(me) : undefined;

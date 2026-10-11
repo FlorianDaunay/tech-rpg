@@ -95,7 +95,8 @@ export interface BridgeEvents {
   /** Local player's bag/gear changed (and once when the world starts). */
   "game:inventory": InventoryView;
   /** Entered a map: the HUD shows the zone banner. */
-  "game:zone": { zone: string; map: string };
+  /** Entered a map (zone banner). `rift` when it is a Rift floor. */
+  "game:zone": { zone: string; map: string; rift?: { rift: string; floor: number; floors: number } };
   /** The local player started talking to an NPC. */
   "game:dialogue": { npc: string; dialogue: string };
   /** A save was written (or refused by storage). Manual = from the pause menu. */

@@ -95,4 +95,13 @@ describe("world rules", () => {
     restorePlayer(q, ng.player);
     expect(q.hp).toBe(q.stats.maxHp);
   });
+
+  it("a map's extra multipliers (Rift depth) stack on the rules and survive a rules change", () => {
+    const sim = createSim("room", 1, 0, { difficulty: "hard" }, { enemyHp: 1.5 });
+    const hard = content.difficulties.get("hard").mods.enemyHp ?? 1;
+    expect(sim.mods.enemyHp).toBeCloseTo(hard * 1.5);
+    applyRules(sim, { difficulty: "normal", omens: [], ngPlus: 0 });
+    expect(sim.mods.enemyHp).toBeCloseTo(1.5);
+  });
 });
+

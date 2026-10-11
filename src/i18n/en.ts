@@ -31,6 +31,8 @@ export const en = {
   "settings.minimap": "Minimap",
   "boss.sealed": "The way out is sealed",
   "fx.bossPhase": "The Herald rages!",
+  "rift.floor": "Floor {floor} of {floors}",
+  "rift.floorShort": "floor {floor}",
   "saves.title": "Saved games",
   "saves.slot": "Slot {n}",
   "saves.empty": "Empty",

@@ -55,8 +55,8 @@ export function normalizeRules(r: Partial<WorldRules> | undefined): WorldRules {
   return { difficulty, omens, ngPlus };
 }
 
-/** Combined multipliers: difficulty × each Omen × (1 + cycles × NG+ step). */
-export function combineMods(r: WorldRules): Modifiers {
+/** Combined multipliers: difficulty × each Omen × (1 + cycles × NG+ step) × the map's extra (Rift depth). */
+export function combineMods(r: WorldRules, extra: Partial<Modifiers> = {}): Modifiers {
   const out = { ...NEUTRAL_MODS };
   const apply = (mods: Partial<Modifiers> | undefined) => {
     for (const [k, v] of Object.entries(mods ?? {}) as [Modifier, number][]) out[k] *= v;
@@ -64,6 +64,7 @@ export function combineMods(r: WorldRules): Modifiers {
   apply(findDifficulty(r.difficulty)?.mods);
   for (const o of r.omens) apply(findOmen(o)?.mods);
   if (r.ngPlus > 0 && data.ngPlus) for (const m of MODIFIERS) out[m] *= 1 + r.ngPlus * (data.ngPlus.perCycle[m] ?? 0);
+  apply(extra);
   return out;
 }
 
@@ -84,9 +85,9 @@ export function scaleEnemy(a: Actor, mods: Modifiers): void {
 }
 
 /** Sets a world's rules and rescales the enemies already in it. */
-export function applyRules(state: { rules: WorldRules; mods: Modifiers; actors: Record<string, Actor> }, rules: WorldRules): void {
+export function applyRules(state: { rules: WorldRules; mods: Modifiers; extra?: Partial<Modifiers>; actors: Record<string, Actor> }, rules: WorldRules): void {
   state.rules = normalizeRules(rules);
-  state.mods = combineMods(state.rules);
+  state.mods = combineMods(state.rules, state.extra);
   for (const a of Object.values(state.actors)) if (a.kind === "enemy") scaleEnemy(a, state.mods);
 }
 

@@ -5,7 +5,8 @@ import { t } from "@/i18n";
 import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { Modal } from "@/ui/menu/components";
-import { MapView } from "../hud/MapView";
+import { destinationName, MapView } from "../hud/MapView";
+import { parseRiftMapId } from "@/core/world/riftgen";
 import { localized } from "../items";
 
 /** Room the modal chrome (title, legend, margins) takes around the map (px); less on short screens. */
@@ -40,7 +41,7 @@ export function MapScreen() {
     ["portal", t("map.exit")],
   ] as const;
   return (
-    <Modal title={zone ? localized(zone.name) : t("map.title")} onBack={back} wide>
+    <Modal title={parseRiftMapId(layout.map) ? destinationName(layout.map) : zone ? localized(zone.name) : t("map.title")} onBack={back} wide>
       <div className="flex flex-col items-center gap-3">
         <div className="overflow-hidden rounded-tile border border-border">
           <MapView layout={layout} markers={markers} scale={scale} labels />

@@ -120,4 +120,13 @@ describe("chests", () => {
     stepSim(fresh, map, { p1: interact() });
     expect(fresh.chests[0]!.opened).toBe(false);
   });
+
+  it("one-run Rift records are forgotten back on authored ground", () => {
+    const sim = createSim("room", 1);
+    const p = spawnPlayer(sim, "p1", "x", 600, 600);
+    p.progress!.cleared = ["rift-endless-night-s1-f2:chest-0", "whispering-wilds:herald"];
+    populateMap(sim, room([]));
+    expect(p.progress!.cleared).toEqual(["whispering-wilds:herald"]);
+  });
 });
+
