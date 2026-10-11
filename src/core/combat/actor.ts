@@ -118,6 +118,8 @@ export interface Actor extends Body {
   ultCharge: number;
   /** Learned talent ranks by id (players). */
   talents: Record<string, number>;
+  /** Total weapon-mastery XP by sword family (players, see core/progression/mastery). */
+  mastery: Record<string, number>;
 }
 
 /** Actions remembered while busy (input buffering). */
@@ -172,6 +174,7 @@ export function createActor(init: {
     loadout: { skill1: null, skill2: null, ultimate: null },
     ultCharge: 0,
     talents: {},
+    mastery: {},
   };
 }
 

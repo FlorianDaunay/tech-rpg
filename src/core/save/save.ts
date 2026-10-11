@@ -24,6 +24,8 @@ export interface PlayerState {
   ultCharge: number;
   cooldowns: Record<string, number>;
   talents: Record<string, number>;
+  /** Weapon-mastery XP by sword family. */
+  mastery: Record<string, number>;
 }
 
 export interface SaveData {
@@ -55,12 +57,14 @@ export function capturePlayer(a: Actor): PlayerState {
     ultCharge: a.ultCharge,
     cooldowns: { ...a.cooldowns },
     talents: { ...a.talents },
+    mastery: { ...a.mastery },
   };
 }
 
 /** Puts a captured state back on a freshly spawned player (gear, talents and level recompute stats). */
 export function restorePlayer(a: Actor, s: PlayerState): void {
   a.talents = { ...s.talents };
+  a.mastery = { ...s.mastery };
   equip(a, s.weapon, s.shield);
   setLevel(a, s.level, s.xp);
   a.hp = Math.max(1, Math.min(a.stats.maxHp, s.hp));
@@ -150,6 +154,8 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
       cooldowns: counts(p.cooldowns, undefined, false),
       // Ranks above what the talent now allows are clamped (the extra points come back).
       talents: Object.fromEntries(Object.entries(counts(p.talents, (id) => !!findTalent(id))).map(([id, r]) => [id, Math.min(r, findTalent(id)!.ranks)])),
+      // Absent before mastery existed: starts untrained. Families are kept as-is (a renamed family just stops counting).
+      mastery: counts(p.mastery, undefined, false),
     },
   };
 }

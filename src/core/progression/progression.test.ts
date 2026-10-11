@@ -5,7 +5,9 @@ import { registerCombatData } from "../combat/defs";
 import type { SimEvent } from "../combat/events";
 import { registerNarrativeData } from "../narrative/defs";
 import { createSim, spawnEnemy, spawnPlayer } from "../sim/state";
-import { awardXp, grantXp, progression, registerProgression, setLevel, statsAtLevel, xpToNext } from "./level";
+import { awardXp, grantMastery, grantXp, progression, registerProgression, setLevel, statsAtLevel, xpToNext } from "./level";
+import { masteryDef, masteryLevel, masteryToNext } from "./mastery";
+import { applyCommand } from "../combat/commands";
 
 beforeAll(() => {
   registerCombatData(combatData());
@@ -78,6 +80,45 @@ describe("progression", () => {
     const events: SimEvent[] = [];
     grantXp(events, p, 99999);
     expect(p.level).toBe(progression().maxLevel);
+    expect(events).toEqual([]);
+  });
+});
+
+describe("weapon mastery", () => {
+  it("the curve grows and stops at the cap", () => {
+    const d = masteryDef();
+    expect(d.maxLevel).toBeGreaterThan(0);
+    for (let l = 0; l < d.maxLevel - 1; l++) expect(masteryToNext(l + 1)).toBeGreaterThan(masteryToNext(l));
+    expect(masteryToNext(d.maxLevel)).toBe(Infinity);
+    expect(masteryLevel(masteryToNext(0) + 3)).toEqual({ level: 1, xp: 3, next: masteryToNext(1) });
+    expect(masteryLevel(1e9).level).toBe(d.maxLevel);
+  });
+
+  it("kills train only the killer's sword family, and its stats apply only while wielding it", () => {
+    const sim = createSim("room", 1);
+    const a = spawnPlayer(sim, "p1", "x", 100, 100, { weapon: "initiate-blade" });
+    const b = spawnPlayer(sim, "p2", "x", 140, 100, { weapon: "initiate-blade" });
+    const events: SimEvent[] = [{ type: "death", id: "e", killer: "p1", xp: masteryToNext(0) + masteryToNext(1) }];
+    awardXp(events, sim.actors);
+    expect(masteryLevel(a.mastery.blade!).level).toBe(2);
+    expect(b.mastery.blade).toBeUndefined();
+    expect(events.filter((e) => e.type === "mastery-up").map((e) => (e as { level: number }).level)).toEqual([1, 2]);
+    const perLevel = masteryDef().families.blade!.power ?? 0;
+    const bladeBonus = combatData().weapons["initiate-blade"]!.bonus.power ?? 0;
+    expect(a.stats.power).toBeCloseTo(a.baseStats.power + bladeBonus + 2 * perLevel, 5);
+
+    // Switching to a rapier drops the blade bonus (and the rapier is untrained).
+    a.bag["duelist-rapier"] = 1;
+    applyCommand([], a, { type: "equip", slot: "weapon", item: "duelist-rapier" });
+    const rapierBonus = combatData().weapons["duelist-rapier"]!.bonus.power ?? 0;
+    expect(a.stats.power).toBeCloseTo(a.baseStats.power + rapierBonus, 5);
+  });
+
+  it("unarmed kills train nothing", () => {
+    const { p } = player(null);
+    const events: SimEvent[] = [];
+    grantMastery(events, p, 500);
+    expect(p.mastery).toEqual({});
     expect(events).toEqual([]);
   });
 });

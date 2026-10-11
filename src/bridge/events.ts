@@ -34,6 +34,8 @@ export interface InventoryView {
   loadout: Record<"skill1" | "skill2" | "ultimate", string | null>;
   /** Skills that may be slotted (by level or talent). */
   unlockedSkills: string[];
+  /** Weapon-mastery XP by sword family. */
+  mastery: Record<string, number>;
 }
 
 export type GameMode = "solo" | "host" | "client";

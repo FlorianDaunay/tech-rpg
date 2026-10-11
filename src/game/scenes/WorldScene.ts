@@ -195,7 +195,7 @@ export class WorldScene extends Phaser.Scene {
   private autosave(events: readonly { type: string; id?: string; change?: string }[]): void {
     for (const ev of events) {
       if (ev.id !== LOCAL_ID) continue;
-      if (ev.type === "level-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
+      if (ev.type === "level-up" || ev.type === "mastery-up" || ev.type === "talent" || ev.type === "loadout" || (ev.type === "quest" && ev.change === "done")) this.saveSoon = true;
     }
   }
 
@@ -333,6 +333,7 @@ export class WorldScene extends Phaser.Scene {
       talentPoints: talentPointsLeft(me),
       loadout: { ...me.loadout },
       unlockedSkills: unlockedSkills(me),
+      mastery: { ...me.mastery },
     };
     const key = JSON.stringify(view);
     if (key === this.inventoryKey) return;

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { ProgressionDef } from "@/core/progression/level";
-import { Id } from "./common";
+import { Id, SwordFamilySchema } from "./common";
 
 const Gain = z.number().nonnegative();
 
@@ -17,6 +17,21 @@ export const ProgressionSchema = z
       .describe("Stats gained per level above 1"),
     talentPointsPerLevel: z.number().int().min(0).default(1).describe("Talent points earned per level above 1"),
     healOnLevelUp: z.boolean().default(true).describe("A level-up refills health and stamina"),
+    mastery: z
+      .object({
+        maxLevel: z.number().int().min(0).default(10).describe("Mastery cap per sword family"),
+        xpBase: z.number().positive().default(30).describe("Kill XP to leave mastery level L = round(xpBase × (L+1)^xpExponent)"),
+        xpExponent: z.number().min(0).default(1.4),
+        families: z
+          .partialRecord(
+            SwordFamilySchema,
+            z.object({ power: Gain.optional(), critChance: z.number().min(0).max(0.05).optional(), critMultiplier: Gain.optional(), maxPoise: Gain.optional(), speed: Gain.optional() })
+          )
+          .default({})
+          .describe("Stats per mastery level while wielding that family"),
+      })
+      .optional()
+      .describe("Weapon mastery: kills train the wielded sword family"),
   })
   .describe("Progression");
 

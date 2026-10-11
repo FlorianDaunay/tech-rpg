@@ -7,7 +7,7 @@ import { getMove, type Element } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import type { Pickup, Projectile } from "@/core/combat/step";
 import { audio, type SfxHandle } from "@/game/audio";
-import { getLang, t } from "@/i18n";
+import { getLang, t, type I18nKey } from "@/i18n";
 import { useSettings } from "@/store/settings";
 
 /** Freeze-frame length per hit weight (ms). Short: the game must stay responsive. */
@@ -167,6 +167,13 @@ export class CombatFx {
         h.light?.(a.x, a.y - 10, 90, "lantern");
         this.ring(a.x, a.y - 10, COMBAT_COLORS.levelUp, 6);
         this.label(a.x, a.y - 34, t("fx.levelUp"), COMBAT_COLORS.levelUp);
+        break;
+      }
+      case "mastery-up": {
+        const a = h.actor(ev.id);
+        if (!a) break;
+        if (ev.id === h.localId) audio.sfx("notify", { volume: 0.7 });
+        this.label(a.x, a.y - 44, t("fx.masteryUp", { family: t(`family.${ev.family}` as I18nKey), level: ev.level }), COMBAT_COLORS.levelUp);
         break;
       }
       case "respawn": {

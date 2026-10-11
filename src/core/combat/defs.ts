@@ -64,6 +64,8 @@ export interface ReactionDef {
 
 export interface WeaponDef {
   id: string;
+  /** Moveset family, trained by weapon mastery. */
+  family?: string;
   /** First move of the light combo. */
   light: string;
   heavy: string;

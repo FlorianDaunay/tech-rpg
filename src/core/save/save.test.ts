@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { registerContent } from "@/content/boot";
 import { content } from "@/content/registry";
 import { applyCommand } from "../combat/commands";
+import { equip } from "../combat/equipment";
 import { createSim, spawnPlayer } from "../sim/state";
 import { grantXp, xpToNext } from "../progression/level";
 import { captureSave, capturePlayer, migrateSave, restorePlayer, SAVE_VERSION } from "./save";
@@ -20,6 +21,8 @@ function veteran() {
   p.progress!.flags.push("met-maelis");
   p.progress!.quests["first-ember"] = { done: false, counts: { o1: 1 } };
   p.ultCharge = 33;
+  p.mastery = { blade: 120, rapier: 5 };
+  equip(p, p.weapon, p.shield);
   p.hp = 50;
   return p;
 }
@@ -73,7 +76,7 @@ describe("save", () => {
 
   it("missing fields get safe defaults", () => {
     const save = migrateSave({ version: 1, map: "cinderhold", player: {} }, mapExists)!;
-    expect(save.player).toMatchObject({ level: 1, xp: 0, bag: {}, talents: {}, weapon: null, shield: null });
+    expect(save.player).toMatchObject({ level: 1, xp: 0, bag: {}, talents: {}, mastery: {}, weapon: null, shield: null });
     const p = fresh();
     restorePlayer(p, save.player);
     expect(p.hp).toBeGreaterThan(0);

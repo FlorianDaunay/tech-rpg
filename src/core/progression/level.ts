@@ -6,6 +6,7 @@ import { refreshLoadout, unlockedSkills } from "../combat/skills";
 import { talentStats } from "./talents";
 import type { SimEvent } from "../combat/events";
 import { findQuest } from "../narrative/defs";
+import { masteryLevel, registerMastery, wieldedFamily, type MasteryDef } from "./mastery";
 
 /** How a character grows (content: `progression/*.json`). */
 export interface ProgressionDef {
@@ -20,6 +21,8 @@ export interface ProgressionDef {
   talentPointsPerLevel: number;
   /** A level-up refills health and stamina. */
   healOnLevelUp: boolean;
+  /** Weapon mastery curve and per-family stats (none = no mastery). */
+  mastery?: MasteryDef;
 }
 
 /** Character growth state on a player actor (carried across maps, saved later). */
@@ -31,7 +34,10 @@ export interface Level {
 
 const FALLBACK: ProgressionDef = { id: "player", maxLevel: 1, xpBase: 1, xpExponent: 1, perLevel: {}, talentPointsPerLevel: 0, healOnLevelUp: false };
 let curve: ProgressionDef = FALLBACK;
-export const registerProgression = (d: ProgressionDef) => void (curve = d);
+export function registerProgression(d: ProgressionDef): void {
+  curve = d;
+  registerMastery(d.mastery);
+}
 export const progression = (): ProgressionDef => curve;
 
 /** XP needed to leave `level` (Infinity at the cap). */
@@ -84,6 +90,18 @@ export function grantXp(events: SimEvent[], a: Actor, amount: number): void {
   }
 }
 
+/** Trains the wielded sword family. Emits `mastery-up` per level gained (stats are recomputed). */
+export function grantMastery(events: SimEvent[], a: Actor, amount: number): void {
+  const family = wieldedFamily(a);
+  if (!family || amount <= 0) return;
+  const before = masteryLevel(a.mastery[family] ?? 0).level;
+  a.mastery[family] = (a.mastery[family] ?? 0) + amount;
+  const after = masteryLevel(a.mastery[family]).level;
+  if (after === before) return;
+  equip(a, a.weapon, a.shield);
+  for (let l = before + 1; l <= after; l++) events.push({ type: "mastery-up", id: a.id, family, level: l });
+}
+
 /**
  * XP from this step's events: enemy deaths credited to a player (shared by every living player, so
  * co-op partners all progress) and completed quests (to the player who turned it in).
@@ -93,6 +111,8 @@ export function awardXp(events: SimEvent[], actors: Record<string, Actor>): void
   for (const ev of [...events]) {
     if (ev.type === "death" && ev.xp > 0 && ev.killer && actors[ev.killer]?.kind === "player") {
       for (const p of players) grantXp(events, p, ev.xp);
+      // Mastery is personal: only the killer's sword learns from the kill.
+      grantMastery(events, actors[ev.killer]!, ev.xp);
     } else if (ev.type === "quest" && ev.change === "done") {
       const xp = findQuest(ev.quest)?.rewards.xp ?? 0;
       const p = actors[ev.id];

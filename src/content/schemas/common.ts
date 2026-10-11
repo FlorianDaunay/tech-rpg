@@ -17,6 +17,7 @@ export const ref = (type: string) => Id.meta({ ref: type }).describe(`Reference 
 export const refAny = (types: string[]) => Id.meta({ ref: types.join(",") }).describe(`Reference to a ${types.join(" / ")}`);
 
 export const ElementSchema = z.enum(["ember", "frost", "storm", "hollow"]).describe("Element");
+export const SwordFamilySchema = z.enum(["blade", "greatblade", "rapier"]).describe("Sword family");
 export const RaritySchema = z.enum(["common", "uncommon", "rare", "epic", "legendary"]).describe("Rarity");
 
 /** Optional asset key from public/assets/index.json (e.g. "weapons/sword-001"). */

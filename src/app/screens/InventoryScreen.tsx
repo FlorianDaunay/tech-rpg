@@ -5,6 +5,7 @@ import { t, type I18nKey } from "@/i18n";
 import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { Modal, uiSound } from "@/ui/menu/components";
+import { masteryLevel } from "@/core/progression/mastery";
 import { ItemIcon, itemInfo, localized, type ItemInfo } from "../items";
 
 const RARITY_RANK = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 } as const;
@@ -104,7 +105,7 @@ export function InventoryScreen() {
                 </div>
               </div>
               <p className="mt-2 text-sm text-text-secondary">{localized(info.def.description)}</p>
-              <ItemStats info={info} />
+              <ItemStats info={info} mastery={inv.mastery} />
               <div className="mt-3 flex flex-wrap gap-2">
                 {info.kind !== "item" &&
                   (equippedSlot ? (
@@ -128,11 +129,13 @@ export function InventoryScreen() {
   );
 }
 
-function ItemStats({ info }: { info: ItemInfo }) {
+function ItemStats({ info, mastery }: { info: ItemInfo; mastery: Record<string, number> }) {
   const rows: [string, string][] = [];
   if (info.kind === "sword") {
     const b = info.def.bonus;
     rows.push([t("stats.family"), t(`family.${info.def.family}` as I18nKey)]);
+    const m = masteryLevel(mastery[info.def.family] ?? 0);
+    rows.push([t("stats.mastery"), m.next === Infinity ? t("stats.masteryMax", { level: m.level }) : t("stats.masteryLine", { level: m.level, xp: Math.floor(m.xp), next: m.next })]);
     if (b.power) rows.push([t("stats.power"), `${b.power > 0 ? "+" : ""}${b.power}`]);
     if (b.critChance) rows.push([t("stats.crit"), `+${Math.round(b.critChance * 100)}%`]);
     if (b.speed) rows.push([t("stats.speed"), `${b.speed > 0 ? "+" : ""}${b.speed}`]);

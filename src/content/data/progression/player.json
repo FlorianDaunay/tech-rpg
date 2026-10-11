@@ -10,5 +10,15 @@
     "maxPoise": 1
   },
   "talentPointsPerLevel": 1,
-  "healOnLevelUp": true
+  "healOnLevelUp": true,
+  "mastery": {
+    "maxLevel": 10,
+    "xpBase": 30,
+    "xpExponent": 1.4,
+    "families": {
+      "blade": { "power": 1, "critChance": 0.005 },
+      "greatblade": { "power": 1, "maxPoise": 3, "critMultiplier": 0.02 },
+      "rapier": { "critChance": 0.01, "critMultiplier": 0.03, "speed": 1 }
+    }
+  }
 }

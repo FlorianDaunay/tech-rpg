@@ -45,6 +45,7 @@ export type SimEvent =
   /** A player earned XP (kills are shared by the party, quests go to whoever turned in). */
   | { type: "xp"; id: string; amount: number }
   | { type: "level-up"; id: string; level: number }
+  | { type: "mastery-up"; id: string; family: string; level: number }
   /** A skill started (its move's attack/swing events follow). */
   | { type: "skill"; id: string; skill: string; slot: "skill1" | "skill2" | "ultimate" }
   | { type: "skill-unlocked"; id: string; skill: string }

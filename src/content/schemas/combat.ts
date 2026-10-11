@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TALENT_STATS, TALENT_TREES, type EnemyDef, type ItemDef, type LootTableDef, type ReactionDef, type ShieldDef, type SkillDef, type StatusDef, type TalentDef, type WeaponDef } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
-import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny } from "./common";
+import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny, SwordFamilySchema } from "./common";
 
 /**
  * Combat content: moves, enemies, statuses, elemental reactions, swords, shields, items, loot tables.
@@ -111,7 +111,7 @@ const ItemBase = {
 export const SwordSchema = z
   .object({
     ...ItemBase,
-    family: z.enum(["blade", "greatblade", "rapier"]).describe("Moveset family (weapon mastery)"),
+    family: SwordFamilySchema.describe("Moveset family (weapon mastery)"),
     level: z.number().int().min(1).default(1),
     light: ref("move").describe("First move of the light combo"),
     heavy: ref("move"),
