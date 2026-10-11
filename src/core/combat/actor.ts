@@ -128,6 +128,8 @@ export interface Actor extends Body {
   pet: string | null;
   /** Pets: the player they follow. */
   owner: string | null;
+  /** Players: where to come back after this death instead of `home` (fell inside a boss arena). */
+  respawnAt: Vec2 | null;
 }
 
 /** Actions remembered while busy (input buffering). */
@@ -185,6 +187,7 @@ export function createActor(init: {
     mastery: {},
     pet: null,
     owner: null,
+    respawnAt: null,
   };
 }
 

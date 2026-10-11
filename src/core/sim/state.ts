@@ -61,6 +61,8 @@ export interface Arena {
   sealed: boolean;
   /** Actor ids held inside while sealed. */
   inside: string[];
+  /** Adds the boss summoned during this fight (removed if the party wipes). */
+  adds?: string[];
 }
 
 export interface Chest {
@@ -192,7 +194,43 @@ const alive = (a: Actor | undefined): a is Actor => !!a && a.action.kind !== "de
  * Seals arenas when their boss engages, opens them when it falls or when nobody inside is left
  * standing, and keeps everyone on their side of the wall (position clamped, outward speed dropped).
  */
-function stepArenas(state: SimState): void {
+/** A walkable spot just outside an arena's wall, on the side facing `toward` (the player's way in). */
+export function outsideArena(map: GameMap, r: Arena, toward: { x: number; y: number }): { x: number; y: number } {
+  const base = Math.atan2(toward.y - r.y, toward.x - r.x);
+  const ts = map.tileSize;
+  const free = (x: number, y: number) => {
+    for (const [dx, dy] of [[0, 0], [-8, 0], [8, 0], [0, -8], [0, 8]] as const) if (isSolidCell(map, Math.floor((x + dx) / ts), Math.floor((y + dy) / ts))) return false;
+    return x > 0 && y > 0 && x < map.width * ts && y < map.height * ts;
+  };
+  for (const extra of [28, 48, 72])
+    for (let k = 0; k < 16; k++) {
+      // base, then alternating either side of it.
+      const ang = base + Math.ceil(k / 2) * (k % 2 ? 1 : -1) * (Math.PI / 8);
+      const x = r.x + Math.cos(ang) * (r.radius + extra);
+      const y = r.y + Math.sin(ang) * (r.radius + extra);
+      if (free(x, y)) return { x, y };
+    }
+  return toward;
+}
+
+/** The party wiped: the boss is whole again, back home, its adds gone (the next try starts fresh). */
+function resetBoss(state: SimState, r: Arena): void {
+  const boss = state.actors[r.boss];
+  if (boss && boss.action.kind !== "dead") {
+    Object.assign(boss, { x: boss.home.x, y: boss.home.y, vx: 0, vy: 0, hp: boss.stats.maxHp, poise: boss.stats.maxPoise, statuses: [] });
+    boss.action = { kind: "free" };
+    if (boss.ai) Object.assign(boss.ai, { target: null, regen: 0, move: null });
+    state.events.push({ type: "respawn", id: boss.id });
+  }
+  for (const id of r.adds ?? []) {
+    if (!state.actors[id]) continue;
+    delete state.actors[id];
+    state.events.push({ type: "despawn", id });
+  }
+  r.adds = [];
+}
+
+function stepArenas(state: SimState, map: GameMap): void {
   for (const r of state.arenas) {
     const boss = state.actors[r.boss];
     if (!r.sealed) {
@@ -204,10 +242,15 @@ function stepArenas(state: SimState): void {
       if (!r.inside.includes(r.boss)) r.inside.push(r.boss);
       state.events.push({ type: "arena", id: r.boss, sealed: true, x: r.x, y: r.y, radius: r.radius });
     }
-    // Fallen players leave the fight (they respawn at the map entrance, outside).
+    // Fallen players leave the fight; they come back just outside the wall, on their way in.
+    for (const id of r.inside) {
+      const p = state.actors[id];
+      if (p?.kind === "player" && p.action.kind === "dead" && !p.respawnAt) p.respawnAt = outsideArena(map, r, p.home);
+    }
     r.inside = r.inside.filter((id) => alive(state.actors[id]) || (id === r.boss && !!state.actors[id]));
     const playersIn = r.inside.some((id) => state.actors[id]?.kind === "player");
     if (!alive(boss) || !playersIn) {
+      if (alive(boss)) resetBoss(state, r);
       r.sealed = false;
       r.inside = [];
       state.events.push({ type: "arena", id: r.boss, sealed: false, x: r.x, y: r.y, radius: r.radius });
@@ -256,7 +299,11 @@ function spawnSummons(state: SimState, map: GameMap, rng: Rng): void {
       if (isSolidCell(map, Math.floor(x / map.tileSize), Math.floor(y / map.tileSize))) continue;
       const add = spawnEnemy(state, ev.enemy, x, y);
       add.ai!.target = boss.ai?.target ?? null;
-      for (const r of state.arenas) if (r.boss === boss.id && r.sealed) r.inside.push(add.id);
+      for (const r of state.arenas)
+        if (r.boss === boss.id && r.sealed) {
+          r.inside.push(add.id);
+          (r.adds ??= []).push(add.id);
+        }
       state.events.push({ type: "spawn", id: add.id });
     }
   }
@@ -389,7 +436,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   }
   spawnSummons(state, map, rng);
   separate(state, map);
-  stepArenas(state);
+  stepArenas(state, map);
   resolveMelee(state, rng, state.pvp && opts.lagMs ? rewinder(state, opts.lagMs) : undefined);
   stepProjectiles(state, map, rng, SIM_DT);
   stepPickups(state, map, SIM_DT);

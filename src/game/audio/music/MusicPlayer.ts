@@ -160,7 +160,8 @@ export class SongPlayer {
         return;
       }
       this.idx++;
-      if (time < from - 0.05) continue; // late (starved timer): skip rather than burst
+      // Late (starved timer): skip rather than burst a pile of notes at "now" (sounds like a stutter).
+      if (time < from - 0.05 || time < ctx.currentTime - 0.03) continue;
       const tr = this.song.tracks[ev.track]!;
       const tn = this.tracks.get(ev.track)!;
       if (time > this.silentFrom[tr.layer]) continue; // silent stem: save CPU
@@ -198,6 +199,10 @@ export class MusicPlayer {
     this.lookahead = new Lookahead({
       clock: { now: () => engine.ctx.currentTime },
       timer: opts.timer,
+      // A wide window rides out main-thread stalls (loot bursts, level-up saves) without late notes.
+      intervalMs: 40,
+      lookahead: 0.35,
+      maxLate: 0.5,
       onWindow: (from, to) => this.onWindow(from, to),
     });
   }

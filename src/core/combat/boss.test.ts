@@ -119,16 +119,24 @@ describe("bosses", () => {
     boss.hp = Math.floor(boss.stats.maxHp * 0.4);
     run(sim, map, 0.1);
     expect(boss.ai!.phase).toBe(1);
+    const adds = Object.values(sim.actors).filter((a) => a.type === "hollow-shade").map((a) => a.id);
     p.hp = 0;
     p.action = { kind: "dead", t: 0 };
-    const events = run(sim, map, 8);
-    expect(events.some((e) => e.type === "arena" && !e.sealed)).toBe(true);
+    // At once: the wall falls, the boss is whole and home again, its adds are gone.
+    const first = run(sim, map, 0.05);
+    expect(first.some((e) => e.type === "arena" && !e.sealed)).toBe(true);
     expect(arenaLocked(sim)).toBe(false);
-    expect(boss.ai!.target).toBeNull();
     expect(boss.hp).toBe(boss.stats.maxHp);
+    expect({ x: boss.x, y: boss.y }).toEqual(boss.home);
+    for (const id of adds) expect(sim.actors[id]).toBeUndefined();
+    run(sim, map, 8);
+    expect(boss.ai!.target).toBeNull();
     expect(boss.ai!.phase).toBe(0);
-    // Respawned at the entrance: not pulled back into the ring, free to come back.
-    expect(Math.hypot(p.x - 1000, p.y - 1000)).toBeLessThan(40);
+    // Respawned just outside the wall on the way in (towards home), not back at the entrance.
+    const fromBoss = Math.hypot(p.x - boss.home.x, p.y - boss.home.y);
+    expect(fromBoss).toBeGreaterThan(BOSS.arena);
+    expect(fromBoss).toBeLessThan(BOSS.arena + 80);
+    expect(p.x > boss.home.x && p.y > boss.home.y).toBe(true);
   });
 
   it("its fall gives every player the story flag", () => {

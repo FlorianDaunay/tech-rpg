@@ -318,18 +318,24 @@ function riftGround(P: PaletteModule, variant: number): Canvas {
 
 function tallGrass(P: PaletteModule, rng: Rng, frames: number): Canvas[] {
   const G = P.WORLD_RAMPS.grass;
-  const blades = Array.from({ length: 26 }, () => ({
-    x: rng.int(3, 28),
-    base: rng.int(20, 30),
-    h: rng.int(8, 15),
-    lean: rng.range(-0.18, 0.18),
-    tone: rng.int(2, 4),
-    phase: rng.next() * Math.PI * 2,
-  })).sort((a, b) => a.base - b.base);
+  // A rounded clump: blades bunch towards the centre, the outer ones are short and lean outwards
+  // (a tile-wide band of equal blades read as a green square on the ground).
+  const blades = Array.from({ length: 20 }, () => {
+    const dx = Math.round((rng.next() + rng.next() - 1) * 11);
+    const edge = Math.abs(dx) / 11;
+    return {
+      x: 16 + dx,
+      base: 28 - rng.int(0, Math.round(3 * (1 - edge))),
+      h: Math.round(5 + (1 - edge) * rng.int(5, 10)),
+      lean: Math.sign(dx) * edge * 0.35 + rng.range(-0.12, 0.12),
+      tone: rng.int(2, 4),
+      phase: rng.next() * Math.PI * 2,
+    };
+  }).sort((a, b) => a.base - b.base);
   return Array.from({ length: frames }, (_, f) => {
     const c = new Canvas(T, T);
     // base clump shadow
-    c.forEllipse(16, 27, 13, 3.5, (x, y) => c.set(x, y, G[1]!, 150));
+    c.forEllipse(16, 28, 10, 2.5, (x, y) => c.set(x, y, G[1]!, 110));
     for (const b of blades) {
       const sway = Math.sin((f / frames) * Math.PI * 2 + b.phase) * 1.4;
       for (let i = 0; i < b.h; i++) {

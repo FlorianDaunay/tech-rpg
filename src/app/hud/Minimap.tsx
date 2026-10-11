@@ -3,18 +3,22 @@ import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { useSettings } from "@/store/settings";
 import { MapView } from "./MapView";
+import { useShortScreen } from "@/ui/useShortScreen";
 
-/** Largest minimap box (px); the whole map is fitted inside, cells stay square. */
+/** Largest minimap box (px); the whole map is fitted inside, cells stay square. Phones (short screens) get a small one. */
 const BOX = { w: 150, h: 110 };
+const BOX_SHORT = { w: 92, h: 64 };
 
 /** Whole-map overview in the top-right corner. Tap / click opens the map screen. */
 export function Minimap() {
   const layout = useGameStatus((s) => s.minimap);
   const markers = useGameStatus((s) => s.markers);
   const enabled = useSettings((s) => s.minimap);
+  const short = useShortScreen();
   const open = useMenu((s) => s.open);
   if (!layout || !enabled) return null;
-  const scale = Math.min(BOX.w / layout.width, BOX.h / layout.height);
+  const box = short ? BOX_SHORT : BOX;
+  const scale = Math.min(box.w / layout.width, box.h / layout.height);
   return (
     <button
       aria-label={t("map.title")}

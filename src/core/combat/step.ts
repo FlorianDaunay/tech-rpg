@@ -533,7 +533,8 @@ export function stepLifecycle(w: CombatWorld): void {
       a.iframes = RESPAWN_IFRAMES;
       w.events.push({ type: "pet-revive", id });
     } else if (a.kind === "player" && a.action.t >= PLAYER_RESPAWN_TIME) {
-      const at = w.pvp ? pickRespawn(w.pvp, a, Object.values(w.actors), a.home) : a.home;
+      const at = a.respawnAt ?? (w.pvp ? pickRespawn(w.pvp, a, Object.values(w.actors), a.home) : a.home);
+      a.respawnAt = null;
       Object.assign(a, { x: at.x, y: at.y, vx: 0, vy: 0, hp: a.stats.maxHp, stamina: STAMINA.max, poise: a.stats.maxPoise });
       a.action = { kind: "free" };
       a.iframes = RESPAWN_IFRAMES;

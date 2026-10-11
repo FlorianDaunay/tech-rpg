@@ -24,16 +24,22 @@ export function thinkNpc(w: CombatWorld, a: Actor, rng: Rng, dt: number, wander:
   }
   if (wander <= 0) return intent;
   if (ai.think <= 0) {
-    // Pick: rest (2/3) or walk a little in a direction that stays near home.
+    // Pick: rest (2/3) or walk a little; past half the leash, the walk heads back towards home.
     ai.think = rng.range(1.5, 4);
     ai.strafe = rng.chance(0.35) ? 1 : 0;
-    const ang = rng.range(0, Math.PI * 2);
+    const homeward = Math.atan2(a.home.y - a.y, a.home.x - a.x);
+    const ang = dist(a, a.home) > wander * 0.5 ? homeward + rng.range(-0.6, 0.6) : rng.range(0, Math.PI * 2);
     ai.target = `${Math.cos(ang)},${Math.sin(ang)}`;
   }
   if (ai.strafe && ai.target) {
+    // At the edge of the leash: turn for home and keep that heading (re-deciding every frame made
+    // NPCs flip back and forth on the boundary).
+    if (dist(a, a.home) > wander) {
+      const h = normalize({ x: a.home.x - a.x, y: a.home.y - a.y });
+      ai.target = `${h.x},${h.y}`;
+    }
     const [x, y] = ai.target.split(",").map(Number) as [number, number];
-    const homeDist = dist(a, a.home);
-    intent.move = homeDist > wander ? normalize({ x: a.home.x - a.x, y: a.home.y - a.y }) : { x: x * 0.45, y: y * 0.45 };
+    intent.move = { x: x * 0.45, y: y * 0.45 };
   }
   return intent;
 }
