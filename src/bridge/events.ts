@@ -10,6 +10,27 @@ import type { WorldRules } from "@/core/sim/rules";
 type Listener<T> = (payload: T) => void;
 
 /** A skill slot on the HUD (cooldown in seconds, ready = usable right now). */
+export interface PartyMember {
+  id: string;
+  name: string;
+  level: number;
+  hp: number;
+  maxHp: number;
+  dead: boolean;
+  /** Not in this map (travelling, reconnecting) or away. */
+  here: boolean;
+  connected: boolean;
+  /** Round trip to the host (ms), null if unknown. */
+  ping: number | null;
+}
+
+export interface PartyView {
+  role: "solo" | "host" | "client";
+  /** My round trip to the host (ms); 0 when hosting. */
+  ping: number | null;
+  others: PartyMember[];
+}
+
 export interface SkillView {
   slot: "skill1" | "skill2" | "ultimate";
   id: string | null;
@@ -83,6 +104,8 @@ export interface BridgeEvents {
   "game:world-ready": { mapId: string };
   /** Local player vitals for the HUD (sent on change, ≤ 15 Hz). */
   "game:vitals": { hp: number; maxHp: number; stamina: number; maxStamina: number; dead: boolean; gold: number; statuses: string[]; level: number; xp: number; xpNext: number; skills: SkillView[]; ult: number };
+  /** Online: the other players (name, health, ping) and my own link. Empty in solo. */
+  "game:party": PartyView;
   /** Debug overlay text (when settings.showFps). */
   "game:debug": string;
   /** Game → UI: a menu key was pressed in game (Esc/Start, Tab/I/D-pad up). */

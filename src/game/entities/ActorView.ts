@@ -44,6 +44,8 @@ export class ActorView {
   private readonly shadow: Phaser.GameObjects.Image;
   private readonly bar: Phaser.GameObjects.Graphics;
   private readonly guard: Phaser.GameObjects.Graphics;
+  /** Name tag (other players online), created on first use. */
+  private tag: Phaser.GameObjects.Text | null = null;
   private flashUntil = 0;
   private dying = false;
 
@@ -64,6 +66,20 @@ export class ActorView {
     this.guard = scene.add.graphics().setVisible(false);
   }
 
+  /** Name over the head (null hides it). Cheap to call every frame. */
+  setName(name: string | null): void {
+    if (!name) return void this.tag?.setVisible(false);
+    if (!this.tag) {
+      const cam = this.scene.cameras.main;
+      this.tag = this.scene.add
+        .text(0, 0, name, { fontFamily: "Silkscreen, monospace", fontSize: "7px", color: COMBAT_COLORS.allyName, stroke: COMBAT_COLORS.textStroke, strokeThickness: 2, resolution: Math.max(1, cam.zoom * (window.devicePixelRatio || 1)) })
+        .setOrigin(0.5, 1)
+        .setDepth(100001);
+    }
+    if (this.tag.text !== name) this.tag.setText(name);
+    this.tag.setVisible(true);
+  }
+
   /** White flash on hit. */
   flash(): void {
     this.flashUntil = this.scene.time.now + FLASH_MS;
@@ -80,6 +96,7 @@ export class ActorView {
     if (act.kind === "dodge") oy = -Math.sin((act.t / 0.34) * Math.PI) * 3;
 
     this.shadow.setPosition(x, y + 1).setDepth(y - 1);
+    this.tag?.setPosition(Math.round(x), Math.round(y - 35)).setAlpha(act.kind === "dead" ? 0.5 : 1);
     if (this.big) return this.updateBig(x + ox * 2, y, a, now);
     this.sprite.setPosition(Math.round(x + ox), Math.round(y - FEET_OFFSET + oy)).setDepth(y);
 
@@ -165,7 +182,7 @@ export class ActorView {
     const top = Math.round(y - 32);
     g.clear().setVisible(true).setDepth(100000);
     g.fillStyle(hex(COMBAT_COLORS.hpBarBack), 0.9).fillRect(left - 1, top - 1, w + 2, 4);
-    g.fillStyle(hex(COMBAT_COLORS.hpBar), 1).fillRect(left, top, Math.max(1, Math.round((w * a.hp) / a.stats.maxHp)), 2);
+    g.fillStyle(hex(a.kind === "player" ? COMBAT_COLORS.allyHpBar : COMBAT_COLORS.hpBar), 1).fillRect(left, top, Math.max(1, Math.round((w * a.hp) / a.stats.maxHp)), 2);
   }
 
   destroy(): void {
@@ -174,5 +191,6 @@ export class ActorView {
     this.shadow.destroy();
     this.bar.destroy();
     this.guard.destroy();
+    this.tag?.destroy();
   }
 }

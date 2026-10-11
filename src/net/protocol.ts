@@ -17,6 +17,8 @@ export interface LobbyPlayer {
   name: string;
   level: number;
   connected: boolean;
+  /** Round trip to the host (ms), measured by the host's heartbeat. */
+  ping?: number;
 }
 
 export interface RoomInfo {

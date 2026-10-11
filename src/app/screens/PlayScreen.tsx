@@ -15,6 +15,7 @@ import { Prompt } from "../hud/Prompt";
 import { QuestToasts } from "../hud/QuestToasts";
 import { SaveIndicator } from "../hud/SaveIndicator";
 import { NetToast } from "../hud/NetToast";
+import { PartyPanel } from "../hud/PartyPanel";
 import { Minimap } from "../hud/Minimap";
 import { BossBar } from "../hud/BossBar";
 import { MapScreen } from "./MapScreen";
@@ -86,6 +87,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       <TouchControls />
       <div className="safe pointer-events-none absolute left-0 top-0 flex flex-col gap-2 p-3">
         <Vitals />
+        <PartyPanel />
         {showDebug && <pre className="font-pixel text-[10px] leading-4 text-warning">{debugText}</pre>}
       </div>
       {device !== "touch" && !menu && (

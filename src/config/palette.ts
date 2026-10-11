@@ -122,6 +122,10 @@ export const COMBAT_COLORS = {
   hpBarBack: "#1A1216",
   goldRim: "#5A3A12",
   levelUp: "#FFD98A",
+  /** Name tag over other players' heads (online). */
+  allyName: "#BFE8FF",
+  allyHpBar: "#5FCB6E",
+  textStroke: "#14100c",
 } as const;
 
 /** "#RRGGBB" → 0xRRGGBB for Phaser. */

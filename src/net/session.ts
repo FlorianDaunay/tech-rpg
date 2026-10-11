@@ -1,5 +1,6 @@
 import Peer, { type DataConnection } from "peerjs";
 import type { PlayerState } from "@/core/save/save";
+import { shapedSend } from "./debug/latency";
 import { HEARTBEAT_MS, MAX_PLAYERS, PEER_TIMEOUT_MS, PROTOCOL_VERSION, type LobbyPlayer, type ReliableMsg, type RoomInfo, type UnreliableMsg } from "./protocol";
 
 /**
@@ -102,6 +103,10 @@ export class Session {
   private closedFlag = false;
   private migratingFlag = false;
   private passwordHash = "";
+  /** Host: round trip to each client seat (ms). */
+  private readonly rtt = new Map<string, number>();
+  /** Client: round trip to the host (ms). */
+  private hostRtt = 0;
 
   private constructor(role: Role, me: string, room: RoomInfo) {
     this.role = role;
@@ -168,11 +173,11 @@ export class Session {
 
   private onHostReliable(peerId: string, link: Link, msg: ReliableMsg): void {
     if (msg.t === "ping") return this.sendTo(link, { t: "pong", at: msg.at });
-    if (msg.t === "pong") return;
+    if (msg.t === "pong") return this.notePing(link.seat, Date.now() - msg.at);
     if (msg.t === "bye") return this.dropLink(peerId);
     if (msg.t === "hello") {
       const refuse = (reason: "version" | "password" | "full") => {
-        link.r?.send({ t: "reject", reason } satisfies ReliableMsg);
+        this.sendTo(link, { t: "reject", reason });
         setTimeout(() => this.dropLink(peerId), 300);
       };
       if (msg.v !== PROTOCOL_VERSION) return refuse("version");
@@ -202,7 +207,8 @@ export class Session {
     link.u?.close();
     if (this.role === "client") return void this.migrate();
     if (!link.seat) return;
-    this.room.players = this.room.players.map((p) => (p.id === link.seat ? { ...p, connected: false } : p));
+    this.rtt.delete(link.seat);
+    this.room.players = this.room.players.map((p) => (p.id === link.seat ? { ...p, connected: false, ping: undefined } : p));
     this.emit("left", link.seat);
     this.broadcastRoom();
   }
@@ -220,6 +226,25 @@ export class Session {
       p.level = level;
       this.broadcastRoom();
     }
+  }
+
+  /** Host: a client answered a ping. The lobby carries pings (re-broadcast when one moves by 10 ms+). */
+  private notePing(seat: string, ms: number): void {
+    if (!seat) return;
+    this.rtt.set(seat, ms);
+    const p = this.room.players.find((x) => x.id === seat);
+    if (p && Math.abs((p.ping ?? -100) - ms) >= 10) {
+      p.ping = ms;
+      this.broadcastRoom();
+    }
+  }
+
+  /** Round trip (ms) between a seat and the host as far as I know (0 for the host itself, null if unknown). */
+  pingOf(seat: string): number | null {
+    if (seat === this.room.hostId) return this.role === "host" ? 0 : this.hostRtt;
+    if (this.role === "host") return this.rtt.get(seat) ?? null;
+    if (seat === this.me) return this.hostRtt;
+    return this.room.players.find((p) => p.id === seat)?.ping ?? null;
   }
 
   markStarted(): void {
@@ -278,7 +303,7 @@ export class Session {
       const ready = () => {
         if (++opened < 2) return;
         const player = this.playerProvider() ?? this.joinPlayer!;
-        r.send({ t: "hello", v: PROTOCOL_VERSION, name: this.name, passwordHash: this.passwordHash, player, want: this.me || undefined } satisfies ReliableMsg);
+        this.sendOn(r, { t: "hello", v: PROTOCOL_VERSION, name: this.name, passwordHash: this.passwordHash, player, want: this.me || undefined });
       };
       r.on("open", ready);
       u.on("open", ready);
@@ -304,8 +329,8 @@ export class Session {
           this.room = msg.room;
           return this.emit("room", this.room);
         }
-        if (msg.t === "ping") return r.send({ t: "pong", at: msg.at } satisfies ReliableMsg);
-        if (msg.t === "pong") return;
+        if (msg.t === "ping") return this.sendOn(r, { t: "pong", at: msg.at });
+        if (msg.t === "pong") return void (this.hostRtt = Date.now() - msg.at);
         if (msg.t === "bye") return this.dropLink(target);
         this.emit("reliable", this.room.hostId, msg);
       });
@@ -378,7 +403,14 @@ export class Session {
   // ---- both ----------------------------------------------------------------------------------
 
   private sendTo(link: Link, msg: ReliableMsg): void {
-    if (link.r?.open) link.r.send(msg);
+    if (link.r) this.sendOn(link.r, msg);
+  }
+
+  /** Every send goes through the latency simulator (a no-op unless enabled). */
+  private sendOn(conn: DataConnection, msg: ReliableMsg | UnreliableMsg, reliable = true): void {
+    shapedSend(conn, reliable, () => {
+      if (conn.open) conn.send(msg);
+    });
   }
 
   /** Reliable to one seat (host) or to the host (client: `to` ignored). */
@@ -393,7 +425,7 @@ export class Session {
 
   /** Unreliable: host → all clients, client → host. */
   sendFast(msg: UnreliableMsg, to?: string): void {
-    for (const link of this.links.values()) if (link.seat && (!to || link.seat === to) && link.u?.open) link.u.send(msg);
+    for (const link of this.links.values()) if (link.seat && (!to || link.seat === to) && link.u?.open) this.sendOn(link.u, msg, false);
   }
 
   private startHeartbeat(): void {

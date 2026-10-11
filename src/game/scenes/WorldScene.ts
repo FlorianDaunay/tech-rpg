@@ -39,6 +39,7 @@ import { useNet } from "@/store/net";
 import { ClientLink, HostLink, SEAT_LOOKS } from "@/net/links";
 import { actorTuple, applySnapshot } from "@/net/codec";
 import { predictStep, reconcile } from "@/net/predict";
+import { netSim, netSimActive } from "@/net/debug/latency";
 import type { SimEvent } from "@/core/combat/events";
 import type { PlayerState } from "@/core/save/save";
 
@@ -48,6 +49,8 @@ const START_MAP = "cinderhold";
 /** Never simulate more than this many steps per frame (tab was in background, slow device). */
 const MAX_STEPS_PER_FRAME = 5;
 const VITALS_INTERVAL = 66;
+/** Party panel + name tags refresh (ms). */
+const PARTY_INTERVAL = 250;
 /** Minimap markers refresh (ms). */
 const MARKERS_INTERVAL = 120;
 /** Autosave every this many ms of play while out of combat. */
@@ -88,6 +91,8 @@ export class WorldScene extends Phaser.Scene {
   private lastDebug = 0;
   private lastVitals = 0;
   private vitalsKey = "";
+  private partyAt = 0;
+  private partyKey = "";
   private musicState = "";
   /** Solo: a menu is open, the simulation is frozen. */
   private paused = false;
@@ -122,6 +127,8 @@ export class WorldScene extends Phaser.Scene {
     this.slowMo = { scale: 1, ms: 0 };
     this.musicState = "";
     this.vitalsKey = "";
+    this.partyKey = "";
+    this.partyAt = 0;
     this.paused = false;
     this.commands = [];
     this.inventoryKey = "";
@@ -394,6 +401,7 @@ export class WorldScene extends Phaser.Scene {
     this.updateAimOrigin();
     this.updateMusic(me);
     this.updateVitals(me);
+    this.updateParty();
     this.updateInventory(me);
     this.updatePrompt(me);
     this.updateBoss();
@@ -632,7 +640,8 @@ export class WorldScene extends Phaser.Scene {
     for (const a of Object.values(this.sim.actors)) {
       if (this.views.has(a.id)) continue;
       const big = a.look.startsWith("bosses/");
-      this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, (a.kind === "enemy" || a.kind === "pet") && !big, big));
+      const bar = (a.kind === "enemy" || a.kind === "pet" || (a.kind === "player" && a.id !== this.localId)) && !big;
+      this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, bar, big));
       this.prev.set(a.id, { x: a.x, y: a.y });
     }
     for (const [id, view] of this.views) {
@@ -678,6 +687,26 @@ export class WorldScene extends Phaser.Scene {
     bridge.emit("game:vitals", vitals);
   }
 
+  /** Online: name tags over the other players and the HUD party panel (4 Hz, sent on change). */
+  private updateParty(): void {
+    if (this.time.now < this.partyAt) return;
+    this.partyAt = this.time.now + PARTY_INTERVAL;
+    const { session, room } = useNet.getState();
+    const role = !session ? "solo" : this.hostLink ? "host" : "client";
+    const others = (room?.players ?? [])
+      .filter((p) => p.id !== this.localId)
+      .map((p) => {
+        const a = this.sim.actors[p.id];
+        return { id: p.id, name: p.name, level: a?.level ?? p.level, hp: a?.hp ?? 0, maxHp: a?.stats.maxHp ?? 1, dead: a?.action.kind === "dead", here: !!a && p.connected, connected: p.connected, ping: session?.pingOf(p.id) ?? null };
+      });
+    for (const p of others) this.views.get(p.id)?.setName(p.name);
+    const party = { role, ping: session ? session.pingOf(this.localId) : null, others } as const;
+    const key = JSON.stringify(party);
+    if (key === this.partyKey) return;
+    this.partyKey = key;
+    bridge.emit("game:party", party);
+  }
+
   private updateAimOrigin(): void {
     const sprite = this.views.get(this.localId)?.sprite;
     if (!sprite) return;
@@ -692,11 +721,14 @@ export class WorldScene extends Phaser.Scene {
     this.lastDebug = this.time.now;
     const p = this.sim.actors[this.localId];
     if (!p) return;
+    const session = useNet.getState().session;
     bridge.emit(
       "game:debug",
       `fps ${this.game.loop.actualFps.toFixed(0)} · tick ${this.sim.tick} · actors ${Object.keys(this.sim.actors).length}
 ` +
-        `pos ${p.x.toFixed(1)},${p.y.toFixed(1)} · ${p.action.kind} · hp ${p.hp} · st ${p.stamina.toFixed(0)}`
+        `pos ${p.x.toFixed(1)},${p.y.toFixed(1)} · ${p.action.kind} · hp ${p.hp} · st ${p.stamina.toFixed(0)}` +
+        (session ? `
+net ${session.role} ${this.localId} · rtt ${session.pingOf(this.localId) ?? "?"} ms` + (netSimActive() ? ` · sim lag ${netSim.lag}±${netSim.jitter} loss ${netSim.loss}%` : "") : "")
     );
   }
 
