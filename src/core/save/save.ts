@@ -1,6 +1,7 @@
 import type { Actor } from "../combat/actor";
 import { findItem, findSkill, findTalent, isShield, isWeapon, SKILL_SLOTS } from "../combat/defs";
 import { equip } from "../combat/equipment";
+import { normalizeGear } from "../combat/gear";
 import { refreshLoadout } from "../combat/skills";
 import { STAMINA } from "../combat/moves";
 import { findQuest } from "../narrative/defs";
@@ -97,7 +98,15 @@ const MIGRATIONS: Record<number, (raw: Raw) => Raw> = {
   // 1 → 2 goes here when the format changes (e.g. gear instances with affixes).
 };
 
-const ownable = (id: string) => !!findItem(id) || isWeapon(id) || isShield(id);
+/** Bag content that still exists; gear keys are cleaned (lost affixes dropped), equal keys merged. */
+function cleanBag(v: unknown): Record<string, number> {
+  const bag: Record<string, number> = {};
+  for (const [id, n] of Object.entries(counts(v))) {
+    const key = isWeapon(id) || isShield(id) ? normalizeGear(id) : findItem(id) ? id : null;
+    if (key) bag[key] = (bag[key] ?? 0) + n;
+  }
+  return bag;
+}
 
 /**
  * Reads anything that claims to be a save: upgrades old versions, fills missing fields, and drops
@@ -143,9 +152,9 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
     player: {
       hp: num(p.hp, 1),
       stamina: num(p.stamina, STAMINA.max),
-      bag: counts(p.bag, ownable),
-      weapon: weapon && isWeapon(weapon) ? weapon : null,
-      shield: shield && isShield(shield) ? shield : null,
+      bag: cleanBag(p.bag),
+      weapon: weapon && isWeapon(weapon) ? normalizeGear(weapon) : null,
+      shield: shield && isShield(shield) ? normalizeGear(shield) : null,
       progress: { flags: strs(progress.flags), quests, kills: counts(progress.kills), met: strs(progress.met), visited: strs(progress.visited) },
       level: Math.max(1, Math.floor(num(p.level, 1))),
       xp: Math.max(0, num(p.xp, 0)),

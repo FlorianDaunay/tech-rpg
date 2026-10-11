@@ -7,7 +7,7 @@ import { content, idsOf, schemas, validateAllContent, type ContentType } from ".
 const TYPES = Object.keys(schemas) as ContentType[];
 const all = (type: ContentType) => (content as unknown as Record<string, { all(): unknown[] }>)[collectionName(type)]!.all();
 const collectionName = (type: ContentType) =>
-  ({ zone: "zones", map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot", npc: "npcs", dialogue: "dialogues", quest: "quests", progression: "progression", skill: "skills", talent: "talents" })[type];
+  ({ zone: "zones", map: "maps", lore: "lore", move: "moves", enemy: "enemies", status: "statuses", reaction: "reactions", sword: "swords", shield: "shields", item: "items", loot: "loot", npc: "npcs", dialogue: "dialogues", quest: "quests", progression: "progression", skill: "skills", talent: "talents", affix: "affixes", set: "sets" })[type];
 const assetKeys = new Set(
   (JSON.parse(readFileSync("public/assets/index.json", "utf8")) as { assets: { key: string }[] }).assets.map((a) => a.key)
 );
@@ -28,6 +28,17 @@ describe("content", () => {
       }
     }
     expect(missing).toEqual([]);
+  });
+
+  it("a sword or shield belongs to one gear set at most", () => {
+    const owner = new Map<string, string>();
+    const twice: string[] = [];
+    for (const set of content.sets.all())
+      for (const piece of set.pieces) {
+        if (owner.has(piece)) twice.push(`${piece}: ${owner.get(piece)} + ${set.id}`);
+        owner.set(piece, set.id);
+      }
+    expect(twice).toEqual([]);
   });
 
   it("every asset key exists in public/assets", () => {

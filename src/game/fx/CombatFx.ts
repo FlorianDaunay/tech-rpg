@@ -3,7 +3,7 @@ import { COMBAT_COLORS, ELEMENT_COLORS, hex, RARITY_COLORS, type Rarity } from "
 import type { Actor } from "@/core/combat/actor";
 import type { SimEvent } from "@/core/combat/events";
 import { content } from "@/content/registry";
-import { getMove, type Element } from "@/core/combat/defs";
+import { baseOf, getMove, type Element } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import type { Pickup, Projectile } from "@/core/combat/step";
 import { audio, type SfxHandle } from "@/game/audio";
@@ -22,7 +22,8 @@ const ELEMENT_SFX = { ember: "ember-burst", frost: "frost-shatter", storm: "stor
 
 const statusName = (name: { en: string; fr?: string }) => (getLang() === "fr" ? (name.fr ?? name.en) : name.en);
 
-function itemRarity(id: string): Rarity {
+function itemRarity(key: string): Rarity {
+  const id = baseOf(key);
   return (content.swords.find(id) ?? content.shields.find(id) ?? content.items.find(id))?.rarity ?? "common";
 }
 
@@ -257,7 +258,8 @@ export class CombatFx {
     }
   }
 
-  private makePickup(item: string) {
+  private makePickup(key: string) {
+    const item = baseOf(key);
     const icon = content.swords.find(item)?.icon ?? content.shields.find(item)?.icon ?? content.items.find(item)?.icon;
     if (icon && this.scene.textures.exists(icon)) return this.scene.add.image(0, 0, icon).setScale(0.5);
     if (item === "gold") return this.scene.add.circle(0, 0, 2.5, hex(COMBAT_COLORS.crit)).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim));

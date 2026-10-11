@@ -1,0 +1,12 @@
+{
+  "id": "keen",
+  "name": {
+    "en": "Keen",
+    "fr": "Acéré"
+  },
+  "slot": "weapon",
+  "stat": "critChance",
+  "min": 0.02,
+  "max": 0.06,
+  "weight": 1
+}

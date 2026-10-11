@@ -1,0 +1,24 @@
+{
+  "id": "lanterns-heart",
+  "name": {
+    "en": "Lantern’s Heart",
+    "fr": "Cœur de la Lanterne"
+  },
+  "description": {
+    "en": "Steel quenched in the Lantern’s oil and a shield whose boss glows like a coal: the last flame, carried to war.",
+    "fr": "Un acier trempé dans l’huile de la Lanterne et un bouclier dont l’umbo luit comme une braise : la dernière flamme, portée au combat."
+  },
+  "pieces": [
+    "cinder-edge",
+    "ember-aegis"
+  ],
+  "bonuses": [
+    {
+      "pieces": 2,
+      "stats": {
+        "power": 3,
+        "critChance": 0.03
+      }
+    }
+  ]
+}

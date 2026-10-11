@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TALENT_STATS, TALENT_TREES, type EnemyDef, type ItemDef, type LootTableDef, type ReactionDef, type ShieldDef, type SkillDef, type StatusDef, type TalentDef, type WeaponDef } from "@/core/combat/defs";
+import { AFFIX_STATS, TALENT_STATS, TALENT_TREES, type AffixDef, type GearSetDef, type EnemyDef, type ItemDef, type LootTableDef, type ReactionDef, type ShieldDef, type SkillDef, type StatusDef, type TalentDef, type WeaponDef } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import { AssetKey, ElementSchema, Id, LocalizedText, RaritySchema, ref, refAny, SwordFamilySchema } from "./common";
 
@@ -191,6 +191,35 @@ export const TalentSchema = z
   })
   .describe("Talent");
 
+export const AffixSchema = z
+  .object({
+    id: Id,
+    name: LocalizedText.describe("Tag shown on the item (e.g. Keen)"),
+    slot: z.enum(["weapon", "shield", "any"]).describe("Which gear can roll it"),
+    stat: z.enum(AFFIX_STATS).describe("Stat it adds (an item never rolls two affixes on the same stat)"),
+    min: z.number().describe("Value at the worst roll"),
+    max: z.number().describe("Value at the best roll (whole-number ranges give whole numbers)"),
+    weight: z.number().nonnegative().default(1).describe("Relative chance among fitting affixes (0 = never rolls)"),
+  })
+  .refine((a) => a.min <= a.max, "min must be ≤ max")
+  .describe("Affix");
+
+export const GearSetSchema = z
+  .object({
+    id: Id,
+    name: LocalizedText,
+    description: LocalizedText,
+    pieces: z.array(refAny(["sword", "shield"])).min(2).describe("Swords and shields of the set (any rolled copy counts)"),
+    bonuses: z
+      .array(z.object({ pieces: z.number().int().min(2).describe("Pieces worn"), stats: z.partialRecord(z.enum(AFFIX_STATS), z.number()) }))
+      .min(1)
+      .describe("Bonuses, each active from that many pieces"),
+  })
+  .refine((s) => s.bonuses.every((b) => b.pieces <= s.pieces.length), "a bonus needs more pieces than the set has")
+  .describe("Gear set");
+
+export type AffixContent = z.infer<typeof AffixSchema>;
+export type GearSetContent = z.infer<typeof GearSetSchema>;
 export type MoveContent = z.infer<typeof MoveSchema>;
 export type TalentContent = z.infer<typeof TalentSchema>;
 export type SkillContent = z.infer<typeof SkillSchema>;
@@ -216,4 +245,6 @@ export type _Contracts = [
   Assert<Fits<ItemContent, ItemDef>>,
   Assert<Fits<SkillContent, SkillDef>>,
   Assert<Fits<TalentContent, TalentDef>>,
+  Assert<Fits<AffixContent, AffixDef>>,
+  Assert<Fits<GearSetContent, GearSetDef>>,
 ];

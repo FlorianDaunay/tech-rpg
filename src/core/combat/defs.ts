@@ -66,6 +66,8 @@ export interface WeaponDef {
   id: string;
   /** Moveset family, trained by weapon mastery. */
   family?: string;
+  /** Decides how many affixes a dropped copy rolls (see `affixCount`). */
+  rarity?: string;
   /** First move of the light combo. */
   light: string;
   heavy: string;
@@ -78,6 +80,7 @@ export interface WeaponDef {
 
 export interface ShieldDef {
   id: string;
+  rarity?: string;
   /** Damage blocked (fraction). */
   reduction: number;
   /** Perfect-parry window, seconds. */
@@ -153,6 +156,27 @@ export interface TalentDef {
   skill?: string;
 }
 
+export const AFFIX_STATS = ["maxHp", "power", "defense", "critChance", "critMultiplier", "maxPoise", "speed"] as const;
+export type AffixStat = (typeof AFFIX_STATS)[number];
+
+/** A random property rolled on a dropped sword or shield: one stat between min and max. */
+export interface AffixDef {
+  id: string;
+  slot: "weapon" | "shield" | "any";
+  stat: AffixStat;
+  min: number;
+  max: number;
+  /** Relative chance among the affixes that fit the slot. */
+  weight: number;
+}
+
+/** Gear worn together: each bonus applies once that many pieces are equipped. */
+export interface GearSetDef {
+  id: string;
+  pieces: string[];
+  bonuses: { pieces: number; stats: Partial<Record<AffixStat, number>> }[];
+}
+
 export interface CombatData {
   moves: Record<string, Move>;
   enemies: Record<string, EnemyDef>;
@@ -164,6 +188,10 @@ export interface CombatData {
   items: Record<string, ItemDef>;
   skills: Record<string, SkillDef>;
   talents: Record<string, TalentDef>;
+  affixes: Record<string, AffixDef>;
+  sets: Record<string, GearSetDef>;
+  /** Affixes a dropped sword/shield rolls, by its rarity (missing = none). */
+  affixCount: Record<string, number>;
 }
 
 let data: CombatData | null = null;
@@ -188,8 +216,23 @@ const getter =
 export const getMove = getter("moves", "move");
 export const getEnemy = getter("enemies", "enemy");
 export const getStatus = getter("statuses", "status");
-export const getWeapon = getter("weapons", "weapon");
-export const getShield = getter("shields", "shield");
+/**
+ * Gear in bags and slots is a key: the base id, then rolled affixes (`cinder-edge+keen:5+ward:9`,
+ * see core/combat/gear). Lookups by key resolve to the base definition.
+ */
+export const GEAR_SEP = "+";
+export const baseOf = (key: string): string => {
+  const i = key.indexOf(GEAR_SEP);
+  return i < 0 ? key : key.slice(0, i);
+};
+const weaponGetter = getter("weapons", "weapon");
+const shieldGetter = getter("shields", "shield");
+export const getWeapon = (key: string): WeaponDef => weaponGetter(baseOf(key));
+export const getShield = (key: string): ShieldDef => shieldGetter(baseOf(key));
+export const findAffix = (id: string): AffixDef | undefined => db().affixes?.[id];
+export const allAffixes = (): AffixDef[] => Object.values(db().affixes ?? {});
+export const allSets = (): GearSetDef[] => Object.values(db().sets ?? {});
+export const affixCountFor = (rarity: string | undefined): number => (rarity ? (db().affixCount?.[rarity] ?? 0) : 0);
 export const getLootTable = getter("loot", "loot table");
 export const getSkill = getter("skills", "skill");
 export const findSkill = (id: string): SkillDef | undefined => db().skills[id];
@@ -197,6 +240,6 @@ export const allSkills = (): SkillDef[] => Object.values(db().skills);
 export const findTalent = (id: string): TalentDef | undefined => db().talents[id];
 export const allTalents = (): TalentDef[] => Object.values(db().talents);
 export const findItem = (id: string): ItemDef | undefined => db().items[id];
-export const isWeapon = (id: string) => id in db().weapons;
-export const isShield = (id: string) => id in db().shields;
+export const isWeapon = (key: string) => baseOf(key) in db().weapons;
+export const isShield = (key: string) => baseOf(key) in db().shields;
 export const findReaction = (on: Element, by: Element) => db().reactions.find((r) => r.on === on && r.by === by);

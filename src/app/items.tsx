@@ -1,21 +1,41 @@
 import { RARITY_COLORS, type Rarity } from "@/config/palette";
 import { content } from "@/content/registry";
 import type { ItemContent, ShieldContent, SwordContent } from "@/content/schemas/combat";
-import { getLang } from "@/i18n";
+import { getLang, t } from "@/i18n";
+import { baseOf } from "@/core/combat/defs";
 
 export type ItemInfo =
   | { kind: "sword"; def: SwordContent }
   | { kind: "shield"; def: ShieldContent }
   | { kind: "item"; def: ItemContent };
 
-/** Everything a bag id can be. */
-export function itemInfo(id: string): ItemInfo | null {
+/** Everything a bag id can be (rolled gear keys resolve to their base sword or shield). */
+export function itemInfo(key: string): ItemInfo | null {
+  const id = baseOf(key);
   const sword = content.swords.find(id);
   if (sword) return { kind: "sword", def: sword };
   const shield = content.shields.find(id);
   if (shield) return { kind: "shield", def: shield };
   const item = content.items.find(id);
   return item ? { kind: "item", def: item } : null;
+}
+
+const STAT_LABELS = {
+  maxHp: "stats.hp",
+  power: "stats.power",
+  defense: "stats.defense",
+  critChance: "stats.crit",
+  critMultiplier: "stats.critDamage",
+  maxPoise: "stats.poise",
+  speed: "stats.speed",
+} as const;
+
+/** "Power +3", "Critical +4%", "Critical damage +20%". */
+export function statLine(stat: string, value: number): string {
+  const label = stat in STAT_LABELS ? t(STAT_LABELS[stat as keyof typeof STAT_LABELS]) : stat;
+  const pct = stat === "critChance" || stat === "critMultiplier";
+  const n = pct ? Math.round(value * 100) : Math.round(value * 10) / 10;
+  return `${label} ${n >= 0 ? "+" : ""}${n}${pct ? "%" : ""}`;
 }
 
 export const localized = (text: { en: string; fr?: string }) => (getLang() === "fr" ? (text.fr ?? text.en) : text.en);

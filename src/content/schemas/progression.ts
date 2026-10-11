@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { ProgressionDef } from "@/core/progression/level";
-import { Id, SwordFamilySchema } from "./common";
+import { Id, RaritySchema, SwordFamilySchema } from "./common";
 
 const Gain = z.number().nonnegative();
 
@@ -17,6 +17,10 @@ export const ProgressionSchema = z
       .describe("Stats gained per level above 1"),
     talentPointsPerLevel: z.number().int().min(0).default(1).describe("Talent points earned per level above 1"),
     healOnLevelUp: z.boolean().default(true).describe("A level-up refills health and stamina"),
+    affixesByRarity: z
+      .partialRecord(RaritySchema, z.number().int().min(0).max(4))
+      .default({ uncommon: 1, rare: 2, epic: 2, legendary: 3 })
+      .describe("Random affixes a dropped sword or shield rolls, by its rarity"),
     mastery: z
       .object({
         maxLevel: z.number().int().min(0).default(10).describe("Mastery cap per sword family"),

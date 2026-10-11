@@ -1,0 +1,12 @@
+{
+  "id": "deadly",
+  "name": {
+    "en": "Deadly",
+    "fr": "Mortel"
+  },
+  "slot": "weapon",
+  "stat": "critMultiplier",
+  "min": 0.1,
+  "max": 0.3,
+  "weight": 0.7
+}

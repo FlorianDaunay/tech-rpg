@@ -64,7 +64,7 @@ Dependency direction: `app/ui → bridge ← game → core ← content`. `core` 
 - **Input abstraction**: never read keys in gameplay code. Touch controls show automatically when the last input was touch (`event.pointerType`, not media queries).
 - **Rendering**: pixel art at a low internal resolution, integer-ish camera zoom, `pixelArt: true`. UI is crisp HTML on top.
 - **Juice is a feature**: every hit has sound + hit-stop + flash + particles + knockback; every UI action has feedback.
-- **Saves** are versioned and always normalized on load (`core/save/migrate.ts`).
+- **Saves** are versioned and always normalized on load (`core/save/save.ts` → `migrateSave`).
 
 ## Game design snapshot
 - **World**: Valaria, plunged into night when the Dawnblade (the sun, a god's sword) shattered into 30 Ember Blades. The last flame burns in the Lantern of Cinderhold. The player is an initiate of the Embersworn, the order that guards the Lantern. Four Heralds of the Hollow (the bosses: Pale Weaver, the Shroud, the Maw, Archfiend Vaelgor). Full bible: `src/content/data/lore/`.

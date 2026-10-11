@@ -1,0 +1,12 @@
+{
+  "id": "brutal",
+  "name": {
+    "en": "Brutal",
+    "fr": "Brutal"
+  },
+  "slot": "weapon",
+  "stat": "power",
+  "min": 1,
+  "max": 4,
+  "weight": 1.2
+}

@@ -1,5 +1,6 @@
 import type { Rng } from "../math/rng";
-import type { LootTableDef } from "./defs";
+import { isShield, isWeapon, type LootTableDef } from "./defs";
+import { rollGear } from "./gear";
 
 export const GOLD = "gold";
 
@@ -18,6 +19,11 @@ export function rollLoot(table: LootTableDef, rng: Rng): Drop[] {
     if (!rng.chance(table.chance)) continue;
     const entry = rng.weighted(table.entries.map((e) => [e, e.weight] as const));
     const count = rng.int(entry.min, entry.max);
+    if (isWeapon(entry.item) || isShield(entry.item)) {
+      // Each sword or shield rolls its own affixes.
+      for (let n = 0; n < count; n++) drops.push({ item: rollGear(entry.item, rng), count: 1 });
+      continue;
+    }
     const same = drops.find((d) => d.item === entry.item);
     if (same) same.count += count;
     else drops.push({ item: entry.item, count });

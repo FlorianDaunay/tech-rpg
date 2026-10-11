@@ -1,0 +1,12 @@
+{
+  "id": "stalwart",
+  "name": {
+    "en": "Stalwart",
+    "fr": "Inébranlable"
+  },
+  "slot": "shield",
+  "stat": "maxPoise",
+  "min": 4,
+  "max": 12,
+  "weight": 1
+}

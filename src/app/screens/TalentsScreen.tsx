@@ -10,12 +10,11 @@ import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { MenuButton, Modal, Tabs } from "@/ui/menu/components";
 import { skillLook } from "../hud/SkillBar";
-import { localized } from "../items";
+import { localized, statLine } from "../items";
 
 type Tab = TalentTree | "skills";
 const COLS = 5;
 const TREE_GLYPH = { blade: "⚔", ward: "⛨", arcana: "✹" } as const;
-const STAT_KEYS = { maxHp: "stats.hp", power: "stats.power", defense: "stats.defense", critChance: "stats.crit", speed: "stats.speed" } as const;
 
 const command = (c: Command) => bridge.emit("ui:command", c);
 
@@ -159,7 +158,7 @@ function TalentDetails({ id, inv, onLearn }: { id: string; inv: InventoryView; o
         <ul className="flex flex-wrap gap-x-3 text-xs text-text-muted">
           {Object.entries(def.stats).map(([k, v]) => (
             <li key={k}>
-              {k in STAT_KEYS ? t(STAT_KEYS[k as keyof typeof STAT_KEYS] as I18nKey) : k} {formatStat(k, v!)}
+              {statLine(k, v!)}
             </li>
           ))}
         </ul>
@@ -174,7 +173,6 @@ function TalentDetails({ id, inv, onLearn }: { id: string; inv: InventoryView; o
   );
 }
 
-const formatStat = (k: string, v: number) => (k === "critChance" ? `+${Math.round(v * 100)}%` : k === "critMultiplier" ? `+${Math.round(v * 100)}% crit` : `+${v}`);
 
 function Loadout({ inv }: { inv: InventoryView }) {
   const skills = content.skills.all().sort((a, b) => a.unlockLevel - b.unlockLevel);

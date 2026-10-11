@@ -1,5 +1,6 @@
 import type { CombatData } from "@/core/combat/defs";
 import { content } from "./registry";
+import { playerProgression } from "./narrative";
 
 const byId = <T extends { id: string }>(list: T[]): Record<string, T> => Object.fromEntries(list.map((e) => [e.id, e]));
 
@@ -16,5 +17,8 @@ export function combatData(): CombatData {
     items: byId(content.items.all()),
     skills: byId(content.skills.all()),
     talents: byId(content.talents.all()),
+    affixes: byId(content.affixes.all()),
+    sets: byId(content.sets.all()),
+    affixCount: playerProgression().affixesByRarity,
   };
 }

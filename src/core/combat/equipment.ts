@@ -2,10 +2,14 @@ import type { Actor } from "./actor";
 import { getShield, getWeapon, type ShieldDef } from "./defs";
 import { BLOCK, type Move } from "./moves";
 import { masteryStats } from "../progression/mastery";
+import { gearStats, setStats } from "./gear";
 
 export const UNARMED = { light: "sword-light-1", heavy: "sword-heavy" } as const;
 
-/** Equips a weapon/shield (null = none) and recomputes stats from the base stats. Keeps the hp ratio. */
+/**
+ * Equips a weapon/shield (gear keys, null = none) and recomputes stats from the base stats:
+ * base bonuses, rolled affixes, set bonuses, weapon mastery. Keeps the hp ratio.
+ */
 export function equip(a: Actor, weapon: string | null, shield: string | null): void {
   const ratio = a.hp / a.stats.maxHp;
   a.weapon = weapon;
@@ -19,7 +23,8 @@ export function equip(a: Actor, weapon: string | null, shield: string | null): v
     s.speed += b.speed ?? 0;
   }
   if (shield) s.defense += getShield(shield).defense;
-  for (const [k, v] of Object.entries(masteryStats(a)) as [keyof typeof s, number][]) s[k] += v;
+  for (const extra of [gearStats(weapon), gearStats(shield), setStats(a), masteryStats(a)])
+    for (const [k, v] of Object.entries(extra) as [keyof typeof s, number][]) s[k] += v;
   a.stats = s;
   a.hp = Math.max(1, Math.round(s.maxHp * ratio));
 }

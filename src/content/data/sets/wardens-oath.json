@@ -1,0 +1,24 @@
+{
+  "id": "wardens-oath",
+  "name": {
+    "en": "Warden’s Oath",
+    "fr": "Serment du Gardien"
+  },
+  "description": {
+    "en": "The gear of the Shieldwardens who held the Citadel gate until the last torch went out.",
+    "fr": "L’équipement des Gardiens-boucliers qui tinrent la porte de la Citadelle jusqu’à la dernière torche."
+  },
+  "pieces": [
+    "warden-greatblade",
+    "warden-kite"
+  ],
+  "bonuses": [
+    {
+      "pieces": 2,
+      "stats": {
+        "defense": 4,
+        "maxPoise": 10
+      }
+    }
+  ]
+}

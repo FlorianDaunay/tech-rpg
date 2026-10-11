@@ -1,0 +1,23 @@
+{
+  "id": "initiates-vow",
+  "name": {
+    "en": "Initiate’s Vow",
+    "fr": "Serment de l’initié"
+  },
+  "description": {
+    "en": "Blade and buckler handed out on the day of the oath. Together they remind you why you swore it.",
+    "fr": "Lame et targe remises le jour du serment. Ensemble, elles rappellent pourquoi on l’a prêté."
+  },
+  "pieces": [
+    "initiate-blade",
+    "initiate-buckler"
+  ],
+  "bonuses": [
+    {
+      "pieces": 2,
+      "stats": {
+        "maxHp": 10
+      }
+    }
+  ]
+}

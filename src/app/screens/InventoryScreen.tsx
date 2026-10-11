@@ -6,7 +6,9 @@ import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { Modal, uiSound } from "@/ui/menu/components";
 import { masteryLevel } from "@/core/progression/mastery";
-import { ItemIcon, itemInfo, localized, type ItemInfo } from "../items";
+import { ItemIcon, itemInfo, localized, statLine, type ItemInfo } from "../items";
+import { content } from "@/content/registry";
+import { activeSets, gearAffixes } from "@/core/combat/gear";
 
 const RARITY_RANK = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 } as const;
 const KIND_RANK = { sword: 0, shield: 1, consumable: 2, material: 3, key: 4, currency: 5 } as const;
@@ -27,6 +29,7 @@ export function InventoryScreen() {
 
   const current = selected ?? inv.weapon ?? items[0]?.id ?? null;
   const info = current ? itemInfo(current) : null;
+  const affixes = current && info?.kind !== "item" ? gearAffixes(current) : [];
   const equippedSlot = current === inv.weapon ? "weapon" : current === inv.shield ? "shield" : null;
   const send = (c: Parameters<typeof bridge.emit<"ui:command">>[1]) => {
     uiSound.confirm();
@@ -98,6 +101,7 @@ export function InventoryScreen() {
                 <ItemIcon id={current} size={48} />
                 <div className="min-w-0 flex-1">
                   <div className="font-semibold" style={{ color: RARITY_COLORS[info.def.rarity] }}>{localized(info.def.name)}</div>
+                  {affixes.length > 0 && <div className="text-xs text-accent">{affixes.map((a) => localized(content.affixes.get(a.def.id).name)).join(" · ")}</div>}
                   <div className="text-xs text-text-muted">
                     {t(`rarity.${info.def.rarity}` as I18nKey)} · {t(`kind.${kindOf(info)}` as I18nKey)}
                     {info.kind !== "item" && ` · ${t("stats.level")} ${info.def.level}`}
@@ -106,6 +110,14 @@ export function InventoryScreen() {
               </div>
               <p className="mt-2 text-sm text-text-secondary">{localized(info.def.description)}</p>
               <ItemStats info={info} mastery={inv.mastery} />
+              {affixes.length > 0 && (
+                <ul className="mt-2 text-xs text-accent">
+                  {affixes.map((a) => (
+                    <li key={a.def.id}>◆ {statLine(a.def.stat, a.value)}</li>
+                  ))}
+                </ul>
+              )}
+              {info.kind !== "item" && <SetInfo id={info.def.id} worn={[inv.weapon, inv.shield]} />}
               <div className="mt-3 flex flex-wrap gap-2">
                 {info.kind !== "item" &&
                   (equippedSlot ? (
@@ -156,5 +168,25 @@ function ItemStats({ info, mastery }: { info: ItemInfo; mastery: Record<string, 
         </div>
       ))}
     </dl>
+  );
+}
+
+/** The gear set a sword or shield belongs to: pieces worn and bonuses (lit when active). */
+function SetInfo({ id, worn }: { id: string; worn: (string | null)[] }) {
+  const set = content.sets.all().find((s) => s.pieces.includes(id));
+  if (!set) return null;
+  const active = activeSets({ weapon: worn[0] ?? null, shield: worn[1] ?? null }).find((s) => s.set.id === set.id);
+  const count = active?.count ?? 0;
+  return (
+    <div className="mt-2 text-xs">
+      <div className="font-semibold text-success">{t("gear.set", { name: localized(set.name), worn: count, total: set.pieces.length })}</div>
+      <ul>
+        {set.bonuses.map((b) => (
+          <li key={b.pieces} className={count >= b.pieces ? "text-success" : "text-text-muted"}>
+            {t("gear.setBonus", { pieces: b.pieces })}: {Object.entries(b.stats).map(([k, v]) => statLine(k, v!)).join(", ")}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
