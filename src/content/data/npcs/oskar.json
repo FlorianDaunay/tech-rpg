@@ -14,5 +14,14 @@
   },
   "look": "characters/male-09-1",
   "dialogue": "oskar",
-  "wander": 16
+  "wander": 16,
+  "services": [
+    {
+      "kind": "shop",
+      "ref": "oskar-wares"
+    },
+    {
+      "kind": "projects"
+    }
+  ]
 }

@@ -1,0 +1,29 @@
+{
+  "id": "sunlit-shrine",
+  "name": {
+    "en": "Sunlit Shrine",
+    "fr": "Sanctuaire solaire"
+  },
+  "description": {
+    "en": "A shrine to the Dawnblade, the first in an age. The village takes heart: +5 % experience and +10 max health.",
+    "fr": "Un sanctuaire à la Lame de l'Aube, le premier depuis des siècles. Le village reprend courage : +5 % d'expérience et +10 points de vie max."
+  },
+  "npc": "maelis",
+  "requires": [
+    "lantern-vigil",
+    "watchtower",
+    "market-awning"
+  ],
+  "cost": {
+    "gold": 2500,
+    "items": {
+      "rift-shard": 6
+    }
+  },
+  "effects": {
+    "xp": 0.05,
+    "stats": {
+      "maxHp": 10
+    }
+  }
+}

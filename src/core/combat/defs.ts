@@ -64,8 +64,10 @@ export interface StatusDef {
   tickInterval: number;
   /** Multiplies movement speed (frozen < 1). */
   speedMult: number;
-  /** Multiplies damage taken (vulnerable > 1). */
+  /** Multiplies damage taken (vulnerable > 1, warded < 1). */
   damageTakenMult: number;
+  /** Multiplies damage dealt (empowered > 1). */
+  damageDealtMult: number;
   /** Can't act while it lasts. */
   stun: boolean;
 }
@@ -89,6 +91,8 @@ export interface ReactionDef {
 
 export interface WeaponDef {
   id: string;
+  /** Gold value (shops buy at a fraction of it). */
+  value?: number;
   /** Moveset family, trained by weapon mastery. */
   family?: string;
   /** Decides how many affixes a dropped copy rolls (see `affixCount`). */
@@ -105,6 +109,7 @@ export interface WeaponDef {
 
 export interface ShieldDef {
   id: string;
+  value?: number;
   rarity?: string;
   /** Damage blocked (fraction). */
   reduction: number;
@@ -134,6 +139,7 @@ export interface LootTableDef {
 /** Bag items the rules care about (consumable effects). */
 export interface ItemDef {
   id: string;
+  value?: number;
   kind: "currency" | "material" | "consumable" | "key";
   effect?: { heal?: number; stamina?: number; status?: string };
 }

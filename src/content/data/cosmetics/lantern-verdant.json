@@ -1,0 +1,13 @@
+{
+  "id": "lantern-verdant",
+  "name": {
+    "en": "Verdant Lantern",
+    "fr": "Lanterne verdoyante"
+  },
+  "description": {
+    "en": "Swamp-fire green. The wisps think you are one of them.",
+    "fr": "Un vert de feu follet. Les feux errants te prennent pour l'un des leurs."
+  },
+  "kind": "lantern",
+  "color": "#9be36b"
+}

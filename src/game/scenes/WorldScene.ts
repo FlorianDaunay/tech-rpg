@@ -7,7 +7,7 @@ import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
 import type { Command } from "@/core/sim/intent";
-import { arenaLocked, chestTarget, createSim, enablePvp, populateMap, portalWardens, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { arenaLocked, chestTarget, createSim, OBJECT_REACH, enablePvp, populateMap, portalWardens, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
 import { findSkill, getEnemy, SKILL_SLOTS } from "@/core/combat/defs";
@@ -28,8 +28,11 @@ import { renderMap, renderObjects } from "../world/renderMap";
 import { mapMarkers, minimapLayout } from "../world/minimap";
 import { ArenaWalls } from "../systems/ArenaWalls";
 import { SealBarriers } from "../systems/SealBarriers";
+import { Cosmetics } from "../systems/Cosmetics";
+import { findCosmetic } from "@/core/economy/defs";
 import { findMapContent, resolvePortal } from "@/content/rift";
 import { dailySeed, parseRiftMapId } from "@/core/world/riftgen";
+import { dangerMods, objectTarget } from "@/core/economy/economy";
 import type { Modifiers } from "@/core/combat/modifiers";
 import type { WorldStart } from "./PreloadScene";
 import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
@@ -71,6 +74,7 @@ export class WorldScene extends Phaser.Scene {
   private zone!: ZoneContent;
   private start!: WorldStart;
   private lighting!: Lighting;
+  private cosmetics!: Cosmetics;
   private weather!: Weather;
   /** A portal was taken: the scene is fading out to the next map. */
   private travelling = false;
@@ -168,7 +172,9 @@ export class WorldScene extends Phaser.Scene {
       this.sim = structuredClone(data.init.sim);
       this.sim.events = [];
     } else {
-      this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules, this.riftDepthMods());
+      const danger = Math.max(data.carry?.riftDanger ?? 0, ...Object.values(data.party ?? {}).map((p) => p.riftDanger ?? 0));
+      this.sim = createSim(this.map.id, (Math.random() * 2 ** 32) >>> 0, data.time ?? START_TIME, data.rules, this.riftDepthMods(danger));
+      this.sim.day = dailySeed(Date.now());
       const spawn = this.arrivalPoint(data.arrive, data.at);
       const me = spawnPlayer(this.sim, this.localId, SEAT_LOOKS[this.localId] ?? SEAT_LOOKS.p1!, spawn.x, spawn.y, data.carry ?? STARTER_GEAR);
       if (data.carry) restorePlayer(me, data.carry);
@@ -193,6 +199,7 @@ export class WorldScene extends Phaser.Scene {
     });
     this.lighting = new Lighting(this, this.map.lights, this.zone.lighting.playerLight);
     this.weather = new Weather(this, this.zone.weather);
+    this.cosmetics = new Cosmetics(this);
     this.syncViews();
 
     const cam = this.cameras.main;
@@ -412,6 +419,7 @@ export class WorldScene extends Phaser.Scene {
     this.lighting.setAmbient(this.zone.lighting.ambient, darknessAt(this.sim.time, this.zone.lighting.darkness));
     this.lighting.update(meView && me && me.action.kind !== "dead" ? { x: meView.x, y: meView.y + 14 } : null, this.sim.projectiles);
     this.weather.update();
+    this.cosmetics.update(this.sim.actors, (id) => this.views.get(id)?.sprite ?? null, delta / 1000);
     this.updateAimOrigin();
     this.updateMusic(me);
     this.updateVitals(me);
@@ -442,6 +450,14 @@ export class WorldScene extends Phaser.Scene {
       if (ev.type === "trade" && (ev.trade.from === this.localId || ev.trade.to === this.localId))
         bridge.emit("game:trade", { change: ev.change, trade: ev.trade, me: this.localId, partnerName: this.nameOf(tradePartner(ev.trade, this.localId)), by: ev.by });
       if (ev.type === "pvp-kill") bridge.emit("game:pvp-kill", { killer: ev.killer && this.nameOf(ev.killer), victim: this.nameOf(ev.victim), streak: ev.streak, mine: ev.killer === this.localId, me: ev.victim === this.localId });
+      if ((ev.type === "trade-shop" || ev.type === "forged" || ev.type === "built" || ev.type === "danger" || ev.type === "cosmetic" || ev.type === "rest") && ev.id === this.localId) {
+        // Spending is worth a save; the menus show the outcome.
+        this.saveSoon = true;
+        this.updateInventory(this.sim.actors[this.localId]);
+        audio.sfx(ECONOMY_SFX[ev.type], { volume: 0.6 });
+        bridge.emit("game:economy", ev);
+      }
+      if (ev.type === "service" && ev.id === this.localId) bridge.emit("game:service", { service: ev.service, ref: ev.ref });
       if (ev.type === "talk" && ev.id === this.localId) {
         // The dialogue reads progress for its conditions: publish it first (talk objectives just moved).
         this.updateInventory(this.sim.actors[this.localId]);
@@ -545,12 +561,14 @@ export class WorldScene extends Phaser.Scene {
   }
 
   /** Fade out and restart the scene on the target map, carrying the local player state and the clock. */
-  /** A Rift floor's extra multipliers: `perFloor` × floors below the first. */
-  private riftDepthMods(): Partial<Modifiers> {
+  /** A Rift floor's extra multipliers: `perFloor` × floors below the first, plus the danger the party lit. */
+  private riftDepthMods(danger: number): Partial<Modifiers> {
     const r = this.rift && content.rifts.find(this.rift.rift);
     if (!r || !this.rift) return {};
     const depth = this.rift.floor - 1;
-    return Object.fromEntries(Object.entries(r.perFloor).map(([k, v]) => [k, 1 + (v ?? 0) * depth]));
+    const lit = dangerMods(r.id, danger);
+    const keys = new Set([...Object.keys(r.perFloor), ...Object.keys(lit)]) as Set<keyof Modifiers>;
+    return Object.fromEntries([...keys].map((k) => [k, 1 + (r.perFloor[k] ?? 0) * depth + (lit[k] ?? 0)]));
   }
 
   private travel(target: string, arriveAt: string): void {
@@ -581,13 +599,8 @@ export class WorldScene extends Phaser.Scene {
     const me = this.sim.actors[this.localId];
     if (!me) return;
     stepSim(this.sim, this.map, { [this.localId]: { move: { x: 0, y: 0 }, aim: null, held: [], pressed: [], commands } });
-    this.fx.handle(this.sim.events);
-    this.autosave(this.sim.events);
+    this.handleEvents(this.sim.events);
     if (this.saveSoon) this.save();
-    for (const ev of this.sim.events) {
-      if (ev.type === "quest" && ev.id === this.localId) bridge.emit("game:quest", { quest: ev.quest, change: ev.change });
-      if (ev.type === "skill-unlocked" && ev.id === this.localId) bridge.emit("game:skill-unlocked", { skill: ev.skill });
-    }
     this.updateInventory(me);
   }
 
@@ -603,8 +616,19 @@ export class WorldScene extends Phaser.Scene {
     const alive = me && me.action.kind !== "dead";
     const npc = alive ? talkTarget(this.sim, me) : null;
     const chest = alive && !npc ? chestTarget(this.sim, me) : null;
-    const mate = alive && !npc && !chest && !this.sim.pvp && !this.sim.trades?.length ? tradeTarget(this.sim, me) : null;
-    const prompt = npc ? ({ kind: "talk", npc: npc.type } as const) : chest ? ({ kind: "chest" } as const) : mate ? ({ kind: "trade", name: this.nameOf(mate.id) } as const) : null;
+    const spot = alive && !npc && !chest ? objectTarget(this.map, me, OBJECT_REACH)?.interact : undefined;
+    const mate = alive && !npc && !chest && !spot && !this.sim.pvp && !this.sim.trades?.length ? tradeTarget(this.sim, me) : null;
+    const prompt = npc
+      ? ({ kind: "talk", npc: npc.type } as const)
+      : chest
+        ? ({ kind: "chest" } as const)
+        : spot
+          ? spot.kind === "rest"
+            ? ({ kind: "rest" } as const)
+            : ({ kind: "service", service: spot.service } as const)
+          : mate
+            ? ({ kind: "trade", name: this.nameOf(mate.id) } as const)
+            : null;
     const key = prompt ? JSON.stringify(prompt) : "";
     if (key === this.promptKey) return;
     this.promptKey = key;
@@ -629,10 +653,20 @@ export class WorldScene extends Phaser.Scene {
       unlockedSkills: unlockedSkills(me),
       rules: this.sim.rules,
       mastery: { ...me.mastery },
+      cosmetics: structuredClone(me.cosmetics),
+      riftDanger: me.riftDanger,
+      day: this.sim.day ?? 0,
     };
     const key = JSON.stringify(view);
     if (key === this.inventoryKey) return;
     this.inventoryKey = key;
+    // Village projects appear (objects + their lights) and the worn lantern colours my light.
+    this.objectImages.forEach((img, i) => {
+      const flag = this.map.objects[i]?.ifFlag;
+      if (flag) img.setVisible(me.progress!.flags.includes(flag));
+    });
+    this.lighting.setFlags(me.progress.flags);
+    this.lighting.setLantern(me.cosmetics.lantern ? (findCosmetic(me.cosmetics.lantern)?.color ?? null) : null);
     bridge.emit("game:inventory", view);
   }
 
@@ -789,6 +823,7 @@ net ${session.role} ${this.localId} · rtt ${session.pingOf(this.localId) ?? "?"
     this.disposers = [];
     this.fx.destroy();
     this.lighting.destroy();
+    this.cosmetics.destroy();
     this.weather.destroy();
     this.tilemap?.destroy();
     this.tilemap = null;
@@ -800,6 +835,9 @@ net ${session.role} ${this.localId} · rtt ${session.pingOf(this.localId) ?? "?"
     audio.ambience.set(null);
   }
 }
+
+/** What a shop deal, forge strike, finished project… sounds like. */
+const ECONOMY_SFX = { "trade-shop": "pickup-coin", forged: "hit-armor", built: "quest-complete", danger: "hollow-pulse", cosmetic: "ui-confirm", rest: "lantern-hum" } as const;
 
 /** HUD view of the skill slots: equipped skill, cooldown left / total, usable now. */
 function skillViews(me: Actor) {

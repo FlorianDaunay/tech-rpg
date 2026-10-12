@@ -1,0 +1,13 @@
+{
+  "id": "lantern-rose",
+  "name": {
+    "en": "Rosewick Lantern",
+    "fr": "Lanterne rosemèche"
+  },
+  "description": {
+    "en": "A dawn that never came, kept in a jar.",
+    "fr": "Une aube qui n'est jamais venue, gardée en bocal."
+  },
+  "kind": "lantern",
+  "color": "#ff7fb0"
+}

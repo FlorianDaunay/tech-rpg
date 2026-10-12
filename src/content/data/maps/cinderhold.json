@@ -156,6 +156,9 @@
         "intensity": 1,
         "flicker": true,
         "offsetY": -78
+      },
+      "interact": {
+        "kind": "rest"
       }
     },
     {
@@ -969,6 +972,117 @@
         "intensity": 0.8,
         "flicker": true,
         "offsetY": -16
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 33,
+      "cy": 18,
+      "ifFlag": "built:bellows",
+      "light": {
+        "radius": 56,
+        "color": "torch",
+        "intensity": 0.85,
+        "flicker": true,
+        "offsetY": -16
+      }
+    },
+    {
+      "asset": "props/banner",
+      "cx": 33,
+      "cy": 16,
+      "ifFlag": "built:armoury-rack"
+    },
+    {
+      "asset": "props/market-stall",
+      "cx": 8,
+      "cy": 16,
+      "ifFlag": "built:market-awning",
+      "light": {
+        "radius": 44,
+        "color": "lantern",
+        "intensity": 0.5,
+        "offsetY": -30
+      }
+    },
+    {
+      "asset": "props/pillar",
+      "cx": 37,
+      "cy": 10,
+      "ifFlag": "built:watchtower",
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.8,
+        "flicker": true,
+        "offsetY": -40
+      }
+    },
+    {
+      "asset": "props/banner",
+      "cx": 35,
+      "cy": 14,
+      "ifFlag": "built:training-yard"
+    },
+    {
+      "asset": "props/banner",
+      "cx": 37,
+      "cy": 14,
+      "ifFlag": "built:training-yard"
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 18,
+      "cy": 12,
+      "ifFlag": "built:lantern-vigil",
+      "light": {
+        "radius": 60,
+        "color": "torch",
+        "intensity": 0.85,
+        "flicker": true,
+        "offsetY": -16
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 24,
+      "cy": 12,
+      "ifFlag": "built:lantern-vigil",
+      "light": {
+        "radius": 60,
+        "color": "torch",
+        "intensity": 0.85,
+        "flicker": true,
+        "offsetY": -16
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 26,
+      "cy": 21,
+      "ifFlag": "built:story-circle",
+      "interact": {
+        "kind": "rest"
+      },
+      "light": {
+        "radius": 64,
+        "color": "torch",
+        "intensity": 0.85,
+        "flicker": true,
+        "offsetY": -16
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 17,
+      "cy": 14,
+      "ifFlag": "built:sunlit-shrine",
+      "light": {
+        "radius": 90,
+        "color": "lantern",
+        "intensity": 1,
+        "flicker": true,
+        "offsetY": -14
       }
     }
   ],

@@ -4,13 +4,14 @@ import { content } from "@/content/registry";
 import { evalAll } from "@/core/narrative/progress";
 import { t } from "@/i18n";
 import { useGameStatus } from "@/store/game";
-import { useDialogue, useMenu } from "@/store/menu";
+import { openService, useDialogue, useMenu } from "@/store/menu";
 import { uiSound } from "@/ui/menu/components";
 import { useMenuNav } from "@/ui/menu/useMenuNav";
 import { localized } from "../items";
 import { SheetFrame } from "../SheetFrame";
 
 const CHARS_PER_SEC = 55;
+const SERVICE_GLYPH = { shop: "●", forge: "⚒", projects: "⌂" } as const;
 
 /**
  * Conversation panel at the bottom of the screen. Walks the dialogue tree locally (text is
@@ -110,6 +111,25 @@ export function DialogueBox() {
             {text.slice(0, shown)}
             <span className="opacity-0">{text.slice(shown)}</span>
           </p>
+          {npc.services.length > 0 && (
+            // What this NPC offers besides talking (shop, forge, village projects): always one press away.
+            <div className={`flex flex-wrap gap-1.5 border-b border-border/60 pb-2 transition-opacity ${done ? "opacity-100" : "pointer-events-none opacity-0"}`}>
+              {npc.services.map((s) => (
+                <button
+                  key={s.kind}
+                  data-service
+                  className="btn-ghost border-accent/50 px-3 py-1.5 text-sm text-accent"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    uiSound.click();
+                    openService(s.kind === "projects" ? { kind: "projects", npc: npc.id } : { kind: s.kind, ref: s.ref, npc: npc.id });
+                  }}
+                >
+                  {SERVICE_GLYPH[s.kind]} {t(`service.${s.kind}`)}
+                </button>
+              ))}
+            </div>
+          )}
           <div className={`flex flex-col gap-1.5 transition-opacity ${done ? "opacity-100" : "pointer-events-none opacity-0"}`}>
             {choices.length ? (
               choices.map(({ c, i }, k) => (

@@ -6,7 +6,7 @@ import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { Modal, uiSound } from "@/ui/menu/components";
 import { masteryLevel } from "@/core/progression/mastery";
-import { ItemIcon, itemInfo, localized, statLine, type ItemInfo } from "../items";
+import { ItemIcon, itemInfo, itemName, localized, statLine, type ItemInfo } from "../items";
 import { content } from "@/content/registry";
 import { activeSets, gearAffixes } from "@/core/combat/gear";
 
@@ -17,7 +17,7 @@ const kindOf = (i: ItemInfo) => (i.kind === "item" ? i.def.kind : i.kind);
 /** Bag + equipment. Equip / unequip / use send commands to the game (validated by the sim). */
 export function InventoryScreen() {
   const inv = useGameStatus((s) => s.inventory);
-  const back = useMenu((s) => s.back);
+  const { back, open } = useMenu();
   const [selected, setSelected] = useState<string | null>(null);
   if (!inv) return null;
 
@@ -54,7 +54,7 @@ export function InventoryScreen() {
                 <ItemIcon id={id} size={44} />
                 <span className="min-w-0">
                   <span className="block text-xs text-text-muted">{t(`inventory.${slot}`)}</span>
-                  <span className="block truncate text-sm">{id ? localized(itemInfo(id)!.def.name) : t("inventory.none")}</span>
+                  <span className="block truncate text-sm">{id ? itemName(id) : t("inventory.none")}</span>
                 </span>
               </button>
             );
@@ -73,6 +73,9 @@ export function InventoryScreen() {
             <dt className="text-text-muted">{t("hud.gold")}</dt>
             <dd className="text-right font-mono text-warning">{inv.bag.gold ?? 0}</dd>
           </dl>
+          <button className="btn-ghost py-1.5 text-sm" onClick={() => (uiSound.click(), open("wardrobe"))}>
+            ✹ {t("wardrobe.title")}
+          </button>
         </section>
 
         <section className="flex min-w-0 flex-col gap-4">
@@ -84,7 +87,7 @@ export function InventoryScreen() {
               {items.map((x) => (
                 <button
                   key={x.id}
-                  aria-label={localized(x.info.def.name)}
+                  aria-label={itemName(x.id)}
                   className={`tile-hover flex items-center justify-center rounded-tile border p-1 hover:bg-surface-hover ${current === x.id ? "border-accent bg-accent/10" : "border-transparent"}`}
                   onClick={() => (uiSound.click(), setSelected(x.id))}
                   onFocus={() => setSelected(x.id)}
@@ -100,7 +103,7 @@ export function InventoryScreen() {
               <div className="flex items-start gap-3">
                 <ItemIcon id={current} size={48} />
                 <div className="min-w-0 flex-1">
-                  <div className="font-semibold" style={{ color: RARITY_COLORS[info.def.rarity] }}>{localized(info.def.name)}</div>
+                  <div className="font-semibold" style={{ color: RARITY_COLORS[info.def.rarity] }}>{itemName(current)}</div>
                   {affixes.length > 0 && <div className="text-xs text-accent">{affixes.map((a) => localized(content.affixes.get(a.def.id).name)).join(" · ")}</div>}
                   <div className="text-xs text-text-muted">
                     {t(`rarity.${info.def.rarity}` as I18nKey)} · {t(`kind.${kindOf(info)}` as I18nKey)}

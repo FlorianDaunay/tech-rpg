@@ -1,0 +1,17 @@
+{
+  "id": "windstep-draught",
+  "name": {
+    "en": "Windstep Draught",
+    "fr": "Philtre de vent"
+  },
+  "description": {
+    "en": "Tastes of rain. Movement +15 % for 90 s.",
+    "fr": "Goût de pluie. Déplacement +15 % pendant 90 s."
+  },
+  "kind": "consumable",
+  "stack": 10,
+  "value": 20,
+  "effect": {
+    "status": "swift"
+  }
+}

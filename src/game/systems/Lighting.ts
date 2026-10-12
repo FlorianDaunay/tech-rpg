@@ -46,6 +46,10 @@ export class Lighting {
   private flashes: Flash[] = [];
   private ambient = 0x000000;
   private darkness = 0.6;
+  /** Lights switched off (village projects not built by this player). */
+  private off = new Set<number>();
+  /** Worn lantern cosmetic: a coloured, brighter player glow. */
+  private lanternTint: number | null = null;
 
   constructor(
     private readonly scene: Phaser.Scene,
@@ -60,6 +64,18 @@ export class Lighting {
       this.glows.push(scene.add.image(l.x, l.y, GLOW).setBlendMode(Phaser.BlendModes.ADD).setTint(hex(LIGHT_COLORS[l.color as keyof typeof LIGHT_COLORS] ?? "#FFFFFF")).setDepth(DEPTH_LIGHT + 1));
     }
     this.playerGlow = scene.add.image(0, 0, GLOW).setBlendMode(Phaser.BlendModes.ADD).setTint(hex(LIGHT_COLORS.lantern)).setDepth(DEPTH_LIGHT + 1);
+  }
+
+  /** Shows only the lights whose `ifFlag` the player has. */
+  setFlags(flags: readonly string[]): void {
+    this.off = new Set(this.lights.flatMap((l, i) => (l.ifFlag && !flags.includes(l.ifFlag) ? [i] : [])));
+    this.glows.forEach((g, i) => g.setVisible(!this.off.has(i)));
+  }
+
+  /** Player lantern colour (#RRGGBB), or null for the plain Embersworn flame. */
+  setLantern(color: string | null): void {
+    this.lanternTint = color ? hex(color) : null;
+    this.playerGlow.setTint(this.lanternTint ?? hex(LIGHT_COLORS.lantern));
   }
 
   setAmbient(color: string, darkness: number): void {
@@ -102,6 +118,7 @@ export class Lighting {
     };
 
     this.lights.forEach((l, i) => {
+      if (this.off.has(i)) return;
       const flicker = l.flicker ? 1 + 0.07 * Math.sin(t * 11 + i * 1.7) + 0.05 * Math.sin(t * 23 + i * 3.1) : 1;
       const r = l.radius * flicker;
       erase(l.x, l.y, r, l.intensity);
@@ -110,7 +127,9 @@ export class Lighting {
     if (player) {
       const r = this.playerRadius * (1 + 0.03 * Math.sin(t * 7));
       erase(player.x, player.y - 8, r, 0.85);
-      this.playerGlow.setVisible(true).setPosition(player.x, player.y - 8).setScale((r * 1.4) / 128).setAlpha(glowK * 0.25);
+      // A worn lantern colours a wider, stronger halo (the plain flame stays discreet).
+      const tinted = this.lanternTint !== null;
+      this.playerGlow.setVisible(true).setPosition(player.x, player.y - 8).setScale((r * (tinted ? 1.8 : 1.4)) / 128).setAlpha(Math.min(0.6, glowK * (tinted ? 1.8 : 0.25)));
     } else this.playerGlow.setVisible(false);
     for (const p of projectiles) erase(p.x, p.y, 28, 0.7);
     for (const f of this.flashes) {

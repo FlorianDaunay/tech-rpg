@@ -42,6 +42,7 @@ export function stepStatuses(events: SimEvent[], a: Actor, dt: number): { killer
 
 export const speedMultOf = (a: Actor) => a.statuses.reduce((m, s) => m * getStatus(s.id).speedMult, 1);
 export const damageTakenMultOf = (a: Actor) => a.statuses.reduce((m, s) => m * getStatus(s.id).damageTakenMult, 1);
+export const damageDealtMultOf = (a: Actor) => a.statuses.reduce((m, s) => m * (getStatus(s.id).damageDealtMult ?? 1), 1);
 
 /** The first elemental status on the actor (what an incoming element reacts with). */
 export function elementalStatus(a: Actor): { index: number; element: Element } | null {

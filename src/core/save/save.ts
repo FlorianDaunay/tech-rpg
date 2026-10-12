@@ -1,4 +1,7 @@
 import type { Actor } from "../combat/actor";
+import { findCosmetic } from "../economy/defs";
+import { BUILT } from "../economy/economy";
+import { noCosmetics, type Cosmetics } from "../combat/actor";
 import { findItem, findPet, findSkill, findTalent, isShield, isWeapon, SKILL_SLOTS } from "../combat/defs";
 import { equip } from "../combat/equipment";
 import { normalizeGear } from "../combat/gear";
@@ -30,6 +33,10 @@ export interface PlayerState {
   mastery: Record<string, number>;
   /** Adopted companion. */
   pet: string | null;
+  /** Cosmetics owned and worn (absent in older saves). */
+  cosmetics?: Cosmetics;
+  /** Rift danger lit for the next run (carried across Rift floors). */
+  riftDanger?: number;
 }
 
 export interface SaveData {
@@ -65,6 +72,8 @@ export function capturePlayer(a: Actor): PlayerState {
     talents: { ...a.talents },
     mastery: { ...a.mastery },
     pet: a.pet,
+    cosmetics: structuredClone(a.cosmetics),
+    riftDanger: a.riftDanger,
   };
 }
 
@@ -73,12 +82,15 @@ export function restorePlayer(a: Actor, s: PlayerState): void {
   a.talents = { ...s.talents };
   a.mastery = { ...s.mastery };
   a.pet = s.pet;
+  // Progress first: finished village projects add stats when the gear is equipped.
+  a.progress = structuredClone(s.progress);
+  a.cosmetics = s.cosmetics ? structuredClone(s.cosmetics) : noCosmetics();
+  a.riftDanger = s.riftDanger ?? 0;
   equip(a, s.weapon, s.shield);
   setLevel(a, s.level, s.xp);
   a.hp = Math.max(1, Math.min(a.stats.maxHp, s.hp));
   a.stamina = Math.min(STAMINA.max, s.stamina);
   a.bag = { ...s.bag };
-  a.progress = structuredClone(s.progress);
   a.loadout = { ...a.loadout, ...s.loadout };
   refreshLoadout(null, a); // drops skills no longer unlocked, fills empty slots
   a.ultCharge = s.ultCharge;
@@ -108,7 +120,8 @@ export function newGamePlus(save: SaveData, now: number): SaveData | null {
     y: -1,
     time: 0,
     rules: { ...save.rules, omens: [...save.rules.omens], ngPlus: save.rules.ngPlus + 1 },
-    player: { ...p, bag, hp: Number.MAX_SAFE_INTEGER, ultCharge: 0, cooldowns: {}, progress: emptyProgress() },
+    // Story starts over; Cinderhold's buildings (paid for like gear) still stand.
+    player: { ...p, bag, hp: Number.MAX_SAFE_INTEGER, ultCharge: 0, cooldowns: {}, progress: { ...emptyProgress(), flags: p.progress.flags.filter((f) => f.startsWith(BUILT)) } },
   };
 }
 
@@ -201,6 +214,16 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
         const id = str(p.pet);
         return id && findPet(id) ? id : null;
       })(),
+      cosmetics: (() => {
+        const c = obj(p.cosmetics);
+        const owned = strs(c.owned).filter((id) => !!findCosmetic(id));
+        const worn = (k: "lantern" | "trail" | "pet") => {
+          const id = str(c[k]);
+          return id && owned.includes(id) && findCosmetic(id)?.kind === k ? id : null;
+        };
+        return { owned, lantern: worn("lantern"), trail: worn("trail"), pet: worn("pet") };
+      })(),
+      riftDanger: 0,
     },
   };
 }

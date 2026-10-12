@@ -1,0 +1,18 @@
+{
+  "id": "ember-tonic",
+  "name": {
+    "en": "Ember Tonic",
+    "fr": "Tonique de braise"
+  },
+  "description": {
+    "en": "Burns going down. Damage dealt +25 % for 90 s.",
+    "fr": "Brûle en descendant. Dégâts infligés +25 % pendant 90 s."
+  },
+  "rarity": "uncommon",
+  "kind": "consumable",
+  "stack": 10,
+  "value": 30,
+  "effect": {
+    "status": "empowered"
+  }
+}

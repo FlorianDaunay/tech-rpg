@@ -1,0 +1,120 @@
+{
+  "id": "oskar-wares",
+  "name": {
+    "en": "Oskar's Oddments",
+    "fr": "Les bizarreries d'Oskar"
+  },
+  "npc": "oskar",
+  "sells": [
+    {
+      "item": "healing-draught",
+      "price": 40
+    },
+    {
+      "item": "stamina-tonic",
+      "price": 30
+    },
+    {
+      "item": "windstep-draught",
+      "price": 60
+    },
+    {
+      "item": "ember-tonic",
+      "price": 90
+    },
+    {
+      "item": "ash-salve",
+      "price": 90
+    },
+    {
+      "item": "lantern-amber",
+      "price": 250
+    }
+  ],
+  "rotating": {
+    "count": 4,
+    "pool": [
+      {
+        "item": "lantern-frost",
+        "price": 600,
+        "weight": 1
+      },
+      {
+        "item": "lantern-verdant",
+        "price": 600,
+        "weight": 1
+      },
+      {
+        "item": "lantern-rose",
+        "price": 800,
+        "weight": 0.7
+      },
+      {
+        "item": "trail-embers",
+        "price": 700,
+        "weight": 1
+      },
+      {
+        "item": "trail-frost",
+        "price": 700,
+        "weight": 1
+      },
+      {
+        "item": "trail-petals",
+        "price": 900,
+        "weight": 0.7
+      },
+      {
+        "item": "trail-void",
+        "price": 1200,
+        "weight": 0.5
+      },
+      {
+        "item": "trinket-bow",
+        "price": 400,
+        "weight": 1
+      },
+      {
+        "item": "trinket-crown",
+        "price": 900,
+        "weight": 0.6
+      },
+      {
+        "item": "trinket-scarf",
+        "price": 450,
+        "weight": 1
+      },
+      {
+        "item": "trinket-bell",
+        "price": 500,
+        "weight": 1
+      },
+      {
+        "item": "deep-ore",
+        "price": 45,
+        "weight": 1.5
+      },
+      {
+        "item": "ember-shard",
+        "price": 55,
+        "weight": 1.5
+      },
+      {
+        "item": "rift-shard",
+        "price": 150,
+        "weight": 0.8
+      },
+      {
+        "item": "duelist-rapier",
+        "price": 900,
+        "weight": 0.5
+      },
+      {
+        "item": "gale-needle",
+        "price": 1400,
+        "weight": 0.3
+      }
+    ]
+  },
+  "buyRate": 0.5
+}

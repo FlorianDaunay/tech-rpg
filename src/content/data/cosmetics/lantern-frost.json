@@ -1,0 +1,13 @@
+{
+  "id": "lantern-frost",
+  "name": {
+    "en": "Frostglass Lantern",
+    "fr": "Lanterne de givre"
+  },
+  "description": {
+    "en": "Pale blue light, like moonlight on ice.",
+    "fr": "Une lumière bleu pâle, comme la lune sur la glace."
+  },
+  "kind": "lantern",
+  "color": "#8fd8ff"
+}

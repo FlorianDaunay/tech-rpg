@@ -2,6 +2,7 @@ import { registerCombatData } from "@/core/combat/defs";
 import { registerNarrativeData } from "@/core/narrative/defs";
 import { registerProgression } from "@/core/progression/level";
 import { registerRules } from "@/core/sim/rules";
+import { registerEconomy } from "@/core/economy/defs";
 import { content } from "./registry";
 import { combatData } from "./combat";
 import { narrativeData, playerProgression } from "./narrative";
@@ -19,5 +20,12 @@ export function registerContent(): void {
   registerNarrativeData(narrativeData());
   registerProgression(playerProgression());
   const byId = <T extends { id: string }>(list: T[]) => Object.fromEntries(list.map((e) => [e.id, e]));
+  registerEconomy({
+    shops: byId(content.shops.all()),
+    forges: byId(content.forges.all()),
+    projects: byId(content.projects.all()),
+    cosmetics: byId(content.cosmetics.all()),
+    dangers: Object.fromEntries(content.rifts.all().flatMap((r) => (r.danger ? [[r.id, { rift: r.id, ...r.danger }]] : []))),
+  });
   registerRules({ difficulties: byId(content.difficulties.all()), omens: byId(content.omens.all()), ngPlus: playerProgression().ngPlus });
 }

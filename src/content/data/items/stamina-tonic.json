@@ -1,0 +1,17 @@
+{
+  "id": "stamina-tonic",
+  "name": {
+    "en": "Stamina Tonic",
+    "fr": "Tonique d'endurance"
+  },
+  "description": {
+    "en": "Bitter roots in hot water. Restores all stamina.",
+    "fr": "Racines amères dans l'eau chaude. Rend toute l'endurance."
+  },
+  "kind": "consumable",
+  "stack": 10,
+  "value": 10,
+  "effect": {
+    "stamina": 100
+  }
+}

@@ -130,7 +130,20 @@ export interface Actor extends Body {
   owner: string | null;
   /** Players: where to come back after this death instead of `home` (fell inside a boss arena). */
   respawnAt: Vec2 | null;
+  /** Players: cosmetics owned and worn (see core/economy). */
+  cosmetics: Cosmetics;
+  /** Players: Rift danger tier lit at the gate brazier for the next run (0 = none). */
+  riftDanger: number;
 }
+
+export interface Cosmetics {
+  owned: string[];
+  lantern: string | null;
+  trail: string | null;
+  pet: string | null;
+}
+
+export const noCosmetics = (): Cosmetics => ({ owned: [], lantern: null, trail: null, pet: null });
 
 /** Actions remembered while busy (input buffering). */
 export type BufferedAction = "attack" | "heavy" | "dodge" | SkillSlot;
@@ -188,6 +201,8 @@ export function createActor(init: {
     pet: null,
     owner: null,
     respawnAt: null,
+    cosmetics: noCosmetics(),
+    riftDanger: 0,
   };
 }
 

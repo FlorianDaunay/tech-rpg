@@ -1,0 +1,25 @@
+{
+  "id": "watchtower",
+  "name": {
+    "en": "East Watchtower",
+    "fr": "Tour de guet de l'est"
+  },
+  "description": {
+    "en": "Harl gets a tower and stops shouting. The village sleeps better: +20 max health.",
+    "fr": "Harl a sa tour et cesse de crier. Le village dort mieux : +20 points de vie max."
+  },
+  "npc": "harl",
+  "cost": {
+    "gold": 600,
+    "items": {
+      "grave-iron": 8,
+      "deep-ore": 4
+    }
+  },
+  "effects": {
+    "stats": {
+      "maxHp": 20
+    }
+  },
+  "requires": []
+}

@@ -14,5 +14,14 @@
   },
   "look": "characters/male-03-4",
   "dialogue": "bram",
-  "wander": 12
+  "wander": 12,
+  "services": [
+    {
+      "kind": "forge",
+      "ref": "bram-forge"
+    },
+    {
+      "kind": "projects"
+    }
+  ]
 }

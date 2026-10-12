@@ -32,6 +32,11 @@ import { InventoryScreen } from "./InventoryScreen";
 import { PauseMenu } from "./PauseMenu";
 import { SettingsScreen } from "./SettingsScreen";
 import { TalentsScreen } from "./TalentsScreen";
+import { ShopScreen } from "./economy/ShopScreen";
+import { ForgeScreen } from "./economy/ForgeScreen";
+import { ProjectsScreen } from "./economy/ProjectsScreen";
+import { DangerScreen } from "./economy/DangerScreen";
+import { WardrobeScreen } from "./economy/WardrobeScreen";
 
 /** In-game screen: loading veil, then the HUD layer over the running world, and the in-game menus. */
 export function PlayScreen({ mode }: { mode: GameMode }) {
@@ -122,6 +127,11 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       {menu === "rules" && <RulesScreen />}
       {menu === "map" && <MapScreen />}
       {menu === "trade" && <TradeScreen />}
+      {menu === "shop" && <ShopScreen />}
+      {menu === "forge" && <ForgeScreen />}
+      {menu === "projects" && <ProjectsScreen />}
+      {menu === "danger" && <DangerScreen />}
+      {menu === "wardrobe" && <WardrobeScreen />}
     </div>
   );
 }

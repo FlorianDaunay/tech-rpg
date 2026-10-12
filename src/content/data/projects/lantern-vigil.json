@@ -1,0 +1,22 @@
+{
+  "id": "lantern-vigil",
+  "name": {
+    "en": "Lantern Vigil",
+    "fr": "Veille de la Lanterne"
+  },
+  "description": {
+    "en": "Braziers around the Lantern, tended day and night. Its light teaches: +10 % experience.",
+    "fr": "Des braseros autour de la Lanterne, entretenus jour et nuit. Sa lumière enseigne : +10 % d'expérience."
+  },
+  "npc": "maelis",
+  "cost": {
+    "gold": 800,
+    "items": {
+      "ember-shard": 6
+    }
+  },
+  "effects": {
+    "xp": 0.1
+  },
+  "requires": []
+}

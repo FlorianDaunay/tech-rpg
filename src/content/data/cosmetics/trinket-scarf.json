@@ -1,0 +1,14 @@
+{
+  "id": "trinket-scarf",
+  "name": {
+    "en": "Woollen Scarf",
+    "fr": "Écharpe de laine"
+  },
+  "description": {
+    "en": "The nights are cold, even for a spirit.",
+    "fr": "Les nuits sont froides, même pour un esprit."
+  },
+  "kind": "pet",
+  "shape": "scarf",
+  "color": "#4fb3ff"
+}

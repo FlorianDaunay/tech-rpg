@@ -1,0 +1,13 @@
+{
+  "id": "swift",
+  "name": {
+    "en": "Swift",
+    "fr": "Leste"
+  },
+  "description": {
+    "en": "Light feet, quick breath: +15 % movement speed.",
+    "fr": "Pied léger, souffle vif : +15 % de vitesse de déplacement."
+  },
+  "duration": 90,
+  "speedMult": 1.15
+}

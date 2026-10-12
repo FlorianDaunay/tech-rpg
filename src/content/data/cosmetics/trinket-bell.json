@@ -1,0 +1,14 @@
+{
+  "id": "trinket-bell",
+  "name": {
+    "en": "Brass Bell",
+    "fr": "Clochette de laiton"
+  },
+  "description": {
+    "en": "You will always know where it is.",
+    "fr": "Tu sauras toujours où il est."
+  },
+  "kind": "pet",
+  "shape": "bell",
+  "color": "#e8c26a"
+}

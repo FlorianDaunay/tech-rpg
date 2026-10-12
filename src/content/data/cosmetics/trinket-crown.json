@@ -1,0 +1,14 @@
+{
+  "id": "trinket-crown",
+  "name": {
+    "en": "Tiny Crown",
+    "fr": "Petite couronne"
+  },
+  "description": {
+    "en": "Fit for the smallest monarch of Valaria.",
+    "fr": "Digne du plus petit monarque de Valaria."
+  },
+  "kind": "pet",
+  "shape": "crown",
+  "color": "#ffd34d"
+}

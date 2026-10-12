@@ -1,0 +1,13 @@
+{
+  "id": "trail-frost",
+  "name": {
+    "en": "Rime Trail",
+    "fr": "Traînée de givre"
+  },
+  "description": {
+    "en": "Frost blooms where you walk.",
+    "fr": "Le givre fleurit sous tes pas."
+  },
+  "kind": "trail",
+  "color": "#bfe9ff"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "empowered",
+  "name": {
+    "en": "Empowered",
+    "fr": "Exalté"
+  },
+  "description": {
+    "en": "Ember courage in the veins: +25 % damage dealt.",
+    "fr": "Le courage des braises dans les veines : +25 % de dégâts infligés."
+  },
+  "duration": 90,
+  "damageDealtMult": 1.25
+}

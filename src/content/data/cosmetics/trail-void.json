@@ -1,0 +1,13 @@
+{
+  "id": "trail-void",
+  "name": {
+    "en": "Void Motes",
+    "fr": "Poussière du vide"
+  },
+  "description": {
+    "en": "Little flecks of night trail after you.",
+    "fr": "De petits éclats de nuit te suivent."
+  },
+  "kind": "trail",
+  "color": "#a77bff"
+}

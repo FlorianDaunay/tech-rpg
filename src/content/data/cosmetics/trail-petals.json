@@ -1,0 +1,13 @@
+{
+  "id": "trail-petals",
+  "name": {
+    "en": "Petal Trail",
+    "fr": "Traînée de pétales"
+  },
+  "description": {
+    "en": "Petals from a garden nobody remembers.",
+    "fr": "Des pétales d'un jardin que plus personne ne connaît."
+  },
+  "kind": "trail",
+  "color": "#ff9ec7"
+}

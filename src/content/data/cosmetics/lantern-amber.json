@@ -1,0 +1,13 @@
+{
+  "id": "lantern-amber",
+  "name": {
+    "en": "Amber Lantern",
+    "fr": "Lanterne ambrée"
+  },
+  "description": {
+    "en": "The old Embersworn glow, warm as a hearth.",
+    "fr": "L'ancienne lueur des Braisejurés, chaude comme un âtre."
+  },
+  "kind": "lantern",
+  "color": "#ffb347"
+}

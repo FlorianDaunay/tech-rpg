@@ -1,5 +1,6 @@
 import type { Vec2 } from "../math/vec";
 import type { TradeCommand } from "../trade/trade";
+import type { EconomyCommand } from "../economy/economy";
 
 /** Every action a player can trigger. Input devices map to these; gameplay never sees keys. */
 export const ACTIONS = [
@@ -29,7 +30,9 @@ export type Command =
   | { type: "respec" }
   | { type: "loadout"; slot: "skill1" | "skill2" | "ultimate"; skill: string }
   /** Player-to-player trading (see core/trade). */
-  | TradeCommand;
+  | TradeCommand
+  /** Shops, forge, village projects, Rift danger, cosmetics (see core/economy). */
+  | EconomyCommand;
 
 /** What one player wants this tick. Serializable: it's also the network input message. */
 export interface Intent {

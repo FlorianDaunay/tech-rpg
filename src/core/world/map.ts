@@ -29,7 +29,13 @@ export interface MapObject {
   flipX: boolean;
   /** Openable once; `key` = `map:chest` (recorded in progress.cleared). */
   chest?: { key: string; loot: string };
+  /** Interact to rest (full heal) or open a service (e.g. the Rift danger brazier). */
+  interact?: MapInteract;
+  /** Only drawn once the local player has this story flag (village projects). Never solid. */
+  ifFlag?: string;
 }
+
+export type MapInteract = { kind: "rest" } | { kind: "service"; service: "rift-danger"; ref: string };
 
 /** Trigger rectangle in world pixels that sends players to another map. */
 export interface MapPortal {
@@ -52,6 +58,8 @@ export interface MapLight {
   color: string;
   intensity: number;
   flicker: boolean;
+  /** Only lit once the local player has this story flag (its object is a village project). */
+  ifFlag?: string;
 }
 
 export interface GameMap {

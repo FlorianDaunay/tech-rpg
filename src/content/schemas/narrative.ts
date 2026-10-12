@@ -39,6 +39,10 @@ export const NpcSchema = z
     look: AssetKey.describe("Character sheet (3×4 Pipoya layout)"),
     dialogue: ref("dialogue"),
     wander: z.number().nonnegative().default(24).describe("Idle stroll radius (px), 0 = stands still"),
+    services: z
+      .array(z.discriminatedUnion("kind", [z.object({ kind: z.literal("shop"), ref: ref("shop") }), z.object({ kind: z.literal("forge"), ref: ref("forge") }), z.object({ kind: z.literal("projects") })]))
+      .default([])
+      .describe("Buttons offered under their dialogue (shop, forge, village projects)"),
   })
   .describe("NPC");
 

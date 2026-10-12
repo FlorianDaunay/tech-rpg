@@ -19,7 +19,16 @@ export function Prompt() {
   const menuOpen = useMenu((s) => s.stack.length > 0);
   if (!prompt || menuOpen) return null;
   const npc = prompt.kind === "talk" ? content.npcs.find(prompt.npc) : undefined;
-  const label = prompt.kind === "chest" ? t("prompt.open") : prompt.kind === "trade" ? `${t("prompt.trade")} — ${prompt.name}` : `${t("prompt.talk")}${npc ? ` — ${localized(npc.name)}` : ""}`;
+  const label =
+    prompt.kind === "chest"
+      ? t("prompt.open")
+      : prompt.kind === "trade"
+        ? `${t("prompt.trade")} — ${prompt.name}`
+        : prompt.kind === "rest"
+          ? t("prompt.rest")
+          : prompt.kind === "service"
+            ? t("prompt.brazier")
+            : `${t("prompt.talk")}${npc ? ` — ${localized(npc.name)}` : ""}`;
   const glyph = device === "gamepad" ? "B" : key ? keyLabel(key) : "?";
 
   if (device === "touch") {

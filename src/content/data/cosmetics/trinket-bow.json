@@ -1,0 +1,14 @@
+{
+  "id": "trinket-bow",
+  "name": {
+    "en": "Red Bow",
+    "fr": "Nœud rouge"
+  },
+  "description": {
+    "en": "A bow for your companion. Very dignified.",
+    "fr": "Un nœud pour ton compagnon. Très digne."
+  },
+  "kind": "pet",
+  "shape": "bow",
+  "color": "#ff5f7a"
+}

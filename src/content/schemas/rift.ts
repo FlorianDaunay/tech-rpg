@@ -28,6 +28,14 @@ export const RiftSchema = z
     perFloor: z.partialRecord(z.enum(MODIFIERS), z.number().nonnegative()).default({}).describe("Added to each multiplier per floor below the first (0.15 → ×1.15, ×1.3…)"),
     exitTo: ref("map").describe("Where the last floor's exit leads"),
     exitArrive: z.string().describe("Player spawn id in that map"),
+    danger: z
+      .object({
+        item: ref("item").describe("Fuel for the gate brazier"),
+        costs: z.array(z.number().int().min(1)).min(1).describe("Total fuel to reach tier 1, 2, 3…"),
+        perTier: z.partialRecord(z.enum(MODIFIERS), z.number().nonnegative()).describe("Added to each multiplier per tier (enemies harder, spoils richer)"),
+      })
+      .optional()
+      .describe("Optional danger players can light at the brazier by the gate (one run)"),
     gate: z.object({ prop: z.string().describe("Asset key of the spires flanking each exit"), light: z.string().default("rift") }).default({ prop: "props/rift-spire", light: "rift" }),
   })
   .describe("Rift");

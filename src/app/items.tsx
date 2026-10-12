@@ -3,6 +3,7 @@ import { content } from "@/content/registry";
 import type { ItemContent, ShieldContent, SwordContent } from "@/content/schemas/combat";
 import { getLang, t } from "@/i18n";
 import { baseOf } from "@/core/combat/defs";
+import { gearTier } from "@/core/combat/gear";
 
 export type ItemInfo =
   | { kind: "sword"; def: SwordContent }
@@ -64,3 +65,29 @@ export function ItemIcon({ id, size = 48, count }: { id: string | null; size?: n
     </span>
   );
 }
+
+/** Display name of a bag key: forged gear shows its tier ("Cinder Edge +2"). */
+export function itemName(key: string): string {
+  const info = itemInfo(key);
+  const cosmetic = info ? undefined : content.cosmetics.find(key);
+  const name = info ? localized(info.def.name) : cosmetic ? localized(cosmetic.name) : key;
+  const tier = info && info.kind !== "item" ? gearTier(key) : 0;
+  return tier > 0 ? `${name} +${tier}` : name;
+}
+
+/** A cosmetic as a slot: its colour (and trinket shape) in a frame. */
+export function CosmeticIcon({ id, size = 48 }: { id: string; size?: number }) {
+  const def = content.cosmetics.find(id);
+  if (!def) return null;
+  const glyph = def.kind === "lantern" ? "✹" : def.kind === "trail" ? "∴" : ({ bow: "⋈", crown: "♛", scarf: "≋", bell: "◓" } as const)[def.shape ?? "bow"];
+  return (
+    <span className="relative inline-flex shrink-0 items-center justify-center" style={{ width: size, height: size }}>
+      <img src="assets/ui/item-frame-rare.png" alt="" className="absolute inset-0 h-full w-full" style={{ imageRendering: "pixelated" }} />
+      <span className="relative text-xl leading-none" style={{ color: def.color, textShadow: `0 0 8px ${def.color}` }}>{glyph}</span>
+    </span>
+  );
+}
+
+/** Icon of anything a shop sells. */
+export const WareIcon = ({ id, size = 44, count }: { id: string; size?: number; count?: number }) =>
+  content.cosmetics.find(id) ? <CosmeticIcon id={id} size={size} /> : <ItemIcon id={id} size={size} count={count} />;

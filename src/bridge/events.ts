@@ -7,6 +7,8 @@ import type { Trade, TradeChange } from "@/core/trade/trade";
 import type { Command } from "@/core/sim/intent";
 import type { SaveData } from "@/core/save/save";
 import type { WorldRules } from "@/core/sim/rules";
+import type { Cosmetics } from "@/core/combat/actor";
+import type { SimEvent } from "@/core/combat/events";
 
 type Listener<T> = (payload: T) => void;
 
@@ -106,6 +108,11 @@ export interface InventoryView {
   mastery: Record<string, number>;
   /** The run's difficulty, Omens and NG+ cycle. */
   rules: WorldRules;
+  cosmetics: Cosmetics;
+  /** Rift danger tier lit for the next run. */
+  riftDanger: number;
+  /** Day seed of the shops' daily wares (host clock). */
+  day: number;
 }
 
 export type GameMode = "solo" | "host" | "client";
@@ -150,7 +157,11 @@ export interface BridgeEvents {
   /** A new skill became available (level-up). */
   "game:skill-unlocked": { skill: string };
   /** Context action available near the player (null = none). */
-  "game:prompt": { kind: "talk"; npc: string } | { kind: "chest" } | { kind: "trade"; name: string } | null;
+  "game:prompt": { kind: "talk"; npc: string } | { kind: "chest" } | { kind: "trade"; name: string } | { kind: "rest" } | { kind: "service"; service: "rift-danger" } | null;
+  /** The local player's shop deal, forge work, project, Rift danger, cosmetic or rest went through. */
+  "game:economy": Extract<SimEvent, { type: "trade-shop" | "forged" | "built" | "danger" | "cosmetic" | "rest" }>;
+  /** The local player opened a service object (Rift danger brazier). */
+  "game:service": { service: "rift-danger"; ref: string };
   /** A trade the local player is part of changed (`change` says how, including when it ended). */
   "game:trade": TradeView;
   /** In a PvP arena: the scoreboard (null elsewhere). */

@@ -74,6 +74,16 @@ export type SimEvent =
   /** A ground blast is coming (telegraph for `delay` s), then it bursts. */
   | { type: "hazard"; id: string; x: number; y: number; radius: number; delay: number; move: string }
   | { type: "hazard-blast"; id: string; x: number; y: number; radius: number; move: string }
+  /** Economy (core/economy): shop deal (count < 0 = sold), forge work, project built, Rift danger, cosmetic worn. */
+  | { type: "trade-shop"; id: string; shop: string; item: string; count: number; gold: number }
+  | { type: "forged"; id: string; item: string; op: "upgrade" | "reroll" }
+  | { type: "built"; id: string; project: string }
+  | { type: "danger"; id: string; rift: string; tier: number }
+  | { type: "cosmetic"; id: string; slot: "lantern" | "trail" | "pet"; cosmetic: string | null }
+  /** Rested at a rest point (full heal). */
+  | { type: "rest"; id: string }
+  /** Opened a service object (the UI shows its screen). */
+  | { type: "service"; id: string; service: "rift-danger"; ref: string }
   /** A sealed portal's wardens all fell: it opens (x, y = its centre, px). */
   | { type: "portal-open"; portal: string; x: number; y: number }
   /** The actor was removed from the sim (corpse faded). */

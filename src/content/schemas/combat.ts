@@ -125,6 +125,7 @@ export const StatusSchema = z
     tickDamage: z.number().nonnegative().default(0).describe("Per tick per stack, fraction of the applier's power"),
     tickInterval: z.number().positive().default(1),
     speedMult: z.number().nonnegative().default(1),
+    damageDealtMult: z.number().nonnegative().default(1).describe("Multiplies damage dealt (buffs > 1)"),
     damageTakenMult: z.number().nonnegative().default(1),
     stun: z.boolean().default(false),
   })

@@ -1,0 +1,20 @@
+{
+  "id": "story-circle",
+  "name": {
+    "en": "Story Circle",
+    "fr": "Cercle des contes"
+  },
+  "description": {
+    "en": "Benches round the well where Tomas tells the old tales. A place to rest: interact with the bench to heal fully.",
+    "fr": "Des bancs autour du puits où Tomas raconte les vieux récits. Un lieu de repos : interagis avec le banc pour te soigner entièrement."
+  },
+  "npc": "tomas",
+  "cost": {
+    "gold": 300,
+    "items": {
+      "hollow-dust": 10
+    }
+  },
+  "effects": {},
+  "requires": []
+}

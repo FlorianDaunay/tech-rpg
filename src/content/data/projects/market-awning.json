@@ -1,0 +1,23 @@
+{
+  "id": "market-awning",
+  "name": {
+    "en": "Market Awning",
+    "fr": "Auvent du marché"
+  },
+  "description": {
+    "en": "A proper stall for Oskar. Two more daily wares, and he haggles less.",
+    "fr": "Un vrai étal pour Oskar. Deux articles du jour de plus, et il marchande moins."
+  },
+  "npc": "oskar",
+  "cost": {
+    "gold": 500,
+    "items": {
+      "hollow-dust": 15
+    }
+  },
+  "effects": {
+    "rotatingSlots": 2,
+    "shopDiscount": 0.1
+  },
+  "requires": []
+}

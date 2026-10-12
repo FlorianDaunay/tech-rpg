@@ -3,6 +3,7 @@ import { getShield, getWeapon, type ShieldDef } from "./defs";
 import { BLOCK, type Move } from "./moves";
 import { masteryStats } from "../progression/mastery";
 import { gearStats, setStats } from "./gear";
+import { projectStats } from "../economy/economy";
 
 export const UNARMED = { light: "sword-light-1", heavy: "sword-heavy" } as const;
 
@@ -23,7 +24,7 @@ export function equip(a: Actor, weapon: string | null, shield: string | null): v
     s.speed += b.speed ?? 0;
   }
   if (shield) s.defense += getShield(shield).defense;
-  for (const extra of [gearStats(weapon), gearStats(shield), setStats(a), masteryStats(a)])
+  for (const extra of [gearStats(weapon), gearStats(shield), setStats(a), masteryStats(a), projectStats(a)])
     for (const [k, v] of Object.entries(extra) as [keyof typeof s, number][]) s[k] += v;
   a.stats = s;
   a.hp = Math.max(1, Math.round(s.maxHp * ratio));

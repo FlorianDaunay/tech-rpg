@@ -17,6 +17,8 @@ import { combineMods, normalizeRules, scaleEnemy, type WorldRules } from "./rule
 import { createPvp } from "../combat/pvp";
 import { applyTradeCommand, stepTrades, tradeTarget, type Trade } from "../trade/trade";
 import { recordPositions, rewinder } from "./lagcomp";
+import { applyEconomyCommand, objectTarget, rest } from "../economy/economy";
+import { STAMINA } from "../combat/moves";
 
 /** Simulation runs at a fixed rate everywhere (solo, host, client prediction, replays). */
 export const SIM_HZ = 60;
@@ -40,6 +42,8 @@ export interface SimState extends CombatWorld {
   arenas: Arena[];
   /** Trades between players in progress (see core/trade). */
   trades: Trade[];
+  /** Day seed of the shops' daily selection (host's UTC date; 0 in tests). */
+  day: number;
   /** Portals still sealed (their required enemies stand). Updated each step; opening emits `portal-open`. */
   sealed: string[];
 }
@@ -94,7 +98,7 @@ export const RESPAWN_CLEARANCE = 180;
 /** `time` is the shared world clock (day/night): carried over when the party changes map. */
 export function createSim(mapId: string, seed: number, time = 0, rules?: Partial<WorldRules>, extra: Partial<Modifiers> = {}): SimState {
   const r = normalizeRules(rules);
-  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null, sealed: [], hazards: [] };
+  return { tick: 0, time, mapId, rngState: seed >>> 0, actors: {}, projectiles: [], pickups: [], events: [], nextId: 1, rules: r, mods: combineMods(r, extra), extra, spawners: [], chests: [], arenas: [], trades: [], pvp: null, sealed: [], hazards: [], day: 0 };
 }
 
 export function spawnPlayer(state: SimState, id: string, look: string, x: number, y: number, gear: { weapon?: string | null; shield?: string | null } = {}): Actor {
@@ -121,7 +125,11 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
 export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<string> = new Set(), defaultRespawn = 180): void {
   // Chests opened and guardians slain inside a Rift run only matter during that run.
   if (!map.id.startsWith(RIFT_PREFIX))
-    for (const p of players(state)) if (p.progress) p.progress.cleared = p.progress.cleared.filter((k) => !k.startsWith(RIFT_PREFIX));
+    for (const p of players(state)) {
+      if (p.progress) p.progress.cleared = p.progress.cleared.filter((k) => !k.startsWith(RIFT_PREFIX));
+      // A lit Rift danger lasts one run: gone once back on an authored map.
+      p.riftDanger = 0;
+    }
   // A companion someone adopted walks with them, not around the hub.
   const adoptedNpcs = new Set(players(state).flatMap((p) => (p.pet ? [findPet(p.pet)?.npc ?? ""] : [])));
   for (const o of map.objects)
@@ -393,6 +401,8 @@ function detectPortals(state: SimState, map: GameMap): void {
 const NPC_STATS = { maxHp: 1, power: 0, defense: 0, critChance: 0, critMultiplier: 1, maxPoise: 999, speed: 34 };
 /** Reach for the interact action (px from the player's feet to the NPC's). */
 export const TALK_RANGE = 34;
+/** Reach of rest points and service objects (they are bigger than an NPC). */
+export const OBJECT_REACH = TALK_RANGE * 1.4;
 
 export function spawnNpc(state: SimState, npc: string, x: number, y: number): Actor | null {
   const def = findNpc(npc);
@@ -443,6 +453,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
             : thinkEnemy(state, a, rng, SIM_DT);
     for (const cmd of intent.commands ?? [])
       if (cmd.type === "trade") applyTradeCommand(state, a, cmd);
+      else if (cmd.type === "buy" || cmd.type === "sell" || cmd.type === "forge" || cmd.type === "build" || cmd.type === "danger" || cmd.type === "cosmetic") applyEconomyCommand(state, map, rng, a, cmd);
       else applyCommand(state.events, a, cmd, a.kind === "player" ? state.mods.healing : 1);
     if (a.kind === "player" && intent.pressed.includes("interact") && a.action.kind === "free") {
       const npc = talkTarget(state, a);
@@ -450,8 +461,11 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
       if (npc && def) state.events.push({ type: "talk", id: a.id, npc: npc.type, actor: npc.id, dialogue: def.dialogue });
       else {
         const chest = chestTarget(state, a);
-        const mate = !chest && !state.pvp ? tradeTarget(state, a) : null;
+        const spot = !chest ? objectTarget(map, a, OBJECT_REACH) : null;
+        const mate = !chest && !spot && !state.pvp ? tradeTarget(state, a) : null;
         if (chest) openChest(state, a, chest, rng);
+        else if (spot?.interact?.kind === "rest") rest(state.events, a, STAMINA.max);
+        else if (spot?.interact?.kind === "service") state.events.push({ type: "service", id: a.id, service: spot.interact.service, ref: spot.interact.ref });
         else if (mate) applyTradeCommand(state, a, { type: "trade", op: "ask", to: mate.id });
       }
     }

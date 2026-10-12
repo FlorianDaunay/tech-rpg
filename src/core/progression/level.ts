@@ -1,4 +1,5 @@
 import type { Actor, CombatStats } from "../combat/actor";
+import { xpMultOf } from "../economy/economy";
 import { PLAYER_STATS } from "../combat/actor";
 import { equip } from "../combat/equipment";
 import { STAMINA } from "../combat/moves";
@@ -110,13 +111,13 @@ export function awardXp(events: SimEvent[], actors: Record<string, Actor>): void
   const players = Object.values(actors).filter((a) => a.kind === "player" && a.action.kind !== "dead");
   for (const ev of [...events]) {
     if (ev.type === "death" && ev.xp > 0 && ev.killer && actors[ev.killer]?.kind === "player") {
-      for (const p of players) grantXp(events, p, ev.xp);
+      for (const p of players) grantXp(events, p, Math.round(ev.xp * xpMultOf(p)));
       // Mastery is personal: only the killer's own sword learns (not a pet's kill).
       if (!ev.via) grantMastery(events, actors[ev.killer]!, ev.xp);
     } else if (ev.type === "quest" && ev.change === "done") {
       const xp = findQuest(ev.quest)?.rewards.xp ?? 0;
       const p = actors[ev.id];
-      if (p && xp > 0) grantXp(events, p, xp);
+      if (p && xp > 0) grantXp(events, p, Math.round(xp * xpMultOf(p)));
     }
   }
 }

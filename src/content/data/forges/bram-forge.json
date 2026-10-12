@@ -1,0 +1,60 @@
+{
+  "id": "bram-forge",
+  "name": {
+    "en": "Bram's Forge",
+    "fr": "La forge de Bram"
+  },
+  "npc": "bram",
+  "tiers": [
+    {
+      "gold": 100,
+      "items": {
+        "grave-iron": 3
+      },
+      "power": 2,
+      "defense": 2
+    },
+    {
+      "gold": 250,
+      "items": {
+        "grave-iron": 5,
+        "deep-ore": 2
+      },
+      "power": 4,
+      "defense": 4
+    },
+    {
+      "gold": 500,
+      "items": {
+        "deep-ore": 4,
+        "ember-shard": 3
+      },
+      "power": 7,
+      "defense": 6
+    },
+    {
+      "gold": 1000,
+      "items": {
+        "ember-shard": 5,
+        "rift-shard": 2
+      },
+      "power": 11,
+      "defense": 9
+    },
+    {
+      "gold": 2000,
+      "items": {
+        "rift-shard": 5,
+        "hollow-dust": 20
+      },
+      "power": 16,
+      "defense": 13
+    }
+  ],
+  "reroll": {
+    "gold": 150,
+    "items": {
+      "ember-shard": 1
+    }
+  }
+}

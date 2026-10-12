@@ -1,0 +1,18 @@
+{
+  "id": "ash-salve",
+  "name": {
+    "en": "Ash Salve",
+    "fr": "Onguent de cendre"
+  },
+  "description": {
+    "en": "Smear it on before the fight. Damage taken −25 % for 90 s.",
+    "fr": "À étaler avant le combat. Dégâts subis −25 % pendant 90 s."
+  },
+  "rarity": "uncommon",
+  "kind": "consumable",
+  "stack": 10,
+  "value": 30,
+  "effect": {
+    "status": "warded"
+  }
+}

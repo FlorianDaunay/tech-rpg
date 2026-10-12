@@ -1,0 +1,13 @@
+{
+  "id": "trail-embers",
+  "name": {
+    "en": "Ember Trail",
+    "fr": "Traînée de braises"
+  },
+  "description": {
+    "en": "Your steps leave sparks behind.",
+    "fr": "Tes pas laissent des étincelles."
+  },
+  "kind": "trail",
+  "color": "#ff8a3d"
+}

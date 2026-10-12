@@ -712,6 +712,27 @@
         "flicker": true,
         "offsetY": -16
       }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 21,
+      "cy": 6,
+      "footprint": [
+        1,
+        1
+      ],
+      "interact": {
+        "kind": "service",
+        "service": "rift-danger",
+        "ref": "endless-night"
+      },
+      "light": {
+        "radius": 64,
+        "color": "rift",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -16
+      }
     }
   ],
   "spawns": [

@@ -1,0 +1,27 @@
+{
+  "id": "armoury-rack",
+  "name": {
+    "en": "Armoury Rack",
+    "fr": "Râtelier d'armes"
+  },
+  "description": {
+    "en": "Bram keeps the blades oiled and the straps tight. +3 power.",
+    "fr": "Bram garde les lames huilées et les sangles serrées. +3 puissance."
+  },
+  "npc": "bram",
+  "requires": [
+    "bellows"
+  ],
+  "cost": {
+    "gold": 900,
+    "items": {
+      "deep-ore": 8,
+      "ember-shard": 4
+    }
+  },
+  "effects": {
+    "stats": {
+      "power": 3
+    }
+  }
+}

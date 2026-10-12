@@ -7,6 +7,7 @@ import { ProgressionSchema } from "./schemas/progression";
 import { DifficultySchema, OmenSchema } from "./schemas/rules";
 import { RiftSchema } from "./schemas/rift";
 import { ZoneSchema } from "./schemas/zone";
+import { CosmeticSchema, ForgeSchema, ProjectSchema, ShopSchema } from "./schemas/economy";
 
 /**
  * Every content type: its schema and its JSON files (one entry per file, `data/<type>/<id>.json`).
@@ -35,6 +36,10 @@ const sources = {
   omen: { schema: OmenSchema, folder: "omens", files: import.meta.glob("./data/omens/*.json", { eager: true, import: "default" }) },
   pet: { schema: PetSchema, folder: "pets", files: import.meta.glob("./data/pets/*.json", { eager: true, import: "default" }) },
   rift: { schema: RiftSchema, folder: "rifts", files: import.meta.glob("./data/rifts/*.json", { eager: true, import: "default" }) },
+  shop: { schema: ShopSchema, folder: "shops", files: import.meta.glob("./data/shops/*.json", { eager: true, import: "default" }) },
+  forge: { schema: ForgeSchema, folder: "forges", files: import.meta.glob("./data/forges/*.json", { eager: true, import: "default" }) },
+  project: { schema: ProjectSchema, folder: "projects", files: import.meta.glob("./data/projects/*.json", { eager: true, import: "default" }) },
+  cosmetic: { schema: CosmeticSchema, folder: "cosmetics", files: import.meta.glob("./data/cosmetics/*.json", { eager: true, import: "default" }) },
   progression: { schema: ProgressionSchema, folder: "progression", files: import.meta.glob("./data/progression/*.json", { eager: true, import: "default" }) },
 } as const;
 
@@ -110,6 +115,10 @@ export const content = {
   omens: collection("omen"),
   rifts: collection("rift"),
   pets: collection("pet"),
+  shops: collection("shop"),
+  forges: collection("forge"),
+  projects: collection("project"),
+  cosmetics: collection("cosmetic"),
 };
 
 /** Ids of every entry of a type (reference checks). */

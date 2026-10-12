@@ -14,5 +14,10 @@
   },
   "look": "characters/soldier-02-1",
   "dialogue": "harl",
-  "wander": 6
+  "wander": 6,
+  "services": [
+    {
+      "kind": "projects"
+    }
+  ]
 }

@@ -14,5 +14,10 @@
   },
   "look": "characters/male-07-1",
   "dialogue": "tomas",
-  "wander": 0
+  "wander": 0,
+  "services": [
+    {
+      "kind": "projects"
+    }
+  ]
 }

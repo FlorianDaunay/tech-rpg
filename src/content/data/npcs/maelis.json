@@ -14,5 +14,10 @@
   },
   "look": "characters/female-05-1",
   "dialogue": "maelis",
-  "wander": 10
+  "wander": 10,
+  "services": [
+    {
+      "kind": "projects"
+    }
+  ]
 }

@@ -1,0 +1,13 @@
+{
+  "id": "warded",
+  "name": {
+    "en": "Warded",
+    "fr": "Protégé"
+  },
+  "description": {
+    "en": "A salve of ash and wax: 25 % less damage taken.",
+    "fr": "Un onguent de cendre et de cire : 25 % de dégâts subis en moins."
+  },
+  "duration": 90,
+  "damageTakenMult": 0.75
+}

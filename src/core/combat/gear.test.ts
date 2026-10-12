@@ -18,7 +18,7 @@ describe("gear", () => {
   it("keys round-trip and sort affixes so identical rolls stack", () => {
     const key = gearKey("cinder-edge", [{ id: "keen", q: 5 }, { id: "brutal", q: 9 }]);
     expect(key).toBe("cinder-edge+brutal:9+keen:5");
-    expect(parseGear(key)).toEqual({ base: "cinder-edge", affixes: [{ id: "brutal", q: 9 }, { id: "keen", q: 5 }] });
+    expect(parseGear(key)).toEqual({ base: "cinder-edge", affixes: [{ id: "brutal", q: 9 }, { id: "keen", q: 5 }], tier: 0 });
     expect(getWeapon(key).id).toBe("cinder-edge");
   });
 

@@ -50,6 +50,14 @@ export const MapObjectSchema = z.object({
     .object({ id: z.string().describe("Unique on this map (remembered once opened)"), loot: ref("loot") })
     .optional()
     .describe("Interact to open once: its loot bursts out"),
+  interact: z
+    .discriminatedUnion("kind", [
+      z.object({ kind: z.literal("rest") }).describe("Rest: full heal, stamina, statuses cleared"),
+      z.object({ kind: z.literal("service"), service: z.enum(["rift-danger"]), ref: refAny(["rift"]).describe("Rift whose danger this brazier sets") }),
+    ])
+    .optional()
+    .describe("Interact with it (rest point, service)"),
+  ifFlag: z.string().optional().describe("Only shown once the player has this story flag (village projects: built:<id>). Never solid."),
   /** The object glows (torch, lantern, window): lights the darkness around it. */
   light: z
     .object({

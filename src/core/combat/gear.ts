@@ -1,5 +1,6 @@
 import type { Rng } from "../math/rng";
 import type { Actor, CombatStats } from "./actor";
+import { forgeTiers } from "../economy/defs";
 import { affixCountFor, allAffixes, allSets, baseOf, findAffix, GEAR_SEP, getShield, getWeapon, isShield, isWeapon, type AffixDef, type AffixStat } from "./defs";
 
 /**
@@ -7,7 +8,11 @@ import { affixCountFor, allAffixes, allSets, baseOf, findAffix, GEAR_SEP, getShi
  * quality 0..9 (`cinder-edge+keen:5+stalwart:9`). The key holds the roll, the affix content holds
  * the ranges, so rebalancing an affix rescales every copy instead of rerolling it. Identical
  * rolls stack in the bag like any item. Plain ids (starter gear, quest rewards) have no affixes.
+ * Forge upgrades add a last part `up:<tier>` (`cinder-edge+keen:5+up:2`).
  */
+
+/** Key part holding the forge tier (never an affix id). */
+const TIER_PART = "up";
 
 export const QUALITY_MAX = 9;
 
@@ -17,19 +22,27 @@ export interface RolledAffix {
   q: number;
 }
 
-export function parseGear(key: string): { base: string; affixes: RolledAffix[] } {
+export function parseGear(key: string): { base: string; affixes: RolledAffix[]; tier: number } {
   const [base, ...rest] = key.split(GEAR_SEP);
-  const affixes = rest.map((part) => {
+  let tier = 0;
+  const affixes: RolledAffix[] = [];
+  for (const part of rest) {
     const [id, q] = part.split(":");
-    return { id: id ?? "", q: Math.max(0, Math.min(QUALITY_MAX, Math.floor(Number(q) || 0))) };
-  });
-  return { base: base ?? "", affixes };
+    if (id === TIER_PART) tier = Math.max(0, Math.floor(Number(q) || 0));
+    else affixes.push({ id: id ?? "", q: Math.max(0, Math.min(QUALITY_MAX, Math.floor(Number(q) || 0))) });
+  }
+  return { base: base ?? "", affixes, tier };
 }
 
-/** Canonical key (affixes sorted by id so identical rolls stack). */
-export function gearKey(base: string, affixes: readonly RolledAffix[]): string {
-  return [base, ...[...affixes].sort((a, b) => a.id.localeCompare(b.id)).map((a) => `${a.id}:${a.q}`)].join(GEAR_SEP);
+/** Canonical key (affixes sorted by id so identical rolls stack, the forge tier last). */
+export function gearKey(base: string, affixes: readonly RolledAffix[], tier = 0): string {
+  const parts = [base, ...[...affixes].sort((a, b) => a.id.localeCompare(b.id)).map((a) => `${a.id}:${a.q}`)];
+  if (tier > 0) parts.push(`${TIER_PART}:${tier}`);
+  return parts.join(GEAR_SEP);
 }
+
+/** Forge tier of a key (0 = never upgraded). */
+export const gearTier = (key: string): number => parseGear(key).tier;
 
 /** An affix's value at a quality. Whole-number ranges give whole numbers. */
 export function affixValue(def: AffixDef, q: number): number {
@@ -50,6 +63,10 @@ export function gearStats(key: string | null): Partial<Record<AffixStat, number>
   const out: Partial<Record<AffixStat, number>> = {};
   if (!key) return out;
   for (const { def, value } of gearAffixes(key)) out[def.stat] = (out[def.stat] ?? 0) + value;
+  // Forge upgrades: weapons hit harder, shields soak more.
+  const tier = forgeTiers()[parseGear(key).tier - 1];
+  if (tier && isWeapon(key)) out.power = (out.power ?? 0) + tier.power;
+  if (tier && isShield(key)) out.defense = (out.defense ?? 0) + tier.defense;
   return out;
 }
 
@@ -75,7 +92,7 @@ export function rollGear(base: string, rng: Rng): string {
  * don't fit the slot, and duplicates are dropped.
  */
 export function normalizeGear(key: string): string | null {
-  const { base, affixes } = parseGear(key);
+  const { base, affixes, tier } = parseGear(key);
   const slot = slotOf(base);
   if (!slot) return null;
   const seen = new Set<string>();
@@ -85,7 +102,7 @@ export function normalizeGear(key: string): string | null {
     seen.add(def.stat);
     return true;
   });
-  return gearKey(base, kept);
+  return gearKey(base, kept, Math.min(tier, forgeTiers().length));
 }
 
 /** Sets the actor is wearing pieces of, with how many pieces and which bonuses are active. */

@@ -1,0 +1,22 @@
+{
+  "id": "bellows",
+  "name": {
+    "en": "Great Bellows",
+    "fr": "Grand soufflet"
+  },
+  "description": {
+    "en": "A second bellows for Bram's forge: hotter fire, cheaper work. Forge gold costs −15 %.",
+    "fr": "Un second soufflet pour la forge de Bram : un feu plus chaud, un travail moins cher. Coûts en or de la forge −15 %."
+  },
+  "npc": "bram",
+  "cost": {
+    "gold": 400,
+    "items": {
+      "grave-iron": 10
+    }
+  },
+  "effects": {
+    "forgeDiscount": 0.15
+  },
+  "requires": []
+}

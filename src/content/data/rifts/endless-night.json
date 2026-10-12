@@ -79,5 +79,20 @@
     "lootChance": 0.05
   },
   "exitTo": "hollow-rift",
-  "exitArrive": "from-depths"
+  "exitArrive": "from-depths",
+  "danger": {
+    "item": "hollow-dust",
+    "costs": [
+      10,
+      30,
+      60
+    ],
+    "perTier": {
+      "enemyHp": 0.3,
+      "enemyDamage": 0.2,
+      "xp": 0.25,
+      "gold": 0.4,
+      "lootChance": 0.1
+    }
+  }
 }

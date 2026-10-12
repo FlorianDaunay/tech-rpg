@@ -12,7 +12,7 @@ import { rollLoot } from "./loot";
 import { modOf, type Modifiers } from "./modifiers";
 import { castSkill, chargeUltimate } from "./skills";
 import { BLOCK, CHARGE, DODGE, HURT_TIME, PARRY_STAGGER_TIME, STAGGER_TIME, STAMINA, type Move } from "./moves";
-import { applyStatus, damageTakenMultOf, elementalStatus, speedMultOf, stepStatuses } from "./status";
+import { applyStatus, damageDealtMultOf, damageTakenMultOf, elementalStatus, speedMultOf, stepStatuses } from "./status";
 import { hostile, pickRespawn, scoreKill, sideOf, type PvpState } from "./pvp";
 
 export interface Projectile {
@@ -407,6 +407,7 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
   const facingAttacker = target.aim.x * -kdir.x + target.aim.y * -kdir.y > 0.2;
   const block = blockOf(target);
   const { element, onHit } = hitTraits(m, attacker);
+  const dealt = attacker ? damageDealtMultOf(attacker) : 1;
 
   if (target.blockSince !== null && facingAttacker) {
     if (w.time - target.blockSince <= block.parryWindow) {
@@ -420,6 +421,7 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
       return;
     }
     const roll = rollDamage(src, target, m, charge, rng);
+    roll.amount = Math.max(1, Math.round(roll.amount * dealt));
     const amount = Math.max(1, Math.round(roll.amount * (1 - block.reduction)));
     target.hp = Math.max(0, target.hp - amount);
     target.stamina -= roll.amount * block.staminaPerDamage;
@@ -438,6 +440,7 @@ export function applyHit(w: CombatWorld, rng: Rng, src: HitSource, target: Actor
   }
 
   const roll = rollDamage(src, target, m, charge, rng);
+  roll.amount = Math.max(1, Math.round(roll.amount * dealt));
   const amount = Math.max(1, Math.round(roll.amount * resistOf(target, element) * damageTakenMultOf(target)));
   target.hp = Math.max(0, target.hp - amount);
   if (attacker?.kind === "player") chargeUltimate(attacker, amount, m.id);

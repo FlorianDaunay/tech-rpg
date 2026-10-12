@@ -1,0 +1,27 @@
+{
+  "id": "training-yard",
+  "name": {
+    "en": "Training Yard",
+    "fr": "Cour d'entraînement"
+  },
+  "description": {
+    "en": "Straw dummies and a sand ring by the tower. +2 defense.",
+    "fr": "Mannequins de paille et cercle de sable près de la tour. +2 défense."
+  },
+  "npc": "harl",
+  "requires": [
+    "watchtower"
+  ],
+  "cost": {
+    "gold": 1000,
+    "items": {
+      "grave-iron": 12,
+      "ember-shard": 4
+    }
+  },
+  "effects": {
+    "stats": {
+      "defense": 2
+    }
+  }
+}

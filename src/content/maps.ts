@@ -70,11 +70,11 @@ export function toGameMap(content: MapContent): GameMap {
   const objects = content.objects.map((o) => {
     const [w, h] = o.footprint ?? [1, 1];
     const left = o.cx - Math.floor((w - 1) / 2);
-    if (o.footprint)
+    if (o.footprint && !o.ifFlag)
       for (let y = o.cy - h + 1; y <= o.cy; y++)
         for (let x = left; x < left + w; x++) if (x >= 0 && y >= 0 && x < width && y < height) solid[y * width + x] = 1;
     const chest = o.chest ? { key: `${content.id}:${o.chest.id}`, loot: o.chest.loot } : undefined;
-    return { asset: o.asset, frame: o.frame, flipX: o.flipX, x: (left + w / 2) * tileSize, y: (o.cy + 1) * tileSize, chest };
+    return { asset: o.asset, frame: o.frame, flipX: o.flipX, x: (left + w / 2) * tileSize, y: (o.cy + 1) * tileSize, chest, interact: o.interact, ifFlag: o.ifFlag };
   });
 
   const spawns = content.spawns.map((s) => ({
@@ -87,7 +87,7 @@ export function toGameMap(content: MapContent): GameMap {
   }));
   const portals = content.portals.map((p) => ({ id: p.id, x: p.cx * tileSize, y: p.cy * tileSize, w: p.w * tileSize, h: p.h * tileSize, to: p.to, arrive: p.arrive, requires: p.requires }));
   const lights: MapLight[] = content.objects.flatMap((o, i) =>
-    o.light ? [{ x: objects[i]!.x, y: objects[i]!.y + o.light.offsetY, radius: o.light.radius, color: o.light.color, intensity: o.light.intensity, flicker: o.light.flicker }] : []
+    o.light ? [{ x: objects[i]!.x, y: objects[i]!.y + o.light.offsetY, radius: o.light.radius, color: o.light.color, intensity: o.light.intensity, flicker: o.light.flicker, ifFlag: o.ifFlag }] : []
   );
   return { id: content.id, zone: content.zone, width, height, tileSize, layers, objects, solid, spawns, portals, lights };
 }
