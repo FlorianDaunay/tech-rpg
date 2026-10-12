@@ -25,7 +25,7 @@ export function PauseMenu({ onQuit, mode }: { onQuit: () => void; mode: GameMode
             <MenuButton onClick={() => open("map")}>{t("map.title")}</MenuButton>
             <MenuButton onClick={() => open("journal")}>{t("journal.title")}</MenuButton>
             <MenuButton onClick={() => open("codex")}>{t("codex.title")}</MenuButton>
-            {mode === "solo" && <MenuButton onClick={() => open("rules")}>{t("rules.title")}</MenuButton>}
+            <MenuButton onClick={() => open("rules")}>{t("rules.title")}</MenuButton>
             <MenuButton onClick={() => bridge.emit("ui:save")}>{t("pause.save")}</MenuButton>
             <MenuButton onClick={() => open("settings")}>{t("menu.settings")}</MenuButton>
             <MenuButton onClick={() => setConfirmQuit(true)}>{t("pause.quit")}</MenuButton>

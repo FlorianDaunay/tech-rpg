@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { bridge, type GameMode } from "@/bridge/events";
 import { t } from "@/i18n";
 import { useGameStatus } from "@/store/game";
@@ -47,8 +47,12 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
   const menu = useMenu((s) => s.stack.at(-1));
   const { open, back, closeAll } = useMenu();
 
+  // One start per screen: StrictMode (dev) runs effects twice, and a second start would have lost
+  // the chosen slot (`pending` is consumed by the first), e.g. a client then never saved.
+  const started = useRef(false);
   useEffect(() => {
-    if (engineReady && !inWorld) {
+    if (engineReady && !inWorld && !started.current) {
+      started.current = true;
       // Chosen on the title screen (Continue / New game / Load); default: a new game in a free slot.
       const pending = useSaves.getState().pending ?? (mode !== "client" ? { slot: firstEmptySlot() ?? undefined, save: null, rules: undefined } : null);
       // A client brings no world: it enters the host's (its slot only receives its character).
@@ -124,7 +128,7 @@ export function PlayScreen({ mode }: { mode: GameMode }) {
       {menu === "journal" && <JournalScreen />}
       {menu === "codex" && <CodexScreen />}
       {menu === "talents" && <TalentsScreen />}
-      {menu === "rules" && <RulesScreen />}
+      {menu === "rules" && <RulesScreen readOnly={mode === "client"} />}
       {menu === "map" && <MapScreen />}
       {menu === "trade" && <TradeScreen />}
       {menu === "shop" && <ShopScreen />}

@@ -6,6 +6,7 @@ import type { RoomInfo } from "@/net/protocol";
 import { Session, type SessionError } from "@/net/session";
 import { ClientLink, HostLink } from "@/net/links";
 import { readSave } from "./saves";
+import { defaultRules, type WorldRules } from "@/core/sim/rules";
 
 /**
  * Multiplayer session state for the UI (lobby) and the game (WorldScene reads `session`).
@@ -21,6 +22,8 @@ interface NetState {
   host: (opts: { name: string; password: string; slot: number | null }) => Promise<void>;
   join: (opts: { code: string; name: string; password: string; slot: number | null }) => Promise<void>;
   leave: () => void;
+  /** Host: pick the world's difficulty / Omens (the NG+ cycle comes from the host's save). */
+  setRules: (rules: WorldRules) => void;
 }
 
 /** The character of a slot, or a new initiate. */
@@ -56,6 +59,7 @@ export const useNet = create<NetState>()((set, get) => ({
     try {
       const session = await Session.host({ name, password, level: characterOf(slot).level });
       HostLink.of(session); // from now on, joiners' characters are kept for the world
+      session.setRules(slot !== null ? (readSave(slot)?.rules ?? defaultRules()) : defaultRules());
       watch(session);
       set({ session, room: session.room, status: "lobby" });
     } catch (e) {
@@ -74,6 +78,7 @@ export const useNet = create<NetState>()((set, get) => ({
       set({ status: "error", error: errorOf(e) });
     }
   },
+  setRules: (rules) => get().session?.setRules(rules),
   leave: () => {
     get().session?.leave();
     set({ session: null, room: null, status: "idle", error: null });

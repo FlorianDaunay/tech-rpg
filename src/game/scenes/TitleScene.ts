@@ -55,7 +55,8 @@ export class TitleScene extends Phaser.Scene {
         return;
       }
       const start: WorldStart = save
-        ? { mode, slot, map: save.map, at: { x: save.x, y: save.y }, carry: save.player, time: save.time, playtime: save.playtime, rules: save.rules }
+        ? // A host may have picked other rules in the lobby: they apply, the save's NG+ cycle stays.
+          { mode, slot, map: save.map, at: { x: save.x, y: save.y }, carry: save.player, time: save.time, playtime: save.playtime, rules: rules ? { ...rules, ngPlus: save.rules.ngPlus } : save.rules }
         : { mode, slot, rules };
       this.scene.start("preload", start);
     });

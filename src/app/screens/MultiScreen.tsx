@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { content } from "@/content/registry";
 import { t, type I18nKey } from "@/i18n";
 import { useNet } from "@/store/net";
 import { chooseStart, firstEmptySlot, readSave, SLOTS, useSaves } from "@/store/saves";
@@ -6,7 +7,8 @@ import { useScreen } from "@/store/screen";
 import { useSettings } from "@/store/settings";
 import { MenuButton, Modal, Row } from "@/ui/menu/components";
 import { formatPlaytime, placeName } from "./SavesScreen";
-import { rulesLabel } from "./RulesPicker";
+import { RulesPicker, rulesLabel } from "./RulesPicker";
+import type { WorldRules } from "@/core/sim/rules";
 
 /**
  * Multiplayer: pick the character you bring (a save slot), then host a room (share its code) or join
@@ -21,6 +23,8 @@ export function MultiScreen() {
   const [slot, setSlot] = useState<number | null>(() => SLOTS.find((s) => slots[s]) ?? null);
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
+  /** Host editing the world rules in the lobby (null = not editing). */
+  const [editRules, setEditRules] = useState<WorldRules | null>(null);
   useEffect(() => useSaves.getState().refresh(), []);
 
   // The host started (or we joined a game in progress): into the world.
@@ -33,7 +37,7 @@ export function MultiScreen() {
   function enter() {
     const s = savingSlot();
     // The host continues its own save's world; a client lands in the host's.
-    if (s !== null && net.session?.role === "host") chooseStart(s as 1 | 2 | 3, readSave(s));
+    if (s !== null && net.session?.role === "host") chooseStart(s as 1 | 2 | 3, readSave(s), net.room?.rules);
     else if (s !== null) chooseStart(s as 1 | 2 | 3, null);
     go("online");
   }
@@ -45,23 +49,61 @@ export function MultiScreen() {
   };
 
   const inRoom = net.session && net.room;
+  // Actions live in the panel footer: always on screen, even on a landscape phone.
+  const footer =
+    inRoom && editRules ? (
+      <div className="flex justify-end gap-2">
+        <MenuButton onClick={() => setEditRules(null)}>{t("common.cancel")}</MenuButton>
+        <MenuButton
+          primary
+          onClick={() => {
+            net.setRules(editRules);
+            setEditRules(null);
+          }}
+        >
+          {t("rules.apply")}
+        </MenuButton>
+      </div>
+    ) : inRoom ? (
+      <div className="flex items-center justify-between gap-2">
+        <span className="min-w-0 text-xs text-text-muted">{net.session!.role === "host" ? t("multi.shareHint") : t("multi.waiting")}</span>
+        <div className="flex shrink-0 gap-2">
+          <MenuButton onClick={() => net.leave()}>{t("multi.leave")}</MenuButton>
+          {net.session!.role === "host" && <MenuButton primary autoFocus onClick={enter}>{t("multi.start")}</MenuButton>}
+        </div>
+      </div>
+    ) : undefined;
   return (
     <div className="safe relative z-10 h-full">
-      <Modal title={t("menu.multi")} onBack={back} wide>
+      <Modal title={t("menu.multi")} onBack={back} wide footer={footer}>
         {net.status === "error" && net.error && <p className="mb-3 text-sm text-danger" role="alert">{t(`multi.error.${net.error}` as I18nKey)}</p>}
         {net.status === "connecting" && <p className="mb-3 text-sm text-text-secondary">{t("multi.connecting")}</p>}
 
-        {inRoom ? (
+        {inRoom && editRules ? (
           <div className="flex flex-col gap-4">
+            <RulesPicker value={editRules} onChange={setEditRules} />
+          </div>
+        ) : inRoom ? (
+          <div className="flex flex-col gap-4 short:gap-2">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="text-xs uppercase tracking-wider text-text-muted">{t("multi.roomCode")}</div>
-                <div className="font-mono text-3xl tracking-[0.3em] text-accent">{net.room!.code}</div>
+                <div className="font-mono text-3xl tracking-[0.3em] text-accent short:text-2xl">{net.room!.code}</div>
               </div>
               {net.session!.role === "host" && (
                 <MenuButton onClick={() => void navigator.clipboard?.writeText(net.room!.code)}>{t("multi.copy")}</MenuButton>
               )}
             </div>
+            {net.room!.rules && (
+              <div className="flex flex-wrap items-center justify-between gap-2 rounded-tile border border-border/70 bg-canvas/40 px-3 py-2 text-sm">
+                <span>
+                  <span className="text-text-muted">{t("multi.rules")}: </span>
+                  {rulesLabel(net.room!.rules)}
+                  {net.room!.rules.omens.length > 0 && <span className="text-warning"> · {net.room!.rules.omens.map((o) => content.omens.find(o)?.glyph ?? "").join(" ")}</span>}
+                </span>
+                {net.session!.role === "host" && <MenuButton onClick={() => setEditRules(structuredClone(net.room!.rules!))}>{t("multi.changeRules")}</MenuButton>}
+              </div>
+            )}
             <ul className="flex flex-col gap-1.5">
               {net.room!.players.map((p) => (
                 <li key={p.id} className={`flex items-center justify-between rounded-tile border border-border px-3 py-2 text-sm ${p.connected ? "" : "opacity-50"}`}>
@@ -72,13 +114,6 @@ export function MultiScreen() {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs text-text-muted">{net.session!.role === "host" ? t("multi.shareHint") : t("multi.waiting")}</span>
-              <div className="flex gap-2">
-                <MenuButton onClick={() => net.leave()}>{t("multi.leave")}</MenuButton>
-                {net.session!.role === "host" && <MenuButton primary autoFocus onClick={enter}>{t("multi.start")}</MenuButton>}
-              </div>
-            </div>
           </div>
         ) : (
           <div className="flex flex-col gap-1">

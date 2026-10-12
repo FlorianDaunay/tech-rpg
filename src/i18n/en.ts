@@ -361,6 +361,9 @@ export const en = {
   "wardrobe.owned": "Owned",
   "wardrobe.locked": "Not owned",
   "wardrobe.hint": "Oskar's shelf changes every day: new cosmetics turn up among his daily wares.",
+  "multi.rules": "World rules",
+  "multi.changeRules": "Change",
+  "rules.hostOnly": "Only the host can change the world rules.",
   "common.loading": "Kindling the lantern…",
 } as const;
 

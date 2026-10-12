@@ -13,6 +13,10 @@ export const SEAT_LOOKS: Record<string, string> = { p1: "characters/male-01-1", 
 
 const STEPS_PER_SNAPSHOT = Math.round(60 / SNAPSHOT_HZ);
 const SELF_SYNC_MS = 5000;
+/** Events after which the host sends the full state early (menus show the change at once). */
+const OWNED_CHANGES = new Set<SimEvent["type"]>(["equip", "use", "quest", "trade", "pet-adopted", "trade-shop", "forged", "built", "danger", "cosmetic", "rest", "talent", "loadout"]);
+/** Never more than one early full sync per this many ms (pickups in a fight would flood the link). */
+const MIN_EARLY_FULL_MS = 150;
 
 /**
  * Host side of a session, kept for the whole session (scene restarts on map change don't lose
@@ -79,7 +83,9 @@ export class HostLink {
     }
     // New actors (spawns, drops of a summon...) reach clients with the next full sync: send it early.
     const spawned = sim.events.some((e) => e.type === "spawn" || e.type === "respawn" || e.type === "pet-revive");
-    if (spawned || now - this.lastFull > FULL_SYNC_MS) this.syncFull(sim, now);
+    // A menu action changed someone's bag, gear or story: their menus should show it now, not in a second.
+    const owned = sim.events.some((e) => OWNED_CHANGES.has(e.type)) && now - this.lastFull > MIN_EARLY_FULL_MS;
+    if (spawned || owned || now - this.lastFull > FULL_SYNC_MS) this.syncFull(sim, now);
     if (now - this.lastSelf > SELF_SYNC_MS) this.syncSelves(sim, now);
   }
 

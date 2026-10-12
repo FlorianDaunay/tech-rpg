@@ -36,9 +36,9 @@ import { dangerMods, objectTarget } from "@/core/economy/economy";
 import type { Modifiers } from "@/core/combat/modifiers";
 import type { WorldStart } from "./PreloadScene";
 import { capturePlayer, captureSave, restorePlayer } from "@/core/save/save";
-import { applyRules } from "@/core/sim/rules";
+import { applyRules, defaultRules, type WorldRules } from "@/core/sim/rules";
 import { isSolidCell } from "@/core/world/map";
-import { writeSave } from "@/store/saves";
+import { readSave, writeSave } from "@/store/saves";
 import { useNet } from "@/store/net";
 import { ClientLink, HostLink, SEAT_LOOKS } from "@/net/links";
 import { actorTuple, applySnapshot } from "@/net/codec";
@@ -123,6 +123,8 @@ export class WorldScene extends Phaser.Scene {
   private lastSave = 0;
   /** Something worth keeping happened (level-up, talent, quest): save at the end of this frame. */
   private saveSoon = false;
+  /** Rules written into my save: the world's, except as a client (my slot keeps its own difficulty and NG+ cycle). */
+  private ownRules: WorldRules | null = null;
 
   constructor() {
     super("world");
@@ -148,6 +150,7 @@ export class WorldScene extends Phaser.Scene {
     this.bossKey = "";
     this.playtime = data.playtime ?? 0;
     this.saveSoon = false;
+    this.ownRules = data.mode === "client" ? (data.slot !== undefined ? readSave(data.slot)?.rules : undefined) ?? defaultRules() : null;
     this.localId = data.localId ?? HOST_ID;
     this.correction = { x: 0, y: 0 };
     const session = useNet.getState().session;
@@ -180,7 +183,7 @@ export class WorldScene extends Phaser.Scene {
       if (data.carry) restorePlayer(me, data.carry);
       if (this.hostLink) for (const [seat, player] of Object.entries(data.party ?? {})) this.hostLink.arrivals.set(seat, player);
       // Nothing comes back inside a Rift run: a floor is cleared once.
-      populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.rift ? Infinity : this.zone.respawn);
+      populateMap(this.sim, this.map, new Set(me.progress?.cleared ?? []), this.rift ? null : this.zone.respawn);
       if (this.zone.pvp) enablePvp(this.sim, this.map);
     }
     this.arenaWalls = new ArenaWalls(this);
@@ -225,9 +228,10 @@ export class WorldScene extends Phaser.Scene {
     this.disposers.push(bridge.on("ui:save", () => this.save(true)));
     this.disposers.push(
       bridge.on("ui:rules", (rules) => {
-        // Solo only for now: in co-op the host's lobby will own the rules.
-        if (this.start.mode !== "solo") return;
+        // The host owns the world's rules (clients get them with the next full sync).
+        if (this.start.mode === "client") return;
         applyRules(this.sim, { ...rules, ngPlus: this.sim.rules.ngPlus });
+        this.hostLink?.session.setRules(this.sim.rules);
         this.inventoryKey = "";
         this.updateInventory(this.sim.actors[this.localId]);
         this.save();
@@ -298,7 +302,7 @@ export class WorldScene extends Phaser.Scene {
     if (this.start.slot === undefined || !me || me.action.kind === "dead" || this.travelling) return false;
     this.lastSave = this.time.now;
     this.saveSoon = false;
-    const ok = writeSave(this.start.slot, captureSave(me, this.map.id, this.sim.time, this.playtime, Date.now(), this.sim.rules));
+    const ok = writeSave(this.start.slot, captureSave(me, this.map.id, this.sim.time, this.playtime, Date.now(), this.ownRules ?? this.sim.rules));
     bridge.emit("game:saved", { ok, manual });
     return ok;
   }

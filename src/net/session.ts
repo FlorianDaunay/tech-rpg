@@ -1,5 +1,6 @@
 import Peer, { type DataConnection } from "peerjs";
 import type { PlayerState } from "@/core/save/save";
+import type { WorldRules } from "@/core/sim/rules";
 import { shapedSend } from "./debug/latency";
 import { HEARTBEAT_MS, MAX_PLAYERS, PEER_TIMEOUT_MS, PROTOCOL_VERSION, type LobbyPlayer, type ReliableMsg, type RoomInfo, type UnreliableMsg } from "./protocol";
 
@@ -245,6 +246,13 @@ export class Session {
     if (this.role === "host") return this.rtt.get(seat) ?? null;
     if (seat === this.me) return this.hostRtt;
     return this.room.players.find((p) => p.id === seat)?.ping ?? null;
+  }
+
+  /** Host: the world rules changed (lobby pick, or mid-game from the pause menu). */
+  setRules(rules: WorldRules): void {
+    if (this.role !== "host") return;
+    this.room.rules = structuredClone(rules);
+    this.broadcastRoom();
   }
 
   markStarted(): void {

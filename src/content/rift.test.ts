@@ -59,7 +59,7 @@ describe("rift floors", () => {
     const exit = map.portals[0]!;
     const p = spawnPlayer(sim, "p1", "x", exit.x + exit.w / 2, exit.y + exit.h / 2);
     p.iframes = 9999;
-    populateMap(sim, map, new Set(), Infinity);
+    populateMap(sim, map, new Set(), null);
     for (const a of Object.values(sim.actors)) if (a.kind === "enemy") a.ai = null;
     const events: SimEvent[] = [];
     const step = () => {

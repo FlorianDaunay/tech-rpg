@@ -28,6 +28,8 @@ export interface RoomInfo {
   players: LobbyPlayer[];
   /** Started: joiners go straight into the world. */
   started: boolean;
+  /** The host's world rules (difficulty, Omens, NG+ cycle), shown in the lobby. Optional: older hosts omit it. */
+  rules?: WorldRules;
 }
 
 /** Everything a client needs to (re)build the world it is in. */

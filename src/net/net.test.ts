@@ -1,7 +1,10 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { registerContent } from "@/content/boot";
 import { emptyIntent, type Intent } from "@/core/sim/intent";
-import { createSim, spawnEnemy, spawnPlayer, stepSim, type SimState } from "@/core/sim/state";
+import { createSim, populateMap, spawnEnemy, spawnPlayer, stepSim, type SimState } from "@/core/sim/state";
+import { toGameMap } from "@/content/maps";
+import { content } from "@/content/registry";
+import { riftFloorContent } from "@/content/rift";
 import type { GameMap } from "@/core/world/map";
 import { actorTuple, applySnapshot, encodeSnapshot } from "./codec";
 import { InputQueue, PendingInputs, REDUNDANCY } from "./inputs";
@@ -171,5 +174,31 @@ describe("latency simulator", () => {
     for (let i = 0; i < 100; i++) shapedSend({}, false, () => got++, () => i / 100, 0);
     vi.advanceTimersByTime(20);
     expect(got).toBe(70);
+  });
+});
+
+describe("wire safety", () => {
+  /** Paths of numbers the binary channel can't carry (Infinity, NaN). */
+  const nonFinite = (v: unknown, path = "sim"): string[] =>
+    typeof v === "number" ? (Number.isFinite(v) ? [] : [path]) : v && typeof v === "object" ? Object.entries(v).flatMap(([k, x]) => nonFinite(x, `${path}.${k}`)) : [];
+
+  it("a populated Rift floor and a Herald mid-fight pack for the reliable channel", async () => {
+    const { pack } = await import("peerjs-js-binarypack");
+    const rift = content.rifts.all()[0]!;
+    const map = toGameMap(riftFloorContent(rift, 2026, 2));
+    const sim = createSim(map.id, 1);
+    const at = map.spawns.find((sp) => sp.kind === "player")!;
+    const me = spawnPlayer(sim, "p1", "x", at.x, at.y);
+    me.iframes = 9999;
+    populateMap(sim, map, new Set(), null);
+    // Every Herald beside the player, pushed into its last phase (one-time summons included).
+    for (const id of ["pale-weaver", "the-shroud", "the-maw", "vaelgor"]) {
+      const boss = spawnEnemy(sim, id, at.x + 30, at.y);
+      boss.hp = 1;
+    }
+    for (let i = 0; i < 30; i++) stepSim(sim, map, {});
+    expect(Object.values(sim.actors).some((a) => a.ai && a.ai.phase > 0)).toBe(true);
+    expect(nonFinite(sim)).toEqual([]);
+    expect(() => pack({ t: "full", sim: { ...sim, events: [] } } as unknown as Parameters<typeof pack>[0])).not.toThrow();
   });
 });

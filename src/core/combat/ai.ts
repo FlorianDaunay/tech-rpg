@@ -64,7 +64,8 @@ function enterPhase(w: CombatWorld, a: Actor, phase: number, p: BossPhase): void
   a.stats.speed = a.baseStats.speed * p.speed;
   if (phase > 0) w.events.push({ type: "boss-phase", id: a.id, phase });
   if (p.summon) {
-    ai.summon = p.summon.every ?? Infinity;
+    // Only counted down when the phase summons periodically (never Infinity: the state travels over the network).
+    ai.summon = p.summon.every ?? 0;
     w.events.push({ type: "summon", id: a.id, enemy: p.summon.enemy, count: p.summon.count });
   }
 }

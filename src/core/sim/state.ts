@@ -87,7 +87,8 @@ export interface Spawner {
   x: number;
   y: number;
   actor: string | null;
-  every: number | "never";
+  /** Seconds to respawn; "never" = one-time (remembered as cleared); null = not again this run (Rift floors). */
+  every: number | "never" | null;
   /** Sim time when it may respawn (null = occupied, or never). */
   at: number | null;
 }
@@ -122,7 +123,7 @@ export function spawnEnemy(state: SimState, type: string, x: number, y: number):
 /**
  * Places a map's enemies and NPCs. One-time spawns listed in `cleared` (slain for good) are skipped.
  */
-export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<string> = new Set(), defaultRespawn = 180): void {
+export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<string> = new Set(), defaultRespawn: number | null = 180): void {
   // Chests opened and guardians slain inside a Rift run only matter during that run.
   if (!map.id.startsWith(RIFT_PREFIX))
     for (const p of players(state)) {
@@ -183,7 +184,7 @@ function stepSpawners(state: SimState): void {
       if (sp.every === "never") {
         // The whole party has cleared it (co-op partners share the guardian).
         for (const p of players(state)) if (p.progress && !p.progress.cleared.includes(sp.key)) p.progress.cleared.push(sp.key);
-      } else sp.at = state.time + sp.every;
+      } else if (sp.every !== null) sp.at = state.time + sp.every;
       continue;
     }
     if (sp.at === null || state.time < sp.at) continue;

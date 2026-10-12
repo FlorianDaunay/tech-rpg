@@ -363,5 +363,8 @@ export const fr: Partial<Record<I18nKey, string>> = {
   "wardrobe.owned": "Possédé",
   "wardrobe.locked": "Non possédé",
   "wardrobe.hint": "L'étal d'Oskar change chaque jour : de nouvelles parures apparaissent parmi ses articles du jour.",
+  "multi.rules": "Règles du monde",
+  "multi.changeRules": "Changer",
+  "rules.hostOnly": "Seul l'hôte peut changer les règles du monde.",
   "common.loading": "On ranime la lanterne…",
 };
