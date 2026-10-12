@@ -24,6 +24,24 @@ const ELEMENT_SFX = { ember: "ember-burst", frost: "frost-shatter", storm: "stor
 
 const statusName = (name: { en: string; fr?: string }) => (getLang() === "fr" ? (name.fr ?? name.en) : name.en);
 
+interface PickupView {
+  item: Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Transform & Phaser.GameObjects.Components.Depth;
+  glow: Phaser.GameObjects.Image;
+  /** Glow diameter (px). */
+  glowSize: number;
+  beam: Phaser.GameObjects.Rectangle | null;
+}
+
+const destroyPickup = (v: PickupView | undefined) => {
+  v?.item.destroy();
+  v?.glow.destroy();
+  v?.beam?.destroy();
+};
+
+const RARITY_RANK: Record<Rarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
+/** Soft radial texture (also the lighting's). */
+const LIGHT_SOFT = "vfx/light-soft";
+
 function itemRarity(key: string): Rarity {
   const id = baseOf(key);
   return (content.swords.find(id) ?? content.shields.find(id) ?? content.items.find(id))?.rarity ?? "common";
@@ -52,7 +70,8 @@ export class CombatFx {
   private projectiles = new Map<string, { img: Phaser.GameObjects.Image; look: string; palette: keyof typeof PROJECTILE_RAMPS }>();
   /** One trail emitter per projectile palette (motes emitted along each flight). */
   private trails = new Map<string, Phaser.GameObjects.Particles.ParticleEmitter>();
-  private pickups = new Map<string, Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Transform & Phaser.GameObjects.Components.Depth>();
+  /** Ground loot: the item, a pulsing rarity glow above the night and, for rare+ drops, a beam of light. */
+  private pickups = new Map<string, PickupView>();
 
   constructor(private readonly host: FxHost) {
     this.scene = host.scene;
@@ -239,7 +258,7 @@ export class CombatFx {
         if (ev.actor !== h.localId) break;
         const rarity = itemRarity(ev.item);
         audio.sfx(ev.item === "gold" ? "pickup-coin" : rarity === "common" || rarity === "uncommon" ? "pickup-item" : "pickup-rare", { volume: 0.7 });
-        this.pickups.get(ev.id)?.destroy();
+        destroyPickup(this.pickups.get(ev.id));
         this.pickups.delete(ev.id);
         break;
       }
@@ -301,22 +320,38 @@ export class CombatFx {
         view = this.makePickup(p.item);
         this.pickups.set(p.id, view);
       }
-      view.setPosition(Math.round(p.x), Math.round(p.y - 4 - Math.abs(Math.sin(p.t * 4)) * 2)).setDepth(p.y);
+      const bob = Math.abs(Math.sin(p.t * 4)) * 2;
+      view.item.setPosition(Math.round(p.x), Math.round(p.y - 5 - bob)).setDepth(p.y);
+      // The glow breathes; it sits above the darkness so loot reads at night too.
+      const pulse = 0.75 + 0.25 * Math.sin(p.t * 5 + p.x);
+      view.glow.setPosition(p.x, p.y - 4).setScale(view.glowSize / 128 * (0.9 + 0.15 * pulse)).setAlpha(0.55 * pulse);
+      view.beam?.setPosition(p.x, p.y).setAlpha(0.35 + 0.2 * pulse);
     }
     for (const [id, view] of this.pickups) {
       if (alive.has(id)) continue;
-      view.destroy();
+      destroyPickup(view);
       this.pickups.delete(id);
     }
   }
 
-  private makePickup(key: string) {
+  private makePickup(key: string): PickupView {
     const item = baseOf(key);
+    const rarity = itemRarity(item);
+    const gold = item === "gold";
+    const color = hex(gold ? COMBAT_COLORS.crit : RARITY_COLORS[rarity]);
     const icon = content.swords.find(item)?.icon ?? content.shields.find(item)?.icon ?? content.items.find(item)?.icon;
-    if (icon && this.scene.textures.exists(icon)) return this.scene.add.image(0, 0, icon).setScale(0.5);
-    if (item === "gold") return this.scene.add.circle(0, 0, 2.5, hex(COMBAT_COLORS.crit)).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim));
-    const c = hex(RARITY_COLORS[itemRarity(item)]);
-    return this.scene.add.rectangle(0, 0, 4, 4, c).setAngle(45).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim));
+    const sprite =
+      icon && this.scene.textures.exists(icon)
+        ? this.scene.add.image(0, 0, icon).setScale(0.7)
+        : gold
+          ? this.scene.add.circle(0, 0, 3.5, color).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim))
+          : this.scene.add.rectangle(0, 0, 6, 6, color).setAngle(45).setStrokeStyle(1, hex(COMBAT_COLORS.goldRim));
+    const rank = RARITY_RANK[rarity];
+    const glowSize = gold ? 22 : 26 + rank * 6;
+    const glow = this.scene.add.image(0, 0, LIGHT_SOFT).setBlendMode(Phaser.BlendModes.ADD).setTint(color).setDepth(DEPTH_LIGHT + 1);
+    // Rare and better: a thin column of light, seen from across the screen.
+    const beam = !gold && rank >= 2 ? this.scene.add.rectangle(0, 0, 2 + rank, 28 + rank * 8, color).setOrigin(0.5, 1).setBlendMode(Phaser.BlendModes.ADD).setDepth(DEPTH_LIGHT + 1) : null;
+    return { item: sprite, glow, glowSize, beam };
   }
 
   /** Projectile visuals follow the sim's list (created lazily, removed on projectile-end). */
@@ -508,7 +543,7 @@ export class CombatFx {
     this.projectiles.clear();
     this.trails.forEach((e) => e.destroy());
     this.trails.clear();
-    this.pickups.forEach((p) => p.destroy());
+    this.pickups.forEach(destroyPickup);
     this.pickups.clear();
   }
 }

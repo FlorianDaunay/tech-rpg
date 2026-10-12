@@ -421,7 +421,7 @@ export class WorldScene extends Phaser.Scene {
     if (me) audio.setListener(me.x, me.y);
     const meView = this.views.get(this.localId)?.sprite;
     this.lighting.setAmbient(this.zone.lighting.ambient, darknessAt(this.sim.time, this.zone.lighting.darkness));
-    this.lighting.update(meView && me && me.action.kind !== "dead" ? { x: meView.x, y: meView.y + 14 } : null, this.sim.projectiles);
+    this.lighting.update(meView && me && me.action.kind !== "dead" ? { x: meView.x, y: meView.y + 14 } : null, this.sim.projectiles, this.sim.pickups);
     this.weather.update();
     this.cosmetics.update(this.sim.actors, (id) => this.views.get(id)?.sprite ?? null, delta / 1000);
     this.updateAimOrigin();

@@ -89,7 +89,7 @@ export class Lighting {
     this.flashes.push({ x, y, radius, color, until: now + ms, duration: ms });
   }
 
-  update(player: { x: number; y: number } | null, projectiles: readonly { x: number; y: number }[] = []): void {
+  update(player: { x: number; y: number } | null, projectiles: readonly { x: number; y: number }[] = [], loot: readonly { x: number; y: number }[] = []): void {
     const cam = this.scene.cameras.main;
     const view = cam.worldView;
     const left = Math.floor(view.x) - MARGIN;
@@ -132,6 +132,8 @@ export class Lighting {
       this.playerGlow.setVisible(true).setPosition(player.x, player.y - 8).setScale((r * (tinted ? 1.8 : 1.4)) / 128).setAlpha(Math.min(0.6, glowK * (tinted ? 1.8 : 0.25)));
     } else this.playerGlow.setVisible(false);
     for (const p of projectiles) erase(p.x, p.y, 28, 0.7);
+    // Ground loot shows in the dark (a faint patch around it).
+    for (const p of loot) erase(p.x, p.y - 4, 18, 0.55);
     for (const f of this.flashes) {
       const k = (f.until - now) / f.duration;
       erase(f.x, f.y, f.radius * (1.2 - 0.2 * k), k);
