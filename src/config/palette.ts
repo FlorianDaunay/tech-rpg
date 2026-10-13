@@ -62,6 +62,8 @@ export const WORLD_RAMPS = {
   crystal: ["#14243a", "#1f4466", "#2f6f9c", "#4fa6d1", "#8fdcf2", "#e2fbff"],
   /** Wrought iron (fences, braziers, carts). */
   iron: ["#141519", "#24262d", "#383b45", "#53576a", "#7a8094"],
+  /** Chest bands, coins, trims. */
+  gold: ["#4a2e0e", "#8a5a1c", "#c98d2a", "#f2c04e", "#fff1b8"],
 } as const;
 export type WorldRamp = keyof typeof WORLD_RAMPS;
 

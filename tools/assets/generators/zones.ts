@@ -458,6 +458,82 @@ function brazier(P: PaletteModule): Canvas {
   return c;
 }
 
+// ---- chest ----------------------------------------------------------------------------------
+
+/**
+ * Treasure chest, 2 frames: closed, then open (lid thrown back, gold glinting inside). Wood planks
+ * with flame-gold bands (the flame ramp's warm end), iron corners, a lock plate.
+ */
+function chest(P: PaletteModule, open: boolean): Canvas {
+  const c = new Canvas(32, 32);
+  const W = P.WORLD_RAMPS.wood;
+  const G = P.WORLD_RAMPS.gold.slice(1);
+  const I = P.WORLD_RAMPS.iron;
+  groundShadow(c, 16, 27, 11, 2.5, P.WORLD_RAMPS.shadow[0]);
+  const x0 = 6;
+  const x1 = 25; // inclusive
+  const bodyTop = 17;
+  const bodyBottom = 26;
+  const band = (x: number) => x === 10 || x === 11 || x === 20 || x === 21;
+  // Body: horizontal planks, lit from the top-left.
+  for (let y = bodyTop; y <= bodyBottom; y++)
+    for (let x = x0; x <= x1; x++) {
+      const plank = (y - bodyTop) % 4 === 3;
+      let t = 0.55 - (x - x0) / (x1 - x0) * 0.25 + (noise(x, y, 2, 11) - 0.5) * 0.25;
+      if (plank) t -= 0.3;
+      if (y === bodyBottom) t -= 0.25;
+      c.set(x, y, band(x) ? rampPick(G, 0.6 - (x % 2) * 0.3 - (y === bodyBottom ? 0.3 : 0), x, y, 0.1) : rampPick(W.slice(1), t, x, y, 0.2));
+    }
+  // Iron corners.
+  for (const cx of [x0, x1]) for (let y = bodyBottom - 2; y <= bodyBottom; y++) c.set(cx, y, I[3]!);
+  if (!open) {
+    // Rounded lid: a half-cylinder, brightest along its upper third.
+    for (let y = 10; y < bodyTop; y++)
+      for (let x = x0; x <= x1; x++) {
+        const v = (y - 10) / (bodyTop - 10); // 0 top .. 1 seam
+        const inset = y === 10 ? 2 : y === 11 ? 1 : 0;
+        if (x < x0 + inset || x > x1 - inset) continue;
+        let t = 0.95 - Math.abs(v - 0.3) * 1.1 - (x - x0) / (x1 - x0) * 0.2 + (noise(x, y, 2, 12) - 0.5) * 0.2;
+        c.set(x, y, band(x) ? rampPick(G, t + 0.1, x, y, 0.1) : rampPick(W.slice(1), t, x, y, 0.2));
+      }
+    // Seam shadow and lock plate.
+    for (let x = x0; x <= x1; x++) c.set(x, bodyTop, rampPick(W, 0.15, x, bodyTop, 0));
+    c.rect(14, 15, 4, 5, G[1]!);
+    c.rect(14, 15, 4, 1, G[3]!);
+    c.rect(14, 15, 1, 5, G[2]!);
+    c.set(15, 17, I[0]!);
+    c.set(16, 17, I[0]!);
+    c.set(15, 18, I[1]!);
+  } else {
+    // Lid thrown back: its inner face, slanted away (narrower at the top), dim but warmed from below.
+    for (let y = 3; y <= 11; y++) {
+      const inset = Math.round((11 - y) * 0.25) + (y === 3 ? 1 : 0);
+      for (let x = x0 + inset; x <= x1 - inset; x++) {
+        const glow = clamp((y - 6) / 6) * 0.3;
+        const rim = y === 11 || y === 3;
+        const t = rim ? 0.55 : 0.12 + (noise(x, y, 2, 13) - 0.5) * 0.15 + ((y - 3) % 3 === 2 ? -0.05 : 0);
+        c.set(x, y, band(x) ? rampPick(G, (rim ? 0.6 : 0.25) + glow, x, y, 0.1) : mix(rampPick(W, t, x, y, 0.15), G[2]!, glow));
+      }
+    }
+    // Lock plate hanging from the lid's rim.
+    c.rect(14, 9, 4, 3, G[1]!);
+    c.rect(14, 9, 4, 1, G[3]!);
+    // Back edge of the box, then the dark cavity with a heap of gold catching the light.
+    for (let x = x0; x <= x1; x++) c.set(x, 12, rampPick(W.slice(1), 0.85, x, 12, 0.1));
+    for (let y = 13; y < bodyTop; y++) for (let x = x0; x <= x1; x++) c.set(x, y, x === x0 || x === x1 ? rampPick(W.slice(1), 0.6, x, y, 0) : W[0]!);
+    for (let x = x0 + 1; x <= x1 - 1; x++) {
+      const top = Math.round(bodyTop - 1 - 2.6 * Math.sin(((x - x0) / (x1 - x0)) * Math.PI) - hash2(x, 3, 5) * 0.8);
+      for (let y = top; y < bodyTop; y++) c.set(x, y, rampPick(G, 0.95 - (y - top) * 0.22 + (hash2(x, y, 9) - 0.5) * 0.3, x, y, 0.15));
+    }
+    for (const [sx, sy] of [[12, 14], [18, 13], [21, 15]] as const) c.set(sx, sy, G[3]!);
+    c.set(16, 13, "#ffffff");
+    // Front edge of the box, lit.
+    for (let x = x0; x <= x1; x++) c.set(x, bodyTop, band(x) ? G[3]! : rampPick(W.slice(1), 0.9, x, bodyTop, 0.1));
+  }
+  outlineOpaque(c, W[0]!);
+  return c;
+}
+
 // ---- rift props -----------------------------------------------------------------------------
 
 function riftSpire(P: PaletteModule): Canvas {
@@ -507,6 +583,7 @@ export function zones(rng: Rng, P: PaletteModule): GeneratedAsset[] {
   out.push(asset("props/rubble.png", "prop", strip([0, 1, 2].map((v) => rubble(P, rng, v))), { w: 32, h: 32, frames: 3 }));
   out.push(asset("props/banner.png", "prop", banner(P), undefined, { anchorX: 0.5, anchorY: 1 }));
   out.push(asset("props/brazier.png", "prop", brazier(P)));
+  out.push(asset("props/chest.png", "prop", strip([chest(P, false), chest(P, true)]), { w: 32, h: 32, frames: 2 }));
   const riftR = [P.WORLD_RAMPS.rift[0], P.WORLD_RAMPS.rift[2], P.WORLD_RAMPS.rift[4], P.WORLD_RAMPS.riftGlow[0], P.WORLD_RAMPS.riftGlow[1], P.WORLD_RAMPS.riftGlow[2]];
   out.push(asset("props/rift-crystal.png", "prop", strip([0, 1, 2].map((v) => crystal(P, rng, v, riftR))), { w: 32, h: 32, frames: 3 }));
   out.push(asset("props/rift-spire.png", "prop", riftSpire(P), undefined, { anchorX: 0.5, anchorY: 0.95 }));

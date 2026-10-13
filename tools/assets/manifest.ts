@@ -111,7 +111,6 @@ const decor: CopyEntry[] = [
   decorSheet("props.png", "props/props.png", "prop", 512, 512),
   decorSheet("Objects.png", "props/objects.png", "prop", 384, 96),
   decorSheet("treasures.png", "props/treasures.png", "prop", 256, 256),
-  { from: "mine/chest.png", to: "props/chest.png", kind: "prop", frameWidth: 32, frameHeight: 32, frames: 1, meta: { credit: "decor" } },
   { from: "mine/torch.png", to: "props/torch.png", kind: "prop", frameWidth: 32, frameHeight: 32, frames: 1, meta: { credit: "decor" } },
 ];
 
