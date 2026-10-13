@@ -116,4 +116,22 @@ describe("pets", () => {
     populateMap(next, room());
     expect(Object.values(next.actors).some((a) => a.kind === "npc" && a.type === "cinder")).toBe(false);
   });
+
+  it("switching pets: the new one gets its own actor, the old one returns to its spot in the hub", () => {
+    const { map, sim, p } = adopt("cinder");
+    run(sim, map, 0.1);
+    const first = petOf(sim)!;
+    expect(first.type).toBe("cinder");
+    const dialogue = content.dialogues.get("moth");
+    const choice = dialogue.nodes.mrrp!.choices.findIndex((c) => c.do.some((e) => "adoptPet" in e));
+    applyCommand([], p, { type: "dialogue", dialogue: "moth", node: "mrrp", choice });
+    const events = run(sim, map, 0.1);
+    const pets = Object.values(sim.actors).filter((a) => a.kind === "pet");
+    expect(pets).toHaveLength(1);
+    expect(pets[0]!.type).toBe("moth");
+    expect(pets[0]!.id).not.toBe(first.id);
+    expect(events).toContainEqual({ type: "despawn", id: first.id });
+    const home = Object.values(sim.actors).find((a) => a.kind === "npc" && a.type === "cinder");
+    expect(Math.hypot(home!.x - 900, home!.y - 900)).toBeLessThan(10);
+  });
 });

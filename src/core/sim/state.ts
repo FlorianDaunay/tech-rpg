@@ -139,7 +139,11 @@ export function populateMap(state: SimState, map: GameMap, cleared: ReadonlySet<
     if (s.kind === "npc" && s.ref && !adoptedNpcs.has(s.ref)) spawnNpc(state, s.ref, s.x, s.y);
     if (s.kind !== "enemy" || !s.ref) continue;
     const key = `${map.id}:${s.id}`;
-    if (s.respawn === "never" && cleared.has(key)) continue;
+    if (s.respawn === "never" && cleared.has(key)) {
+      // A slain Herald leaves its echo: an empty spawn point the party can call it back to (rematch).
+      if (getEnemy(s.ref).boss && !map.id.startsWith(RIFT_PREFIX)) state.spawners.push({ key, enemy: s.ref, x: s.x, y: s.y, actor: null, every: "never", at: null });
+      continue;
+    }
     const a = spawnEnemy(state, s.ref, s.x, s.y);
     state.spawners.push({ key, enemy: s.ref, x: s.x, y: s.y, actor: a.id, every: s.respawn ?? defaultRespawn, at: null });
   }
@@ -163,6 +167,21 @@ export function chestTarget(state: SimState, player: Actor): Chest | null {
     }
   }
   return best;
+}
+
+/** The echo of a slain Herald within reach (its spawn point, boss not standing), or null. */
+export function rematchTarget(state: SimState, player: Actor): Spawner | null {
+  if (arenaLocked(state)) return null;
+  for (const sp of state.spawners)
+    if (!sp.actor && sp.every === "never" && getEnemy(sp.enemy).boss && Math.hypot(sp.x - player.x, sp.y - player.y) < OBJECT_REACH) return sp;
+  return null;
+}
+
+/** Calls a slain Herald back for another fight (same loot table, nothing of the story replays). */
+function summonRematch(state: SimState, sp: Spawner): void {
+  const a = spawnEnemy(state, sp.enemy, sp.x, sp.y);
+  sp.actor = a.id;
+  state.events.push({ type: "spawn", id: a.id }, { type: "rematch", id: a.id, x: sp.x, y: sp.y });
 }
 
 /** Opens a chest once for the whole party: loot spills towards the opener, the chest is remembered. */
@@ -331,7 +350,7 @@ function petStats(def: PetDef, level: number) {
  * Keeps each player's companion in the world: spawned beside its owner (on every map, after any
  * change of pet), levelled with its owner, brought back to heel when left far behind.
  */
-export function syncPets(state: SimState): void {
+export function syncPets(state: SimState, map?: GameMap): void {
   // The hub NPC of an adopted pet leaves at once (it walks with its owner now).
   const adopted = new Set(players(state).flatMap((p) => (p.pet ? [findPet(p.pet)?.npc ?? ""] : [])));
   for (const a of Object.values(state.actors))
@@ -342,11 +361,19 @@ export function syncPets(state: SimState): void {
   for (const p of players(state)) {
     const def = p.pet ? findPet(p.pet) : undefined;
     const current = Object.values(state.actors).find((a) => a.kind === "pet" && a.owner === p.id);
-    if (current && current.type !== def?.id) delete state.actors[current.id];
+    if (current && current.type !== def?.id) {
+      // Swapped (or released): the old companion goes back to its spot on this map, if it has one,
+      // so it can be picked again. The new one gets a fresh id: views are keyed by id.
+      delete state.actors[current.id];
+      state.events.push({ type: "despawn", id: current.id });
+      const npc = findPet(current.type)?.npc;
+      const home = npc && map?.spawns.find((s) => s.kind === "npc" && s.ref === npc);
+      if (home && !adopted.has(npc) && !Object.values(state.actors).some((a) => a.kind === "npc" && a.type === npc)) spawnNpc(state, npc, home.x, home.y);
+    }
     if (!def) continue;
     let pet = current && current.type === def.id ? current : undefined;
     if (!pet) {
-      pet = createActor({ id: `pet-${p.id}`, team: "players", kind: "pet", type: def.id, look: def.look, x: p.x + 10, y: p.y + 6, stats: petStats(def, p.level), radius: def.radius });
+      pet = createActor({ id: `pet-${p.id}-${def.id}`, team: "players", kind: "pet", type: def.id, look: def.look, x: p.x + 10, y: p.y + 6, stats: petStats(def, p.level), radius: def.radius });
       pet.owner = p.id;
       pet.level = p.level;
       state.actors[pet.id] = pet;
@@ -440,7 +467,7 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   state.tick++;
   state.time += SIM_DT;
   state.events = [];
-  syncPets(state);
+  syncPets(state, map);
   const rng = createRng(state.rngState);
   for (const id of Object.keys(state.actors).sort()) {
     const a = state.actors[id]!;
@@ -462,9 +489,11 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
       if (npc && def) state.events.push({ type: "talk", id: a.id, npc: npc.type, actor: npc.id, dialogue: def.dialogue });
       else {
         const chest = chestTarget(state, a);
-        const spot = !chest ? objectTarget(map, a, OBJECT_REACH) : null;
-        const mate = !chest && !spot && !state.pvp ? tradeTarget(state, a) : null;
+        const echo = !chest ? rematchTarget(state, a) : null;
+        const spot = !chest && !echo ? objectTarget(map, a, OBJECT_REACH) : null;
+        const mate = !chest && !echo && !spot && !state.pvp ? tradeTarget(state, a) : null;
         if (chest) openChest(state, a, chest, rng);
+        else if (echo) summonRematch(state, echo);
         else if (spot?.interact?.kind === "rest") rest(state.events, a, STAMINA.max);
         else if (spot?.interact?.kind === "service") state.events.push({ type: "service", id: a.id, service: spot.interact.service, ref: spot.interact.ref });
         else if (mate) applyTradeCommand(state, a, { type: "trade", op: "ask", to: mate.id });

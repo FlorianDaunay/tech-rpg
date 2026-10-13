@@ -8,6 +8,7 @@ import { Modal } from "@/ui/menu/components";
 import { destinationName, MapView } from "../hud/MapView";
 import { parseRiftMapId } from "@/core/world/riftgen";
 import { localized } from "../items";
+import { useSheetTabs } from "../sheetTabs";
 
 /** Room the modal chrome (title, legend, margins) takes around the map (px); less on short screens. */
 const chrome = () => (window.innerHeight <= 520 ? { w: 80, h: 150 } : { w: 120, h: 230 });
@@ -41,7 +42,7 @@ export function MapScreen() {
     ["portal", t("map.exit")],
   ] as const;
   return (
-    <Modal title={parseRiftMapId(layout.map) ? destinationName(layout.map) : zone ? localized(zone.name) : t("map.title")} onBack={back} wide>
+    <Modal title={parseRiftMapId(layout.map) ? destinationName(layout.map) : zone ? localized(zone.name) : t("map.title")} onBack={back} wide tabs={useSheetTabs("map")}>
       <div className="flex flex-col items-center gap-3">
         <div className="overflow-hidden rounded-tile border border-border">
           <MapView layout={layout} markers={markers} scale={scale} labels />

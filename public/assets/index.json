@@ -2522,10 +2522,9 @@
    "kind": "prop",
    "frameWidth": 32,
    "frameHeight": 32,
-   "frames": 1,
+   "frames": 2,
    "meta": {
-    "credit": "decor",
-    "source": "mine/chest.png"
+    "generator": "zones"
    }
   },
   {
@@ -4209,6 +4208,36 @@
    }
   },
   {
+   "key": "vfx/aoe-cone-sigil",
+   "path": "vfx/aoe-cone-sigil.png",
+   "kind": "vfx",
+   "frameWidth": 128,
+   "frameHeight": 128,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "telegraph": "boss-cone",
+    "angleDeg": 60,
+    "originX": 1,
+    "originY": 64,
+    "direction": "right",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/aoe-sigil",
+   "path": "vfx/aoe-sigil.png",
+   "kind": "vfx",
+   "frameWidth": 128,
+   "frameHeight": 128,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "telegraph": "boss-circle",
+    "generator": "vfx"
+   }
+  },
+  {
    "key": "vfx/burst-ember",
    "path": "vfx/burst-ember.png",
    "kind": "vfx",
@@ -4278,6 +4307,19 @@
    }
   },
   {
+   "key": "vfx/element-icons",
+   "path": "vfx/element-icons.png",
+   "kind": "vfx",
+   "frameWidth": 11,
+   "frameHeight": 11,
+   "frames": 4,
+   "meta": {
+    "tint": "runtime",
+    "frames": "ember,frost,storm,hollow",
+    "generator": "vfx"
+   }
+  },
+  {
    "key": "vfx/impact-spark",
    "path": "vfx/impact-spark.png",
    "kind": "vfx",
@@ -4311,6 +4353,21 @@
    "frames": 1,
    "meta": {
     "blend": "add",
+    "generator": "vfx"
+   }
+  },
+  {
+   "key": "vfx/loot-beam",
+   "path": "vfx/loot-beam.png",
+   "kind": "vfx",
+   "frameWidth": 24,
+   "frameHeight": 96,
+   "frames": 1,
+   "meta": {
+    "tint": "runtime",
+    "blend": "add",
+    "originX": 12,
+    "originY": 92,
     "generator": "vfx"
    }
   },

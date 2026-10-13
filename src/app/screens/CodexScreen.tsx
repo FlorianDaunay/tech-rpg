@@ -6,6 +6,7 @@ import { useMenu } from "@/store/menu";
 import { Modal, Tabs } from "@/ui/menu/components";
 import { localized } from "../items";
 import { SheetFrame } from "../SheetFrame";
+import { useSheetTabs } from "../sheetTabs";
 
 type Tab = "lore" | "bestiary" | "people";
 
@@ -39,7 +40,7 @@ export function CodexScreen() {
   const page = lore.find((l) => l.id === open) ?? lore[0];
 
   return (
-    <Modal title={t("codex.title")} onBack={back} wide>
+    <Modal title={t("codex.title")} onBack={back} wide tabs={useSheetTabs("codex")}>
       <Tabs<Tab> tabs={[{ id: "lore", label: t("codex.lore") }, { id: "bestiary", label: t("codex.bestiary") }, { id: "people", label: t("codex.people") }]} value={tab} onChange={setTab} />
       {tab === "lore" && (
         <div className="grid gap-4 md:grid-cols-[13rem_1fr]">

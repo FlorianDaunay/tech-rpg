@@ -1,11 +1,11 @@
 import Phaser from "phaser";
 import { DEPTH_LIGHT } from "../systems/Lighting";
 import { ensureProjectileTexture, MOTE, projectileStyle, trailTints } from "./projectileArt";
-import { COMBAT_COLORS, ELEMENT_COLORS, hex, RARITY_COLORS, type PROJECTILE_RAMPS, type Rarity } from "@/config/palette";
+import { COMBAT_COLORS, ELEMENT_COLORS, hex, LIGHT_COLORS, RARITY_COLORS, type PROJECTILE_RAMPS, type Rarity } from "@/config/palette";
 import type { Actor } from "@/core/combat/actor";
 import type { SimEvent } from "@/core/combat/events";
 import { content } from "@/content/registry";
-import { baseOf, getMove, type Element } from "@/core/combat/defs";
+import { baseOf, ELEMENTS, findEnemy, getMove, type Element } from "@/core/combat/defs";
 import type { Move } from "@/core/combat/moves";
 import type { Pickup, Projectile } from "@/core/combat/step";
 import { audio, type SfxHandle } from "@/game/audio";
@@ -24,23 +24,37 @@ const ELEMENT_SFX = { ember: "ember-burst", frost: "frost-shatter", storm: "stor
 
 const statusName = (name: { en: string; fr?: string }) => (getLang() === "fr" ? (name.fr ?? name.en) : name.en);
 
+/** Circle hitboxes / ground blasts at least this wide (px radius) get a boss decal. */
+const BIG_AOE_RADIUS = 44;
+/** Cones reaching this far (px) too. */
+const BIG_AOE_RANGE = 80;
+
 interface PickupView {
   item: Phaser.GameObjects.GameObject & Phaser.GameObjects.Components.Transform & Phaser.GameObjects.Components.Depth;
   glow: Phaser.GameObjects.Image;
   /** Glow diameter (px). */
   glowSize: number;
-  beam: Phaser.GameObjects.Rectangle | null;
+  beam: Phaser.GameObjects.Image | null;
+  /** Sparks rising along the beam (rare and better). */
+  motes: Phaser.GameObjects.Particles.ParticleEmitter | null;
 }
 
 const destroyPickup = (v: PickupView | undefined) => {
   v?.item.destroy();
   v?.glow.destroy();
   v?.beam?.destroy();
+  v?.motes?.destroy();
 };
 
 const RARITY_RANK: Record<Rarity, number> = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 };
 /** Soft radial texture (also the lighting's). */
 const LIGHT_SOFT = "vfx/light-soft";
+/** Element glyph strip (frames in ELEMENTS order). */
+const ELEMENT_ICONS = "vfx/element-icons";
+/** Reaction: glyphs fly together for this long, then the burst. */
+const FUSE_MS = 140;
+/** Column of light over rare loot (origin bottom centre). */
+const LOOT_BEAM = "vfx/loot-beam";
 
 function itemRarity(key: string): Rarity {
   const id = baseOf(key);
@@ -245,11 +259,17 @@ export class CombatFx {
         const def = content.reactions.find(ev.reaction);
         if (!def) break;
         audio.sfx(ELEMENT_SFX[def.by], { x: ev.x, y: ev.y });
-        this.elementBurst(ev.x, ev.y - 8, def.by, ev.radius);
-        h.light?.(ev.x, ev.y - 8, Math.max(60, ev.radius * 2.2), ELEMENT_LIGHT[def.by]);
-        this.label(ev.x, ev.y - 36, statusName(def.name), ELEMENT_COLORS[def.by]);
-        if (h.actor(ev.target)?.kind === "enemy") h.hitStop(60);
-        this.shake(0.003);
+        audio.sfx(ELEMENT_SFX[def.on], { x: ev.x, y: ev.y, volume: 0.5 });
+        this.reactionFuse(ev.x, ev.y - 14, def.on, def.by);
+        // The blast lands as the two glyphs meet.
+        this.scene.time.delayedCall(FUSE_MS, () => {
+          this.elementBurst(ev.x, ev.y - 8, def.by, ev.radius);
+          this.ring(ev.x, ev.y - 4, ELEMENT_COLORS[def.on], Math.max(3, ev.radius / 5));
+          h.light?.(ev.x, ev.y - 8, Math.max(70, ev.radius * 2.6), ELEMENT_LIGHT[def.by]);
+          this.label(ev.x, ev.y - 38, `${statusName(def.name)}!`, ELEMENT_COLORS[def.by], true);
+          this.shake(0.005);
+        });
+        if (h.actor(ev.target)?.kind === "enemy") h.hitStop(90);
         break;
       }
       case "drop":
@@ -274,6 +294,16 @@ export class CombatFx {
         audio.sfx("quest-complete", { volume: 0.5 });
         this.shake(0.003);
         h.light?.(ev.x, ev.y, 120, "rift");
+        break;
+      }
+      case "rematch": {
+        audio.sfx("hollow-pulse", { x: ev.x, y: ev.y });
+        audio.sfx("portal", { x: ev.x, y: ev.y, volume: 0.8 });
+        this.shake(0.01);
+        h.light?.(ev.x, ev.y - 20, 180, "rift");
+        this.ring(ev.x, ev.y, LIGHT_COLORS.rift, 12);
+        this.ring(ev.x, ev.y - 30, COMBAT_COLORS.telegraph, 8);
+        this.label(ev.x, ev.y - 80, t("fx.rematch"), LIGHT_COLORS.rift);
         break;
       }
       case "boss-phase": {
@@ -325,7 +355,8 @@ export class CombatFx {
       // The glow breathes; it sits above the darkness so loot reads at night too.
       const pulse = 0.75 + 0.25 * Math.sin(p.t * 5 + p.x);
       view.glow.setPosition(p.x, p.y - 4).setScale(view.glowSize / 128 * (0.9 + 0.15 * pulse)).setAlpha(0.55 * pulse);
-      view.beam?.setPosition(p.x, p.y).setAlpha(0.35 + 0.2 * pulse);
+      view.beam?.setPosition(p.x, p.y + 1).setAlpha(0.45 + 0.3 * pulse);
+      view.motes?.setPosition(p.x, p.y);
     }
     for (const [id, view] of this.pickups) {
       if (alive.has(id)) continue;
@@ -349,9 +380,26 @@ export class CombatFx {
     const rank = RARITY_RANK[rarity];
     const glowSize = gold ? 22 : 26 + rank * 6;
     const glow = this.scene.add.image(0, 0, LIGHT_SOFT).setBlendMode(Phaser.BlendModes.ADD).setTint(color).setDepth(DEPTH_LIGHT + 1);
-    // Rare and better: a thin column of light, seen from across the screen.
-    const beam = !gold && rank >= 2 ? this.scene.add.rectangle(0, 0, 2 + rank, 28 + rank * 8, color).setOrigin(0.5, 1).setBlendMode(Phaser.BlendModes.ADD).setDepth(DEPTH_LIGHT + 1) : null;
-    return { item: sprite, glow, glowSize, beam };
+    // Rare and better: a soft column of light (taller and wider with rarity) with sparks drifting up it.
+    const showBeam = !gold && rank >= 2 && this.scene.textures.exists(LOOT_BEAM);
+    const beam = showBeam
+      ? this.scene.add.image(0, 0, LOOT_BEAM).setOrigin(12 / 24, 92 / 96).setScale(0.8 + 0.15 * (rank - 2), 0.55 + 0.2 * (rank - 2)).setTint(color).setBlendMode(Phaser.BlendModes.ADD).setDepth(DEPTH_LIGHT + 1)
+      : null;
+    const motes = showBeam
+      ? this.scene.add
+          .particles(0, 0, LIGHT_SOFT, {
+            x: { min: -3, max: 3 },
+            speedY: { min: -26, max: -14 },
+            lifespan: 1300 + rank * 200,
+            frequency: 420 - rank * 70,
+            scale: { start: 0.035, end: 0.01 },
+            alpha: { start: 0.9, end: 0 },
+            tint: color,
+            blendMode: Phaser.BlendModes.ADD,
+          })
+          .setDepth(DEPTH_LIGHT + 1)
+      : null;
+    return { item: sprite, glow, glowSize, beam, motes };
   }
 
   /** Projectile visuals follow the sim's list (created lazily, removed on projectile-end). */
@@ -399,6 +447,7 @@ export class CombatFx {
   /** Ground blast telegraph: a ring whose fill grows to the edge exactly when it bursts. */
   private hazard(x: number, y: number, radius: number, delay: number, move: Move): void {
     const color = hex(move.element ? ELEMENT_COLORS[move.element] : COMBAT_COLORS.telegraph);
+    if (radius >= BIG_AOE_RADIUS) return this.decal({ kind: "circle", x, y, radius }, delay, color);
     const ring = this.scene.add.circle(x, y, radius).setStrokeStyle(1.5, color, 0.9).setFillStyle(color, 0.08).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD);
     const fill = this.scene.add.circle(x, y, radius, color, 0.32).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD).setScale(0.05);
     this.scene.tweens.add({ targets: fill, scale: 1, duration: delay * 1000, ease: "Quad.easeIn" });
@@ -426,6 +475,16 @@ export class CombatFx {
     const color = hex(COMBAT_COLORS.telegraph);
     let img: Phaser.GameObjects.Image;
     if (move.projectile || move.hazard) return; // ranged: the glowing windup tint is the tell; blasts: their ground circle
+    // Herald attacks and big swings get a rune decal that fills up exactly when the hit lands.
+    const boss = !!findEnemy(a.type)?.boss;
+    const h = move.hitbox;
+    const big = h.kind === "circle" ? h.radius >= BIG_AOE_RADIUS : h.range >= BIG_AOE_RANGE;
+    if (boss || big) {
+      const tint = hex(move.element ? ELEMENT_COLORS[move.element] : COMBAT_COLORS.telegraph);
+      return h.kind === "circle"
+        ? this.decal({ kind: "circle", x: a.x + a.aim.x * h.offset, y: a.y + a.aim.y * h.offset, radius: h.radius }, windup, tint)
+        : this.decal({ kind: "cone", x: a.x, y: a.y, range: h.range + (move.lunge > 0 ? 10 : 0), angle: h.angle, dir: Math.atan2(a.aim.y, a.aim.x) }, windup, tint);
+    }
     if (move.hitbox.kind === "circle") {
       const r = move.hitbox.radius;
       img = this.scene.add.image(a.x + a.aim.x * move.hitbox.offset, a.y + a.aim.y * move.hitbox.offset, "vfx/telegraph-circle-fill");
@@ -444,6 +503,53 @@ export class CombatFx {
       duration: windup * 1000,
       ease: "Quad.easeIn",
       onComplete: () => this.scene.tweens.add({ targets: img, alpha: 0, duration: 120, onComplete: () => img.destroy() }),
+    });
+  }
+
+  /**
+   * Ground decal for a big AoE: a rune sigil (slowly turning for circles) that brightens and pulses
+   * faster as the hit nears, a fill that sweeps to the edge exactly at impact, and a white flash on
+   * the last beat. Drawn above the darkness: an attack you can't see coming is unfair.
+   */
+  private decal(shape: { kind: "circle"; x: number; y: number; radius: number } | { kind: "cone"; x: number; y: number; range: number; angle: number; dir: number }, seconds: number, color: number): void {
+    const ms = Math.max(120, seconds * 1000);
+    const add = (key: string) => this.scene.add.image(shape.x, shape.y, key).setTint(color).setDepth(DEPTH_LIGHT + 1).setBlendMode(Phaser.BlendModes.ADD);
+    let sigil: Phaser.GameObjects.Image;
+    let fill: Phaser.GameObjects.Image;
+    if (shape.kind === "circle") {
+      const size = shape.radius * 2;
+      sigil = add("vfx/aoe-sigil").setDisplaySize(size, size);
+      fill = add("vfx/telegraph-circle-fill").setDisplaySize(size, size);
+      const full = fill.scale;
+      fill.setScale(full * 0.05);
+      this.scene.tweens.add({ targets: fill, scale: full, duration: ms, ease: "Quad.easeIn" });
+      this.scene.tweens.add({ targets: sigil, angle: 40, duration: ms, ease: "Sine.easeIn" });
+    } else {
+      // Art is 60° wide, tip at (1, 64) of 128 px, pointing right; the fill sweeps out from the tip.
+      const widen = Math.max(0.6, shape.angle / 60);
+      sigil = add("vfx/aoe-cone-sigil").setOrigin(1 / 128, 0.5).setRotation(shape.dir).setScale(shape.range / 126, (shape.range / 126) * widen);
+      fill = add("vfx/telegraph-cone").setOrigin(1 / 64, 0.5).setRotation(shape.dir).setScale(0.02, (shape.range / 63) * widen);
+      this.scene.tweens.add({ targets: fill, scaleX: shape.range / 63, duration: ms, ease: "Quad.easeIn" });
+    }
+    fill.setAlpha(0.28);
+    sigil.setAlpha(0.35);
+    // Brightens over the windup; the pulse quickens near the end (driven by elapsed time).
+    const born = this.scene.time.now;
+    const pulse = this.scene.tweens.addCounter({
+      from: 0,
+      to: 1,
+      duration: ms,
+      onUpdate: (tw) => {
+        const k = tw.getValue() ?? 0;
+        const t = (this.scene.time.now - born) / 1000;
+        sigil.setAlpha(0.35 + 0.45 * k + 0.2 * Math.sin(t * (6 + 22 * k * k)));
+      },
+    });
+    this.scene.time.delayedCall(ms, () => {
+      pulse.remove();
+      sigil.setTint(0xffffff).setAlpha(1);
+      fill.setTint(0xffffff).setAlpha(0.6);
+      this.scene.tweens.add({ targets: [sigil, fill], alpha: 0, duration: 180, onComplete: () => (sigil.destroy(), fill.destroy()) });
     });
   }
 
@@ -496,15 +602,35 @@ export class CombatFx {
     if (radius > 0) this.ring(x, y, ELEMENT_COLORS[element], radius / 6);
   }
 
-  /** Short floating word (status applied, reaction name). */
-  private label(x: number, y: number, text: string, color: string): void {
+  /**
+   * Reaction tell: the glyph of the element already there and the one that hit fly in from both
+   * sides, collide on the target and flare; the burst follows (FUSE_MS).
+   */
+  private reactionFuse(x: number, y: number, on: Element, by: Element): void {
+    if (!this.scene.textures.exists(ELEMENT_ICONS)) return;
+    const depth = DEPTH_LIGHT + 2;
+    for (const [element, side] of [[on, -1], [by, 1]] as const) {
+      const g = this.scene.add.image(x + side * 16, y - 4, ELEMENT_ICONS, ELEMENTS.indexOf(element)).setTint(hex(ELEMENT_COLORS[element])).setDepth(depth).setScale(1.4);
+      this.scene.tweens.add({ targets: g, x, y, scale: 1.8, duration: FUSE_MS, ease: "Quad.easeIn" });
+      this.scene.tweens.add({ targets: g, scale: 3, alpha: 0, delay: FUSE_MS, duration: 220, ease: "Quad.easeOut", onComplete: () => g.destroy() });
+    }
+    const flare = this.scene.add.image(x, y, LIGHT_SOFT).setBlendMode(Phaser.BlendModes.ADD).setTint(hex(ELEMENT_COLORS[by])).setDepth(depth).setDisplaySize(8, 8).setAlpha(0);
+    this.scene.tweens.add({ targets: flare, displayWidth: 70, displayHeight: 70, alpha: { from: 0.95, to: 0 }, delay: FUSE_MS, duration: 320, ease: "Cubic.easeOut", onComplete: () => flare.destroy() });
+  }
+
+  /** Short floating word (status applied, reaction name); `big` = reaction: larger, pops in, lingers. */
+  private label(x: number, y: number, text: string, color: string, big = false): void {
     if (!text) return;
     const cam = this.scene.cameras.main;
     const t = this.scene.add
-      .text(x, y, text, { fontFamily: "Silkscreen, monospace", fontSize: "7px", color, stroke: "#14100c", strokeThickness: 2, resolution: Math.max(1, cam.zoom * (window.devicePixelRatio || 1)) })
+      .text(x, y, text, { fontFamily: "Silkscreen, monospace", fontSize: big ? "9px" : "7px", color, stroke: "#14100c", strokeThickness: big ? 3 : 2, resolution: Math.max(1, cam.zoom * (window.devicePixelRatio || 1) * (big ? 2 : 1)) })
       .setOrigin(0.5, 1)
-      .setDepth(100002);
-    this.scene.tweens.add({ targets: t, y: y - 10, alpha: 0, delay: 500, duration: 500, onComplete: () => t.destroy() });
+      .setDepth(DEPTH_LIGHT + 3);
+    if (big) {
+      t.setScale(2.2);
+      this.scene.tweens.add({ targets: t, scale: 1, duration: 220, ease: "Back.easeOut" });
+    }
+    this.scene.tweens.add({ targets: t, y: y - (big ? 14 : 10), alpha: 0, delay: big ? 750 : 500, duration: 500, onComplete: () => t.destroy() });
   }
 
   private ring(x: number, y: number, color: string, scale = 4): void {

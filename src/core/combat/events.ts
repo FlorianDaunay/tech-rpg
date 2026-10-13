@@ -88,6 +88,8 @@ export type SimEvent =
   | { type: "portal-open"; portal: string; x: number; y: number }
   /** The actor was removed from the sim (corpse faded). */
   | { type: "despawn"; id: string }
+  /** A slain Herald was called back to its arena for a rematch (`id` = the new boss actor). */
+  | { type: "rematch"; id: string; x: number; y: number }
   /** A boss entered a new phase (phase index ≥ 1). */
   | { type: "boss-phase"; id: string; phase: number }
   /** A boss arena's wall rose (fight started) or fell (boss slain, or everyone inside fell). */

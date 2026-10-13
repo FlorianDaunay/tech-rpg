@@ -22,6 +22,8 @@ export function Prompt() {
   const label =
     prompt.kind === "chest"
       ? t("prompt.open")
+      : prompt.kind === "rematch"
+        ? t("prompt.rematch", { name: localized(content.enemies.get(prompt.enemy).name) })
       : prompt.kind === "trade"
         ? `${t("prompt.trade")} — ${prompt.name}`
         : prompt.kind === "rest"

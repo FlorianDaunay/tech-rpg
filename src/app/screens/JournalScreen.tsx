@@ -6,6 +6,7 @@ import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { Modal, Tabs } from "@/ui/menu/components";
 import { ItemIcon, localized } from "../items";
+import { useSheetTabs } from "../sheetTabs";
 
 type Tab = "active" | "done";
 const TYPE_ORDER = { main: 0, side: 1, bounty: 2 } as const;
@@ -26,7 +27,7 @@ export function JournalScreen() {
     .sort((a, b) => TYPE_ORDER[a.type] - TYPE_ORDER[b.type]);
 
   return (
-    <Modal title={t("journal.title")} onBack={back} wide>
+    <Modal title={t("journal.title")} onBack={back} wide tabs={useSheetTabs("journal")}>
       <Tabs<Tab> tabs={[{ id: "active", label: t("journal.active") }, { id: "done", label: t("journal.done") }]} value={tab} onChange={setTab} />
       {quests.length === 0 && <p className="text-sm text-text-muted">{tab === "active" ? t("journal.none") : t("journal.noneDone")}</p>}
       <div className="flex flex-col gap-3">

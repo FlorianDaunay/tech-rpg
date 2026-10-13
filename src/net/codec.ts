@@ -29,7 +29,9 @@ function encodeActor(a: Actor): ActorTuple {
   const dir = act.kind === "attack" || act.kind === "dodge" ? act.dir : a.aim;
   const extra = act.kind === "hurt" || act.kind === "stagger" ? q100(act.duration) : act.kind === "attack" ? q100(act.charge) : 0;
   const flags = (a.moving ? Flag.Moving : 0) | (a.blockSince !== null ? Flag.Blocking : 0) | (a.iframes > 0 ? Flag.Iframes : 0) | (act.kind === "attack" && act.started ? Flag.Started : 0);
-  return [a.id, q10(a.x), q10(a.y), Math.round(a.vx), Math.round(a.vy), FACINGS.indexOf(a.facing), aimByte, ACTIONS.indexOf(act.kind), "t" in act ? q100(act.t) : 0, extra, Math.round(a.hp), flags, act.kind === "attack" ? act.move : "", toByte(dir), Math.round(a.stamina * 10) / 10, q100(a.cooldowns.dodge ?? 0)];
+  const tuple: ActorTuple = [a.id, q10(a.x), q10(a.y), Math.round(a.vx), Math.round(a.vy), FACINGS.indexOf(a.facing), aimByte, ACTIONS.indexOf(act.kind), "t" in act ? q100(act.t) : 0, extra, Math.round(a.hp), flags, act.kind === "attack" ? act.move : "", toByte(dir), Math.round(a.stamina * 10) / 10, q100(a.cooldowns.dodge ?? 0)];
+  if (a.statuses.length) tuple.push(a.statuses.map((s) => `${s.id}:${s.stacks}:${Math.round(s.t * 10)}`).join(";"));
+  return tuple;
 }
 
 export function encodeSnapshot(s: SimState, acks: Record<string, number>): Snapshot {
@@ -83,6 +85,16 @@ export function applyActorTuple(a: Actor, t: ActorTuple): void {
   a.iframes = (t[11] & Flag.Iframes) !== 0 ? Math.max(a.iframes, 0.05) : 0;
   a.stamina = t[14];
   a.cooldowns.dodge = t[15] / 100;
+  applyStatuses(a, t);
+}
+
+/** Statuses from a tuple (presentation only: ticks and power stay the host's business). */
+function applyStatuses(a: Actor, t: ActorTuple): void {
+  const prev = new Map(a.statuses.map((s) => [s.id, s]));
+  a.statuses = (t[16] ? t[16].split(";") : []).map((part) => {
+    const [id = "", stacks = "1", time = "0"] = part.split(":");
+    return { ...(prev.get(id) ?? { tick: 0, power: 0, source: null }), id, stacks: Number(stacks), t: Number(time) / 10 };
+  });
 }
 
 /**
@@ -98,6 +110,7 @@ export function applySnapshot(mirror: SimState, snap: Snapshot, skip?: string): 
     seen.add(t[0]);
     const a = mirror.actors[t[0]];
     if (a && t[0] !== skip) applyActorTuple(a, t);
+    else if (a) applyStatuses(a, t);
   }
   for (const id of Object.keys(mirror.actors)) if (!seen.has(id)) delete mirror.actors[id];
   const prevProjectiles = new Map(mirror.projectiles.map((p) => [p.id, p]));

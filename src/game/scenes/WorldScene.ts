@@ -6,8 +6,8 @@ import { content } from "@/content/registry";
 import type { Actor } from "@/core/combat/actor";
 import { assistAim } from "@/core/combat/aim";
 import { STAMINA } from "@/core/combat/moves";
-import type { Command } from "@/core/sim/intent";
-import { arenaLocked, chestTarget, createSim, OBJECT_REACH, enablePvp, populateMap, portalWardens, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
+import { emptyIntent, type Command } from "@/core/sim/intent";
+import { arenaLocked, chestTarget, createSim, rematchTarget, OBJECT_REACH, enablePvp, populateMap, portalWardens, SIM_DT, spawnPlayer, stepSim, talkTarget, type SimState } from "@/core/sim/state";
 import type { ZoneContent } from "@/content/schemas/zone";
 import { xpToNext } from "@/core/progression/level";
 import { findSkill, getEnemy, SKILL_SLOTS } from "@/core/combat/defs";
@@ -27,6 +27,7 @@ import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
 import { mapMarkers, minimapLayout } from "../world/minimap";
 import { ArenaWalls } from "../systems/ArenaWalls";
+import { HeraldEchoes } from "../systems/HeraldEchoes";
 import { SealBarriers } from "../systems/SealBarriers";
 import { Cosmetics } from "../systems/Cosmetics";
 import { findCosmetic } from "@/core/economy/defs";
@@ -105,6 +106,8 @@ export class WorldScene extends Phaser.Scene {
   private musicState = "";
   /** Solo: a menu is open, the simulation is frozen. */
   private paused = false;
+  /** A menu is open (online the world keeps running, but my keys belong to the menu). */
+  private menuOpen = false;
   /** Menu commands waiting for the next local Intent. */
   private commands: Command[] = [];
   private inventoryKey = "";
@@ -116,6 +119,7 @@ export class WorldScene extends Phaser.Scene {
   private markersAt = 0;
   private arenaWalls!: ArenaWalls;
   private seals!: SealBarriers;
+  private echoes!: HeraldEchoes;
   private sealKey = "";
   private bossKey = "";
   /** Seconds played in this save (counts only unpaused frames). */
@@ -144,6 +148,7 @@ export class WorldScene extends Phaser.Scene {
     this.pvpKey = "";
     this.partyAt = 0;
     this.paused = false;
+    this.menuOpen = false;
     this.commands = [];
     this.inventoryKey = "";
     this.promptKey = "";
@@ -188,6 +193,7 @@ export class WorldScene extends Phaser.Scene {
     }
     this.arenaWalls = new ArenaWalls(this);
     this.seals = new SealBarriers(this, this.map);
+    this.echoes = new HeraldEchoes(this);
     this.sealKey = "";
     for (const c of this.sim.chests) if (c.opened) this.markChestOpened(c.key);
 
@@ -250,6 +256,7 @@ export class WorldScene extends Phaser.Scene {
       bridge.on("ui:pause", (paused) => {
         // Online the world keeps going while a menu is open (others are still playing).
         this.paused = paused && this.start.mode === "solo";
+        this.menuOpen = paused;
         audio.duck(paused ? 0.55 : 0, 250);
         if (!paused) this.input2.flush();
         // Commands from the menu (equip, drink) apply right away even while paused.
@@ -340,10 +347,14 @@ export class WorldScene extends Phaser.Scene {
     link.session.markStarted();
   }
 
-  /** An opened chest is drawn dimmed (no open-lid frame in the art yet). */
-  private markChestOpened(key: string): void {
+  /** An opened chest shows its open-lid frame (frame 1); `pop` = it just happened (a little bounce). */
+  private markChestOpened(key: string, pop = false): void {
     const i = this.map.objects.findIndex((o) => o.chest?.key === key);
-    this.objectImages[i]?.setTint(hex(COMBAT_COLORS.chestOpened));
+    const img = this.objectImages[i];
+    if (!img) return;
+    if (img.texture.has("1")) img.setFrame(1);
+    else img.setTint(hex(COMBAT_COLORS.chestOpened));
+    if (pop) this.tweens.add({ targets: img, scaleY: { from: 0.82, to: 1 }, scaleX: { from: 1.12, to: 1 }, duration: 260, ease: "Back.easeOut" });
   }
 
   /** Checkpoint events and the periodic out-of-combat autosave. */
@@ -353,7 +364,7 @@ export class WorldScene extends Phaser.Scene {
       if (ev.type === "portal-open" && ev.portal) this.seals.open(ev.portal);
       // Any party member's chest is empty for everyone (and recorded in every player's progress).
       if (ev.type === "chest" && ev.chest) {
-        this.markChestOpened(ev.chest);
+        this.markChestOpened(ev.chest, true);
         this.saveSoon = true;
       }
       if (ev.id !== this.localId) continue;
@@ -416,6 +427,7 @@ export class WorldScene extends Phaser.Scene {
     this.fx.syncCharges();
     this.arenaWalls.update(this.sim.arenas);
     this.seals.update(this.sim.sealed ?? []);
+    this.echoes.update(this.sim.spawners ?? [], this.sim.actors);
 
     const me = this.sim.actors[this.localId];
     if (me) audio.setListener(me.x, me.y);
@@ -620,13 +632,16 @@ export class WorldScene extends Phaser.Scene {
     const alive = me && me.action.kind !== "dead";
     const npc = alive ? talkTarget(this.sim, me) : null;
     const chest = alive && !npc ? chestTarget(this.sim, me) : null;
-    const spot = alive && !npc && !chest ? objectTarget(this.map, me, OBJECT_REACH)?.interact : undefined;
-    const mate = alive && !npc && !chest && !spot && !this.sim.pvp && !this.sim.trades?.length ? tradeTarget(this.sim, me) : null;
+    const echo = alive && !npc && !chest ? rematchTarget(this.sim, me) : null;
+    const spot = alive && !npc && !chest && !echo ? objectTarget(this.map, me, OBJECT_REACH)?.interact : undefined;
+    const mate = alive && !npc && !chest && !echo && !spot && !this.sim.pvp && !this.sim.trades?.length ? tradeTarget(this.sim, me) : null;
     const prompt = npc
       ? ({ kind: "talk", npc: npc.type } as const)
       : chest
         ? ({ kind: "chest" } as const)
-        : spot
+        : echo
+          ? ({ kind: "rematch", enemy: echo.enemy } as const)
+          : spot
           ? spot.kind === "rest"
             ? ({ kind: "rest" } as const)
             : ({ kind: "service", service: spot.service } as const)
@@ -675,7 +690,9 @@ export class WorldScene extends Phaser.Scene {
   }
 
   private localIntent() {
-    const intent = this.input2.sample();
+    const sampled = this.input2.sample();
+    // Menu open online: Q/E switch tabs, clicks press buttons; none of it attacks in the world.
+    const intent = this.menuOpen ? emptyIntent() : sampled;
     // Menu keys open React menus instead of reaching the sim.
     if (intent.pressed.includes("pause")) bridge.emit("game:menu", "pause");
     else if (intent.pressed.includes("inventory")) bridge.emit("game:menu", "inventory");
@@ -695,7 +712,10 @@ export class WorldScene extends Phaser.Scene {
   /** Creates views for new actors, removes views of despawned ones. */
   private syncViews(): void {
     for (const a of Object.values(this.sim.actors)) {
-      if (this.views.has(a.id)) continue;
+      const old = this.views.get(a.id);
+      // Same id, new look (a client may miss the despawn of a swapped pet): rebuild the view.
+      if (old && old.sheet === a.look) continue;
+      old?.destroy();
       const big = a.look.startsWith("bosses/");
       const bar = (a.kind === "enemy" || a.kind === "pet" || (a.kind === "player" && a.id !== this.localId)) && !big;
       this.views.set(a.id, new ActorView(this, a.look, a.x, a.y, bar, big));
@@ -834,6 +854,7 @@ net ${session.role} ${this.localId} · rtt ${session.pingOf(this.localId) ?? "?"
     this.views.forEach((v) => v.destroy());
     this.views.clear();
     this.seals.destroy();
+    this.echoes.destroy();
     this.anims.globalTimeScale = 1;
     audio.music.setState("explore");
     audio.ambience.set(null);

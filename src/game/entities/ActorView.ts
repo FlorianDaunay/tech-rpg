@@ -1,6 +1,8 @@
 import Phaser from "phaser";
-import { COMBAT_COLORS, hex } from "@/config/palette";
+import { COMBAT_COLORS, ELEMENT_COLORS, hex } from "@/config/palette";
 import type { Actor } from "@/core/combat/actor";
+import { ELEMENTS, getStatus } from "@/core/combat/defs";
+import { DEPTH_LIGHT } from "../systems/Lighting";
 import type { Facing } from "@/core/math/vec";
 
 /** Pipoya sheets: 3 columns × 4 rows, rows ordered down, left, right, up. Walk cycle 0-1-2-1. */
@@ -16,6 +18,12 @@ export function ensureBossAnim(scene: Phaser.Scene, sheet: string): void {
   scene.anims.create({ key, frames: [0, 1, 2, 1].map((frame) => ({ key: sheet, frame })), frameRate: 5, repeat: -1 });
 }
 const FLASH_MS = 70;
+/** Element glyph strip (frames in ELEMENTS order) and the soft light used for the feet aura. */
+const ICONS = "vfx/element-icons";
+const AURA = "vfx/light-soft";
+/** Icon pitch (px) and how long before a status ends its icon starts blinking (s). */
+const ICON_STEP = 10;
+const EXPIRING = 0.7;
 
 function lerpColor(a: number, b: number, k: number): number {
   const ch = (shift: number) => Math.round(((a >> shift) & 255) + ((((b >> shift) & 255) - ((a >> shift) & 255)) * k));
@@ -44,6 +52,10 @@ export class ActorView {
   private readonly shadow: Phaser.GameObjects.Image;
   private readonly bar: Phaser.GameObjects.Graphics;
   private readonly guard: Phaser.GameObjects.Graphics;
+  /** Elemental statuses: glyphs over the head (stack pips under them) and a tinted glow at the feet. */
+  private readonly icons: Phaser.GameObjects.Image[] = [];
+  private readonly pips: Phaser.GameObjects.Graphics;
+  private readonly aura: Phaser.GameObjects.Image;
   /** Name tag (other players online), created on first use. */
   private tag: Phaser.GameObjects.Text | null = null;
   private flashUntil = 0;
@@ -51,7 +63,7 @@ export class ActorView {
 
   constructor(
     private readonly scene: Phaser.Scene,
-    private readonly sheet: string,
+    readonly sheet: string,
     x: number,
     y: number,
     private readonly showBar: boolean,
@@ -64,6 +76,8 @@ export class ActorView {
     this.sprite = big ? scene.add.sprite(x, y - BIG.feet, sheet, 0).play(`${sheet}:idle`) : scene.add.sprite(x, y - FEET_OFFSET, sheet, ROWS.down * 3 + 1);
     this.bar = scene.add.graphics().setVisible(false);
     this.guard = scene.add.graphics().setVisible(false);
+    this.pips = scene.add.graphics().setVisible(false).setDepth(DEPTH_LIGHT + 2);
+    this.aura = scene.add.image(x, y, AURA).setVisible(false).setBlendMode(Phaser.BlendModes.ADD).setDepth(DEPTH_LIGHT + 1);
   }
 
   /** Name over the head (null hides it). Cheap to call every frame. */
@@ -97,6 +111,7 @@ export class ActorView {
 
     this.shadow.setPosition(x, y + 1).setDepth(y - 1);
     this.tag?.setPosition(Math.round(x), Math.round(y - 35)).setAlpha(act.kind === "dead" ? 0.5 : 1);
+    this.drawStatuses(x, y, a, now);
     if (this.big) return this.updateBig(x + ox * 2, y, a, now);
     this.sprite.setPosition(Math.round(x + ox), Math.round(y - FEET_OFFSET + oy)).setDepth(y);
 
@@ -174,6 +189,45 @@ export class ActorView {
     g.strokePath();
   }
 
+  /**
+   * One glyph per elemental status, element-coloured, above the head (above the darkness so it reads
+   * at night); pips under it count stacks; it blinks just before running out. The feet glow takes
+   * the colour of the newest one, so an afflicted enemy reads at a glance even in a crowd.
+   */
+  private drawStatuses(x: number, y: number, a: Actor, now: number): void {
+    const shown = a.action.kind === "dead" || !this.scene.textures.exists(ICONS) ? [] : a.statuses.flatMap((st) => {
+      const def = getStatus(st.id);
+      return def.element ? [{ st, def, element: def.element }] : [];
+    });
+    while (this.icons.length < shown.length) this.icons.push(this.scene.add.image(0, 0, ICONS, 0).setDepth(DEPTH_LIGHT + 2));
+    const top = Math.round(y - (this.big ? 92 : 40));
+    const left = Math.round(x - ((shown.length - 1) * ICON_STEP) / 2);
+    const pips = this.pips.clear().setVisible(shown.length > 0);
+    this.icons.forEach((icon, i) => {
+      const s = shown[i];
+      if (!s) return void icon.setVisible(false);
+      const remaining = s.def.duration - s.st.t;
+      const blink = remaining < EXPIRING && Math.floor(now / 90) % 2 === 0;
+      const ix = left + i * ICON_STEP;
+      const color = hex(ELEMENT_COLORS[s.element]);
+      // Pop in on apply/re-apply (t restarts at 0).
+      const pop = s.st.t < 0.15 ? 1 + (0.15 - s.st.t) * 4 : 1;
+      icon.setVisible(true).setFrame(ELEMENTS.indexOf(s.element)).setTint(color).setPosition(ix, top).setScale(pop).setAlpha(blink ? 0.35 : 1);
+      if (s.def.maxStacks > 1)
+        for (let k = 0; k < s.st.stacks; k++) pips.fillStyle(color, blink ? 0.35 : 1).fillRect(ix - s.def.maxStacks + 2 * k, top + 6, 1, 1);
+    });
+    const newest = shown.reduce<(typeof shown)[number] | undefined>((best, s) => (!best || s.st.t < best.st.t ? s : best), undefined);
+    if (!newest) return void this.aura.setVisible(false);
+    const breath = 0.75 + 0.25 * Math.sin(now / 160);
+    const size = this.big ? 90 : 34;
+    this.aura
+      .setVisible(true)
+      .setTint(hex(ELEMENT_COLORS[newest.element]))
+      .setPosition(x, y - 2)
+      .setDisplaySize(size, size * 0.45)
+      .setAlpha(0.45 * breath);
+  }
+
   private drawBar(x: number, y: number, a: Actor): void {
     const g = this.bar;
     if (!this.showBar || a.hp >= a.stats.maxHp) return void g.setVisible(false);
@@ -192,5 +246,8 @@ export class ActorView {
     this.bar.destroy();
     this.guard.destroy();
     this.tag?.destroy();
+    this.icons.forEach((i) => i.destroy());
+    this.pips.destroy();
+    this.aura.destroy();
   }
 }

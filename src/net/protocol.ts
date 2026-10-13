@@ -74,8 +74,9 @@ export type UnreliableMsg =
 /**
  * Actor: id, x×10, y×10, vx, vy, facing, aim (byte), action, action t×100, extra, hp, flags, attack move,
  * action direction (byte), stamina, dodge cooldown×100. The last three let a client replay its own inputs exactly.
+ * Then, only while any: statuses as `id:stacks:t×10` joined by `;` (status icons stay in step online).
  */
-export type ActorTuple = [string, number, number, number, number, number, number, number, number, number, number, number, string, number, number, number];
+export type ActorTuple = [string, number, number, number, number, number, number, number, number, number, number, number, string, number, number, number, string?];
 /** Projectile: id, x×10, y×10, vx, vy, move, team, owner. */
 export type ProjectileTuple = [string, number, number, number, number, string, string, string];
 /** Pickup: id, x×10, y×10, item, count, t×100. */

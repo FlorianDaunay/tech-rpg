@@ -11,6 +11,7 @@ import { useMenu } from "@/store/menu";
 import { MenuButton, Modal, Tabs } from "@/ui/menu/components";
 import { skillLook } from "../hud/SkillBar";
 import { localized, statLine } from "../items";
+import { useSheetTabs } from "../sheetTabs";
 
 type Tab = TalentTree | "skills";
 const COLS = 5;
@@ -31,6 +32,7 @@ export function TalentsScreen() {
       title={t("talents.title")}
       onBack={back}
       wide
+      tabs={useSheetTabs("talents")}
       footer={
         <div className="flex flex-wrap items-center justify-between gap-2">
           <span className={`font-display text-sm ${inv.talentPoints > 0 ? "text-accent" : "text-text-muted"}`}>{t("talents.points", { n: inv.talentPoints })}</span>

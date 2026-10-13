@@ -320,6 +320,73 @@ function telegraphCone(): Canvas {
   return c;
 }
 
+/**
+ * Boss AoE ground sigil (128 px): double outer ring with runes between the rings, a dashed inner
+ * ring, faint spokes; the centre stays clear so the growing fill reads through it.
+ */
+function aoeSigil(): Canvas {
+  const S = 128;
+  const C = S / 2;
+  const c = new Canvas(S, S);
+  const RUNES = 12;
+  for (let y = 0; y < S; y++)
+    for (let x = 0; x < S; x++) {
+      const dx = x + 0.5 - C;
+      const dy = y + 0.5 - C;
+      const d = Math.hypot(dx, dy);
+      if (d > 63.5) continue;
+      const ang = Math.atan2(dy, dx);
+      const turn = (ang / (Math.PI * 2) + 1) % 1; // 0..1
+      let a = 0;
+      if (d > 61.5) a = 1; // outer ring
+      else if (d > 60.5) a = 0.55;
+      else if (Math.abs(d - 50) < 0.8) a = 0.9; // inner rune band edge
+      else if (d > 51 && d < 60) {
+        // A rune per sector: little strokes picked from a hash so each sigil reads as script.
+        const sector = Math.floor(turn * RUNES);
+        const local = turn * RUNES - sector; // 0..1 across the sector
+        const u = Math.floor(local * 6); // 6 columns per rune
+        const v = Math.floor((d - 51) / 1.5); // 6 rows
+        if (local > 0.15 && local < 0.85 && hash2(sector * 7 + u, v, 41) > 0.58) a = 0.85;
+        // Separator ticks between runes.
+        if (local < 0.04) a = 0.6;
+      } else if (Math.abs(d - 36) < 0.6 && Math.floor(turn * 48) % 2 === 0) a = 0.6; // dashed ring
+      else if (d > 14 && d < 49 && Math.abs(((turn * 8) % 1) - 0.5) * d * Math.PI * 2 / 8 < 0.55) a = 0.3; // 8 spokes
+      if (a > 0) c.set(x, y, WHITE, 255 * a);
+    }
+  return c;
+}
+
+/** Cone version (128 px, tip at the left middle, 60° wide, pointing right): double edges, runes along the arc. */
+function aoeConeSigil(): Canvas {
+  const S = 128;
+  const c = new Canvas(S, S);
+  const half = (30 * Math.PI) / 180;
+  for (let y = 0; y < S; y++)
+    for (let x = 0; x < S; x++) {
+      const dx = x + 0.5 - 1;
+      const dy = y + 0.5 - 64;
+      const d = Math.hypot(dx, dy);
+      const ang = Math.atan2(dy, dx);
+      if (d > 126.5 || Math.abs(ang) > half) continue;
+      const edge = (half - Math.abs(ang)) * d; // px from the side edge
+      let a = 0;
+      if (d > 124.5 || edge < 1.2) a = 1;
+      else if (edge > 3 && edge < 4.2 && d > 12) a = 0.55; // second edge line
+      else if (d > 112 && d < 122) {
+        const along = (ang + half) / (2 * half); // 0..1 across the arc
+        const sector = Math.floor(along * 5);
+        const local = along * 5 - sector;
+        const u = Math.floor(local * 6);
+        const v = Math.floor((d - 112) / 1.7);
+        if (local > 0.15 && local < 0.85 && hash2(sector * 11 + u, v, 43) > 0.58) a = 0.85;
+      } else if (Math.abs(d - 110.5) < 0.6) a = 0.9;
+      else if (Math.abs(d % 24 - 12) < 0.5 && d > 20 && d < 108 && Math.floor(ang * 40) % 2 === 0) a = 0.35; // dashed arcs
+      if (a > 0) c.set(x, y, WHITE, 255 * a);
+    }
+  return c;
+}
+
 function lightSoft(size: number): Canvas {
   const c = new Canvas(size, size);
   const h = size / 2;
@@ -343,6 +410,58 @@ function lightBanded(size: number): Canvas {
       if (d >= 1) continue;
       const band = Math.min(3, Math.floor(d * 4 + (hash2(x, y, 3) - 0.5) * 0.25));
       c.set(x, y, WHITE, Math.round(255 * levels[band]!));
+    }
+  return c;
+}
+
+/**
+ * Column of light over rare loot: a bright core with a soft halo, narrowing and fading upwards,
+ * a flare where it meets the ground, a few faint streaks. Origin = bottom centre (12, 92).
+ */
+function lootBeam(): Canvas {
+  const W = 24;
+  const H = 96;
+  const base = 92;
+  const c = new Canvas(W, H);
+  const levels = (a: number) => (a > 0.8 ? 1 : a > 0.55 ? 0.72 : a > 0.32 ? 0.48 : a > 0.14 ? 0.26 : a > 0.04 ? 0.12 : 0);
+  for (let y = 0; y < H; y++)
+    for (let x = 0; x < W; x++) {
+      const dx = Math.abs(x + 0.5 - W / 2);
+      const up = clamp((base - y) / base); // 0 at the ground … 1 at the top
+      // Column: half-width shrinks with height; the core stays a hard bright line.
+      const halo = 5.5 - up * 3;
+      const core = dx < 1 ? 1 : dx < 2 ? 0.7 : 0;
+      const soft = Math.exp(-(dx * dx) / (2 * halo * halo * 0.35));
+      const fade = y > base ? 0 : Math.pow(1 - up, 1.6);
+      const streak = hash2(x, Math.floor(y / 6), 11) > 0.86 && dx < halo ? 0.25 : 0;
+      let a = Math.max(core * 0.9, soft * 0.55 + streak) * fade;
+      // Ground flare: a flat ellipse of light at the foot.
+      const fy = (y + 0.5 - base) / 3.2;
+      const fx = (x + 0.5 - W / 2) / 11;
+      const f = 1 - (fx * fx + fy * fy);
+      if (f > 0) a = Math.max(a, f * 0.85);
+      const v = levels(clamp(a));
+      if (v > 0) c.set(x, y, WHITE, Math.round(255 * v));
+    }
+  return c;
+}
+
+/** Status glyphs over afflicted actors: white with a dark outline (tinted by element at runtime). */
+const ELEMENT_GLYPHS: Record<"ember" | "frost" | "storm" | "hollow", string[]> = {
+  ember: ["....X....", "...XX....", "...XXX...", "..XXXX.X.", ".XXXXXXX.", ".XXX.XXX.", ".XX...XX.", "..XX.XX..", "...XXX..."],
+  frost: ["....X....", ".X..X..X.", "..X.X.X..", "...XXX...", "XXXXXXXXX", "...XXX...", "..X.X.X..", ".X..X..X.", "....X...."],
+  storm: [".....XXX.", "....XXX..", "...XXX...", "..XXXXXX.", ".XXXXXX..", "....XXX..", "...XX....", "..XX.....", ".X......."],
+  hollow: [".........", "..XXXXX..", ".XX...XX.", "XX..X..XX", "X..XXX..X", "XX..X..XX", ".XX...XX.", "..XXXXX..", "........."],
+};
+export const ELEMENT_GLYPH_ORDER = ["ember", "frost", "storm", "hollow"] as const;
+
+function elementGlyph(rows: string[]): Canvas {
+  const c = new Canvas(11, 11);
+  const on = (x: number, y: number) => rows[y - 1]?.[x - 1] === "X";
+  for (let y = 0; y < 11; y++)
+    for (let x = 0; x < 11; x++) {
+      if (on(x, y)) c.set(x, y, WHITE, 255);
+      else if ([[-1, 0], [1, 0], [0, -1], [0, 1], [-1, -1], [1, 1], [-1, 1], [1, -1]].some(([dx, dy]) => on(x + dx!, y + dy!))) c.set(x, y, "#120c10", 235);
     }
   return c;
 }
@@ -382,8 +501,12 @@ export function vfx(rng: Rng, _P: PaletteModule): GeneratedAsset[] {
   out.push(asset("vfx/telegraph-circle.png", "vfx", telegraphCircle(false), undefined, { ...tint, telegraph: "circle" }));
   out.push(asset("vfx/telegraph-circle-fill.png", "vfx", telegraphCircle(true), undefined, { ...tint, telegraph: "circle-fill" }));
   out.push(asset("vfx/telegraph-cone.png", "vfx", telegraphCone(), undefined, { ...tint, telegraph: "cone", angleDeg: 60, originX: 1, originY: 32, direction: "right" }));
+  out.push(asset("vfx/aoe-sigil.png", "vfx", aoeSigil(), undefined, { ...tint, telegraph: "boss-circle" }));
+  out.push(asset("vfx/aoe-cone-sigil.png", "vfx", aoeConeSigil(), undefined, { ...tint, telegraph: "boss-cone", angleDeg: 60, originX: 1, originY: 64, direction: "right" }));
   out.push(asset("vfx/light-soft.png", "light", lightSoft(128), undefined, { blend: "add" }));
   out.push(asset("vfx/light-banded.png", "light", lightBanded(64), undefined, { blend: "add" }));
+  out.push(asset("vfx/loot-beam.png", "vfx", lootBeam(), undefined, { ...tint, blend: "add", originX: 12, originY: 92 }));
+  out.push(asset("vfx/element-icons.png", "vfx", Canvas.strip(ELEMENT_GLYPH_ORDER.map((el) => elementGlyph(ELEMENT_GLYPHS[el]))), { w: 11, h: 11, frames: 4 }, { ...tint, frames: ELEMENT_GLYPH_ORDER.join(",") }));
   out.push(asset("vfx/shadow.png", "vfx", shadowEllipse(), undefined, { blend: "normal" }));
   return out;
 }

@@ -3,7 +3,7 @@ import { registerContent } from "@/content/boot";
 import type { SimEvent } from "../combat/events";
 import type { GameMap, MapSpawn } from "../world/map";
 import { emptyIntent, type Intent } from "./intent";
-import { chestTarget, createSim, populateMap, RESPAWN_CLEARANCE, SIM_DT, spawnPlayer, stepSim, type SimState } from "./state";
+import { chestTarget, createSim, rematchTarget, populateMap, RESPAWN_CLEARANCE, SIM_DT, spawnPlayer, stepSim, type SimState } from "./state";
 
 beforeAll(registerContent);
 
@@ -75,7 +75,7 @@ describe("enemy respawn", () => {
     spawnPlayer(again, "p1", "x", far.x, far.y);
     populateMap(again, map, new Set(p.progress!.cleared));
     expect(enemyAt(again).map((a) => a.type)).toEqual(["hollow-shade"]);
-  });
+  }, 30_000); // 10 simulated minutes: slow when the whole suite runs in parallel
 
   it("spawns without a delay use the zone default", () => {
     const map = room([{ id: "s1", kind: "enemy", ref: "hollow-shade", x: 200, y: 200 }]);
@@ -130,3 +130,28 @@ describe("chests", () => {
   });
 });
 
+
+describe("Herald rematch", () => {
+  const herald: MapSpawn = { id: "herald", kind: "enemy", ref: "the-maw", x: 600, y: 600, respawn: "never" };
+
+  it("a slain Herald's spawn point can call it back; a fresh one cannot", () => {
+    const map = room([herald]);
+    const fresh = createSim("room", 1);
+    const p0 = spawnPlayer(fresh, "p1", "x", 600, 610);
+    populateMap(fresh, map);
+    expect(rematchTarget(fresh, p0)).toBeNull();
+
+    const sim = createSim("room", 1);
+    const p = spawnPlayer(sim, "p1", "x", 1000, 1000);
+    populateMap(sim, map, new Set(["room:herald"]));
+    expect(enemyAt(sim)).toHaveLength(0);
+    expect(rematchTarget(sim, p)).toBeNull(); // too far
+    Object.assign(p, { x: 600, y: 620 });
+    expect(rematchTarget(sim, p)).not.toBeNull();
+    stepSim(sim, map, { p1: { ...emptyIntent(), pressed: ["interact"] } });
+    const boss = enemyAt(sim);
+    expect(boss.map((a) => a.type)).toEqual(["the-maw"]);
+    expect(sim.events.some((e) => e.type === "rematch" && e.id === boss[0]!.id)).toBe(true);
+    expect(rematchTarget(sim, p)).toBeNull(); // standing again
+  });
+});

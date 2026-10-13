@@ -13,7 +13,10 @@ import { useInputDevice } from "@/store/input";
 interface Nav {
   ref: RefObject<HTMLElement | null>;
   back?: () => void;
+  /** Previous / next tab (Q/E or PageUp/PageDown, LB/RB). */
+  tab?: (dir: 1 | -1) => void;
 }
+const TAB_KEYS: Record<string, 1 | -1> = { q: -1, e: 1, PageUp: -1, PageDown: 1 };
 const stack: Nav[] = [];
 let suspended = false;
 /** Key rebinding captures raw keys: menu navigation must not react meanwhile. */
@@ -24,7 +27,8 @@ type Dir = "up" | "down" | "left" | "right";
 const ARROWS: Record<string, Dir> = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right" };
 
 function focusables(root: HTMLElement): HTMLElement[] {
-  return [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.offsetParent !== null || el === document.activeElement);
+  // `data-nav-skip`: pointer-only controls (tab strips have their own keys) stay out of arrow navigation.
+  return [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => !el.closest("[data-nav-skip]") && (el.offsetParent !== null || el === document.activeElement));
 }
 
 /** Moves focus to the nearest focusable in a direction (falls back to the first one). */
@@ -79,9 +83,15 @@ function onKey(e: KeyboardEvent): void {
     }
     return;
   }
+  const active = document.activeElement;
+  const tab = TAB_KEYS[e.key.length === 1 ? e.key.toLowerCase() : e.key];
+  if (tab && nav.tab && !isText(active) && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    nav.tab(tab);
+    return;
+  }
   const dir = ARROWS[e.key];
   if (!dir) return;
-  const active = document.activeElement;
   if ((isText(active) || isRange(active)) && (dir === "left" || dir === "right")) return; // native caret / slider keys
   if (active instanceof HTMLSelectElement) return;
   e.preventDefault();
@@ -119,7 +129,8 @@ function poll(now: number): void {
     if (isRange(active) && (dir === "left" || dir === "right")) stepRange(active, dir === "left" ? -1 : 1);
     else moveFocus(root, dir);
   }
-  if (pressed(0) && active && root.contains(active)) active.click();
+  if (nav.tab && (pressed(4) || pressed(5))) nav.tab(pressed(4) ? -1 : 1);
+  else if (pressed(0) && active && root.contains(active)) active.click();
   else if (pressed(1) || pressed(9)) nav.back?.();
 }
 
@@ -130,13 +141,15 @@ function ensureStarted(): void {
   requestAnimationFrame(poll);
 }
 
-export function useMenuNav(ref: RefObject<HTMLElement | null>, opts: { back?: () => void; autoFocus?: boolean } = {}): void {
+export function useMenuNav(ref: RefObject<HTMLElement | null>, opts: { back?: () => void; tab?: (dir: 1 | -1) => void; autoFocus?: boolean } = {}): void {
   const backRef = useRef(opts.back);
   backRef.current = opts.back;
+  const tabRef = useRef(opts.tab);
+  tabRef.current = opts.tab;
 
   useEffect(() => {
     ensureStarted();
-    const nav: Nav = { ref, back: opts.back ? () => backRef.current?.() : undefined };
+    const nav: Nav = { ref, back: opts.back ? () => backRef.current?.() : undefined, tab: opts.tab ? (d) => tabRef.current?.(d) : undefined };
     stack.push(nav);
     if (opts.autoFocus !== false) {
       const root = ref.current;

@@ -9,6 +9,7 @@ import { masteryLevel } from "@/core/progression/mastery";
 import { ItemIcon, itemInfo, itemName, localized, statLine, type ItemInfo } from "../items";
 import { content } from "@/content/registry";
 import { activeSets, gearAffixes } from "@/core/combat/gear";
+import { useSheetTabs } from "../sheetTabs";
 
 const RARITY_RANK = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 } as const;
 const KIND_RANK = { sword: 0, shield: 1, consumable: 2, material: 3, key: 4, currency: 5 } as const;
@@ -37,7 +38,7 @@ export function InventoryScreen() {
   };
 
   return (
-    <Modal title={t("inventory.title")} onBack={back} wide>
+    <Modal title={t("inventory.title")} onBack={back} wide tabs={useSheetTabs("inventory")}>
       <div className="grid gap-5 md:grid-cols-[14rem_1fr] short:grid-cols-[12rem_1fr] short:gap-3">
         <section className="flex flex-col gap-3">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted">{t("inventory.equipment")}</h3>
