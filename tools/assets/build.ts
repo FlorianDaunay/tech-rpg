@@ -71,25 +71,9 @@ function main() {
     entries.push(entry);
   };
 
-  /** Crop, then the optional variant transforms of a manifest entry. */
+  /** Crop, then the optional recolour of a manifest entry. */
   function transform(m: (typeof MANIFEST)[number], src: Canvas): Canvas {
-    let c = m.crop ? src.crop(m.crop.x, m.crop.y, m.crop.w, m.crop.h) : src;
-    if (m.bossFromRow) {
-      const { row, scale, feet } = m.bossFromRow;
-      const fw = src.width / 3;
-      const fh = src.height / 4;
-      const out = new Canvas(96 * 3, 96);
-      for (let f = 0; f < 3; f++) {
-        const ox = f * 96 + Math.round((96 - fw * scale) / 2);
-        const oy = feet - fh * scale + 2;
-        for (let y = 0; y < fh * scale; y++)
-          for (let x = 0; x < fw * scale; x++) {
-            const [r, g, b, a] = src.get(f * fw + Math.floor(x / scale), row * fh + Math.floor(y / scale));
-            if (a) out.set(ox + x, oy + y, [r, g, b], a);
-          }
-      }
-      c = out;
-    }
+    const c = m.crop ? src.crop(m.crop.x, m.crop.y, m.crop.w, m.crop.h) : src;
     if (m.recolor) {
       const { ramp, keep } = m.recolor;
       for (let y = 0; y < c.height; y++)
@@ -112,7 +96,7 @@ function main() {
     const src = path.join(REF, m.from);
     if (!fs.existsSync(src)) throw new Error(`manifest source missing: ref_sprites/${m.from}`);
     const raw = fs.readFileSync(src);
-    const data = m.crop || m.recolor || m.bossFromRow ? transform(m, Canvas.fromPng(raw)).toPng() : raw;
+    const data = m.crop || m.recolor ? transform(m, Canvas.fromPng(raw)).toPng() : raw;
     writeOut(m.to, data);
     const size = pngSize(data);
     add({

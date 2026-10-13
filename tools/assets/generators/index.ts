@@ -1,5 +1,6 @@
 /** Registry of procedural generators. Each gets its own seeded rng (seed = generator name). */
 import type { Generator } from "../types";
+import { bosses } from "./bosses";
 import { buildings } from "./buildings";
 import { nature } from "./nature";
 import { tiles } from "./tiles";
@@ -14,4 +15,5 @@ export const GENERATORS: Record<string, Generator> = {
   vfx,
   ui,
   zones,
+  bosses,
 };

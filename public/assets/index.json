@@ -23,9 +23,8 @@
    "frameHeight": 96,
    "frames": 3,
    "meta": {
-    "credit": "pipoya",
-    "variant": "Enemy 22 scaled ×2",
-    "source": "img_set_pipoya_rpg/Enemy/Enemy 22.png"
+    "generator": "bosses",
+    "boss": "grukk"
    }
   },
   {
