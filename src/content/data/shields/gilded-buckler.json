@@ -1,0 +1,19 @@
+{
+  "id": "gilded-buckler",
+  "name": {
+    "en": "Gilded Buckler",
+    "fr": "Bouclier doré"
+  },
+  "description": {
+    "en": "Grukk's 'royal' shield: mostly gold leaf over iron, but the iron is good.",
+    "fr": "Le bouclier « royal » de Grukk : surtout de la feuille d'or sur du fer, mais le fer est bon."
+  },
+  "rarity": "rare",
+  "icon": "shields/pack2-24",
+  "value": 220,
+  "level": 9,
+  "reduction": 0.78,
+  "parryWindow": 0.24,
+  "staminaPerDamage": 0.75,
+  "defense": 5
+}

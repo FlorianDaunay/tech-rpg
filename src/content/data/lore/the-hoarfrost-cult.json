@@ -1,0 +1,19 @@
+{
+  "id": "the-hoarfrost-cult",
+  "category": "faction",
+  "order": 5,
+  "unlock": "start",
+  "secret": false,
+  "title": {
+    "en": "The Hoarfrost Cult",
+    "fr": "Le culte du Givre-Blanc"
+  },
+  "summary": {
+    "en": "Those who pray for the world to stop.",
+    "fr": "Ceux qui prient pour que le monde s'arrête."
+  },
+  "body": {
+    "en": "Survivors of the Reach who decided Veyla was right: that nothing can be lost if nothing ever moves again. They put ice on their tongues so they cannot lie, and sing so the glacier keeps growing.",
+    "fr": "Des survivants des Confins qui ont décidé que Veyla avait raison : que rien ne peut se perdre si plus rien ne bouge. Ils posent de la glace sur leur langue pour ne pas pouvoir mentir, et chantent pour que le glacier continue de grandir."
+  }
+}

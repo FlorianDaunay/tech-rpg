@@ -1,0 +1,48 @@
+{
+  "id": "goblin-cutthroat",
+  "name": {
+    "en": "Goblin Cutthroat",
+    "fr": "Égorgeur gobelin"
+  },
+  "description": {
+    "en": "Grukk's knife-hands. They come at you in a flurry and are gone before you can swing back.",
+    "fr": "Les mains-couteaux de Grukk. Ils vous tombent dessus en rafale et sont partis avant que vous ne frappiez."
+  },
+  "look": "enemies/enemy-20",
+  "family": "beast",
+  "zones": [
+    "goblin-warren"
+  ],
+  "stats": {
+    "maxHp": 48,
+    "power": 12,
+    "defense": 4,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 12,
+    "speed": 78
+  },
+  "ai": "melee",
+  "attack": "claw-flurry-1",
+  "aggroRange": 170,
+  "attackRange": 28,
+  "attackCooldown": 0.9,
+  "radius": 6,
+  "xp": 16,
+  "loot": "cutthroat-loot",
+  "resist": {
+    "storm": 1.25
+  },
+  "moves": [
+    {
+      "move": "claw-flurry-1",
+      "weight": 2,
+      "range": 28
+    },
+    {
+      "move": "claw",
+      "weight": 1,
+      "range": 30
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "king-whirl",
+  "windup": 0.9,
+  "active": 0.2,
+  "recovery": 0.8,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 52,
+    "offset": 0
+  },
+  "damage": 1.4,
+  "knockback": 260,
+  "weight": "heavy",
+  "poise": 50
+}

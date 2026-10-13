@@ -1,4 +1,8 @@
-import type { MapMarker, MinimapLayout } from "@/bridge/events";
+import type { MapMarker, MinimapLayout, WorldView } from "@/bridge/events";
+import { content } from "@/content/registry";
+import { toGameMap } from "@/content/maps";
+import { START_MAP } from "@/core/save/save";
+import { worldLayout } from "@/core/world/worldmap";
 import { MINIMAP_COLORS } from "@/config/palette";
 import type { Actor } from "@/core/combat/actor";
 import { portalWardens, type SimState } from "@/core/sim/state";
@@ -14,7 +18,7 @@ function shade(color: string, f: number): string {
 }
 
 /** Families that are solid on their own (a solid cell under them is terrain, not a building or tree). */
-const SOLID_TERRAIN = new Set(["water", "water-shore", "cave-wall", "wall", "void"]);
+const SOLID_TERRAIN = new Set(["water", "water-shore", "cave-wall", "wall", "void", "ice-wall"]);
 /** Brightness of a cell blocked by an object, relative to its terrain. */
 const BLOCKED_SHADE = 0.72;
 
@@ -75,4 +79,26 @@ export function mapMarkers(sim: SimState, map: GameMap, localId: string): MapMar
   }
   // The local player last, drawn on top.
   return out.sort((a, b) => Number(a.kind === "me") - Number(b.kind === "me"));
+}
+
+let worldCache: WorldView | null = null;
+
+/** Every authored map laid out as one world (hub at the centre), built once per game. */
+export function worldView(): WorldView {
+  if (worldCache) return worldCache;
+  const maps = content.maps.all().map((m) => toGameMap(m));
+  const placed = worldLayout(
+    content.maps.all().map((m) => ({ id: m.id, width: m.width, height: m.height, portals: m.portals, spawns: m.spawns })),
+    START_MAP
+  );
+  const byId = new Map(maps.map((m) => [m.id, m]));
+  worldCache = {
+    maps: placed.maps.map((p) => {
+      const m = byId.get(p.id)!;
+      return { id: p.id, zone: m.zone, x: p.x, y: p.y, layout: minimapLayout(m, m.zone) };
+    }),
+    links: placed.links,
+    bounds: placed.bounds,
+  };
+  return worldCache;
 }

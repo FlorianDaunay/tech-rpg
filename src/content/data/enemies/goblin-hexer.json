@@ -1,0 +1,49 @@
+{
+  "id": "goblin-hexer",
+  "name": {
+    "en": "Goblin Hexer",
+    "fr": "Sorcier gobelin"
+  },
+  "description": {
+    "en": "Stole a Deepdelver's lamp and learned the wrong things from it. Its bolts follow you round corners.",
+    "fr": "A volé la lampe d'un Fouilleur et y a appris les mauvaises choses. Ses éclairs vous suivent dans les virages."
+  },
+  "look": "enemies/enemy-21",
+  "family": "beast",
+  "zones": [
+    "goblin-warren"
+  ],
+  "stats": {
+    "maxHp": 44,
+    "power": 12,
+    "defense": 3,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 10,
+    "speed": 58
+  },
+  "ai": "ranged",
+  "attack": "hex-bolt",
+  "aggroRange": 200,
+  "attackRange": 150,
+  "attackCooldown": 1.9,
+  "radius": 6,
+  "xp": 18,
+  "loot": "hexer-loot",
+  "resist": {
+    "hollow": 0.7,
+    "storm": 1.25
+  },
+  "moves": [
+    {
+      "move": "hex-bolt",
+      "weight": 2,
+      "range": 150
+    },
+    {
+      "move": "storm-bolt",
+      "weight": 1,
+      "range": 150
+    }
+  ]
+}

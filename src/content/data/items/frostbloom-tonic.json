@@ -1,0 +1,19 @@
+{
+  "id": "frostbloom-tonic",
+  "name": {
+    "en": "Frostbloom Tonic",
+    "fr": "Tonique de fleur-de-givre"
+  },
+  "description": {
+    "en": "Eira's brew: heals 60 and wards you (damage taken −25 % for 90 s).",
+    "fr": "La décoction d'Eira : soigne 60 et vous protège (dégâts subis −25 % pendant 90 s)."
+  },
+  "rarity": "rare",
+  "kind": "consumable",
+  "stack": 10,
+  "value": 60,
+  "effect": {
+    "heal": 60,
+    "status": "warded"
+  }
+}

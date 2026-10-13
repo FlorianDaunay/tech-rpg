@@ -1,0 +1,33 @@
+{
+  "id": "chest-frostfell",
+  "rolls": 2,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "rime-crystal",
+      "weight": 4,
+      "min": 2,
+      "max": 4
+    },
+    {
+      "item": "frostbloom-tonic",
+      "weight": 2
+    },
+    {
+      "item": "rimeguard-heater",
+      "weight": 0.6
+    },
+    {
+      "item": "hoarfrost-sabre",
+      "weight": 0.6
+    },
+    {
+      "item": "winterglass",
+      "weight": 0.2
+    }
+  ],
+  "gold": {
+    "min": 50,
+    "max": 90
+  }
+}

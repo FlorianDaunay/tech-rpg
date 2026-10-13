@@ -12,7 +12,7 @@ import * as palette from "../../src/config/palette";
 import { createRng, hashSeed } from "../../src/core/math/rng";
 import { GENERATORS } from "./generators";
 import { MANIFEST } from "./manifest";
-import { Canvas } from "./png";
+import { Canvas, mix } from "./png";
 import { ASSET_KINDS, type AssetEntry, type AssetIndex } from "./types";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
@@ -71,13 +71,48 @@ function main() {
     entries.push(entry);
   };
 
+  /** Crop, then the optional variant transforms of a manifest entry. */
+  function transform(m: (typeof MANIFEST)[number], src: Canvas): Canvas {
+    let c = m.crop ? src.crop(m.crop.x, m.crop.y, m.crop.w, m.crop.h) : src;
+    if (m.bossFromRow) {
+      const { row, scale, feet } = m.bossFromRow;
+      const fw = src.width / 3;
+      const fh = src.height / 4;
+      const out = new Canvas(96 * 3, 96);
+      for (let f = 0; f < 3; f++) {
+        const ox = f * 96 + Math.round((96 - fw * scale) / 2);
+        const oy = feet - fh * scale + 2;
+        for (let y = 0; y < fh * scale; y++)
+          for (let x = 0; x < fw * scale; x++) {
+            const [r, g, b, a] = src.get(f * fw + Math.floor(x / scale), row * fh + Math.floor(y / scale));
+            if (a) out.set(ox + x, oy + y, [r, g, b], a);
+          }
+      }
+      c = out;
+    }
+    if (m.recolor) {
+      const { ramp, keep } = m.recolor;
+      for (let y = 0; y < c.height; y++)
+        for (let x = 0; x < c.width; x++) {
+          const [r, g, b, a] = c.get(x, y);
+          if (!a) continue;
+          const lum = (0.3 * r + 0.59 * g + 0.11 * b) / 255;
+          const t = lum * (ramp.length - 1);
+          const i = Math.min(ramp.length - 2, Math.floor(t));
+          const [nr, ng, nb] = mix(ramp[i]!, ramp[i + 1]!, t - i);
+          c.set(x, y, [nr + (r - nr) * keep, ng + (g - ng) * keep, nb + (b - nb) * keep], a);
+        }
+    }
+    return c;
+  }
+
   // 1. copy
   let copied = 0;
   for (const m of MANIFEST) {
     const src = path.join(REF, m.from);
     if (!fs.existsSync(src)) throw new Error(`manifest source missing: ref_sprites/${m.from}`);
     const raw = fs.readFileSync(src);
-    const data = m.crop ? Canvas.fromPng(raw).crop(m.crop.x, m.crop.y, m.crop.w, m.crop.h).toPng() : raw;
+    const data = m.crop || m.recolor || m.bossFromRow ? transform(m, Canvas.fromPng(raw)).toPng() : raw;
     writeOut(m.to, data);
     const size = pngSize(data);
     add({

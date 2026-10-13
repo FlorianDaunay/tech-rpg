@@ -1,0 +1,22 @@
+{
+  "id": "goblin-shiv",
+  "name": {
+    "en": "Goblin Shiv",
+    "fr": "Surin gobelin"
+  },
+  "description": {
+    "en": "Ugly, sharp, and surprisingly well balanced.",
+    "fr": "Laid, tranchant, et étonnamment bien équilibré."
+  },
+  "rarity": "uncommon",
+  "icon": "weapons/sword-153",
+  "value": 70,
+  "family": "blade",
+  "level": 6,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "bonus": {
+    "power": 2,
+    "critChance": 0.04
+  }
+}

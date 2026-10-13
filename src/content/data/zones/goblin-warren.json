@@ -1,0 +1,23 @@
+{
+  "id": "goblin-warren",
+  "name": {
+    "en": "Goblin Warren",
+    "fr": "Garenne gobeline"
+  },
+  "subtitle": {
+    "en": "Long live the king",
+    "fr": "Vive le roi"
+  },
+  "respawn": 200,
+  "lighting": {
+    "ambient": "#070504",
+    "darkness": [
+      0.8,
+      0.84
+    ],
+    "playerLight": 95
+  },
+  "weather": [
+    "embers"
+  ]
+}

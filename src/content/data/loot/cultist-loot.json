@@ -1,0 +1,29 @@
+{
+  "id": "cultist-loot",
+  "rolls": 1,
+  "chance": 0.75,
+  "entries": [
+    {
+      "item": "rime-crystal",
+      "weight": 4,
+      "min": 1,
+      "max": 3
+    },
+    {
+      "item": "frostbloom-tonic",
+      "weight": 1
+    },
+    {
+      "item": "hoarfrost-sabre",
+      "weight": 0.4
+    },
+    {
+      "item": "rimeguard-heater",
+      "weight": 0.3
+    }
+  ],
+  "gold": {
+    "min": 10,
+    "max": 20
+  }
+}

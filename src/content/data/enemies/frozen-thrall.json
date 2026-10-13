@@ -1,0 +1,37 @@
+{
+  "id": "frozen-thrall",
+  "name": {
+    "en": "Frozen Thrall",
+    "fr": "Serf gelé"
+  },
+  "description": {
+    "en": "A villager the cold kept. It still walks the road it died on, slow and heavy, and it does not feel the blade.",
+    "fr": "Un villageois que le froid a gardé. Il marche encore sur la route où il est mort, lent et lourd, et ne sent pas la lame."
+  },
+  "look": "enemies/enemy-07-1",
+  "family": "undead",
+  "zones": [
+    "frostfell-reach"
+  ],
+  "stats": {
+    "maxHp": 110,
+    "power": 13,
+    "defense": 8,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 40,
+    "speed": 46
+  },
+  "ai": "brute",
+  "attack": "thrall-swipe",
+  "aggroRange": 150,
+  "attackRange": 34,
+  "attackCooldown": 1.4,
+  "radius": 7,
+  "xp": 22,
+  "loot": "thrall-loot",
+  "resist": {
+    "ember": 1.5,
+    "frost": 0.5
+  }
+}

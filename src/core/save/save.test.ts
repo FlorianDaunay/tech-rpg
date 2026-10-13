@@ -5,7 +5,7 @@ import { applyCommand } from "../combat/commands";
 import { equip } from "../combat/equipment";
 import { createSim, spawnPlayer } from "../sim/state";
 import { grantXp, xpToNext } from "../progression/level";
-import { captureSave, capturePlayer, migrateSave, restorePlayer, SAVE_VERSION } from "./save";
+import { captureSave, capturePlayer, migrateSave, newGamePlus, restorePlayer, SAVE_VERSION } from "./save";
 
 beforeAll(registerContent);
 
@@ -38,6 +38,20 @@ describe("save", () => {
     restorePlayer(q, save.player);
     expect(capturePlayer(q)).toEqual(capturePlayer(p));
     expect(q.stats).toEqual(p.stats);
+  });
+
+  it("keeps the fog of war: explored maps survive saving, garbage is dropped, NG+ remembers the world", () => {
+    const p = veteran();
+    p.progress!.explored = { "deep-mines": "AB_-9z", "frostfell-reach": "Qw" };
+    const raw = JSON.parse(JSON.stringify(captureSave(p, "deep-mines", 0, 0, 0)));
+    raw.player.progress.explored["bad"] = 42;
+    raw.player.progress.explored["worse"] = "<script>";
+    const save = migrateSave(raw, mapExists)!;
+    expect(save.player.progress.explored).toEqual({ "deep-mines": "AB_-9z", "frostfell-reach": "Qw" });
+    save.player.progress.flags.push("dawnblade-reforged");
+    expect(newGamePlus(save, 0)!.player.progress.explored).toEqual(save.player.progress.explored);
+    delete raw.player.progress.explored;
+    expect(migrateSave(raw, mapExists)!.player.progress.explored).toEqual({});
   });
 
   it("drops content that no longer exists and clamps talent ranks", () => {

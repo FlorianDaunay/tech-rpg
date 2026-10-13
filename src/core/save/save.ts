@@ -121,11 +121,15 @@ export function newGamePlus(save: SaveData, now: number): SaveData | null {
     time: 0,
     rules: { ...save.rules, omens: [...save.rules.omens], ngPlus: save.rules.ngPlus + 1 },
     // Story starts over; Cinderhold's buildings (paid for like gear) still stand.
-    player: { ...p, bag, hp: Number.MAX_SAFE_INTEGER, ultCharge: 0, cooldowns: {}, progress: { ...emptyProgress(), flags: p.progress.flags.filter((f) => f.startsWith(BUILT)) } },
+    player: { ...p, bag, hp: Number.MAX_SAFE_INTEGER, ultCharge: 0, cooldowns: {}, progress: { ...emptyProgress(), flags: p.progress.flags.filter((f) => f.startsWith(BUILT)), explored: { ...p.progress.explored }, visited: [...p.progress.visited] } },
   };
 }
 
 // ---- loading -----------------------------------------------------------------------------------
+
+/** Fog strings per map: only string values on known-looking keys survive (garbage → unexplored). */
+const fogs = (v: unknown): Record<string, string> =>
+  Object.fromEntries(Object.entries(v && typeof v === "object" ? (v as Record<string, unknown>) : {}).filter((e): e is [string, string] => typeof e[1] === "string" && /^[A-Za-z0-9_-]*$/.test(e[1])));
 
 type Raw = Record<string, unknown>;
 const obj = (v: unknown): Raw => (v && typeof v === "object" && !Array.isArray(v) ? (v as Raw) : {});
@@ -200,7 +204,7 @@ export function migrateSave(input: unknown, mapExists: (id: string) => boolean):
       bag: cleanBag(p.bag),
       weapon: weapon && isWeapon(weapon) ? normalizeGear(weapon) : null,
       shield: shield && isShield(shield) ? normalizeGear(shield) : null,
-      progress: { flags: strs(progress.flags), quests, kills: counts(progress.kills), met: strs(progress.met), visited: strs(progress.visited), cleared: strs(progress.cleared) },
+      progress: { flags: strs(progress.flags), quests, kills: counts(progress.kills), met: strs(progress.met), visited: strs(progress.visited), cleared: strs(progress.cleared), explored: fogs(progress.explored) },
       level: Math.max(1, Math.floor(num(p.level, 1))),
       xp: Math.max(0, num(p.xp, 0)),
       loadout: Object.fromEntries(SKILL_SLOTS.map((s) => [s, skill(loadout[s])])) as Actor["loadout"],

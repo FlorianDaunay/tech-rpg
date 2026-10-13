@@ -1,0 +1,1744 @@
+{
+  "id": "frostfell-reach",
+  "name": {
+    "en": "Frostfell Reach",
+    "fr": "Confins de Givrechute"
+  },
+  "zone": "frostfell-reach",
+  "width": 64,
+  "height": 52,
+  "tileSize": 32,
+  "legend": {
+    "s": {
+      "tile": "tiles/snow-ground#0-7"
+    },
+    "i": {
+      "tile": "tiles/lake-ice#0-3"
+    },
+    "p": {
+      "tile": "tiles/dirt-path",
+      "autotile": true
+    },
+    "W": {
+      "tile": "tiles/ice-wall",
+      "autotile": true,
+      "solid": true
+    },
+    "w": {
+      "tile": "tiles/water-shore",
+      "autotile": true,
+      "solid": true
+    }
+  },
+  "layers": [
+    {
+      "id": "ground",
+      "rows": [
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssiiiiiiiiisssssssssssssssssssssssssss",
+        "sssssssssssssssssssssssssssiiiiiiiiiiissssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssiiiiiiiiiiiiisssssssssssssssssssssssss",
+        "sssssssssssssssssssssssssiiiiiiiiiiiiiiissssssssssssssssssssssss",
+        "sssssssssssssssssssssssssiiiiiiiiiiiiiiissssssssssssssssssssssss",
+        "sssssssssssssssssssssssssiiiiiiiiiiiiiiissssssssssssssssssssssss",
+        "sssssssssssssssssssssssssiiiiiiiiiiiiiiissssssssssssssssssssssss",
+        "sssssssssssssssssssssssssiiiiiiiiiiiiiiissssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssiiiiiiiiiiiiisssssssssssssssssssssssss",
+        "sssssssssssssssssssssssssssiiiiiiiiiiissssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssiiiiiiiiisssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssiiiiiiisssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiisssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiisssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiisssssss",
+        "sssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiiiissssss",
+        "sssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiiiissssss",
+        "sssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiiiissssss",
+        "ssssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiisssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiiiiiisssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssiiiiiiiiiiisssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssiiiiiiisssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+        "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+      ]
+    },
+    {
+      "id": "terrain",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW.....WWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWW.............WWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWW...............WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWW.................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWW..................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWW...................WWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWW...................WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWW.....................WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWW.......WWWW............WWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWW...WW......WWWWWWW............WWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWW............WWWWWWWWWWWWW.......WWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWW..WW..............WWWWWWWWWWWWW.......WWWWWWWWWWWWWWWWWWWW",
+        "WWWWWW...................WWWWWWWWWWWWW.......WWWWWWWWWWWWWWWWWWW",
+        "WWWWW.....................WWWWWWWWWWWWWW......WWWWWWWWWWWWWWWWWW",
+        "WWWW......................WWWWWWWWWWWWWW......WWWWWWWWWWWWWWWWWW",
+        "WWWWW.....................WWWWWWWWWWWWWWW......WWWWWWWWWWWWWWWWW",
+        "WWWWWW.....................WWWWWWWWWWWWWWW......WWWWWWWWWWWWWWWW",
+        "WWWWWW.....................WWWWWWWWWWWWWWWW......WWWW..WWWWWWWWW",
+        "WWWWWW.....................WWWWWWWWWWWWWWWWW.....WWW....WWWWWWWW",
+        "WWWWWW......................WWWWWWWWWWW..WWW..............WWWWWW",
+        "WWWWWW........................WWWWWWWW...WW..................WWW",
+        "WWWWWWW............................WWW.......................WWW",
+        "WWWWWWWWW...................................................WWWW",
+        "WWWWWWWWWW..................................................WW.W",
+        "WWWWWWWWWW.............WWWWWW..................................W",
+        "WWWWWWWWWW.....WWWWWW.WWWWWWWWWWWW..........w..................W",
+        "WWWWWWWWWW....WWWWWWWWWWWWWWWWWWWWW........www.................W",
+        "WWWWWWWWW.....WWWWWWWWWWWWWWWWWWWWW.........w..................W",
+        "WWWWWWWWW....WWWWWWWWWWWWWWWWWWWWWWW..........................WW",
+        "WWW.........WWWWWWWWWWWWWWWWWWWWWWWWWW..............www.......WW",
+        "WW..........WWWWWWWWWWWWWWWWWWWWWWWWWW.............wwwww.....WWW",
+        "WWW.............WWWWWWWWWWWWWWWWWWWWWW..............www.....WWWW",
+        "WWW..............WWWWWWWWWWWWWWWWWWWWW.....................WWWWW",
+        ".................WWWWWWWWWWWWWWWWWWWWW.....................WWWWW",
+        "ppppp...............WWWWWWWWWWWWWWWWWW......ppp............WWWWW",
+        "pppppppppppp.................WWWWWW.......ppppp...........WWWWWW",
+        "W...pppppppppppppp.....................pppppp........WWWWWWWWWWW",
+        "WW.........pppppppppppppppp........pppppppp........WWWWWWWWWWWWW",
+        "WWW..............ppppppppppppppppppppppp..WWW.....WWWWWWWWWWWWWW",
+        "WWWWW.....................pppppppppp..WWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWW..WWW...WWWWWWWWWWWWWW........WWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "asset": "props/house-1",
+      "cx": 11,
+      "cy": 38,
+      "footprint": [
+        3,
+        2
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "lantern",
+        "intensity": 0.8,
+        "flicker": true,
+        "offsetY": -24
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 6,
+      "cy": 43,
+      "interact": {
+        "kind": "rest"
+      },
+      "flipX": false,
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.95,
+        "flicker": true,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 3,
+      "cy": 39,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 3,
+      "cy": 44,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/chest",
+      "cx": 10,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "chest": {
+        "id": "forest-cache",
+        "loot": "chest-frostfell"
+      }
+    },
+    {
+      "asset": "props/chest",
+      "cx": 32,
+      "cy": 4,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "chest": {
+        "id": "glacier-hoard",
+        "loot": "chest-frostfell"
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 43,
+      "cy": 29,
+      "frame": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 56,
+        "color": "moon",
+        "intensity": 0.85,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 56,
+      "cy": 30,
+      "frame": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 56,
+        "color": "moon",
+        "intensity": 0.85,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 58,
+      "cy": 38,
+      "frame": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 56,
+        "color": "moon",
+        "intensity": 0.85,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 41,
+      "cy": 38,
+      "frame": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 56,
+        "color": "moon",
+        "intensity": 0.85,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 25,
+      "cy": 6,
+      "frame": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 64,
+        "color": "moon",
+        "intensity": 0.9,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 39,
+      "cy": 6,
+      "frame": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true,
+      "light": {
+        "radius": 64,
+        "color": "moon",
+        "intensity": 0.9,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 26,
+      "cy": 13,
+      "frame": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 64,
+        "color": "moon",
+        "intensity": 0.9,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 38,
+      "cy": 13,
+      "frame": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true,
+      "light": {
+        "radius": 64,
+        "color": "moon",
+        "intensity": 0.9,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/banner",
+      "cx": 47,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 31,
+      "cy": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 33,
+      "cy": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 24,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 24,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 23,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 12,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 20,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 24,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 18,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 12,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 14,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 20,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 30,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 33,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 35,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 16,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 17,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 42,
+      "cy": 17,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 6,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 10,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 14,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 23,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 16,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 20,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 43,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 5,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 12,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 14,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 18,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 23,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 25,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 45,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 5,
+      "cy": 22,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 25,
+      "cy": 22,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 9,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 20,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 47,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 7,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 15,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 17,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 22,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 53,
+      "cy": 24,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 10,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 13,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 26,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 44,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 55,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 8,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 16,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 21,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 39,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 48,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 50,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 57,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 28,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 43,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 55,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 60,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 10,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 16,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 21,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 23,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 34,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 40,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 58,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 13,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 18,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 28,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 30,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 32,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 36,
+      "cy": 29,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 15,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 20,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 22,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 24,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 26,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 34,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 62,
+      "cy": 30,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 18,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 29,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 31,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 36,
+      "cy": 31,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 13,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 34,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 59,
+      "cy": 32,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 62,
+      "cy": 33,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 9,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 11,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 59,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 61,
+      "cy": 35,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 4,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 6,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 8,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 11,
+      "cy": 36,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 38,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 60,
+      "cy": 37,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 13,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 15,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 38,
+      "cy": 39,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 38,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 27,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 50,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 53,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 56,
+      "cy": 42,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 48,
+      "cy": 44,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 3,
+      "cy": 45,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 45,
+      "cy": 45,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 7,
+      "cy": 46,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 11,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/tree-pine-snow",
+      "cx": 13,
+      "cy": 47,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 7,
+      "cy": 21,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "flipX": false
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 52,
+      "cy": 26,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3,
+      "flipX": true
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 25,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "flipX": false
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 36,
+      "cy": 34,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "flipX": false
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 8,
+      "cy": 38,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 3,
+      "flipX": true
+    },
+    {
+      "asset": "props/rocks",
+      "cx": 18,
+      "cy": 41,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "flipX": true
+    }
+  ],
+  "spawns": [
+    {
+      "id": "from-wilds",
+      "kind": "player",
+      "cx": 2,
+      "cy": 41
+    },
+    {
+      "id": "eira",
+      "kind": "npc",
+      "cx": 9,
+      "cy": 40,
+      "ref": "eira"
+    },
+    {
+      "id": "road1",
+      "kind": "enemy",
+      "cx": 19,
+      "cy": 44,
+      "ref": "frozen-thrall"
+    },
+    {
+      "id": "road2",
+      "kind": "enemy",
+      "cx": 27,
+      "cy": 45,
+      "ref": "frozen-thrall"
+    },
+    {
+      "id": "road3",
+      "kind": "enemy",
+      "cx": 34,
+      "cy": 44,
+      "ref": "frozen-thrall"
+    },
+    {
+      "id": "road4",
+      "kind": "enemy",
+      "cx": 24,
+      "cy": 43,
+      "ref": "glacier-wisp"
+    },
+    {
+      "id": "forest1",
+      "kind": "enemy",
+      "cx": 14,
+      "cy": 22,
+      "ref": "glacier-wisp"
+    },
+    {
+      "id": "forest2",
+      "kind": "enemy",
+      "cx": 18,
+      "cy": 26,
+      "ref": "glacier-wisp"
+    },
+    {
+      "id": "forest3",
+      "kind": "enemy",
+      "cx": 12,
+      "cy": 27,
+      "ref": "rime-mourner"
+    },
+    {
+      "id": "forest4",
+      "kind": "enemy",
+      "cx": 20,
+      "cy": 21,
+      "ref": "frozen-thrall"
+    },
+    {
+      "id": "lake1",
+      "kind": "enemy",
+      "cx": 44,
+      "cy": 31,
+      "ref": "hoarfrost-cultist"
+    },
+    {
+      "id": "lake2",
+      "kind": "enemy",
+      "cx": 54,
+      "cy": 32,
+      "ref": "hoarfrost-cultist"
+    },
+    {
+      "id": "lake3",
+      "kind": "enemy",
+      "cx": 50,
+      "cy": 39,
+      "ref": "hoarfrost-cultist"
+    },
+    {
+      "id": "lake4",
+      "kind": "enemy",
+      "cx": 57,
+      "cy": 35,
+      "ref": "rime-mourner"
+    },
+    {
+      "id": "lake5",
+      "kind": "enemy",
+      "cx": 47,
+      "cy": 40,
+      "ref": "frozen-thrall"
+    },
+    {
+      "id": "lake6",
+      "kind": "enemy",
+      "cx": 40,
+      "cy": 35,
+      "ref": "hoarfrost-cultist"
+    },
+    {
+      "id": "climb1",
+      "kind": "enemy",
+      "cx": 42,
+      "cy": 21,
+      "ref": "rime-mourner"
+    },
+    {
+      "id": "climb2",
+      "kind": "enemy",
+      "cx": 38,
+      "cy": 17,
+      "ref": "frozen-thrall"
+    },
+    {
+      "id": "climb3",
+      "kind": "enemy",
+      "cx": 22,
+      "cy": 14,
+      "ref": "glacier-wisp"
+    },
+    {
+      "id": "matriarch",
+      "kind": "enemy",
+      "cx": 32,
+      "cy": 8,
+      "ref": "rime-matriarch",
+      "respawn": "never"
+    }
+  ],
+  "portals": [
+    {
+      "id": "to-wilds",
+      "cx": 0,
+      "cy": 40,
+      "w": 1,
+      "h": 3,
+      "to": "whispering-wilds",
+      "arrive": "from-frostfell",
+      "requires": []
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "goblin-warren",
+  "category": "place",
+  "order": 8,
+  "unlock": "start",
+  "secret": false,
+  "title": {
+    "en": "The Goblin Warren",
+    "fr": "La Garenne gobeline"
+  },
+  "summary": {
+    "en": "Old galleries, new king.",
+    "fr": "De vieilles galeries, un nouveau roi."
+  },
+  "body": {
+    "en": "West of the Deep Mines, the Deepdelvers once dug a gallery so rich they sealed it to keep it secret. The goblins found it anyway. Now it is a kingdom of stolen lamps, stolen gold and one very loud king.",
+    "fr": "À l'ouest des Mines Profondes, les Fouilleurs avaient creusé une galerie si riche qu'ils l'avaient scellée pour la garder secrète. Les gobelins l'ont trouvée quand même. C'est aujourd'hui un royaume de lampes volées, d'or volé, et d'un roi très bruyant."
+  }
+}

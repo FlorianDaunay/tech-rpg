@@ -25,7 +25,7 @@ import { InputRouter } from "../input/InputRouter";
 import { Lighting } from "../systems/Lighting";
 import { Weather } from "../systems/Weather";
 import { renderMap, renderObjects } from "../world/renderMap";
-import { mapMarkers, minimapLayout } from "../world/minimap";
+import { mapMarkers, minimapLayout, worldView } from "../world/minimap";
 import { ArenaWalls } from "../systems/ArenaWalls";
 import { HeraldEchoes } from "../systems/HeraldEchoes";
 import { SealBarriers } from "../systems/SealBarriers";
@@ -117,6 +117,8 @@ export class WorldScene extends Phaser.Scene {
   /** Set on a generated Rift floor. */
   private rift: ReturnType<typeof parseRiftMapId> = null;
   private markersAt = 0;
+  /** Last fog string sent for this map (the UI only hears about changes). */
+  private fogKey = "";
   private arenaWalls!: ArenaWalls;
   private seals!: SealBarriers;
   private echoes!: HeraldEchoes;
@@ -294,6 +296,8 @@ export class WorldScene extends Phaser.Scene {
     bridge.emit("game:world-ready", { mapId: this.map.id });
     bridge.emit("game:zone", { zone: this.zone.id, map: this.map.id, rift: this.rift ? { rift: this.rift.rift, floor: this.rift.floor, floors: content.rifts.find(this.rift.rift)?.floors ?? 1 } : undefined });
     bridge.emit("game:minimap", minimapLayout(this.map, this.zone.id));
+    bridge.emit("game:world", worldView());
+    this.fogKey = "";
     this.markersAt = 0;
     this.hostRoster();
     // Arriving somewhere (new game, map change, loaded save) is a checkpoint.
@@ -446,6 +450,7 @@ export class WorldScene extends Phaser.Scene {
     this.updateDebug();
     if (this.time.now >= this.markersAt) {
       this.markersAt = this.time.now + MARKERS_INTERVAL;
+      this.updateFog(me);
       bridge.emit("game:markers", mapMarkers(this.sim, this.map, this.localId));
       this.updateSeal();
     }
@@ -727,6 +732,16 @@ export class WorldScene extends Phaser.Scene {
       this.views.delete(id);
       this.prev.delete(id);
     }
+  }
+
+  /** Fog of war for the minimap / map screens: sent when the local player's explored area grows. */
+  private updateFog(me: Actor | undefined): void {
+    const p = me?.progress;
+    if (!p) return;
+    const key = `${p.explored?.[this.map.id] ?? ""}|${p.visited.length}`;
+    if (key === this.fogKey) return;
+    this.fogKey = key;
+    bridge.emit("game:fog", { explored: { ...p.explored }, visited: [...p.visited] });
   }
 
   /** Adaptive music: combat while something hunts the player, danger when nearly dead. */

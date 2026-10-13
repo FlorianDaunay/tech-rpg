@@ -1,0 +1,359 @@
+{
+  "id": "eira",
+  "start": "greet",
+  "nodes": {
+    "greet": {
+      "speaker": "npc",
+      "text": {
+        "en": "Warmth. You carry the Lantern's warmth. I'd almost forgotten what it smells like. Come in out of the wind, little ember.",
+        "fr": "De la chaleur. Tu portes la chaleur de la Lanterne. J'avais presque oublié son odeur. Entre, sors du vent, petite braise."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "Who are you?",
+            "fr": "Qui êtes-vous ?"
+          },
+          "next": "who"
+        },
+        {
+          "text": {
+            "en": "What happened to the Reach?",
+            "fr": "Qu'est-il arrivé aux Confins ?"
+          },
+          "next": "reach"
+        },
+        {
+          "text": {
+            "en": "Is there anything I can do?",
+            "fr": "Puis-je faire quelque chose ?"
+          },
+          "if": [
+            {
+              "quest": "thaw-the-thralls",
+              "is": "none"
+            }
+          ],
+          "next": "thaw-the-thralls-offer"
+        },
+        {
+          "text": {
+            "en": "Tell me about the cultists.",
+            "fr": "Parlez-moi des cultistes."
+          },
+          "if": [
+            {
+              "quest": "hoarfrost-rites",
+              "is": "none"
+            }
+          ],
+          "next": "hoarfrost-rites-offer"
+        },
+        {
+          "text": {
+            "en": "Who rules this cold?",
+            "fr": "Qui règne sur ce froid ?"
+          },
+          "if": [
+            {
+              "quest": "the-white-silence",
+              "is": "none"
+            }
+          ],
+          "next": "the-white-silence-offer"
+        },
+        {
+          "text": {
+            "en": "Farewell.",
+            "fr": "Adieu."
+          },
+          "next": "bye"
+        }
+      ]
+    },
+    "who": {
+      "speaker": "npc",
+      "text": {
+        "en": "Eira. I brewed tea for the wardens of the passes, when there were passes and wardens. Now I brew it for whoever still knocks.",
+        "fr": "Eira. Je préparais le thé des gardiens des cols, quand il y avait des cols et des gardiens. Maintenant je le prépare pour qui frappe encore."
+      }
+    },
+    "reach": {
+      "speaker": "npc",
+      "text": {
+        "en": "When the sun broke, Veyla climbed the glacier and said she'd keep what was left safe. She kept it. She froze it. The villages, the road, the people on it. Safe forever, she says.",
+        "fr": "Quand le soleil s'est brisé, Veyla a gravi le glacier et a dit qu'elle garderait ce qui restait à l'abri. Elle l'a gardé. Elle l'a gelé. Les villages, la route, les gens dessus. À l'abri pour toujours, dit-elle."
+      }
+    },
+    "bye": {
+      "speaker": "npc",
+      "text": {
+        "en": "Keep your lantern close. The cold here listens.",
+        "fr": "Garde ta lanterne près de toi. Le froid, ici, écoute."
+      }
+    },
+    "thaw-the-thralls-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "The thralls on the road were my neighbours. They can't rest like that. Put them down gently, if you can. Or not gently. Just put them down.",
+        "fr": "Les serfs sur la route étaient mes voisins. Ils ne peuvent pas reposer comme ça. Couche-les doucement, si tu peux. Ou pas doucement. Couche-les, c'est tout."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "thaw-the-thralls"
+            }
+          ],
+          "next": "thaw-the-thralls-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "thaw-the-thralls-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Six should let the road breathe again. Ember hurts them most.",
+        "fr": "Six devraient laisser la route respirer à nouveau. La braise leur fait le plus mal."
+      }
+    },
+    "thaw-the-thralls-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Six thralls. They walk the south road at night.",
+        "fr": "Six serfs. Ils marchent sur la route du sud la nuit."
+      }
+    },
+    "thaw-the-thralls-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "The road is quiet. Thank you. They'd have thanked you too.",
+        "fr": "La route est calme. Merci. Ils t'auraient remercié aussi."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "It's done.",
+            "fr": "C'est fait."
+          },
+          "do": [
+            {
+              "completeQuest": "thaw-the-thralls"
+            }
+          ],
+          "next": "thaw-the-thralls-reward"
+        }
+      ]
+    },
+    "thaw-the-thralls-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Take these. My tonic keeps the cold off the heart.",
+        "fr": "Prends ça. Mon tonique garde le froid loin du cœur."
+      }
+    },
+    "hoarfrost-rites-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "The cultists hold rites by the frozen lake. They sing to Veyla to make the ice grow. Stop the singing.",
+        "fr": "Les cultistes tiennent leurs rites au bord du lac gelé. Ils chantent pour Veyla, pour faire grandir la glace. Fais taire ce chant."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "hoarfrost-rites"
+            }
+          ],
+          "next": "hoarfrost-rites-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "hoarfrost-rites-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five of them. And bring me five rime crystals from their altars; I'll need them.",
+        "fr": "Cinq d'entre eux. Et rapporte-moi cinq cristaux de givre de leurs autels ; j'en aurai besoin."
+      }
+    },
+    "hoarfrost-rites-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five cultists, five crystals. The lake is east of here.",
+        "fr": "Cinq cultistes, cinq cristaux. Le lac est à l'est d'ici."
+      }
+    },
+    "hoarfrost-rites-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "No more singing. And the crystals: good, good. The ice has stopped creeping, for now.",
+        "fr": "Plus de chants. Et les cristaux : bien, bien. La glace a cessé d'avancer, pour l'instant."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "It's done.",
+            "fr": "C'est fait."
+          },
+          "do": [
+            {
+              "completeQuest": "hoarfrost-rites"
+            }
+          ],
+          "next": "hoarfrost-rites-reward"
+        }
+      ]
+    },
+    "hoarfrost-rites-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "I made this from the last of the crystals. Wear it against her.",
+        "fr": "J'ai fait ceci avec le dernier des cristaux. Porte-le contre elle."
+      }
+    },
+    "the-white-silence-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "Veyla sits on the glacier at the top of the Reach. She was my friend. She is the reason the Reach is silent. Someone has to wake her up, or put her to sleep.",
+        "fr": "Veyla siège sur le glacier en haut des Confins. C'était mon amie. C'est à cause d'elle que les Confins sont muets. Quelqu'un doit la réveiller, ou l'endormir."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "the-white-silence"
+            }
+          ],
+          "next": "the-white-silence-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "the-white-silence-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Climb north past the frozen lake. When she raises her hand, run. When the ice falls, don't stand where it's shining.",
+        "fr": "Monte au nord après le lac gelé. Quand elle lève la main, cours. Quand la glace tombe, ne reste pas là où ça brille."
+      }
+    },
+    "the-white-silence-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "The glacier is north. She is waiting. She is always waiting.",
+        "fr": "Le glacier est au nord. Elle attend. Elle attend toujours."
+      }
+    },
+    "the-white-silence-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "I heard the ice crack from here. Like spring. Is she…?",
+        "fr": "J'ai entendu la glace craquer d'ici. Comme le printemps. Est-elle… ?"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "It's done.",
+            "fr": "C'est fait."
+          },
+          "do": [
+            {
+              "completeQuest": "the-white-silence"
+            }
+          ],
+          "next": "the-white-silence-reward"
+        }
+      ]
+    },
+    "the-white-silence-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Then take this, it was meant for whoever finally did it. Winterglass. She'd have wanted it used.",
+        "fr": "Alors prends ceci, c'était pour qui y parviendrait enfin. Verre-d'hiver. Elle aurait voulu qu'il serve."
+      }
+    }
+  },
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "thaw-the-thralls",
+          "is": "ready"
+        }
+      ],
+      "node": "thaw-the-thralls-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "hoarfrost-rites",
+          "is": "ready"
+        }
+      ],
+      "node": "hoarfrost-rites-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "the-white-silence",
+          "is": "ready"
+        }
+      ],
+      "node": "the-white-silence-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "thaw-the-thralls",
+          "is": "active"
+        }
+      ],
+      "node": "thaw-the-thralls-remind"
+    },
+    {
+      "if": [
+        {
+          "quest": "hoarfrost-rites",
+          "is": "active"
+        }
+      ],
+      "node": "hoarfrost-rites-remind"
+    },
+    {
+      "if": [
+        {
+          "quest": "the-white-silence",
+          "is": "active"
+        }
+      ],
+      "node": "the-white-silence-remind"
+    }
+  ]
+}

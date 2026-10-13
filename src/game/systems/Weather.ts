@@ -5,7 +5,7 @@ import { DEPTH_LIGHT } from "./Lighting";
 type WeatherKind = (typeof WEATHERS)[number];
 
 /** Particle colours are world art (fixed, theme-independent). */
-const COLORS = { fog: 0x9fb4c8, firefly: 0xd8ff7a, ember: 0xff9a4a, rain: 0x9fb4d8, ash: 0x9a948c, mote: 0xb48cff } as const;
+const COLORS = { fog: 0x9fb4c8, firefly: 0xd8ff7a, ember: 0xff9a4a, rain: 0x9fb4d8, ash: 0x9a948c, mote: 0xb48cff, snow: 0xeef5fb } as const;
 
 /**
  * Zone weather as particle emitters that follow the camera view. Glowing particles (fireflies,
@@ -53,6 +53,11 @@ export class Weather {
       case "ash":
         config = { lifespan: { min: 5000, max: 8000 }, speedY: { min: 12, max: 26 }, speedX: { min: 4, max: 14 }, alpha: { start: 0.8, end: 0 }, tint: COLORS.ash, frequency: 120 };
         above = 30;
+        break;
+      case "snow":
+        // Slow, swaying flakes; a few big ones nearer the eye.
+        config = { lifespan: { min: 6000, max: 9000 }, speedY: { min: 16, max: 32 }, speedX: { min: -14, max: 6 }, scale: { min: 0.5, max: 1.4 }, alpha: { start: 0.9, end: 0.2 }, tint: COLORS.snow, frequency: 45 };
+        above = 40;
         break;
       case "motes":
         config = { lifespan: { min: 4000, max: 7000 }, speed: { min: 2, max: 8 }, alpha: { start: 0.9, end: 0 }, tint: COLORS.mote, blendMode: Phaser.BlendModes.ADD, frequency: 300 };

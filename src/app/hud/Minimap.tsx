@@ -2,7 +2,7 @@ import { t } from "@/i18n";
 import { useGameStatus } from "@/store/game";
 import { useMenu } from "@/store/menu";
 import { useSettings } from "@/store/settings";
-import { MapView } from "./MapView";
+import { MapView, useFog } from "./MapView";
 import { useShortScreen } from "@/ui/useShortScreen";
 
 /** Largest minimap box (px); the whole map is fitted inside, cells stay square. Phones (short screens) get a small one. */
@@ -16,6 +16,7 @@ export function Minimap() {
   const enabled = useSettings((s) => s.minimap);
   const short = useShortScreen();
   const open = useMenu((s) => s.open);
+  const fog = useFog(layout?.map);
   if (!layout || !enabled) return null;
   const box = short ? BOX_SHORT : BOX;
   const scale = Math.min(box.w / layout.width, box.h / layout.height);
@@ -25,7 +26,7 @@ export function Minimap() {
       className="safe pointer-events-auto absolute right-3 top-16 overflow-hidden rounded-tile border border-border opacity-90 shadow-card transition hover:opacity-100 short:top-14"
       onClick={() => open("map")}
     >
-      <MapView layout={layout} markers={markers} scale={scale} />
+      <MapView layout={layout} markers={markers} scale={scale} fog={fog} />
     </button>
   );
 }

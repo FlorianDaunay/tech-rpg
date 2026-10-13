@@ -1,0 +1,20 @@
+{
+  "id": "rime-sweep",
+  "windup": 0.75,
+  "active": 0.14,
+  "recovery": 0.7,
+  "hitbox": {
+    "kind": "arc",
+    "range": 56,
+    "angle": 170
+  },
+  "damage": 1.5,
+  "knockback": 240,
+  "weight": "heavy",
+  "poise": 55,
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.5
+  }
+}

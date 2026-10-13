@@ -1,0 +1,19 @@
+{
+  "id": "grukk-the-goblin-king",
+  "category": "people",
+  "order": 7,
+  "unlock": "grukk-defeated",
+  "secret": false,
+  "title": {
+    "en": "Grukk, the Goblin King",
+    "fr": "Grukk, le Roi gobelin"
+  },
+  "summary": {
+    "en": "A crown made of a lamp.",
+    "fr": "Une couronne faite d'une lampe."
+  },
+  "body": {
+    "en": "Nobody crowned Grukk. He found the foreman's lamp-ring, put it on his head, and dared anyone to argue. Nobody did, for three years. His last words, reportedly, were: 'mine'.",
+    "fr": "Personne n'a couronné Grukk. Il a trouvé l'anneau-lampe du contremaître, l'a posé sur sa tête et a mis quiconque au défi de protester. Personne ne l'a fait, pendant trois ans. Ses derniers mots, dit-on : « à moi »."
+  }
+}

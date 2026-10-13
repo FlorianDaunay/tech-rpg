@@ -1,0 +1,29 @@
+{
+  "id": "hexer-loot",
+  "rolls": 1,
+  "chance": 0.75,
+  "entries": [
+    {
+      "item": "gilded-tooth",
+      "weight": 4,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "ember-shard",
+      "weight": 2
+    },
+    {
+      "item": "hexers-kris",
+      "weight": 0.35
+    },
+    {
+      "item": "hexed-ward",
+      "weight": 0.35
+    }
+  ],
+  "gold": {
+    "min": 8,
+    "max": 18
+  }
+}

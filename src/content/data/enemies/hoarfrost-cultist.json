@@ -1,0 +1,49 @@
+{
+  "id": "hoarfrost-cultist",
+  "name": {
+    "en": "Hoarfrost Cultist",
+    "fr": "Cultiste du Givre-Blanc"
+  },
+  "description": {
+    "en": "They think the Matriarch will freeze the world still and keep it safe forever. They pray with ice in their mouths.",
+    "fr": "Ils croient que la Matriarche figera le monde et le gardera à l'abri pour toujours. Ils prient la bouche pleine de glace."
+  },
+  "look": "enemies/enemy-15-5",
+  "family": "hollow",
+  "zones": [
+    "frostfell-reach"
+  ],
+  "stats": {
+    "maxHp": 60,
+    "power": 13,
+    "defense": 4,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 14,
+    "speed": 58
+  },
+  "ai": "ranged",
+  "attack": "frost-bolt",
+  "aggroRange": 210,
+  "attackRange": 140,
+  "attackCooldown": 1.7,
+  "radius": 6,
+  "xp": 24,
+  "loot": "cultist-loot",
+  "resist": {
+    "frost": 0.6,
+    "storm": 1.3
+  },
+  "moves": [
+    {
+      "move": "frost-bolt",
+      "weight": 3,
+      "range": 140
+    },
+    {
+      "move": "rime-shards",
+      "weight": 1,
+      "range": 110
+    }
+  ]
+}

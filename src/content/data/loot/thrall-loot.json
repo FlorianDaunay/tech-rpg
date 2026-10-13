@@ -1,0 +1,29 @@
+{
+  "id": "thrall-loot",
+  "rolls": 1,
+  "chance": 0.75,
+  "entries": [
+    {
+      "item": "rime-crystal",
+      "weight": 5,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "item": "healing-draught",
+      "weight": 2
+    },
+    {
+      "item": "hoarfrost-sabre",
+      "weight": 0.25
+    },
+    {
+      "item": "rimeguard-heater",
+      "weight": 0.25
+    }
+  ],
+  "gold": {
+    "min": 8,
+    "max": 16
+  }
+}

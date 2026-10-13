@@ -106,8 +106,8 @@
         "..................ppp.................................................",
         ".................ppp..................................................",
         "................ppp...................................................",
-        "...............ppppp....................................pppp..........",
-        "............pppppppppppppp..........................pppppppp..........",
+        "...............ppppp....................................pppppppppppppp",
+        "............pppppppppppppp..........................pppppppppppppppppp",
         "..........pppppp..pppppppppppp..................pppppppppp............",
         "pppppppppppppp..........ppppppppp...........ppppppppp.................",
         "pppppppppppp................pppppppp...ppppppppppp....................",
@@ -1261,56 +1261,6 @@
       "flipX": true
     },
     {
-      "asset": "props/tree-pine",
-      "cx": 68,
-      "cy": 20,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
-      "asset": "props/tree-oak",
-      "cx": 69,
-      "cy": 21,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
-      "asset": "props/tree-oak",
-      "cx": 68,
-      "cy": 22,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
-      "asset": "props/tree-oak-2",
-      "cx": 69,
-      "cy": 23,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
-      "asset": "props/tree-oak-2",
-      "cx": 68,
-      "cy": 24,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
       "asset": "props/tree-oak-2",
       "cx": 69,
       "cy": 25,
@@ -2481,16 +2431,6 @@
       "flipX": true
     },
     {
-      "asset": "props/tree-pine",
-      "cx": 66,
-      "cy": 24,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
       "asset": "props/tree-oak",
       "cx": 64,
       "cy": 39,
@@ -2804,16 +2744,6 @@
       "asset": "props/tree-oak-2",
       "cx": 22,
       "cy": 27,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
-      "asset": "props/tree-pine",
-      "cx": 64,
-      "cy": 22,
       "footprint": [
         1,
         1
@@ -4031,16 +3961,6 @@
       "flipX": true
     },
     {
-      "asset": "props/tree-pine",
-      "cx": 64,
-      "cy": 24,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": true
-    },
-    {
       "asset": "props/tree-dead",
       "cx": 25,
       "cy": 32,
@@ -4464,16 +4384,6 @@
       "asset": "props/tree-pine",
       "cx": 17,
       "cy": 11,
-      "footprint": [
-        1,
-        1
-      ],
-      "flipX": false
-    },
-    {
-      "asset": "props/tree-dead",
-      "cx": 66,
-      "cy": 22,
       "footprint": [
         1,
         1
@@ -5637,16 +5547,6 @@
       }
     },
     {
-      "asset": "props/rocks",
-      "cx": 59,
-      "cy": 23,
-      "footprint": [
-        1,
-        1
-      ],
-      "frame": 1
-    },
-    {
       "asset": "props/bushes",
       "cx": 52,
       "cy": 32,
@@ -6053,6 +5953,12 @@
       "cy": 33,
       "ref": "pale-weaver",
       "respawn": "never"
+    },
+    {
+      "id": "from-frostfell",
+      "kind": "player",
+      "cx": 66,
+      "cy": 22
     }
   ],
   "portals": [
@@ -6064,6 +5970,16 @@
       "h": 4,
       "to": "cinderhold",
       "arrive": "from-wilds"
+    },
+    {
+      "id": "to-frostfell",
+      "cx": 69,
+      "cy": 20,
+      "w": 1,
+      "h": 4,
+      "to": "frostfell-reach",
+      "arrive": "from-wilds",
+      "requires": []
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "id": "frost-wisp-loot",
+  "rolls": 1,
+  "chance": 0.5,
+  "entries": [
+    {
+      "item": "rime-crystal",
+      "weight": 4
+    },
+    {
+      "item": "ember-shard",
+      "weight": 1
+    }
+  ],
+  "gold": {
+    "min": 2,
+    "max": 6
+  }
+}

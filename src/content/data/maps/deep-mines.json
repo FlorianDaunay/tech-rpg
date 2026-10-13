@@ -105,9 +105,9 @@
         "WWWWWWWWW.......WWW....................WW.......WWWWWWWW",
         "WWWWWWWW.........................................WWWWWWW",
         "WWWWWWWW................WWWW.WWWWW................WWWWWW",
-        "WWWWWWWW.............WWWWWWWWWWWWWWW..............WWWWWW",
-        "WWWWWWW.............WWWWWWWWWWWWWWWWWW............WWWWWW",
-        "WWWWWWWW.........WWWWWWWWWWWWWWWWWWWWW........w....WWWWW",
+        ".....................WWWWWWWWWWWWWWW..............WWWWWW",
+        "....................WWWWWWWWWWWWWWWWWW............WWWWWW",
+        ".................WWWWWWWWWWWWWWWWWWWWW........w....WWWWW",
         "WWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWW......www..WWWWWW",
         "WWWWWWWW.........WWWWWWWWWWWWWWWWWWWWWW.....wwwww.WWWWWW",
         "WWWWWWWWW.......WWWWWWWWWWWWWWWWWWWWWWW......www..WWWWWW",
@@ -690,6 +690,12 @@
       "cy": 33,
       "ref": "the-maw",
       "respawn": "never"
+    },
+    {
+      "id": "from-warren",
+      "kind": "player",
+      "cx": 3,
+      "cy": 32
     }
   ],
   "portals": [
@@ -701,6 +707,16 @@
       "h": 1,
       "to": "cinderhold",
       "arrive": "from-mines"
+    },
+    {
+      "id": "to-warren",
+      "cx": 0,
+      "cy": 31,
+      "w": 1,
+      "h": 3,
+      "to": "goblin-warren",
+      "arrive": "from-mines",
+      "requires": []
     }
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "id": "veyla-the-rime-matriarch",
+  "category": "people",
+  "order": 6,
+  "unlock": "rime-matriarch-defeated",
+  "secret": false,
+  "title": {
+    "en": "Veyla, the Rime Matriarch",
+    "fr": "Veyla, la Matriarche de givre"
+  },
+  "summary": {
+    "en": "Ilyth's sister, who loved the world too still.",
+    "fr": "La sœur d'Ilyth, qui aimait le monde trop immobile."
+  },
+  "body": {
+    "en": "Veyla was a warden of the passes and the Pale Weaver's elder sister. Where Ilyth tried to weave a new fate, Veyla tried to stop fate altogether. When she fell, the ice on the glacier cracked for the first time in an age, and the bell of the highest pass rang once on its own.",
+    "fr": "Veyla était gardienne des cols et sœur aînée de la Tisseuse pâle. Là où Ilyth tentait de tisser un nouveau destin, Veyla voulut arrêter le destin tout court. Quand elle tomba, la glace du glacier se fendit pour la première fois depuis une éternité, et la cloche du plus haut col sonna une fois, toute seule."
+  }
+}

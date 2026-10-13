@@ -1,0 +1,35 @@
+{
+  "id": "king-of-the-warren",
+  "type": "side",
+  "giver": "pell",
+  "title": {
+    "en": "King of the Warren",
+    "fr": "Le Roi de la Garenne"
+  },
+  "summary": {
+    "en": "Grukk, a goblin who crowned himself king, holds the lower galleries. Pell wants the mines back.",
+    "fr": "Grukk, un gobelin qui s'est couronné roi, tient les galeries basses. Pell veut récupérer les mines."
+  },
+  "objectives": [
+    {
+      "id": "grukk",
+      "kind": "kill",
+      "enemy": "grukk",
+      "count": 1,
+      "text": {
+        "en": "Dethrone Grukk",
+        "fr": "Détrôner Grukk"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 450,
+    "gold": 200,
+    "items": [
+      {
+        "item": "deepforge-cleaver",
+        "count": 1
+      }
+    ]
+  }
+}

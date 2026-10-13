@@ -62,6 +62,10 @@ export const WORLD_RAMPS = {
   crystal: ["#14243a", "#1f4466", "#2f6f9c", "#4fa6d1", "#8fdcf2", "#e2fbff"],
   /** Wrought iron (fences, braziers, carts). */
   iron: ["#141519", "#24262d", "#383b45", "#53576a", "#7a8094"],
+  /** Frostfell snow: blue-grey shadows up to white. */
+  snow: ["#2e3a4c", "#4b5d74", "#7189a3", "#9fb6cc", "#c9d9e6", "#eef5fb"],
+  /** Glacier ice: deep blue to bright rim. */
+  ice: ["#14263c", "#1f3f5e", "#2f6488", "#4f93b8", "#8cc8e0", "#d6f3fb"],
   /** Chest bands, coins, trims. */
   gold: ["#4a2e0e", "#8a5a1c", "#c98d2a", "#f2c04e", "#fff1b8"],
 } as const;
@@ -97,11 +101,19 @@ export const MINIMAP_COLORS = {
     void: WORLD_RAMPS.rift[0],
     wall: WORLD_RAMPS.stone[0],
     "wood-floor": WORLD_RAMPS.wood[3],
+    "snow-ground": WORLD_RAMPS.snow[4],
+    "lake-ice": WORLD_RAMPS.ice[3],
+    "ice-wall": WORLD_RAMPS.ice[1],
   },
   unknown: WORLD_RAMPS.stone[2],
   /** Cells made solid by objects (trees, houses, rocks). */
   blocked: WORLD_RAMPS.pine[0],
   empty: WORLD_RAMPS.shadow[0],
+  /** Unexplored (fog of war) and its faint grain. */
+  fog: "#0b0a10",
+  fogGrain: "#15131c",
+  /** Lines between neighbouring zones on the world map. */
+  road: "#6b5a44",
   me: "#FFF1B8",
   ally: "#7FB6E0",
   enemy: "#FF6B5E",

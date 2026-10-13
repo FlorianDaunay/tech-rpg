@@ -1,0 +1,679 @@
+{
+  "id": "goblin-warren",
+  "name": {
+    "en": "Goblin Warren",
+    "fr": "Garenne gobeline"
+  },
+  "zone": "goblin-warren",
+  "width": 48,
+  "height": 36,
+  "tileSize": 32,
+  "legend": {
+    "c": {
+      "tile": "tiles/cave-floor#0-5"
+    },
+    "W": {
+      "tile": "tiles/cave-wall",
+      "autotile": true,
+      "solid": true
+    },
+    "w": {
+      "tile": "tiles/water-shore",
+      "autotile": true,
+      "solid": true
+    }
+  },
+  "layers": [
+    {
+      "id": "ground",
+      "rows": [
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cccccccccccccccccccccccccccccccccccccccccccccccc"
+      ]
+    },
+    {
+      "id": "terrain",
+      "rows": [
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWW........WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWW...........WWWWWWWW.....WWWWWWWWWWWWWWWWW",
+        "WWWWWW.............WWWWWW.......WWWWWWWWWWWWWWWW",
+        "WWWWWW...............WWW.........WWWWWWWWWWWWWWW",
+        "WWWWWW..............................WWWWWWWWWWWW",
+        "WWWWWW...............................WWWWWWWWWWW",
+        "WWWWWWW.............................WWWWWWWWWWWW",
+        "WWWWWWWWW.........WWW..............WWWWWWWWWWWWW",
+        "WWWWWWWWWW......WWWWW..............WWWWWWW.WWWWW",
+        "WWWWWWWWWW....WWWWWWWW..............WWW.....WWWW",
+        "WWWWWWWWWW....WWWWWWWWW.......................WW",
+        "WWWWWWWWWW....WWWWWWWWWW..WWWWWWW..............W",
+        "WWWWWWWWWW....WWWWWWWWWWWWWWWWWWWW..............",
+        "WWWWWWWWW.....WWWWWWWWWWWWWWWWWWWW..............",
+        "WWWWWWWW......WWWWWWWWWWWWWWWWWWWW..............",
+        "WWWWWW.........WWWWWWWWWWWWWWWWWWW.............W",
+        "WWWWW...........WWWWWWWWWWWWWWWWW.............WW",
+        "WWWW.............WWWWWWWWWW.WWWW..............WW",
+        "WWWW.............WWWWWWWW................WWWWWWW",
+        "WWW...............WW................WWWWWWWWWWWW",
+        "WWW...............WW...............WWWWWWWWWWWWW",
+        "WWW................................WWWWWWWWWWWWW",
+        "WWWW...............................WWWWWWWWWWWWW",
+        "WWWW....................wwwww......WWWWWWWWWWWWW",
+        "WWWWW...........WW.....wwwwwww.....WWWWWWWWWWWWW",
+        "WWWWWW.........WWWWWW...wwwww.....WWWWWWWWWWWWWW",
+        "WWWWWWWW.....WWWWWWWWWWW......WWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
+        "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"
+      ]
+    }
+  ],
+  "objects": [
+    {
+      "asset": "props/brazier",
+      "cx": 43,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "interact": {
+        "kind": "rest"
+      },
+      "light": {
+        "radius": 72,
+        "color": "torch",
+        "intensity": 0.95,
+        "flicker": true,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 34,
+      "cy": 13,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 22,
+      "cy": 12,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 30,
+      "cy": 22,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 19,
+      "cy": 26,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 16,
+      "cy": 6,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/torch",
+      "cx": 8,
+      "cy": 6,
+      "flipX": false,
+      "light": {
+        "radius": 70,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -18
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 6,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 64,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 14,
+      "cy": 20,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 64,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 6,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 64,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/brazier",
+      "cx": 14,
+      "cy": 28,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 64,
+        "color": "torch",
+        "intensity": 0.9,
+        "flicker": true,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/banner",
+      "cx": 8,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/banner",
+      "cx": 12,
+      "cy": 18,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/chest",
+      "cx": 10,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "chest": {
+        "id": "royal-treasury",
+        "loot": "chest-warren"
+      }
+    },
+    {
+      "asset": "props/chest",
+      "cx": 32,
+      "cy": 27,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "chest": {
+        "id": "flooded-stash",
+        "loot": "chest-warren"
+      }
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 25,
+      "cy": 7,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false
+    },
+    {
+      "asset": "props/minecart",
+      "cx": 37,
+      "cy": 19,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": true
+    },
+    {
+      "asset": "props/mine-beam",
+      "cx": 31,
+      "cy": 12,
+      "flipX": false
+    },
+    {
+      "asset": "props/mine-beam",
+      "cx": 17,
+      "cy": 8,
+      "flipX": false
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 30,
+      "cy": 6,
+      "frame": 0,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 21,
+      "cy": 24,
+      "frame": 1,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/crystal",
+      "cx": 14,
+      "cy": 10,
+      "frame": 2,
+      "footprint": [
+        1,
+        1
+      ],
+      "flipX": false,
+      "light": {
+        "radius": 46,
+        "color": "moon",
+        "intensity": 0.75,
+        "offsetY": -10
+      }
+    },
+    {
+      "asset": "props/bones",
+      "cx": 10,
+      "cy": 4,
+      "frame": 1,
+      "flipX": false
+    },
+    {
+      "asset": "props/bones",
+      "cx": 17,
+      "cy": 6,
+      "frame": 0,
+      "flipX": true
+    },
+    {
+      "asset": "props/bones",
+      "cx": 36,
+      "cy": 9,
+      "frame": 0,
+      "flipX": true
+    },
+    {
+      "asset": "props/bones",
+      "cx": 30,
+      "cy": 14,
+      "frame": 0,
+      "flipX": false
+    },
+    {
+      "asset": "props/bones",
+      "cx": 31,
+      "cy": 14,
+      "frame": 1,
+      "flipX": true
+    },
+    {
+      "asset": "props/bones",
+      "cx": 24,
+      "cy": 15,
+      "frame": 1,
+      "flipX": false
+    },
+    {
+      "asset": "props/bones",
+      "cx": 41,
+      "cy": 21,
+      "frame": 0,
+      "flipX": true
+    },
+    {
+      "asset": "props/bones",
+      "cx": 32,
+      "cy": 24,
+      "frame": 1,
+      "flipX": false
+    },
+    {
+      "asset": "props/bones",
+      "cx": 20,
+      "cy": 28,
+      "frame": 1,
+      "flipX": false
+    },
+    {
+      "asset": "props/bones",
+      "cx": 23,
+      "cy": 29,
+      "frame": 0,
+      "flipX": false
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 21,
+      "cy": 8,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "flipX": true
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 7,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "flipX": false
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 19,
+      "cy": 10,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "flipX": true
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 34,
+      "cy": 11,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 1,
+      "flipX": true
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 39,
+      "cy": 14,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "flipX": true
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 33,
+      "cy": 15,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "flipX": true
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 17,
+      "cy": 23,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 2,
+      "flipX": false
+    },
+    {
+      "asset": "props/rubble",
+      "cx": 19,
+      "cy": 25,
+      "footprint": [
+        1,
+        1
+      ],
+      "frame": 0,
+      "flipX": true
+    }
+  ],
+  "spawns": [
+    {
+      "id": "from-mines",
+      "kind": "player",
+      "cx": 45,
+      "cy": 17
+    },
+    {
+      "id": "pell",
+      "kind": "npc",
+      "cx": 41,
+      "cy": 16,
+      "ref": "pell"
+    },
+    {
+      "id": "hall1",
+      "kind": "enemy",
+      "cx": 36,
+      "cy": 18,
+      "ref": "goblin-cutthroat"
+    },
+    {
+      "id": "hall2",
+      "kind": "enemy",
+      "cx": 37,
+      "cy": 15,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "gal1",
+      "kind": "enemy",
+      "cx": 27,
+      "cy": 9,
+      "ref": "goblin-cutthroat"
+    },
+    {
+      "id": "gal2",
+      "kind": "enemy",
+      "cx": 24,
+      "cy": 11,
+      "ref": "goblin-slinger"
+    },
+    {
+      "id": "gal3",
+      "kind": "enemy",
+      "cx": 31,
+      "cy": 8,
+      "ref": "goblin-hexer"
+    },
+    {
+      "id": "flood1",
+      "kind": "enemy",
+      "cx": 22,
+      "cy": 25,
+      "ref": "goblin-hexer"
+    },
+    {
+      "id": "flood2",
+      "kind": "enemy",
+      "cx": 29,
+      "cy": 24,
+      "ref": "goblin-cutthroat"
+    },
+    {
+      "id": "flood3",
+      "kind": "enemy",
+      "cx": 31,
+      "cy": 28,
+      "ref": "deep-goblin"
+    },
+    {
+      "id": "den1",
+      "kind": "enemy",
+      "cx": 11,
+      "cy": 7,
+      "ref": "goblin-hexer"
+    },
+    {
+      "id": "den2",
+      "kind": "enemy",
+      "cx": 14,
+      "cy": 9,
+      "ref": "goblin-hexer"
+    },
+    {
+      "id": "den3",
+      "kind": "enemy",
+      "cx": 9,
+      "cy": 9,
+      "ref": "goblin-cutthroat"
+    },
+    {
+      "id": "grukk",
+      "kind": "enemy",
+      "cx": 10,
+      "cy": 24,
+      "ref": "grukk",
+      "respawn": "never"
+    }
+  ],
+  "portals": [
+    {
+      "id": "to-mines",
+      "cx": 47,
+      "cy": 16,
+      "w": 1,
+      "h": 3,
+      "to": "deep-mines",
+      "arrive": "from-warren",
+      "requires": []
+    }
+  ]
+}

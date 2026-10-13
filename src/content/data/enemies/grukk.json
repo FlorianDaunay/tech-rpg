@@ -1,0 +1,107 @@
+{
+  "id": "grukk",
+  "name": {
+    "en": "Grukk, the Goblin King",
+    "fr": "Grukk, le Roi gobelin"
+  },
+  "description": {
+    "en": "He crowned himself with a Deepdelver foreman's lamp-ring and declared the Warren a kingdom. His court is knives. His treasury is everything the mines ever lost.",
+    "fr": "Il s'est couronné avec l'anneau-lampe d'un contremaître des Fouilleurs et a proclamé la Garenne royaume. Sa cour, ce sont des couteaux. Son trésor, tout ce que les mines ont jamais perdu."
+  },
+  "look": "bosses/goblin-king",
+  "family": "beast",
+  "zones": [
+    "goblin-warren"
+  ],
+  "stats": {
+    "maxHp": 1400,
+    "power": 16,
+    "defense": 12,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 180,
+    "speed": 56
+  },
+  "ai": "brute",
+  "attack": "king-cleave",
+  "aggroRange": 170,
+  "attackRange": 56,
+  "attackCooldown": 1.4,
+  "radius": 14,
+  "xp": 380,
+  "loot": "grukk-loot",
+  "resist": {
+    "storm": 1.3
+  },
+  "boss": {
+    "arena": 190,
+    "flag": "grukk-defeated",
+    "phases": [
+      {
+        "below": 1,
+        "attacks": [
+          {
+            "move": "king-cleave",
+            "weight": 3,
+            "range": 56
+          },
+          {
+            "move": "arrow-volley",
+            "weight": 1,
+            "range": 160
+          }
+        ],
+        "attackCooldown": 1.5,
+        "speed": 1
+      },
+      {
+        "below": 0.55,
+        "attacks": [
+          {
+            "move": "king-cleave",
+            "weight": 2,
+            "range": 56
+          },
+          {
+            "move": "king-whirl",
+            "weight": 2,
+            "range": 44
+          },
+          {
+            "move": "arrow-volley",
+            "weight": 1,
+            "range": 160
+          }
+        ],
+        "attackCooldown": 1.2,
+        "speed": 1.15,
+        "summon": {
+          "enemy": "goblin-cutthroat",
+          "count": 2,
+          "every": 16
+        }
+      },
+      {
+        "below": 0.2,
+        "attacks": [
+          {
+            "move": "king-whirl",
+            "weight": 3,
+            "range": 44
+          },
+          {
+            "move": "king-cleave",
+            "weight": 2,
+            "range": 56
+          }
+        ],
+        "attackCooldown": 0.9,
+        "speed": 1.3,
+        "summon": {
+          "enemy": "goblin-hexer",
+          "count": 1
+        }
+      }
+    ]
+  }
+}

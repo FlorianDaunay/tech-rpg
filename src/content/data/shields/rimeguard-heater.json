@@ -1,0 +1,19 @@
+{
+  "id": "rimeguard-heater",
+  "name": {
+    "en": "Rimeguard Heater",
+    "fr": "Écu de Garde-givre"
+  },
+  "description": {
+    "en": "Frost-blue steel that drinks the force of a blow.",
+    "fr": "Un acier bleu de givre qui boit la force des coups."
+  },
+  "rarity": "rare",
+  "icon": "shields/pack2-06",
+  "value": 190,
+  "level": 8,
+  "reduction": 0.82,
+  "parryWindow": 0.18,
+  "staminaPerDamage": 0.62,
+  "defense": 6
+}

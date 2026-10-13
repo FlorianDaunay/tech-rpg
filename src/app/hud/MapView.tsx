@@ -5,6 +5,8 @@ import { content } from "@/content/registry";
 import { localized } from "../items";
 import { t } from "@/i18n";
 import { parseRiftMapId } from "@/core/world/riftgen";
+import { useGameStatus } from "@/store/game";
+import { decodeFog, fogGrid, tileRevealed } from "@/core/world/explore";
 
 /** Marker radius in screen px (stays readable at any map scale). */
 const RADIUS: Record<MapMarker["kind"], number> = { me: 3.2, ally: 2.6, enemy: 2, npc: 2.4, chest: 2.4, warden: 3, sealed: 3.2 };
@@ -21,12 +23,35 @@ export function destinationName(map: string): string {
   return z ? localized(z.name) : map;
 }
 
+/** The local player's fog for a map; Rift floors (never remembered) have none. */
+export function useFog(map: string | undefined): string | undefined {
+  const fog = useGameStatus((s) => s.fog);
+  if (!map || parseRiftMapId(map)) return undefined;
+  return fog?.explored[map] ?? "";
+}
+
+/** Hex colour → rgb triple. */
+const rgbOf = (h: string) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)] as const;
+
+/**
+ * Fog of war of one map as a "is this cell seen?" test (undefined fog = everything seen, e.g. Rift
+ * floors, which are never remembered).
+ */
+export function fogTest(layout: MinimapLayout, fog: string | undefined): (x: number, y: number) => boolean {
+  if (fog === undefined) return () => true;
+  const g = fogGrid(layout.width, layout.height);
+  const bits = decodeFog(fog, g);
+  return (x, y) => x >= 0 && y >= 0 && x < layout.width && y < layout.height && tileRevealed(bits, g, Math.floor(x), Math.floor(y));
+}
+
 /**
  * A map at `scale` px per cell: terrain as a pixelated canvas (drawn once per layout), exits and
- * markers as crisp SVG on top. `labels` adds the exit destinations (map screen).
+ * markers as crisp SVG on top. `labels` adds the exit destinations (map screen). `fog` (encoded,
+ * core/world/explore) hides what the player hasn't seen yet: terrain, exits and markers alike.
  */
-export function MapView({ layout, markers, scale, labels = false }: { layout: MinimapLayout; markers: MapMarker[]; scale: number; labels?: boolean }) {
+export function MapView({ layout, markers, scale, labels = false, fog }: { layout: MinimapLayout; markers: MapMarker[]; scale: number; labels?: boolean; fog?: string }) {
   const canvas = useRef<HTMLCanvasElement>(null);
+  const seen = fogTest(layout, fog);
   useEffect(() => {
     const c = canvas.current;
     const ctx = c?.getContext("2d");
@@ -34,24 +59,32 @@ export function MapView({ layout, markers, scale, labels = false }: { layout: Mi
     c.width = layout.width;
     c.height = layout.height;
     const img = ctx.createImageData(layout.width, layout.height);
-    const rgb = layout.palette.map((h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)] as const);
+    const rgb = layout.palette.map(rgbOf);
+    const fogRgb = rgbOf(MINIMAP_COLORS.fog);
+    const grainRgb = rgbOf(MINIMAP_COLORS.fogGrain);
     layout.cells.forEach((p, i) => {
-      const [r, g, b] = rgb[p] ?? rgb[0]!;
+      const x = i % layout.width;
+      const y = Math.floor(i / layout.width);
+      // Unseen: dark, with a faint checker grain so it reads as "fog", not as a wall.
+      const [r, g, b] = seen(x, y) ? (rgb[p] ?? rgb[0]!) : (x + y) % 4 === 0 ? grainRgb : fogRgb;
       img.data.set([r, g, b, 255], i * 4);
     });
     ctx.putImageData(img, 0, 0);
-  }, [layout]);
+  }, [layout, fog]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const w = layout.width * scale;
   const h = layout.height * scale;
+  // Others (and points of interest) only show where you have been; you and your party always do.
+  const shown = markers.filter((m) => m.kind === "me" || m.kind === "ally" || seen(m.x, m.y));
+  const portals = layout.portals.filter((p) => seen(p.x + p.w / 2, p.y + p.h / 2));
   return (
     <div className="relative" style={{ width: w, height: h }}>
       <canvas ref={canvas} className="absolute inset-0 h-full w-full" style={{ imageRendering: "pixelated" }} />
       <svg className="absolute inset-0" width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden>
-        {layout.portals.map((p, i) => (
+        {portals.map((p, i) => (
           <rect key={i} x={p.x * scale} y={p.y * scale} width={Math.max(p.w * scale, 3)} height={Math.max(p.h * scale, 3)} fill={MINIMAP_COLORS.portal} fillOpacity={0.55} stroke={MINIMAP_COLORS.portal} strokeWidth={1} />
         ))}
-        {markers.map((m, i) =>
+        {shown.map((m, i) =>
           m.kind === "sealed" ? (
             <g key={i} stroke={MINIMAP_COLORS.sealed} strokeWidth={1.4} strokeLinecap="round">
               <line x1={m.x * scale - 2.6} y1={m.y * scale - 2.6} x2={m.x * scale + 2.6} y2={m.y * scale + 2.6} />
@@ -67,7 +100,7 @@ export function MapView({ layout, markers, scale, labels = false }: { layout: Mi
         )}
       </svg>
       {labels &&
-        layout.portals.map((p, i) => (
+        portals.map((p, i) => (
           <span
             key={i}
             // Anchored by its side near the map edges, so exits on the border stay readable.

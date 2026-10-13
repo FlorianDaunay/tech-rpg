@@ -1,0 +1,19 @@
+{
+  "id": "frostfell-reach",
+  "category": "place",
+  "order": 7,
+  "unlock": "start",
+  "secret": false,
+  "title": {
+    "en": "Frostfell Reach",
+    "fr": "Les Confins de Givrechute"
+  },
+  "summary": {
+    "en": "The high passes, frozen solid on purpose.",
+    "fr": "Les hauts cols, gelés tout exprès."
+  },
+  "body": {
+    "en": "Before the Sundering, the Reach was the road to the northern kingdoms: inns, wardens, a bell at every pass. When the sun broke, the snow came and did not leave. The villages are still there, under the ice, exactly as they were on the last night. Some of their people still walk.",
+    "fr": "Avant la Brisure, les Confins étaient la route des royaumes du nord : des auberges, des gardiens, une cloche à chaque col. Quand le soleil s'est brisé, la neige est venue et n'est pas repartie. Les villages sont toujours là, sous la glace, exactement comme la dernière nuit. Certains de leurs habitants marchent encore."
+  }
+}

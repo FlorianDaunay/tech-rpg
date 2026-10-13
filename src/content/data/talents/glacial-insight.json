@@ -1,0 +1,20 @@
+{
+  "id": "glacial-insight",
+  "name": {
+    "en": "Glacial Insight",
+    "fr": "Lucidité glaciaire"
+  },
+  "description": {
+    "en": "Unlocks Glacial Lance now.",
+    "fr": "Débloque Lance glaciaire dès maintenant."
+  },
+  "tree": "arcana",
+  "x": 0,
+  "y": 3,
+  "ranks": 1,
+  "requires": [
+    "ember-soul"
+  ],
+  "treePoints": 4,
+  "skill": "glacial-lance"
+}

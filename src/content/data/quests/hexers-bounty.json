@@ -1,0 +1,35 @@
+{
+  "id": "hexers-bounty",
+  "type": "bounty",
+  "giver": "pell",
+  "title": {
+    "en": "Bounty: Lamp Thieves",
+    "fr": "Prime : voleurs de lampes"
+  },
+  "summary": {
+    "en": "Goblin hexers turned the Deepdelvers' lamps into weapons. Pell's crew wants them gone.",
+    "fr": "Des sorciers gobelins ont fait des lampes des Fouilleurs des armes. L'équipe de Pell veut qu'ils disparaissent."
+  },
+  "objectives": [
+    {
+      "id": "hexers",
+      "kind": "kill",
+      "enemy": "goblin-hexer",
+      "count": 5,
+      "text": {
+        "en": "Defeat 5 Goblin Hexers",
+        "fr": "Vaincre 5 Sorciers gobelins"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 200,
+    "gold": 80,
+    "items": [
+      {
+        "item": "healing-draught",
+        "count": 2
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "grukks-cleaver",
+  "name": {
+    "en": "Grukk's Cleaver",
+    "fr": "Couperet de Grukk"
+  },
+  "description": {
+    "en": "A bone-handled butcher's blade the king called his sceptre.",
+    "fr": "Un couperet de boucher à manche d'os que le roi appelait son sceptre."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-156",
+  "value": 380,
+  "family": "greatblade",
+  "level": 10,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "bonus": {
+    "power": 8,
+    "speed": -4
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "winterglass",
+  "name": {
+    "en": "Winterglass",
+    "fr": "Verre-d'hiver"
+  },
+  "description": {
+    "en": "Eira's gift: a blade of clear ice that cuts like a cold morning.",
+    "fr": "Le cadeau d'Eira : une lame de glace claire qui tranche comme un matin froid."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-150",
+  "value": 420,
+  "family": "rapier",
+  "level": 10,
+  "light": "rapier-light-1",
+  "heavy": "rapier-heavy",
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.5
+  },
+  "bonus": {
+    "critChance": 0.08,
+    "critMultiplier": 0.2
+  }
+}

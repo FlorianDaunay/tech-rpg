@@ -15,6 +15,8 @@ export interface Progress {
   visited: string[];
   /** One-time spawns slain for good (`map:spawn`), e.g. guardians. */
   cleared: string[];
+  /** Fog of war per map: explored cells, encoded (core/world/explore). Kept through NG+. */
+  explored?: Record<string, string>;
 }
 
 /** The parts of a player the narrative rules read and write. */
@@ -26,7 +28,7 @@ export interface StoryActor {
   pet?: string | null;
 }
 
-export const emptyProgress = (): Progress => ({ flags: [], quests: {}, kills: {}, met: [], visited: [], cleared: [] });
+export const emptyProgress = (): Progress => ({ flags: [], quests: {}, kills: {}, met: [], visited: [], cleared: [], explored: {} });
 
 const owned = (a: StoryActor, item: string) => a.bag[item] ?? 0;
 

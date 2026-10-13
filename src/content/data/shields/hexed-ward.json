@@ -1,0 +1,19 @@
+{
+  "id": "hexed-ward",
+  "name": {
+    "en": "Hexed Ward",
+    "fr": "Garde maudite"
+  },
+  "description": {
+    "en": "Green runes crawl over it. Parries come easy; so do bad dreams.",
+    "fr": "Des runes vertes rampent dessus. Les parades viennent facilement ; les mauvais rêves aussi."
+  },
+  "rarity": "uncommon",
+  "icon": "shields/pack2-30",
+  "value": 90,
+  "level": 6,
+  "reduction": 0.72,
+  "parryWindow": 0.26,
+  "staminaPerDamage": 0.85,
+  "defense": 4
+}

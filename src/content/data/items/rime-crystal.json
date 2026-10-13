@@ -1,0 +1,15 @@
+{
+  "id": "rime-crystal",
+  "name": {
+    "en": "Rime Crystal",
+    "fr": "Cristal de givre"
+  },
+  "description": {
+    "en": "Ice that never melts. Bram can work it; Oskar pays well for it.",
+    "fr": "Une glace qui ne fond jamais. Bram sait la travailler ; Oskar la paie bien."
+  },
+  "rarity": "uncommon",
+  "kind": "material",
+  "stack": 99,
+  "value": 18
+}

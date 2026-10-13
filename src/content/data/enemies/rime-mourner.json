@@ -1,0 +1,37 @@
+{
+  "id": "rime-mourner",
+  "name": {
+    "en": "Rime Mourner",
+    "fr": "Pleureuse de givre"
+  },
+  "description": {
+    "en": "She keeps the dead company with a song that freezes the air. The shards come in threes.",
+    "fr": "Elle tient compagnie aux morts avec un chant qui gèle l'air. Les éclats viennent par trois."
+  },
+  "look": "enemies/enemy-08-1",
+  "family": "spirit",
+  "zones": [
+    "frostfell-reach"
+  ],
+  "stats": {
+    "maxHp": 52,
+    "power": 12,
+    "defense": 3,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 12,
+    "speed": 56
+  },
+  "ai": "ranged",
+  "attack": "frost-fan",
+  "aggroRange": 200,
+  "attackRange": 150,
+  "attackCooldown": 1.8,
+  "radius": 6,
+  "xp": 20,
+  "loot": "mourner-loot",
+  "resist": {
+    "frost": 0.4,
+    "ember": 1.4
+  }
+}

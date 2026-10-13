@@ -1,0 +1,16 @@
+{
+  "id": "hollow-step",
+  "name": {
+    "en": "Hollow Step",
+    "fr": "Pas du Néant"
+  },
+  "description": {
+    "en": "Step through the dark and strike from the other side of it.",
+    "fr": "Passez à travers l'ombre et frappez de l'autre côté."
+  },
+  "kind": "skill",
+  "move": "hollow-step",
+  "cooldown": 6,
+  "unlockLevel": 8,
+  "element": "hollow"
+}

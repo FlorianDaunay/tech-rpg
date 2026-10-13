@@ -30,6 +30,8 @@ export const BEDS: Record<string, Bed> = {
   "ashen-graveyard": { wind: { f: 420, q: 1.2, gain: 0.14, rate: 0.06 }, events: { bell: 0.025, gust: 0.08, creak: 0.04, whisper: 0.03 } },
   "deep-mines": { rumble: 0.18, wind: { f: 250, q: 2, gain: 0.05, rate: 0.03 }, events: { drip: 0.5, clink: 0.08, creak: 0.02 } },
   "fallen-citadel": { wind: { f: 600, q: 2.5, gain: 0.12, rate: 0.08 }, events: { crackle: 0.4, clink: 0.06, gust: 0.1 } },
+  "frostfell-reach": { wind: { f: 900, q: 0.7, gain: 0.16, rate: 0.11 }, events: { gust: 0.14, chime: 0.05, creak: 0.03 } },
+  "goblin-warren": { rumble: 0.12, wind: { f: 280, q: 2, gain: 0.05, rate: 0.04 }, hearth: 0.06, events: { drip: 0.3, clink: 0.2, crackle: 0.3 } },
   "hollow-rift": { rumble: 0.15, drone: { note: "D#1", gain: 0.12 }, wind: { f: 300, q: 4, gain: 0.08, rate: 0.13 }, events: { whisper: 0.12, chime: 0.05 } },
 };
 

@@ -69,6 +69,19 @@ export interface MinimapLayout {
   portals: { x: number; y: number; w: number; h: number; to: string }[];
 }
 
+/** The world map: every authored map placed in world tiles (core/world/worldmap), with its layout. */
+export interface WorldView {
+  maps: { id: string; zone: string; x: number; y: number; layout: MinimapLayout }[];
+  links: { from: string; to: string; x: number; y: number }[];
+  bounds: { x: number; y: number; w: number; h: number };
+}
+
+/** Fog of war of the local player: explored cells per map (encoded) and the maps ever entered. */
+export interface FogView {
+  explored: Record<string, string>;
+  visited: string[];
+}
+
 /** Boss bar: who, how hurt, which phase (thresholds = where the next phases start, as hp fractions). */
 export interface BossView {
   enemy: string;
@@ -141,6 +154,10 @@ export interface BridgeEvents {
   /** The boss fighting the local player (null when none): HUD boss bar. */
   "game:boss": BossView | null;
   "game:markers": MapMarker[];
+  /** The world map (sent once when the world starts). */
+  "game:world": WorldView;
+  /** What the local player has explored (on change, a few times a second at most). */
+  "game:fog": FogView;
   /** A sealed portal on this map: wardens left / required (left 0 = it just opened). Null = none. */
   "game:seal": { left: number; total: number } | null;
   /** Local player's bag/gear changed (and once when the world starts). */

@@ -1,0 +1,29 @@
+{
+  "id": "glacial-lance",
+  "windup": 0.18,
+  "active": 0.05,
+  "recovery": 0.3,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 5,
+    "offset": 0
+  },
+  "damage": 1.1,
+  "staminaCost": 18,
+  "knockback": 120,
+  "weight": "medium",
+  "poise": 18,
+  "element": "frost",
+  "projectile": {
+    "speed": 300,
+    "radius": 5,
+    "range": 260,
+    "count": 3,
+    "spread": 12,
+    "look": "shard"
+  },
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.6
+  }
+}

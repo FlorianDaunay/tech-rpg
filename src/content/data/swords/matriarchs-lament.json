@@ -1,0 +1,27 @@
+{
+  "id": "matriarchs-lament",
+  "name": {
+    "en": "Matriarch's Lament",
+    "fr": "Complainte de la Matriarche"
+  },
+  "description": {
+    "en": "Veyla's own sword, white as the silence she wanted. When it lands, the world holds its breath.",
+    "fr": "L'épée de Veyla, blanche comme le silence qu'elle voulait. Quand elle frappe, le monde retient son souffle."
+  },
+  "rarity": "legendary",
+  "icon": "weapons/sword-165",
+  "value": 1100,
+  "family": "greatblade",
+  "level": 12,
+  "light": "greatblade-light-1",
+  "heavy": "greatblade-heavy",
+  "element": "frost",
+  "onHit": {
+    "status": "frozen",
+    "chance": 0.25
+  },
+  "bonus": {
+    "power": 10,
+    "maxPoise": 20
+  }
+}

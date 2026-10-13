@@ -1,0 +1,28 @@
+{
+  "id": "winters-wrath",
+  "windup": 0.4,
+  "active": 0.05,
+  "recovery": 0.5,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "damage": 2.4,
+  "knockback": 220,
+  "weight": "heavy",
+  "poise": 70,
+  "element": "frost",
+  "hazard": {
+    "radius": 34,
+    "delay": 0.6,
+    "at": "self",
+    "distance": 0,
+    "count": 9,
+    "scatter": 120
+  },
+  "onHit": {
+    "status": "frozen",
+    "chance": 0.7
+  }
+}

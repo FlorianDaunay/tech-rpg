@@ -3,7 +3,7 @@ import { Id, LocalizedText } from "./common";
 
 const Hex = z.string().regex(/^#[0-9a-fA-F]{6}$/, "colour #RRGGBB");
 
-export const WEATHERS = ["fog", "fireflies", "embers", "rain", "ash", "motes"] as const;
+export const WEATHERS = ["fog", "fireflies", "embers", "rain", "ash", "motes", "snow"] as const;
 
 /**
  * A zone is the mood of a set of maps: name banner, music, ambience bed, lighting and weather.

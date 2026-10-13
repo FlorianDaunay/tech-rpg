@@ -1,0 +1,19 @@
+{
+  "id": "glacier-bulwark",
+  "name": {
+    "en": "Glacier Bulwark",
+    "fr": "Rempart glaciaire"
+  },
+  "description": {
+    "en": "Cut from the heart of the Reach's oldest ice. Heavy, cold, nearly unbreakable.",
+    "fr": "Taillé au cœur de la plus vieille glace des Confins. Lourd, froid, presque incassable."
+  },
+  "rarity": "epic",
+  "icon": "shields/pack3-03",
+  "value": 400,
+  "level": 11,
+  "reduction": 0.92,
+  "parryWindow": 0.14,
+  "staminaPerDamage": 0.5,
+  "defense": 9
+}

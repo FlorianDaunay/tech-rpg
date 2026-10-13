@@ -1,0 +1,31 @@
+{
+  "id": "grukk-loot",
+  "rolls": 3,
+  "chance": 1,
+  "entries": [
+    {
+      "item": "grukks-cleaver",
+      "weight": 1
+    },
+    {
+      "item": "gilded-buckler",
+      "weight": 1
+    },
+    {
+      "item": "gilded-tooth",
+      "weight": 3,
+      "min": 4,
+      "max": 8
+    },
+    {
+      "item": "deep-ore",
+      "weight": 2,
+      "min": 3,
+      "max": 5
+    }
+  ],
+  "gold": {
+    "min": 260,
+    "max": 380
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "hexers-kris",
+  "name": {
+    "en": "Hexer's Kris",
+    "fr": "Kriss du sorcier"
+  },
+  "description": {
+    "en": "A wavy knife that hums with stolen lamp-light.",
+    "fr": "Un couteau ondulé qui bourdonne de lumière de lampe volée."
+  },
+  "rarity": "rare",
+  "icon": "weapons/sword-135",
+  "value": 190,
+  "family": "rapier",
+  "level": 8,
+  "light": "rapier-light-1",
+  "heavy": "rapier-heavy",
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.35
+  },
+  "bonus": {
+    "critChance": 0.06
+  }
+}

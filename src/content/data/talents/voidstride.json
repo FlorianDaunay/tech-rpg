@@ -1,0 +1,20 @@
+{
+  "id": "voidstride",
+  "name": {
+    "en": "Voidstride",
+    "fr": "Foulée du Néant"
+  },
+  "description": {
+    "en": "Unlocks Hollow Step now.",
+    "fr": "Débloque Pas du Néant dès maintenant."
+  },
+  "tree": "blade",
+  "x": 0,
+  "y": 3,
+  "ranks": 1,
+  "requires": [
+    "thunderstep"
+  ],
+  "treePoints": 4,
+  "skill": "hollow-step"
+}

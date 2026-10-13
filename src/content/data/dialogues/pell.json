@@ -1,0 +1,245 @@
+{
+  "id": "pell",
+  "start": "greet",
+  "nodes": {
+    "greet": {
+      "speaker": "npc",
+      "text": {
+        "en": "Shh! Keep your voice down, they've got ears like bats in there. You're no goblin. Good. I've been waiting a week for someone who isn't a goblin.",
+        "fr": "Chut ! Parle plus bas, ils ont des oreilles de chauve-souris là-dedans. T'es pas un gobelin. Bien. J'attends depuis une semaine quelqu'un qui n'est pas un gobelin."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "What is this place?",
+            "fr": "Qu'est-ce que c'est, ici ?"
+          },
+          "next": "place"
+        },
+        {
+          "text": {
+            "en": "Need a hand?",
+            "fr": "Besoin d'un coup de main ?"
+          },
+          "if": [
+            {
+              "quest": "hexers-bounty",
+              "is": "none"
+            }
+          ],
+          "next": "hexers-bounty-offer"
+        },
+        {
+          "text": {
+            "en": "Who's in charge in there?",
+            "fr": "Qui commande là-dedans ?"
+          },
+          "if": [
+            {
+              "quest": "king-of-the-warren",
+              "is": "none"
+            }
+          ],
+          "next": "king-of-the-warren-offer"
+        },
+        {
+          "text": {
+            "en": "Farewell.",
+            "fr": "Adieu."
+          },
+          "next": "bye"
+        }
+      ]
+    },
+    "place": {
+      "speaker": "npc",
+      "text": {
+        "en": "The Warren. Old Deepdelver galleries the goblins took over and filled with everything they ever stole. Including me, for a month.",
+        "fr": "La Garenne. De vieilles galeries des Fouilleurs que les gobelins ont prises et remplies de tout ce qu'ils ont volé. Moi compris, pendant un mois."
+      }
+    },
+    "bye": {
+      "speaker": "npc",
+      "text": {
+        "en": "Mind the tripwires. Mind the hexers more.",
+        "fr": "Attention aux fils tendus. Attention aux sorciers encore plus."
+      }
+    },
+    "hexers-bounty-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "The hexers stole our lamps and learned to make them bite. Five of them and the tunnels are safe enough for the lads to come back.",
+        "fr": "Les sorciers ont volé nos lampes et appris à les faire mordre. Cinq d'entre eux, et les tunnels seront assez sûrs pour que les gars reviennent."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "hexers-bounty"
+            }
+          ],
+          "next": "hexers-bounty-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "hexers-bounty-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "Their bolts turn. Don't run straight, run sideways.",
+        "fr": "Leurs éclairs tournent. Ne cours pas tout droit, cours de côté."
+      }
+    },
+    "hexers-bounty-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Five hexers. Green robes, mean eyes.",
+        "fr": "Cinq sorciers. Robes vertes, yeux mauvais."
+      }
+    },
+    "hexers-bounty-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "The lamps went dark one by one. That was you!",
+        "fr": "Les lampes se sont éteintes une à une. C'était toi !"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "It's done.",
+            "fr": "C'est fait."
+          },
+          "do": [
+            {
+              "completeQuest": "hexers-bounty"
+            }
+          ],
+          "next": "hexers-bounty-reward"
+        }
+      ]
+    },
+    "hexers-bounty-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "The lads pooled their pay. Here.",
+        "fr": "Les gars ont mis leurs gages en commun. Tiens."
+      }
+    },
+    "king-of-the-warren-offer": {
+      "speaker": "npc",
+      "text": {
+        "en": "Grukk. Calls himself king. Wears our foreman's lamp-ring as a crown. As long as he sits on that throne, no miner goes below the second gallery.",
+        "fr": "Grukk. Se dit roi. Porte l'anneau-lampe de notre contremaître comme couronne. Tant qu'il est sur ce trône, aucun mineur ne descend sous la deuxième galerie."
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "I'll do it.",
+            "fr": "Je m'en charge."
+          },
+          "do": [
+            {
+              "startQuest": "king-of-the-warren"
+            }
+          ],
+          "next": "king-of-the-warren-deal"
+        },
+        {
+          "text": {
+            "en": "Not now.",
+            "fr": "Pas maintenant."
+          }
+        }
+      ]
+    },
+    "king-of-the-warren-deal": {
+      "speaker": "npc",
+      "text": {
+        "en": "His throne room is at the far end. He spins with that cleaver when he's angry. Stay out of the circle.",
+        "fr": "Sa salle du trône est tout au fond. Il tournoie avec son couperet quand il est en colère. Reste hors du cercle."
+      }
+    },
+    "king-of-the-warren-remind": {
+      "speaker": "npc",
+      "text": {
+        "en": "Grukk's throne room is at the bottom of the Warren.",
+        "fr": "La salle du trône de Grukk est au fond de la Garenne."
+      }
+    },
+    "king-of-the-warren-turnin": {
+      "speaker": "npc",
+      "text": {
+        "en": "You've got the lamp-ring? Ha! Long live nobody!",
+        "fr": "Tu as l'anneau-lampe ? Ha ! Vive personne !"
+      },
+      "choices": [
+        {
+          "text": {
+            "en": "It's done.",
+            "fr": "C'est fait."
+          },
+          "do": [
+            {
+              "completeQuest": "king-of-the-warren"
+            }
+          ],
+          "next": "king-of-the-warren-reward"
+        }
+      ]
+    },
+    "king-of-the-warren-reward": {
+      "speaker": "npc",
+      "text": {
+        "en": "Here, from the foreman's own strongbox. He'd want you to have it.",
+        "fr": "Tiens, du coffre du contremaître lui-même. Il aurait voulu que tu l'aies."
+      }
+    }
+  },
+  "entries": [
+    {
+      "if": [
+        {
+          "quest": "hexers-bounty",
+          "is": "ready"
+        }
+      ],
+      "node": "hexers-bounty-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "king-of-the-warren",
+          "is": "ready"
+        }
+      ],
+      "node": "king-of-the-warren-turnin"
+    },
+    {
+      "if": [
+        {
+          "quest": "hexers-bounty",
+          "is": "active"
+        }
+      ],
+      "node": "hexers-bounty-remind"
+    },
+    {
+      "if": [
+        {
+          "quest": "king-of-the-warren",
+          "is": "active"
+        }
+      ],
+      "node": "king-of-the-warren-remind"
+    }
+  ]
+}

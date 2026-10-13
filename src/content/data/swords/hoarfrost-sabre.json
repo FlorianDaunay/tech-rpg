@@ -1,0 +1,26 @@
+{
+  "id": "hoarfrost-sabre",
+  "name": {
+    "en": "Hoarfrost Sabre",
+    "fr": "Sabre de givre-blanc"
+  },
+  "description": {
+    "en": "A cultist's curved blade. It never quite warms in the hand.",
+    "fr": "La lame courbe d'un cultiste. Elle ne se réchauffe jamais tout à fait dans la main."
+  },
+  "rarity": "rare",
+  "icon": "weapons/sword-129",
+  "value": 170,
+  "family": "blade",
+  "level": 8,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "element": "frost",
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.4
+  },
+  "bonus": {
+    "power": 4
+  }
+}

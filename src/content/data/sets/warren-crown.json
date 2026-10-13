@@ -1,0 +1,24 @@
+{
+  "id": "warren-crown",
+  "name": {
+    "en": "Warren Crown",
+    "fr": "Couronne de la Garenne"
+  },
+  "description": {
+    "en": "The regalia of a self-made goblin king.",
+    "fr": "Les insignes d'un roi gobelin autoproclamé."
+  },
+  "pieces": [
+    "grukks-cleaver",
+    "gilded-buckler"
+  ],
+  "bonuses": [
+    {
+      "pieces": 2,
+      "stats": {
+        "power": 4,
+        "maxPoise": 12
+      }
+    }
+  ]
+}

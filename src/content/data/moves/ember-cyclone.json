@@ -1,0 +1,21 @@
+{
+  "id": "ember-cyclone",
+  "windup": 0.25,
+  "active": 0.2,
+  "recovery": 0.4,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 48,
+    "offset": 0
+  },
+  "damage": 1.5,
+  "staminaCost": 26,
+  "knockback": 200,
+  "weight": "heavy",
+  "poise": 34,
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.7
+  }
+}

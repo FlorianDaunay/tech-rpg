@@ -1,0 +1,37 @@
+{
+  "id": "glacier-wisp",
+  "name": {
+    "en": "Glacier Wisp",
+    "fr": "Feu follet glaciaire"
+  },
+  "description": {
+    "en": "A shard of blue cold that hunts warmth. Quick to reach you, quicker to break.",
+    "fr": "Un éclat de froid bleu qui chasse la chaleur. Rapide à vous atteindre, plus rapide encore à se briser."
+  },
+  "look": "enemies/enemy-17-6",
+  "family": "spirit",
+  "zones": [
+    "frostfell-reach"
+  ],
+  "stats": {
+    "maxHp": 30,
+    "power": 10,
+    "defense": 0,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 6,
+    "speed": 92
+  },
+  "ai": "melee",
+  "attack": "frost-bite",
+  "aggroRange": 180,
+  "attackRange": 34,
+  "attackCooldown": 0.9,
+  "radius": 5,
+  "xp": 10,
+  "loot": "frost-wisp-loot",
+  "resist": {
+    "frost": 0.2,
+    "ember": 1.6
+  }
+}

@@ -11,6 +11,7 @@ import { createRng, type Rng } from "../math/rng";
 import { awardXp } from "../progression/level";
 import { isSolidCell, type GameMap } from "../world/map";
 import { RIFT_PREFIX } from "../world/riftgen";
+import { revealAround } from "../world/explore";
 import { emptyIntent, type Intent } from "./intent";
 import type { Modifiers } from "../combat/modifiers";
 import { combineMods, normalizeRules, scaleEnemy, type WorldRules } from "./rules";
@@ -92,6 +93,9 @@ export interface Spawner {
   /** Sim time when it may respawn (null = occupied, or never). */
   at: number | null;
 }
+
+/** Sim ticks between two fog-of-war reveals (60 Hz → 4 per second). */
+const EXPLORE_EVERY = 15;
 
 /** Players this close to a spawn point keep it from respawning (no popping in under their nose). */
 export const RESPAWN_CLEARANCE = 180;
@@ -514,6 +518,9 @@ export function stepSim(state: SimState, map: GameMap, intents: Record<string, I
   stepSeals(state, map);
   detectPortals(state, map);
   for (const a of players(state)) if (a.progress) trackProgress(state.events, { id: a.id, bag: a.bag, progress: a.progress }, state.mapId);
+  // Fog of war: a few times a second is plenty (Rift floors are new every run: not remembered).
+  if (state.tick % EXPLORE_EVERY === 0 && !map.id.startsWith(RIFT_PREFIX))
+    for (const a of players(state)) if (a.progress && a.action.kind !== "dead") revealAround((a.progress.explored ??= {}), map, Math.floor(a.x / map.tileSize), Math.floor(a.y / map.tileSize));
   awardXp(state.events, state.actors);
   stepTrades(state);
   if (state.pvp) recordPositions(state);

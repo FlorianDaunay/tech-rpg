@@ -1,0 +1,124 @@
+{
+  "id": "rime-matriarch",
+  "name": {
+    "en": "The Rime Matriarch",
+    "fr": "La Matriarche de givre"
+  },
+  "description": {
+    "en": "Veyla, Ilyth's elder sister, who swore to keep the last warmth of Valaria safe and decided the safest thing was to freeze it. She speaks softly, and everything she touches stops.",
+    "fr": "Veyla, sœur aînée d'Ilyth, qui jura de garder la dernière chaleur de Valaria et décida que le plus sûr était de la geler. Elle parle doucement, et tout ce qu'elle touche s'arrête."
+  },
+  "look": "bosses/rime-matriarch",
+  "family": "spirit",
+  "zones": [
+    "frostfell-reach"
+  ],
+  "stats": {
+    "maxHp": 2000,
+    "power": 17,
+    "defense": 15,
+    "critChance": 0,
+    "critMultiplier": 1.5,
+    "maxPoise": 240,
+    "speed": 42
+  },
+  "ai": "melee",
+  "attack": "rime-sweep",
+  "aggroRange": 180,
+  "attackRange": 50,
+  "attackCooldown": 1.6,
+  "radius": 18,
+  "xp": 520,
+  "loot": "matriarch-loot",
+  "resist": {
+    "frost": 0.4,
+    "ember": 1.35
+  },
+  "boss": {
+    "arena": 220,
+    "flag": "rime-matriarch-defeated",
+    "phases": [
+      {
+        "below": 1,
+        "attacks": [
+          {
+            "move": "rime-sweep",
+            "weight": 2,
+            "range": 50
+          },
+          {
+            "move": "frost-fan",
+            "weight": 2,
+            "range": 170
+          },
+          {
+            "move": "icefall",
+            "weight": 1,
+            "range": 180
+          }
+        ],
+        "attackCooldown": 1.6,
+        "speed": 1
+      },
+      {
+        "below": 0.6,
+        "attacks": [
+          {
+            "move": "rime-sweep",
+            "weight": 2,
+            "range": 50
+          },
+          {
+            "move": "icefall",
+            "weight": 2,
+            "range": 180
+          },
+          {
+            "move": "rime-shards",
+            "weight": 1,
+            "range": 140
+          },
+          {
+            "move": "glacier-ring",
+            "weight": 1,
+            "range": 60
+          }
+        ],
+        "attackCooldown": 1.35,
+        "speed": 1.1,
+        "summon": {
+          "enemy": "glacier-wisp",
+          "count": 2,
+          "every": 15
+        }
+      },
+      {
+        "below": 0.25,
+        "attacks": [
+          {
+            "move": "glacier-ring",
+            "weight": 2,
+            "range": 60
+          },
+          {
+            "move": "icefall",
+            "weight": 2,
+            "range": 180
+          },
+          {
+            "move": "rime-shards",
+            "weight": 2,
+            "range": 140
+          },
+          {
+            "move": "rime-sweep",
+            "weight": 1,
+            "range": 50
+          }
+        ],
+        "attackCooldown": 1.0,
+        "speed": 1.2
+      }
+    ]
+  }
+}

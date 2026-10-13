@@ -1,0 +1,24 @@
+{
+  "id": "rimeguard",
+  "name": {
+    "en": "Rimeguard",
+    "fr": "Garde-givre"
+  },
+  "description": {
+    "en": "Gear of the Reach's old wardens, who kept the passes open in the long winters.",
+    "fr": "L'équipement des anciens gardiens des Confins, qui tenaient les cols ouverts pendant les longs hivers."
+  },
+  "pieces": [
+    "hoarfrost-sabre",
+    "rimeguard-heater"
+  ],
+  "bonuses": [
+    {
+      "pieces": 2,
+      "stats": {
+        "defense": 3,
+        "maxHp": 20
+      }
+    }
+  ]
+}

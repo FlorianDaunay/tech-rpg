@@ -1,0 +1,27 @@
+{
+  "id": "sunwheel-brand",
+  "name": {
+    "en": "Sunwheel Brand",
+    "fr": "Lame de la Roue-Soleil"
+  },
+  "description": {
+    "en": "Its guard is a ring of living ember. Thawed from the ice under the Matriarch's throne.",
+    "fr": "Sa garde est un anneau de braise vive. Dégelée de la glace sous le trône de la Matriarche."
+  },
+  "rarity": "epic",
+  "icon": "weapons/sword-171",
+  "value": 450,
+  "family": "blade",
+  "level": 11,
+  "light": "sword-light-1",
+  "heavy": "sword-heavy",
+  "element": "ember",
+  "onHit": {
+    "status": "burning",
+    "chance": 0.5
+  },
+  "bonus": {
+    "power": 6,
+    "critChance": 0.04
+  }
+}

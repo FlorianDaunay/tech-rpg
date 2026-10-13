@@ -126,7 +126,7 @@ function oak(P: PaletteModule, rng: Rng, variant: number): Canvas {
   return c;
 }
 
-function pine(P: PaletteModule, rng: Rng): Canvas {
+function pine(P: PaletteModule, rng: Rng, snowy = false): Canvas {
   const c = new Canvas(64, 64);
   const Pn = P.WORLD_RAMPS.pine;
   const B = P.WORLD_RAMPS.bark;
@@ -173,8 +173,29 @@ function pine(P: PaletteModule, rng: Rng): Canvas {
       c.set(x - 1, y + 1, Pn[3]!);
     }
   }
+  if (snowy) snowCaps(c, P, rng);
   c.outline(Pn[0]!, { threshold: 255 });
   return c;
+}
+
+/** Snow settled on every upward-facing edge (and on each tier's shoulders), plus a few flecks. */
+function snowCaps(c: Canvas, P: PaletteModule, rng: Rng): void {
+  const S = P.WORLD_RAMPS.snow;
+  const tops: [number, number][] = [];
+  for (let y = 1; y < c.height - 8; y++)
+    for (let x = 0; x < c.width; x++) if (c.alpha(x, y) === 255 && c.alpha(x, y - 1) === 0) tops.push([x, y]);
+  for (const [x, y] of tops) {
+    c.set(x, y, S[5]!);
+    if (c.alpha(x, y + 1) === 255) c.set(x, y + 1, x < c.width / 2 ? S[4]! : S[3]!);
+  }
+  for (let i = 0; i < 26; i++) {
+    const x = rng.int(12, c.width - 12);
+    const y = rng.int(4, c.height - 16);
+    if (c.alpha(x, y) === 255 && c.alpha(x + 1, y) === 255) {
+      c.set(x, y, S[5]!);
+      c.set(x + 1, y, S[4]!);
+    }
+  }
 }
 
 function deadTree(P: PaletteModule, rng: Rng): Canvas {
@@ -402,5 +423,7 @@ export function nature(rng: Rng, P: PaletteModule): GeneratedAsset[] {
   out.push(asset("props/bushes.png", "prop", Canvas.strip([0, 1, 2].map((v) => bush(P, rng, v))), { w: 32, h: 32, frames: 3 }));
   out.push(asset("props/rocks.png", "prop", Canvas.strip([0, 1, 2, 3].map((v) => rock(P, rng, v))), { w: 32, h: 32, frames: 4 }));
   out.push(asset("props/mushrooms.png", "prop", Canvas.strip([0, 1, 2].map((v) => mushrooms(P, rng, v))), { w: 32, h: 32, frames: 3 }));
+  // Appended last: generators share one rng stream, so new art goes at the end (older assets stay identical).
+  out.push(tree("pine-snow", pine(P, rng, true)));
   return out;
 }

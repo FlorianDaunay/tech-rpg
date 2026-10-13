@@ -1,0 +1,16 @@
+{
+  "id": "king-cleave",
+  "windup": 0.7,
+  "active": 0.14,
+  "recovery": 0.7,
+  "hitbox": {
+    "kind": "arc",
+    "range": 60,
+    "angle": 150
+  },
+  "damage": 1.6,
+  "knockback": 260,
+  "lunge": 140,
+  "weight": "heavy",
+  "poise": 60
+}

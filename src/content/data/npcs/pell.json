@@ -1,0 +1,18 @@
+{
+  "id": "pell",
+  "name": {
+    "en": "Pell",
+    "fr": "Pell"
+  },
+  "title": {
+    "en": "Escaped Deepdelver",
+    "fr": "Fouilleur évadé"
+  },
+  "description": {
+    "en": "A miner who dug the wrong tunnel and spent a month as a goblin king's 'royal digger'. He got out. He wants back in, with help.",
+    "fr": "Un mineur qui a creusé le mauvais tunnel et passé un mois comme « fouisseur royal » d'un roi gobelin. Il s'en est sorti. Il veut y retourner, avec de l'aide."
+  },
+  "look": "characters/male-04-2",
+  "dialogue": "pell",
+  "wander": 3
+}

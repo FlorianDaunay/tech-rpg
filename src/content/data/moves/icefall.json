@@ -1,0 +1,28 @@
+{
+  "id": "icefall",
+  "windup": 0.8,
+  "active": 0.05,
+  "recovery": 0.6,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 1,
+    "offset": 0
+  },
+  "damage": 1.3,
+  "knockback": 160,
+  "weight": "heavy",
+  "poise": 30,
+  "element": "frost",
+  "hazard": {
+    "radius": 30,
+    "delay": 1.0,
+    "at": "target",
+    "distance": 90,
+    "count": 6,
+    "scatter": 110
+  },
+  "onHit": {
+    "status": "chilled",
+    "chance": 0.6
+  }
+}

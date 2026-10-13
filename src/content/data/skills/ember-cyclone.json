@@ -1,0 +1,16 @@
+{
+  "id": "ember-cyclone",
+  "name": {
+    "en": "Ember Cyclone",
+    "fr": "Cyclone de braise"
+  },
+  "description": {
+    "en": "Spin with your blade aflame, burning everything around you.",
+    "fr": "Tournoyez lame en feu, brûlant tout ce qui vous entoure."
+  },
+  "kind": "skill",
+  "move": "ember-cyclone",
+  "cooldown": 10,
+  "unlockLevel": 9,
+  "element": "ember"
+}

@@ -38,6 +38,53 @@ function slab(c: Canvas, x0: number, y0: number, w: number, h: number, R: Ramp, 
 
 // ---- ground tiles -------------------------------------------------------------------------
 
+/** Frostfell snow: soft drifts, a few sparkles, now and then a frozen grass tuft or an old track. */
+function snowGround(P: PaletteModule, v: number) {
+  const S = P.WORLD_RAMPS.snow;
+  return groundTile(S.slice(2, 6), v, 900, (c, s) => {
+    for (let k = 0; k < 5; k++) {
+      const x = Math.floor(hash2(k, 1, s) * 31);
+      const y = Math.floor(hash2(k, 2, s) * 31);
+      c.set(x, y, hash2(k, 3, s) > 0.4 ? S[5]! : P.WORLD_RAMPS.ice[4]!);
+    }
+    if (v % 3 === 1) {
+      const G = P.WORLD_RAMPS.deadwood;
+      const x = 5 + Math.floor(hash2(8, 1, s) * 20);
+      const y = 12 + Math.floor(hash2(8, 2, s) * 14);
+      for (let i = 0; i < 3; i++) {
+        c.set(x + i * 2 - 2, y - (i % 2), G[3]!);
+        c.set(x + i * 2 - 2, y - 1 - (i % 2), S[5]!);
+      }
+    }
+    if (v % 4 === 3) {
+      // two old footprints, half filled
+      const x = 8 + Math.floor(hash2(7, 1, s) * 14);
+      const y = 6 + Math.floor(hash2(7, 2, s) * 14);
+      for (const [dx, dy] of [[0, 0], [4, 6]] as const) {
+        c.set(x + dx, y + dy, S[2]!);
+        c.set(x + dx + 1, y + dy, S[2]!);
+        c.set(x + dx, y + dy + 1, S[1]!);
+      }
+    }
+  }, 14);
+}
+
+/** Frozen lake: walkable glassy ice with pale cracks. */
+function lakeIce(P: PaletteModule, v: number) {
+  const I = P.WORLD_RAMPS.ice;
+  const c = groundTile(I.slice(2, 5), v, 950, () => undefined, 16);
+  const s = 950 + v * 31;
+  // a crack: a short random walk
+  let x = Math.floor(hash2(1, v, s) * 28) + 2;
+  let y = Math.floor(hash2(2, v, s) * 28) + 2;
+  for (let k = 0; k < 14; k++) {
+    c.set(x, y, I[5]!);
+    x += Math.round(hash2(k, 3, s) * 2 - 1);
+    y += Math.round(hash2(k, 4, s) * 2 - 1);
+  }
+  return c;
+}
+
 function groundTile(R: Ramp, variant: number, seed: number, specks: (c: Canvas, s: number) => void, cell = 12): Canvas {
   const c = new Canvas(T, T);
   const s = seed + variant * 31;
@@ -137,8 +184,7 @@ function flagstone(P: PaletteModule, v: number): Canvas {
 // ---- wall autotiles ------------------------------------------------------------------------
 
 /** Rock mass: lit top surface, a darker cliff face along south edges, cracks. */
-function drawCaveWall(P: PaletteModule, sdfs: SdfFn[][], seed: number): Canvas {
-  const S = P.WORLD_RAMPS.stone;
+function drawCaveWall(P: PaletteModule, sdfs: SdfFn[][], seed: number, S: Ramp = P.WORLD_RAMPS.stone, foot: Color = P.WORLD_RAMPS.shadow[0], top: Ramp = S.slice(0, 4)): Canvas {
   const c = new Canvas(5 * T, 3 * T);
   for (let row = 0; row < 3; row++)
     for (let col = 0; col < 5; col++) {
@@ -150,15 +196,15 @@ function drawCaveWall(P: PaletteModule, sdfs: SdfFn[][], seed: number): Canvas {
           const py = row * T + y;
           if (d >= 1.2) continue;
           if (d >= 0) {
-            c.set(px, py, P.WORLD_RAMPS.shadow[0], 150); // contact shadow on the floor
+            c.set(px, py, foot, 150); // contact shadow on the floor
             continue;
           }
           // Face: within 8 px above a south edge (the wall "drops" to the floor).
           let face = 0;
           for (let k = 1; k <= 8; k++) if (sdf(x, y + k) >= 0) face = face || k;
           const n = fbm(px, py, 8, seed, 0, 2) - 0.5;
-          const shadowRamp = [P.WORLD_RAMPS.shadow[0], S[0]!, S[1]!];
-          if (d > -1.2) c.set(px, py, P.WORLD_RAMPS.shadow[0]);
+          const shadowRamp = [foot, S[0]!, S[1]!];
+          if (d > -1.2) c.set(px, py, foot);
           else if (face) {
             // Cliff face: dark, with horizontal strata, darkest at the foot.
             const strata = Math.sin((py + n * 6) * 0.9) * 0.1;
@@ -167,7 +213,7 @@ function drawCaveWall(P: PaletteModule, sdfs: SdfFn[][], seed: number): Canvas {
             // Top of the rock mass: lumpy (cellular-ish noise), lit rim along north/west edges.
             const lump = Math.abs(noise(px, py, 6, seed + 3) - 0.5) < 0.06 ? -0.35 : 0;
             const rim = sdf(x, y - 2) >= 0 || sdf(x - 2, y) >= 0;
-            c.set(px, py, rampPick(S.slice(0, 4), 0.42 + n * 0.6 + lump + (rim ? 0.35 : 0), px, py, 0.3));
+            c.set(px, py, rampPick(top, 0.42 + n * 0.6 + lump + (rim ? 0.35 : 0), px, py, 0.3));
           }
         }
     }
@@ -571,6 +617,9 @@ export function zones(rng: Rng, P: PaletteModule): GeneratedAsset[] {
   out.push(asset("tiles/cave-floor.png", "tileset", strip([0, 1, 2, 3, 4, 5].map((v) => caveFloor(P, v))), { w: T, h: T, frames: 6 }));
   out.push(asset("tiles/flagstone.png", "tileset", strip([0, 1, 2, 3].map((v) => flagstone(P, v))), { w: T, h: T, frames: 4 }));
   out.push(asset("tiles/cave-wall.png", "tileset", drawCaveWall(P, terrainSdfs(4, 10, 3.5, 77), 78), { w: T, h: T, frames: 15 }, { ...LAYOUT }));
+  out.push(asset("tiles/snow-ground.png", "tileset", strip([0, 1, 2, 3, 4, 5, 6, 7].map((v) => snowGround(P, v))), { w: T, h: T, frames: 8 }));
+  out.push(asset("tiles/lake-ice.png", "tileset", strip([0, 1, 2, 3].map((v) => lakeIce(P, v))), { w: T, h: T, frames: 4 }));
+  out.push(asset("tiles/ice-wall.png", "tileset", drawCaveWall(P, terrainSdfs(4, 12, 3, 131), 132, P.WORLD_RAMPS.ice, P.WORLD_RAMPS.snow[0], P.WORLD_RAMPS.snow.slice(2, 6)), { w: T, h: T, frames: 15 }, { ...LAYOUT }));
   out.push(asset("tiles/void.png", "tileset", drawVoid(P, terrainSdfs(6, 14, 3, 91), 92), { w: T, h: T, frames: 15 }, { ...LAYOUT }));
 
   out.push(asset("props/tombstone.png", "prop", strip([0, 1, 2].map((v) => tombstone(P, rng, v))), { w: 32, h: 32, frames: 3 }));

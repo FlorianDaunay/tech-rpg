@@ -1,3 +1,4 @@
+import { WORLD_RAMPS } from "../../src/config/palette";
 /**
  * Copy manifest: files taken from the read-only ref_sprites/ library into public/assets/.
  * `from` is relative to ref_sprites/, `to` relative to public/assets/. Optional `crop` slices a
@@ -16,6 +17,13 @@ export interface CopyEntry {
   frames?: number;
   /** Frame size = whole image (single-frame sprites of varying size). */
   wholeFrame?: boolean;
+  /** Repaint by brightness along a ramp (dark → light); `keep` = how much of the original colour survives (0…1). */
+  recolor?: { ramp: readonly string[]; keep: number };
+  /**
+   * Character sheet row → boss strip: the row's 3 frames, scaled up (nearest) and bottom-aligned
+   * in 96×96 frames with the feet at `feet` px (the boss sheets' convention).
+   */
+  bossFromRow?: { row: number; scale: number; feet: number };
   meta?: AssetMeta;
 }
 
@@ -83,6 +91,31 @@ const enemies: CopyEntry[] = ENEMY_FILES.map((f) => pipoya("Enemy", f, "enemy", 
 
 /** Boss 01.png = 288×384: 4 bosses (rows) × 3 frames of 96×96. */
 const BOSS_ROWS = ["pale-weaver", "shroud", "maw", "vaelgor"] as const;
+/** Variants made from existing sheets (recolour / upscale): bosses beyond the four Heralds. */
+const bossVariants: CopyEntry[] = [
+  {
+    from: `${PIPOYA}/Boss/Boss 01.png`,
+    to: "bosses/rime-matriarch.png",
+    kind: "boss",
+    crop: { x: 0, y: 0, w: 288, h: 96 },
+    frameWidth: 96,
+    frameHeight: 96,
+    frames: 3,
+    recolor: { ramp: ["#0c1626", ...WORLD_RAMPS.ice.slice(1), "#ffffff"], keep: 0.18 },
+    meta: { credit: "pipoya", variant: "pale-weaver recoloured (ice)" },
+  },
+  {
+    from: `${PIPOYA}/Enemy/Enemy 22.png`,
+    to: "bosses/goblin-king.png",
+    kind: "boss",
+    frameWidth: 96,
+    frameHeight: 96,
+    frames: 3,
+    bossFromRow: { row: 0, scale: 2, feet: 88 },
+    meta: { credit: "pipoya", variant: "Enemy 22 scaled ×2" },
+  },
+];
+
 const bosses: CopyEntry[] = BOSS_ROWS.map((name, row) => ({
   from: `${PIPOYA}/Boss/Boss 01.png`,
   to: `bosses/${name}.png`,
@@ -158,6 +191,7 @@ export const MANIFEST: readonly CopyEntry[] = [
   ...pets,
   ...enemies,
   ...bosses,
+  ...bossVariants,
   ...decor,
   ...swords,
   ...shields,

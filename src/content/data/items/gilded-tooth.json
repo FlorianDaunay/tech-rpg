@@ -1,0 +1,15 @@
+{
+  "id": "gilded-tooth",
+  "name": {
+    "en": "Gilded Tooth",
+    "fr": "Dent dorée"
+  },
+  "description": {
+    "en": "Goblins cap their teeth with stolen gold. Worth more than it looks.",
+    "fr": "Les gobelins coiffent leurs dents d'or volé. Ça vaut plus que ça n'en a l'air."
+  },
+  "rarity": "uncommon",
+  "kind": "material",
+  "stack": 99,
+  "value": 25
+}

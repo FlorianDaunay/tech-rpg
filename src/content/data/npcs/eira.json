@@ -1,0 +1,18 @@
+{
+  "id": "eira",
+  "name": {
+    "en": "Eira",
+    "fr": "Eira"
+  },
+  "title": {
+    "en": "Hermit of the Reach",
+    "fr": "Ermite des Confins"
+  },
+  "description": {
+    "en": "She lives alone at the edge of the snow and brews things that keep the cold out. She knew Veyla, once.",
+    "fr": "Elle vit seule au bord de la neige et prépare des breuvages qui chassent le froid. Elle a connu Veyla, autrefois."
+  },
+  "look": "characters/female-09-1",
+  "dialogue": "eira",
+  "wander": 4
+}

@@ -1,0 +1,17 @@
+{
+  "id": "winters-wrath",
+  "name": {
+    "en": "Winter's Wrath",
+    "fr": "Courroux de l'hiver"
+  },
+  "description": {
+    "en": "Call the Reach's storm around you: ice falls everywhere at once and freezes your foes in place.",
+    "fr": "Appelez la tempête des Confins autour de vous : la glace tombe partout à la fois et fige vos ennemis."
+  },
+  "kind": "ultimate",
+  "move": "winters-wrath",
+  "cooldown": 1,
+  "unlockLevel": 11,
+  "element": "frost",
+  "charge": 320
+}

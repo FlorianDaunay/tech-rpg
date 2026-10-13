@@ -1,0 +1,23 @@
+{
+  "id": "frostbound-heart",
+  "name": {
+    "en": "Frostbound Heart",
+    "fr": "Cœur pris dans la glace"
+  },
+  "description": {
+    "en": "+20 max HP and +2 defence per rank. The cold can't get in.",
+    "fr": "+20 PV max et +2 défense par rang. Le froid ne peut pas entrer."
+  },
+  "tree": "ward",
+  "x": 2,
+  "y": 5,
+  "ranks": 2,
+  "requires": [
+    "bastion"
+  ],
+  "treePoints": 10,
+  "stats": {
+    "maxHp": 20,
+    "defense": 2
+  }
+}

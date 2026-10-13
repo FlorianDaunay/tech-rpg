@@ -1,0 +1,20 @@
+{
+  "id": "cyclone-heart",
+  "name": {
+    "en": "Cyclone Heart",
+    "fr": "Cœur du cyclone"
+  },
+  "description": {
+    "en": "Unlocks Ember Cyclone now.",
+    "fr": "Débloque Cyclone de braise dès maintenant."
+  },
+  "tree": "arcana",
+  "x": 4,
+  "y": 3,
+  "ranks": 1,
+  "requires": [
+    "rimecall"
+  ],
+  "treePoints": 3,
+  "skill": "ember-cyclone"
+}

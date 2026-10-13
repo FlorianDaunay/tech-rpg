@@ -1,0 +1,16 @@
+{
+  "id": "glacial-lance",
+  "name": {
+    "en": "Glacial Lance",
+    "fr": "Lance glaciaire"
+  },
+  "description": {
+    "en": "Hurl three ice shards in a tight spread that chill what they pierce.",
+    "fr": "Projetez trois éclats de glace en gerbe serrée qui glacent ce qu'ils transpercent."
+  },
+  "kind": "skill",
+  "move": "glacial-lance",
+  "cooldown": 7,
+  "unlockLevel": 7,
+  "element": "frost"
+}

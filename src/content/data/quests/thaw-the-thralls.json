@@ -1,0 +1,35 @@
+{
+  "id": "thaw-the-thralls",
+  "type": "bounty",
+  "giver": "eira",
+  "title": {
+    "en": "Bounty: The Frozen Road",
+    "fr": "Prime : la route gelée"
+  },
+  "summary": {
+    "en": "The dead of the Reach still walk the south road. Eira wants them at rest.",
+    "fr": "Les morts des Confins marchent encore sur la route du sud. Eira veut qu'ils reposent."
+  },
+  "objectives": [
+    {
+      "id": "thralls",
+      "kind": "kill",
+      "enemy": "frozen-thrall",
+      "count": 6,
+      "text": {
+        "en": "Lay 6 Frozen Thralls to rest",
+        "fr": "Faire reposer 6 Serfs gelés"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 220,
+    "gold": 70,
+    "items": [
+      {
+        "item": "frostbloom-tonic",
+        "count": 2
+      }
+    ]
+  }
+}

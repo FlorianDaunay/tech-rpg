@@ -1,0 +1,45 @@
+{
+  "id": "hoarfrost-rites",
+  "type": "side",
+  "giver": "eira",
+  "title": {
+    "en": "The Hoarfrost Rites",
+    "fr": "Les rites du Givre-Blanc"
+  },
+  "summary": {
+    "en": "Cultists sing by the frozen lake to make the ice grow. Eira wants them silenced and their crystals brought back.",
+    "fr": "Des cultistes chantent au bord du lac gelé pour faire grandir la glace. Eira veut qu'on les fasse taire et qu'on rapporte leurs cristaux."
+  },
+  "objectives": [
+    {
+      "id": "cultists",
+      "kind": "kill",
+      "enemy": "hoarfrost-cultist",
+      "count": 5,
+      "text": {
+        "en": "Silence 5 Hoarfrost Cultists",
+        "fr": "Faire taire 5 Cultistes du Givre-Blanc"
+      }
+    },
+    {
+      "id": "crystals",
+      "kind": "collect",
+      "item": "rime-crystal",
+      "count": 5,
+      "text": {
+        "en": "Bring 5 Rime Crystals",
+        "fr": "Rapporter 5 Cristaux de givre"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 280,
+    "gold": 90,
+    "items": [
+      {
+        "item": "rimeguard-heater",
+        "count": 1
+      }
+    ]
+  }
+}

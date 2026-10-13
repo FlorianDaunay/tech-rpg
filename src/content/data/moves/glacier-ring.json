@@ -1,0 +1,20 @@
+{
+  "id": "glacier-ring",
+  "windup": 1.2,
+  "active": 0.12,
+  "recovery": 0.9,
+  "hitbox": {
+    "kind": "circle",
+    "radius": 70,
+    "offset": 0
+  },
+  "damage": 1.9,
+  "knockback": 300,
+  "weight": "heavy",
+  "poise": 70,
+  "element": "frost",
+  "onHit": {
+    "status": "frozen",
+    "chance": 0.35
+  }
+}

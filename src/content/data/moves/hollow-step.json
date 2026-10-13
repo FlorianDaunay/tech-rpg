@@ -1,0 +1,22 @@
+{
+  "id": "hollow-step",
+  "windup": 0.06,
+  "active": 0.16,
+  "recovery": 0.28,
+  "hitbox": {
+    "kind": "arc",
+    "range": 40,
+    "angle": 120
+  },
+  "damage": 1.6,
+  "staminaCost": 18,
+  "knockback": 140,
+  "lunge": 480,
+  "weight": "medium",
+  "poise": 26,
+  "element": "hollow",
+  "onHit": {
+    "status": "hollowed",
+    "chance": 0.6
+  }
+}

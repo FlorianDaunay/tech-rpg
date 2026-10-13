@@ -1,0 +1,35 @@
+{
+  "id": "the-white-silence",
+  "type": "side",
+  "giver": "eira",
+  "title": {
+    "en": "The White Silence",
+    "fr": "Le Silence blanc"
+  },
+  "summary": {
+    "en": "Veyla, the Rime Matriarch, froze the Reach to keep it 'safe'. Climb the glacier and end it.",
+    "fr": "Veyla, la Matriarche de givre, a gelé les Confins pour les garder « à l'abri ». Gravir le glacier et y mettre fin."
+  },
+  "objectives": [
+    {
+      "id": "matriarch",
+      "kind": "kill",
+      "enemy": "rime-matriarch",
+      "count": 1,
+      "text": {
+        "en": "Defeat the Rime Matriarch",
+        "fr": "Vaincre la Matriarche de givre"
+      }
+    }
+  ],
+  "rewards": {
+    "xp": 600,
+    "gold": 220,
+    "items": [
+      {
+        "item": "winterglass",
+        "count": 1
+      }
+    ]
+  }
+}

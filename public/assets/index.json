@@ -16,6 +16,19 @@
  ],
  "assets": [
   {
+   "key": "bosses/goblin-king",
+   "path": "bosses/goblin-king.png",
+   "kind": "boss",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 3,
+   "meta": {
+    "credit": "pipoya",
+    "variant": "Enemy 22 scaled ×2",
+    "source": "img_set_pipoya_rpg/Enemy/Enemy 22.png"
+   }
+  },
+  {
    "key": "bosses/maw",
    "path": "bosses/maw.png",
    "kind": "boss",
@@ -39,6 +52,19 @@
     "credit": "pipoya",
     "source": "img_set_pipoya_rpg/Boss/Boss 01.png",
     "sourceRow": 0
+   }
+  },
+  {
+   "key": "bosses/rime-matriarch",
+   "path": "bosses/rime-matriarch.png",
+   "kind": "boss",
+   "frameWidth": 96,
+   "frameHeight": 96,
+   "frames": 3,
+   "meta": {
+    "credit": "pipoya",
+    "variant": "pale-weaver recoloured (ice)",
+    "source": "img_set_pipoya_rpg/Boss/Boss 01.png"
    }
   },
   {
@@ -2862,6 +2888,20 @@
    }
   },
   {
+   "key": "props/tree-pine-snow",
+   "path": "props/tree-pine-snow.png",
+   "kind": "prop",
+   "frameWidth": 64,
+   "frameHeight": 64,
+   "frames": 1,
+   "meta": {
+    "anchorX": 0.5,
+    "anchorY": 0.92,
+    "collider": "trunk",
+    "generator": "nature"
+   }
+  },
+  {
    "key": "props/well",
    "path": "props/well.png",
    "kind": "prop",
@@ -4006,6 +4046,31 @@
    }
   },
   {
+   "key": "tiles/ice-wall",
+   "path": "tiles/ice-wall.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 15,
+   "meta": {
+    "layout": "terrain-3x3+inner",
+    "blockCols": 5,
+    "blockRows": 3,
+    "generator": "zones"
+   }
+  },
+  {
+   "key": "tiles/lake-ice",
+   "path": "tiles/lake-ice.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 4,
+   "meta": {
+    "generator": "zones"
+   }
+  },
+  {
    "key": "tiles/rift-ground",
    "path": "tiles/rift-ground.png",
    "kind": "tileset",
@@ -4014,6 +4079,17 @@
    "frames": 4,
    "meta": {
     "generator": "tiles"
+   }
+  },
+  {
+   "key": "tiles/snow-ground",
+   "path": "tiles/snow-ground.png",
+   "kind": "tileset",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 8,
+   "meta": {
+    "generator": "zones"
    }
   },
   {
